@@ -1,0 +1,33 @@
+
+/* Class = "IBUILabel"; text = "密码"; ObjectID = "2ii-AD-pBw"; */
+"2ii-AD-pBw.text" = "密码";
+
+/* Class = "IBUINavigationItem"; title = "联系人"; ObjectID = "34V-yY-GEQ"; */
+"34V-yY-GEQ.title" = "联系人";
+
+/* Class = "IBUIBarButtonItem"; title = "圈子"; ObjectID = "3DQ-VZ-SgO"; */
+"3DQ-VZ-SgO.title" = "圈子";
+
+/* Class = "IBUITabBarItem"; title = "联系人"; ObjectID = "AAg-10-ggy"; */
+"AAg-10-ggy.title" = "联系人";
+
+/* Class = "IBUINavigationItem"; title = "我的圈子"; ObjectID = "DyN-24-jTf"; */
+"DyN-24-jTf.title" = "我的圈子";
+
+/* Class = "IBUILabel"; text = "账号"; ObjectID = "J5N-tA-qUj"; */
+"J5N-tA-qUj.text" = "账号";
+
+/* Class = "IBUINavigationItem"; title = "个人设置"; ObjectID = "e9b-vC-5Em"; */
+"e9b-vC-5Em.title" = "个人设置";
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "hAt-Nd-0Lp"; */
+"hAt-Nd-0Lp.text" = "Title";
+
+/* Class = "IBUITabBarItem"; title = "设置"; ObjectID = "hso-4t-ABi"; */
+"hso-4t-ABi.title" = "设置";
+
+/* Class = "IBUITextField"; placeholder = "请输入短信密码"; ObjectID = "miT-V3-5tt"; */
+"miT-V3-5tt.placeholder" = "请输入短信密码";
+
+/* Class = "IBUITextField"; placeholder = "请输入手机号码"; ObjectID = "ydh-D7-UQo"; */
+"ydh-D7-UQo.placeholder" = "请输入手机号码";

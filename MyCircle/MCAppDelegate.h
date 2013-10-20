@@ -2,7 +2,7 @@
 //  MCAppDelegate.h
 //  MyCircle
 //
-//  Created by Samuel on 10/1/13.
+//  Created by Samuel on 10/15/13.
 //
 //
 

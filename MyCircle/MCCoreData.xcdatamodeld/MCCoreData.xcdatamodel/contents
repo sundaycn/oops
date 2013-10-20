@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3396" systemVersion="12F45" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="MCBook" representedClassName="MCBookManagedObject" syncable="YES">
+        <attribute name="belongDepartmentId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="belongOrgId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mobilePhone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="officePhone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="position" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sort" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="syncFlag" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MCDept" representedClassName="MCDeptManagedObject" syncable="YES">
+        <attribute name="belongOrgId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sort" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="syncFlag" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="upDepartmentId" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MCOrg" representedClassName="MCOrgManagedObject" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="MCBook" positionX="-11288" positionY="-5602" width="128" height="193"/>
+        <element name="MCDept" positionX="-11063" positionY="-5616" width="128" height="148"/>
+        <element name="MCOrg" positionX="-10908" positionY="-5616" width="128" height="73"/>
+    </elements>
+</model>
