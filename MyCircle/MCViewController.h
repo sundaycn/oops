@@ -7,37 +7,38 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
+#import "MBProgressHUD.h"
 #import "MCGlobal.h"
-#import "NSString+URLEncoding.h"
-#import "NSNumber+Message.h"
 #import "MCCrypto.h"
 #import "MCBookBL.h"
 #import "MCDeptBL.h"
+#import "MCOrgBL.h"
 
-@interface MCViewController : UIViewController <UIAlertViewDelegate> {
+@interface MCViewController : UIViewController <UIAlertViewDelegate, MBProgressHUDDelegate> {
     //键盘是否出现
     BOOL keyboardVisible;
+    //事件进度提示窗
+    MBProgressHUD *HUD;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *textFieldAccount;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldPwd;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputViewHeight;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSMSPassword;
 
 //下载队列
 @property (strong, nonatomic) NSOperationQueue *downloadQueue;
-//保存数据列表
-@property (nonatomic,strong) NSMutableArray* listData;
 //接收从服务器返回数据。
 @property (strong,nonatomic) NSMutableData *datas;
 
 - (IBAction)textFieldShoudReturn:(id)sender;
 - (IBAction)login:(UIButton *)sender;
+- (IBAction)getPasswordFromSMS:(UIButton *)sender;
 
-//重新加载表视图
-//- (void)reloadView:(NSDictionary*)res;
 //开始请求web service
 - (void)startRequest;
-//向web service发送获取人员部门信息的异步请求
-- (void)startRequestBookAndDepartmentInfomation:(NSString *)strAccount belongOrgId:(NSString *)strOrgId;
+//向web service发送获短信密码的异步请求
+- (void)startRequestPasswordFromSMS:(NSString *)strAccount;
 
 @end

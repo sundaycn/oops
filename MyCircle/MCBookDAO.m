@@ -220,8 +220,40 @@ static MCBookDAO *sharedManager = nil;
     return resListData;
 }
 
+//按照belongDepartmentId查询数据方法
+-(NSMutableArray *) findByBelongDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)belongDeptId
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCBook" inManagedObjectContext:cxt];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(belongDepartmentId == %@) AND (belongOrgId == %@)",belongDeptId,belongOrgId];;
+    [request setPredicate:predicate];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sort" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    
+    NSMutableArray *resListData = [[NSMutableArray alloc] init];
+    
+    for (MCBookManagedObject *mo in listData) {
+        MCBook *book = [[MCBook alloc] init];
+        book.id = mo.id;
+        book.name = mo.name;
+        
+        [resListData addObject:book];
+    }
+    return resListData;
+}
+
 //按照主键查询数据方法
--(MCBook *) findById:(MCBook *)model
+-(MCBook *) findById:(NSString *)bookId
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     
@@ -232,7 +264,7 @@ static MCBookDAO *sharedManager = nil;
     [request setEntity:entityDescription];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"id =  %@",model.id];
+                              @"id =  %@",bookId];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -242,16 +274,16 @@ static MCBookDAO *sharedManager = nil;
         MCBookManagedObject *mo = [listData lastObject];
         
         MCBook *book = [[MCBook alloc] init];
-        book.id = mo.id;
+//        book.id = mo.id;
         book.name = mo.name;
         book.mobilePhone = mo.mobilePhone;
         book.officePhone = mo.officePhone;
         book.position = mo.position;
-        book.sort = mo.sort;
-        book.status = mo.status;
-        book.syncFlag = mo.syncFlag;
-        book.belongDepartmentId = mo.belongDepartmentId;
-        book.belongOrgId = mo.belongOrgId;
+//        book.sort = mo.sort;
+//        book.status = mo.status;
+//        book.syncFlag = mo.syncFlag;
+//        book.belongDepartmentId = mo.belongDepartmentId;
+//        book.belongOrgId = mo.belongOrgId;
         
         return book;
     }

@@ -126,47 +126,51 @@
     if (cryptStatus == kCCSuccess) {
         NSData *data = [NSData dataWithBytes:buff length:(NSUInteger)numBytesEncrypted];
         cipherText = [self hexStringFromData:data];
+        return cipherText;
     }
 
+    free(buff);
     return cipherText;
 }
 
 /******************************************************************************
- 函数名称 : + (NSData *)DESEncrypt:(NSData *)data WithKey:(NSString *)key
+ 函数名称 : + (NSString *)DESEncrypt:(NSString *)data WithKey:(NSString *)key
  函数描述 : 文本数据进行DES解密
- 输入参数 : (NSData *)data
+ 输入参数 : (NSString *)data
  (NSString *)key
  输出参数 : N/A
- 返回参数 : (NSData *)
- 备注信息 : 此函数不可用于过长文本
+ 返回参数 : (NSString *)
+ 备注信息 :
  ******************************************************************************/
-+ (NSData *)DESDecrypt:(NSData *)data WithKey:(NSString *)key
++ (NSString *)DESDecrypt:(NSString *)data WithKey:(NSString *)key
 {
-    char keyPtr[kCCKeySizeAES256+1];
-    bzero(keyPtr, sizeof(keyPtr));
-    
-    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
-    
-    NSUInteger dataLength = [data length];
-    
-    size_t bufferSize = dataLength + kCCBlockSizeAES128;
-    void *buffer = malloc(bufferSize);
+    NSString *plainText = nil;
+    NSData *textData = [self dataFromHexString:data];
+    size_t dataLength = [textData length];
+    size_t buffSize = (dataLength + kCCBlockSize3DES) & ~(kCCBlockSize3DES - 1);
+//    size_t buffSize = 1024;
+    unsigned char buff[buffSize];
+    memset(buff, 0, buffSize);
+    //size_t bufferSize = dataLength + kCCBlockSizeAES128;
     
     size_t numBytesDecrypted = 0;
+    NSData *keyData = [self dataFromHexString:key];
     CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt, kCCAlgorithmDES,
                                           kCCOptionPKCS7Padding | kCCOptionECBMode,
-                                          keyPtr, kCCBlockSizeDES,
+                                          [keyData bytes], kCCBlockSizeDES,
                                           NULL,
-                                          [data bytes], dataLength,
-                                          buffer, bufferSize,
+                                          [textData bytes], dataLength,
+                                          buff, buffSize,
                                           &numBytesDecrypted);
     
     if (cryptStatus == kCCSuccess) {
-        return [NSData dataWithBytesNoCopy:buffer length:numBytesDecrypted];
+        NSData *data = [NSData dataWithBytes:buff length:(NSUInteger)numBytesDecrypted];
+        plainText = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        return plainText;
     }
     
-    free(buffer);
-    return nil;
+//    free(buff);
+    return plainText;
 }
 
 

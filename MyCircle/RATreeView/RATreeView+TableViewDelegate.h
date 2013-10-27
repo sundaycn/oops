@@ -19,6 +19,7 @@
 //
 
 #import "RATreeView.h"
+#import "MCDataObject.h"
 
 @interface RATreeView (TableViewDelegate) <UITableViewDelegate>
 

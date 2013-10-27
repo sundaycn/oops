@@ -10,19 +10,20 @@
 
 @implementation MCDataObject
 
-- (id)initWithName:(NSString *)name children:(NSArray *)children
+- (id)initWithId:(NSString *)bookId name:(NSString *)name children:(NSArray *)children
 {
     self = [super init];
     if (self) {
         self.children = children;
         self.name = name;
+        self.bookId = bookId;
     }
     return self;
 }
 
-+ (id)dataObjectWithName:(NSString *)name children:(NSArray *)children
++ (id)dataObjectWithId:(NSString *)bookId name:(NSString *)name children:(NSArray *)children
 {
-    return [[self alloc] initWithName:name children:children];
+    return [[self alloc] initWithId:bookId name:name children:children];
 }
 
 @end

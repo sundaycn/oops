@@ -33,6 +33,9 @@
 //查询所有数据方法
 -(NSMutableArray*) findAll;
 
+//按照upDepartmentId查询数据方法
+-(NSMutableArray *) findByUpDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)upDeptId;
+
 //按照主键查询数据方法
 -(MCDept *) findById:(MCDept *)model;
 

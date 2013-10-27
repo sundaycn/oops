@@ -24,6 +24,8 @@
     [self.view addGestureRecognizer: tapGestureRecognizer];
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     
+    self.buttonSMSPassword.layer.cornerRadius = 5.0;
+    self.buttonSMSPassword.backgroundColor = UIColorFromRGB(0xff6f3d);
     //隐藏输入密码
     self.textFieldPwd.SecureTextEntry = YES;
 }
@@ -65,7 +67,7 @@
     NSTimeInterval animationDuration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     //改变InputView Constraints
-    if (self.view.frame.size.height != IPHONE5_VIEW_HEIGHT) {
+    if (self.view.frame.size.height != IPHONE5_VIEW_HEIGHT && self.view.frame.size.height != (IPHONE5_VIEW_HEIGHT-20)) {
         self.inputViewHeight.constant -= HEIGHT_WITH_SCROLLING;
     }
     
@@ -81,7 +83,7 @@
     NSTimeInterval animationDuration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
 
     //改变InputView Constraints
-    if (self.view.frame.size.height != IPHONE5_VIEW_HEIGHT) {
+    if (self.view.frame.size.height != IPHONE5_VIEW_HEIGHT  && self.view.frame.size.height != (IPHONE5_VIEW_HEIGHT-20)) {
         self.inputViewHeight.constant += HEIGHT_WITH_SCROLLING;
     }
     
@@ -106,18 +108,34 @@
     [self.textFieldPwd resignFirstResponder];
 }
 
-//登陆动作
+//点击登录按钮
 - (IBAction)login:(UIButton *)sender {
+    //判断网络是否联通
+
+    
     //验证输入的用户名和密码是否合法,需要一个model处理
-    //开始请求web service
-    [self startRequest];
+    
+    //提示用户正在登
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+	
+	HUD.delegate = self;
+	HUD.labelText = @"正在登录";
+	
+	[HUD showWhileExecuting:@selector(startRequest) onTarget:self withObject:nil animated:YES];
+}
+
+//点击获取短信密码按钮
+- (IBAction)getPasswordFromSMS:(UIButton *)sender {
+    NSString *strAccount = self.textFieldAccount.text;
+    [self startRequestPasswordFromSMS:strAccount];
 }
 
 //开始请求Web Service
 -(void)startRequest{
     NSString *strAccount = self.textFieldAccount.text;
     NSString *strPwd = self.textFieldPwd.text;
-    NSString *encryptedKey = @"3B71617A40575C58";
+    NSString *encryptedKey = DESENCRYPTED_KEY;
     NSString *cipherPwd = [MCCrypto DESEncrypt:strPwd WithKey:encryptedKey];
 
     NSString *strURL = [[NSString alloc] initWithFormat:@"http://117.21.209.104/EasyContact/Contact/contact!loginAjax.action?tel=%@&password=%@&stamp=%@",strAccount,cipherPwd,@"12345"];
@@ -157,14 +175,10 @@
     NSDictionary* dictLoginResponse = [NSJSONSerialization JSONObjectWithData:dataLoginResponse options:NSJSONReadingAllowFragments error:nil];
     //判断服务器返回结果
     NSString *strLoginResult = [NSString stringWithFormat:@"%@",[[dictLoginResponse objectForKey:@"root"] objectForKey:@"result"]];
-    if (ISDEBUG) {
-        NSLog(@"\n 登陆结果:%@", [strLoginResult isEqualToString:@"1"] ? @"true" : @"false");
-    }
+    DLog(@"\n 登陆结果:%@", [strLoginResult isEqualToString:@"1"] ? @"true" : @"false");
     BOOL isLoginedSuccessfully = [strLoginResult isEqualToString:@"1"];
     if (isLoginedSuccessfully) {
-        if (ISDEBUG) {
-            NSLog(@"\n 登陆成功，跳转到主页面");
-        }
+        
         //提取组织id
         NSArray *arrOrgInfo = [[dictLoginResponse objectForKey:@"root"] objectForKey:@"enterprise"];
 //        //删除数据
@@ -179,9 +193,34 @@
         [self.downloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
         [self.downloadQueue setMaxConcurrentOperationCount:1];
 
+        //清空enterprise数据
+        MCOrgBL *orgBL = [[MCOrgBL alloc] init];
+        BOOL isClear = [orgBL removeAll];
+        if (!isClear) {
+#warning 提示用户数据处理异常
+            DLog(@"清空enterprise数据失败");
+        }
+        else {
+        
         for (NSDictionary *dictOrgInfo in arrOrgInfo) {
             //向web service发送获取人员部门信息的异步请求
 //            [self startRequestBookAndDepartmentInfomation:strAccount belongOrgId:[dictOrgInfo objectForKey:@"id"]];
+            //保存enterprise数据
+            MCOrg *org = [[MCOrg alloc] init];
+            org.id = [NSString stringWithFormat:@"%@", [dictOrgInfo objectForKey:@"id"]];
+            org.name = [NSString stringWithFormat:@"%@", [dictOrgInfo objectForKey:@"name"]];
+            
+            BOOL isCreatedSuccessfully = [orgBL create:org];
+            if (!isCreatedSuccessfully) {
+#warning 提示用户数据更新不完整
+                DLog(@"插入enterprise数据失败");
+            }
+
+#warning 测试代码
+            MCOrgBL *orgBLTemp = [[MCOrgBL alloc] init];
+            NSMutableArray *orgList = [orgBLTemp findAll];
+            DLog(@"enterprise amount:%d", orgList.count);
+            
             NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"http://117.21.209.104/EasyContact/Contact/contact!syncAjax.action?orgId=%@&tel=%@",[dictOrgInfo objectForKey:@"id"],strAccount]];
             operation = [[NSInvocationOperation alloc]
                          initWithTarget:self
@@ -191,12 +230,12 @@
         }
         
         //跳转到主页面
-        [self performSegueWithIdentifier:@"segueLogin" sender:self];
+        DLog(@"\n 登陆成功，跳转到主页面");
+        [self performSegueWithIdentifier:@"showMain" sender:self];
+        }
     }
     else {
-        if (ISDEBUG) {
-            NSLog(@"\n 登陆失败");
-        }
+        DLog(@"\n 登陆失败");
         //pop alert dialog
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"手机号或密码错误" message:@"请检查账号是否正确，或重新输入密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
         //optional - add more buttons:
@@ -233,13 +272,13 @@
         MCBookBL *bookBL = [[MCBookBL alloc] init];
         BOOL isDeletedAll = [bookBL removeByOrgId:belongOrgId];
         if (isDeletedAll) {
-            DLog(@"%@的人员删除完毕", belongOrgId);
+            DLog(@"%@ 的人员删除完毕", belongOrgId);
         }
         //删除部门数据
         MCDeptBL *deptBL = [[MCDeptBL alloc] init];
         isDeletedAll = [deptBL removeByOrgId:belongOrgId];
         if (isDeletedAll) {
-            DLog(@"%@部门删除完毕", belongOrgId);
+            DLog(@"%@ 的部门删除完毕", belongOrgId);
         }
 
     }
@@ -306,20 +345,20 @@
     }
 }
 
-//向web service发送获取人员部门信息的异步请求
-- (void)startRequestBookAndDepartmentInfomation:(NSString *)strAccount belongOrgId:(NSString *)strOrgId {
-    NSString *strURL = [[NSString alloc] initWithFormat:@"http://117.21.209.104/EasyContact/Contact/contact!syncAjax.action?orgId=%@&tel=%@",strOrgId,strAccount];
+
+//向web service发送获短信密码的异步请求
+- (void)startRequestPasswordFromSMS:(NSString *)strAccount {
+    NSString *strURL = [[NSString alloc] initWithFormat:@"http://117.21.209.104/EasyContact/Contact/contact!applyRanAjax.action?tel=%@",strAccount];
 	NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:strURL]];
     
 	NSURLConnection *connection = [[NSURLConnection alloc]
                                    initWithRequest:request
                                    delegate:self];
     if (connection) {
-        DLog(@"分配datas");
         self.datas = [NSMutableData new];
     }
 }
-
+ 
 #pragma mark- NSURLConnection 回调方法
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [self.datas appendData:data];
@@ -328,50 +367,27 @@
 
 - (void) connection:(NSURLConnection *)connection didFailWithError: (NSError *)error {
     
-    NSLog(@"异步请求发生错误\n %@",[error localizedDescription]);
+    DLog(@"异步请求发生错误\n %@",[error localizedDescription]);
 }
-
 - (void) connectionDidFinishLoading: (NSURLConnection*) connection {
-    if(ISDEBUG) {
-        NSLog(@"异步请求完成...");
-        NSString* result = [[NSString alloc] initWithData:self.datas encoding:NSUTF8StringEncoding];
-        NSLog(@"%@",result);
-    }
-    
-    //保存数据
     NSDictionary *dictRoot = [NSJSONSerialization JSONObjectWithData:self.datas options:NSJSONReadingAllowFragments error:nil];
-    //判断是否清除该组织的所有人员和部门数据
-    NSString *strClearAll = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"clearLocaldataAll"]];
-    BOOL isClearAll = [strClearAll isEqualToString:@"1"];
-    if (isClearAll) {
-        //获取belongOrgId
-        NSString *belongOrgId = [NSString stringWithFormat:@"%@", [[[[dictRoot objectForKey:@"root"] objectForKey:@"book"] lastObject] objectForKey:@"belongOrgId"]];
-        DLog(@"belongOrgId:%@", belongOrgId);
-        //删除数据
-        MCBookBL *bookBL = [[MCBookBL alloc] init];
-        BOOL isDeletedAll = [bookBL removeByOrgId:belongOrgId];
-        if (isDeletedAll) {
-            DLog(@"删除完毕");
-        }
+    NSString *strResult = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"result"]];
+    BOOL isSuccessful = [strResult isEqualToString:@"1"];
+    if (isSuccessful) {
+        //pop alert dialog
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"获取短信密码成功" message: [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"resultDesc"]] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        //optional - add more buttons:
+        //        [alert addButtonWithTitle:@"Yes"];
+        alert.tag = 2;
+        [alert show];
     }
-    NSArray *arrBook = [[dictRoot objectForKey:@"root"] objectForKey:@"book"];
-    for (NSDictionary *dict in arrBook) {
-        MCBook *book = [[MCBook alloc] init];
-        book.id = [NSString stringWithFormat:@"%@", [dict objectForKey:@"id"]];
-        book.name = [NSString stringWithFormat:@"%@", [dict objectForKey:@"personName"]];
-        book.mobilePhone = [NSString stringWithFormat:@"%@", [dict objectForKey:@"mobilePhone"]];
-        book.officePhone = [NSString stringWithFormat:@"%@", [dict objectForKey:@"officePhone"]];
-        book.position = [NSString stringWithFormat:@"%@", [dict objectForKey:@"position"]];
-        book.sort = [dict objectForKey:@"sort"];
-        book.status = [NSString stringWithFormat:@"%@", [dict objectForKey:@"status"]];
-        book.syncFlag = [NSString stringWithFormat:@"%@", [dict objectForKey:@"syncFlag"]];
-        book.belongDepartmentId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongDepartmentId"]];
-        book.belongOrgId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongOrgId"]];
-        
-        MCBookBL *bookBL = [[MCBookBL alloc] init];
-        BOOL isCreatedSuccessfully = [bookBL create:book];
-        if (!isCreatedSuccessfully) {
-        }
+    else {
+        //pop alert dialog
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"获取短信密码失败" message: [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"resultDesc"]] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        //optional - add more buttons:
+        //        [alert addButtonWithTitle:@"Yes"];
+        alert.tag = 2;
+        [alert show];
     }
 }
 
@@ -386,6 +402,16 @@
             [self.textFieldPwd becomeFirstResponder];
         }
     }
+    else if (alertView.tag == 3) {
+        //
+    }
+}
+#pragma mark- MBProgressHUDDelegate methods
+
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+	// Remove HUD from screen when the HUD was hidded
+	[HUD removeFromSuperview];
+	HUD = nil;
 }
 
 @end

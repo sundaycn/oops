@@ -25,6 +25,7 @@
 -(BOOL) removeAll;
 
 //查询所用数据方法
--(NSMutableArray*) findAll;
-
+-(NSMutableArray *) findAll;
+-(NSMutableArray *) findByBelongDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)belongDeptId;
+-(MCBook *) findById:(NSString *)bookId;
 @end

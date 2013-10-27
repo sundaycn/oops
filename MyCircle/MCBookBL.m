@@ -45,4 +45,19 @@
     return [dao findAll];
 }
 
+//查询所用数据方法
+-(NSMutableArray*) findByBelongDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)belongDeptId
+{
+    MCBookDAO *dao = [MCBookDAO sharedManager];
+    return [dao findByBelongDeptId:belongOrgId upDepartmentId:belongDeptId];
+}
+
+//按照主键查询数据方法
+-(MCBook *) findById:(NSString *)bookId
+{
+    MCBookDAO *dao = [MCBookDAO sharedManager];
+    return [dao findById:bookId];
+}
+
+
 @end

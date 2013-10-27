@@ -12,19 +12,22 @@
 
 @interface MCDeptBL : NSObject
 
-//插入Book方法
+//插入Dept方法
 -(BOOL) create:(MCDept *)model;
 
-//删除Book方法
+//删除Dept方法
 -(BOOL) remove:(MCDept *)model;
 
-//通过belongOrgId删除Book方法
+//通过belongOrgId删除Dept方法
 -(BOOL) removeByOrgId:(NSString *)orgId;
 
-//删除所有Book方法
+//删除所有Dept方法
 -(BOOL) removeAll;
 
 //查询所用数据方法
 -(NSMutableArray*) findAll;
+
+//查询所用数据方法
+-(NSMutableArray*) findByUpDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)upDeptId;
 
 @end

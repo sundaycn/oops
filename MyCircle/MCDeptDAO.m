@@ -162,8 +162,8 @@ static MCDeptDAO *sharedManager = nil;
     NSError *error = nil;
     NSArray *listData = [cxt executeFetchRequest:request error:&error];
     if ([listData count] > 0) {
-        MCDeptManagedObject *Dept = [listData lastObject];
-        Dept.name = model.name;
+        MCDeptManagedObject *dept = [listData lastObject];
+        dept.name = model.name;
         
         NSError *savingError = nil;
         if ([self.managedObjectContext save:&savingError]){
@@ -210,6 +210,44 @@ static MCDeptDAO *sharedManager = nil;
     
     return resListData;
 }
+
+//按照upDepartmentId查询数据方法
+-(NSMutableArray *) findByUpDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)upDeptId
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCDept" inManagedObjectContext:cxt];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(upDepartmentId == %@) AND (belongOrgId == %@)",upDeptId,belongOrgId];;
+    [request setPredicate:predicate];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sort" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    
+    NSMutableArray *resListData = [[NSMutableArray alloc] init];
+    
+    for (MCDeptManagedObject *mo in listData) {
+        MCDept *dept = [[MCDept alloc] init];
+        dept.id = mo.id;
+        dept.name = mo.name;
+        dept.sort = mo.sort;
+        dept.status = mo.status;
+        dept.syncFlag = mo.syncFlag;
+        dept.upDepartmentId = mo.upDepartmentId;
+        dept.belongOrgId = mo.belongOrgId;
+        
+        [resListData addObject:dept];
+    }
+    return resListData;
+}
+
 
 //按照主键查询数据方法
 -(MCDept *) findById:(MCDept *)model

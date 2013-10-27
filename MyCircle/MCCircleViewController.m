@@ -18,18 +18,14 @@
 
 @implementation MCCircleViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(prepareShowCard:) name:@"DidSelectLeafNodeNotification" object:nil];
+#warning ios6 ios7导航条适配
+    self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x1F82D6);
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:1.0 alpha:1.0];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -37,7 +33,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    MCDataObject *phone1 = [MCDataObject dataObjectWithName:@"Phone 1" children:nil];
+    /*MCDataObject *phone1 = [MCDataObject dataObjectWithName:@"Phone 1" children:nil];
     MCDataObject *phone2 = [MCDataObject dataObjectWithName:@"Phone 2" children:nil];
     MCDataObject *phone3 = [MCDataObject dataObjectWithName:@"Phone 3" children:nil];
     MCDataObject *phone4 = [MCDataObject dataObjectWithName:@"Phone 4" children:nil];
@@ -65,11 +61,14 @@
     MCDataObject *food = [MCDataObject dataObjectWithName:@"Food" children:nil];
     MCDataObject *sweets = [MCDataObject dataObjectWithName:@"Sweets" children:nil];
     MCDataObject *watches = [MCDataObject dataObjectWithName:@"Watches" children:nil];
-    MCDataObject *walls = [MCDataObject dataObjectWithName:@"Walls" children:nil];
+    MCDataObject *walls = [MCDataObject dataObjectWithName:@"Walls" children:nil];*/
     
-    self.data = [NSArray arrayWithObjects:phone, computer, car, bike, house, flats, motorbike, drinks, food, sweets, watches, walls, nil];
+    //self.data = [NSArray arrayWithObjects:phone, computer, car, bike, house, flats, motorbike, drinks, food, sweets, watches, walls, nil];
+    self.data = [MCCircleDataHandler getDataOfCircle];
     
+//    CGRect treeViewFrame = CGRectMake(0, 110, 320, self.view.frame.size.height);
     RATreeView *treeView = [[RATreeView alloc] initWithFrame:self.view.frame];
+//    RATreeView *treeView = [[RATreeView alloc] initWithFrame:treeViewFrame];
     
     treeView.delegate = self;
     treeView.dataSource = self;
@@ -80,40 +79,29 @@
     [treeView setBackgroundColor:UIColorFromRGB(0xF7F7F7)];
     
     self.treeView = treeView;
-//    [self.view addSubview:treeView];
-    [self.tableView addSubview:treeView];
+    [self.view addSubview:treeView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
+        CGRect statusBarViewRect = [[UIApplication sharedApplication] statusBarFrame];
+//        float heightPadding = statusBarViewRect.size.height+self.navigationController.navigationBar.frame.size.height;
+        float heightPadding = statusBarViewRect.size.height;
+        float heightBottom = self.tabBarController.tabBar.frame.size.height;
+//        self.treeView.contentInset = UIEdgeInsetsMake(heightPadding, 0.0, 0.0, 0.0);
+        self.treeView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
+        self.treeView.contentOffset = CGPointMake(0.0, -heightPadding-heightBottom);
+    }
+    self.treeView.frame = self.view.bounds;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark TreeView Delegate methods
@@ -148,21 +136,27 @@
         cell.backgroundColor = UIColorFromRGB(0xD1EEFC);
     } else if (treeNodeInfo.treeDepthLevel == 2) {
         cell.backgroundColor = UIColorFromRGB(0xE0F8D8);
+    } else if (treeNodeInfo.treeDepthLevel == 3) {
+        cell.backgroundColor = UIColorFromRGB(0xD1EEFC);
+    } else if (treeNodeInfo.treeDepthLevel == 4) {
+        cell.backgroundColor = UIColorFromRGB(0xE0F8D8);
     }
+    
+    cell.separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 15.0);
 }
 
 #pragma mark TreeView Data Source
 
 - (UITableViewCell *)treeView:(RATreeView *)treeView cellForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo
 {
-    NSInteger numberOfChildren = [treeNodeInfo.children count];
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Number of children %d", numberOfChildren];
+//    NSInteger numberOfChildren = [treeNodeInfo.children count];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+//    cell.detailTextLabel.text = [NSString stringWithFormat:@"Number of children %d", numberOfChildren];
     cell.textLabel.text = ((MCDataObject *)item).name;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if (treeNodeInfo.treeDepthLevel == 0) {
-        cell.detailTextLabel.textColor = [UIColor blackColor];
-    }
+//    if (treeNodeInfo.treeDepthLevel == 0) {
+//        cell.detailTextLabel.textColor = [UIColor blackColor];
+//    }
     return cell;
 }
 
@@ -184,56 +178,30 @@
     return [data.children objectAtIndex:index];
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark handle the notification
+- (void)prepareShowCard:(NSNotification *)notification
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    NSDictionary *dictUserInfo = [notification userInfo];
+    self.bookId = [dictUserInfo objectForKey:@"id"];
+    [self performSegueWithIdentifier:@"showCard" sender:self];
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"showCard"]) {
+//        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//        
+//        ABRecordRef thisPerson = CFBridgingRetain([self.listContacts objectAtIndex:[indexPath row]]);
+//        MCContactsDetailViewController *detailViewController = [segue destinationViewController];
+//        
+//        ABRecordID personID = ABRecordGetRecordID(thisPerson);
+//        NSNumber *personIDAsNumber = [NSNumber numberWithInt:personID];
+//        detailViewController.personIDAsNumber = personIDAsNumber;
+//        
+//        CFRelease(thisPerson);
+        MCContactsDetailViewController *detailViewController = [segue destinationViewController];
+        detailViewController.bookId = self.bookId;
+    }
 }
-
- */
 
 @end
