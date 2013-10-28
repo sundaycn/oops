@@ -2,17 +2,13 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "登陆页_user_25_25ico.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "2x",
-      "filename" : "登陆页_640_1136.png"
-    },
-    {
-      "idiom" : "iphone",
-      "subtype" : "retina4",
-      "scale" : "2x"
+      "filename" : "登陆页_user_50_50ico.png"
     }
   ],
   "info" : {

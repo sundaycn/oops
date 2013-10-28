@@ -48,7 +48,7 @@ static MCBookDAO *sharedManager = nil;
     if ([self.managedObjectContext save:&savingError]){
 //        NSLog(@"插入数据成功");
     } else {
-        NSLog(@"插入数据失败");
+        DLog(@"插入数据失败");
         return -1;
     }
     
@@ -79,9 +79,9 @@ static MCBookDAO *sharedManager = nil;
         
         NSError *savingError = nil;
         if ([self.managedObjectContext save:&savingError]){
-            NSLog(@"删除数据成功");
+            DLog(@"删除数据成功");
         } else {
-            NSLog(@"删除数据失败");
+            DLog(@"删除数据失败");
             return -1;
         }
     }

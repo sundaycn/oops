@@ -26,7 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableView.backgroundColor = UIColorFromRGB(0x1F82D6);
+    self.tableView.backgroundColor = UIColorFromRGB(0x3d97e9);
     [self setExtraCellLineHidden:self.tableView];
 
     //初始化
@@ -113,7 +113,7 @@
 
 - (void)tableView: (UITableView*)tableView willDisplayCell: (UITableViewCell*)cell forRowAtIndexPath: (NSIndexPath*)indexPath
 {
-    cell.backgroundColor = UIColorFromRGB(0x1F82D6);
+    cell.backgroundColor = UIColorFromRGB(0x3d97e9);
 //    cell.textLabel.backgroundColor = [UIColor clearColor];
 //    cell.detailTextLabel.backgroundColor = [UIColor clearColor];
 }

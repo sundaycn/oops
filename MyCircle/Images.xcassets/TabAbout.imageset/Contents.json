@@ -3,12 +3,11 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "login_btn_blue_nor.png"
+      "filename" : "设置_ico2.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "login_btn_blue_nor@2x.png"
+      "scale" : "2x"
     }
   ],
   "info" : {

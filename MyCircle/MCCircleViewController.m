@@ -23,48 +23,33 @@
     [super viewDidLoad];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(prepareShowCard:) name:@"DidSelectLeafNodeNotification" object:nil];
-#warning ios6 ios7导航条适配
-    self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x1F82D6);
+    //ios6 ios7导航条适配
+//    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 6) {
+//        DLog(@"123");
+//        [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+//        [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+//    }
+//    else {
+//        [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+//    }
+    
+    if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
+        self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x3d97e9);
+        
+    }
+    else {
+        self.navigationController.navigationBar.tintColor = UIColorFromRGB(0x3d97e9);
+    }
     self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:1.0 alpha:1.0];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    /*MCDataObject *phone1 = [MCDataObject dataObjectWithName:@"Phone 1" children:nil];
-    MCDataObject *phone2 = [MCDataObject dataObjectWithName:@"Phone 2" children:nil];
-    MCDataObject *phone3 = [MCDataObject dataObjectWithName:@"Phone 3" children:nil];
-    MCDataObject *phone4 = [MCDataObject dataObjectWithName:@"Phone 4" children:nil];
+    //修改导航栏返回按钮的文字
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] init];
+    barButtonItem.title = @"返回";
+    self.navigationItem.backBarButtonItem = barButtonItem;
     
-    MCDataObject *phone = [MCDataObject dataObjectWithName:@"Phones"
-                                                  children:[NSArray arrayWithObjects:phone1, phone2, phone3, phone4, nil]];
-    
-    MCDataObject *notebook1 = [MCDataObject dataObjectWithName:@"Notebook 1" children:nil];
-    MCDataObject *notebook2 = [MCDataObject dataObjectWithName:@"Notebook 2" children:nil];
-//    self.expanded = notebook1;
-    
-    MCDataObject *computer1 = [MCDataObject dataObjectWithName:@"Computer 1"
-                                                      children:[NSArray arrayWithObjects:notebook1, notebook2, nil]];
-    MCDataObject *computer2 = [MCDataObject dataObjectWithName:@"Computer 2" children:nil];
-    MCDataObject *computer3 = [MCDataObject dataObjectWithName:@"Computer 3" children:nil];
-    
-    MCDataObject *computer = [MCDataObject dataObjectWithName:@"Computers"
-                                                     children:[NSArray arrayWithObjects:computer1, computer2, computer3, nil]];
-    MCDataObject *car = [MCDataObject dataObjectWithName:@"Cars" children:nil];
-    MCDataObject *bike = [MCDataObject dataObjectWithName:@"Bikes" children:nil];
-    MCDataObject *house = [MCDataObject dataObjectWithName:@"Houses" children:nil];
-    MCDataObject *flats = [MCDataObject dataObjectWithName:@"Flats" children:nil];
-    MCDataObject *motorbike = [MCDataObject dataObjectWithName:@"Motorbikes" children:nil];
-    MCDataObject *drinks = [MCDataObject dataObjectWithName:@"Drinks" children:nil];
-    MCDataObject *food = [MCDataObject dataObjectWithName:@"Food" children:nil];
-    MCDataObject *sweets = [MCDataObject dataObjectWithName:@"Sweets" children:nil];
-    MCDataObject *watches = [MCDataObject dataObjectWithName:@"Watches" children:nil];
-    MCDataObject *walls = [MCDataObject dataObjectWithName:@"Walls" children:nil];*/
-    
+    //初始化圈子树视图
     //self.data = [NSArray arrayWithObjects:phone, computer, car, bike, house, flats, motorbike, drinks, food, sweets, watches, walls, nil];
-    self.data = [MCCircleDataHandler getDataOfCircle];
+    //    self.data = [MCCircleDataHandler getDataOfCircle];
     
 //    CGRect treeViewFrame = CGRectMake(0, 110, 320, self.view.frame.size.height);
     RATreeView *treeView = [[RATreeView alloc] initWithFrame:self.view.frame];
@@ -74,26 +59,68 @@
     treeView.dataSource = self;
     treeView.separatorStyle = RATreeViewCellSeparatorStyleSingleLine;
     
-    [treeView reloadData];
-//    [treeView expandRowForItem:phone withRowAnimation:RATreeViewRowAnimationLeft]; //expands Row
+    //    [treeView reloadData];
+    //    [treeView expandRowForItem:phone withRowAnimation:RATreeViewRowAnimationLeft]; //expands Row
     [treeView setBackgroundColor:UIColorFromRGB(0xF7F7F7)];
     
     self.treeView = treeView;
+    self.treeView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:treeView];
+    
+    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
+        CGRect statusBarViewRect = [[UIApplication sharedApplication] statusBarFrame];
+        float heightPadding = statusBarViewRect.size.height+self.navigationController.navigationBar.frame.size.height;
+//        float heightPadding = statusBarViewRect.size.height;
+        float heightBottom = self.tabBarController.tabBar.frame.size.height;
+        //        self.treeView.contentInset = UIEdgeInsetsMake(heightPadding, 0.0, 0.0, 0.0);
+        self.treeView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
+        self.treeView.contentOffset = CGPointMake(0.0, -heightPadding-heightBottom);
+    }
+//    self.treeView.frame = self.view.bounds;
+    
+    //绑定并刷新圈子树数据
+    self.data = [MCCircleDataHandler getDataOfCircle];
+    [self.treeView reloadData];
+    
+    //检测网络连接
+#warning 检测网络连接
+//    Reachability *r= [Reachability reachabilityWithHostName:@"www.baidu.com"];
+//    switch([r currentReachabilityStatus])
+//    {    case NotReachable:
+//            // 没有网络连接
+//            break;
+//        case ReachableViaWWAN:
+//            // 使用3G网络
+//            break;
+//        case ReachableViaWiFi:
+//            // 使用WiFi网络
+//            break;
+//    }
+    if ([self IsEnableWIFI] || [self IsEnable3G]) {
+        //同步圈子数据
+        //提示用户正在同步中
+        HUD = [[MBProgressHUD alloc] initWithView:self.view];
+        [self.view addSubview:HUD];
+        
+        HUD.delegate = self;
+        HUD.labelText = @"正在同步圈子数据";
+        
+        [HUD showWhileExecuting:@selector(startSynchronizeData) onTarget:self withObject:nil animated:YES];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
-        CGRect statusBarViewRect = [[UIApplication sharedApplication] statusBarFrame];
-//        float heightPadding = statusBarViewRect.size.height+self.navigationController.navigationBar.frame.size.height;
-        float heightPadding = statusBarViewRect.size.height;
-        float heightBottom = self.tabBarController.tabBar.frame.size.height;
-//        self.treeView.contentInset = UIEdgeInsetsMake(heightPadding, 0.0, 0.0, 0.0);
-        self.treeView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
-        self.treeView.contentOffset = CGPointMake(0.0, -heightPadding-heightBottom);
-    }
+//    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
+//        CGRect statusBarViewRect = [[UIApplication sharedApplication] statusBarFrame];
+////        float heightPadding = statusBarViewRect.size.height+self.navigationController.navigationBar.frame.size.height;
+//        float heightPadding = statusBarViewRect.size.height;
+//        float heightBottom = self.tabBarController.tabBar.frame.size.height;
+////        self.treeView.contentInset = UIEdgeInsetsMake(heightPadding, 0.0, 0.0, 0.0);
+//        self.treeView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
+//        self.treeView.contentOffset = CGPointMake(0.0, -heightPadding-heightBottom);
+//    }
     self.treeView.frame = self.view.bounds;
 }
 
@@ -102,6 +129,119 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+// 是否启动wifi
+- (BOOL) IsEnableWIFI {
+    return([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] != NotReachable);
+}
+// 是否启动3G
+- (BOOL) IsEnable3G {
+    return([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable);
+}
+
+- (void)startSynchronizeData
+{
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    NSString *strAccount = [userDefaultes stringForKey:@"user"];
+//    DLog(@"%@", strAccount);
+    MCOrgBL *orgBL = [[MCOrgBL alloc] init];
+    NSMutableArray *orgList = [orgBL findAll];
+    for (MCOrg *org in orgList) {
+        NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"http://117.21.209.104/EasyContact/Contact/contact!syncAjax.action?orgId=%@&tel=%@",org.id,strAccount]];
+//        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+//        
+//        //同步请求
+//        NSError *error = nil;
+//        NSData *response  = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+//        if (response == nil) {
+//            DLog(@"同步请求发生错误\n %@", error);
+//            //弹出警告窗
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"网络异常" message:@"请检查网络连接是否正常，并尝试重新登陆" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//            //optional - add more buttons:
+//            //[alert addButtonWithTitle:@"Yes"];
+//            alert.tag = 1;
+//            [alert show];
+//            
+//            return;
+//        }
+        
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        //保存数据
+        NSDictionary *dictRoot = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        //判断是否清除该组织的所有人员和部门数据
+        NSString *strClearAll = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"clearLocaldataAll"]];
+        BOOL isClearAll = [strClearAll isEqualToString:@"1"];
+        if (isClearAll) {
+            //获取belongOrgId
+#warning 获取方式可以优化为截取字符串
+            NSString *belongOrgId = [NSString stringWithFormat:@"%@", [[[[dictRoot objectForKey:@"root"] objectForKey:@"book"] lastObject] objectForKey:@"belongOrgId"]];
+            //删除人员数据
+            MCBookBL *bookBL = [[MCBookBL alloc] init];
+            BOOL isDeletedAll = [bookBL removeByOrgId:belongOrgId];
+            if (isDeletedAll) {
+                DLog(@"%@ 的人员删除完毕", belongOrgId);
+            }
+            //删除部门数据
+            MCDeptBL *deptBL = [[MCDeptBL alloc] init];
+            isDeletedAll = [deptBL removeByOrgId:belongOrgId];
+            if (isDeletedAll) {
+                DLog(@"%@ 的部门删除完毕", belongOrgId);
+            }
+            
+        }
+        //更新人员数据
+        NSArray *arrBook = [[dictRoot objectForKey:@"root"] objectForKey:@"book"];
+        for (NSDictionary *dict in arrBook) {
+            MCBook *book = [[MCBook alloc] init];
+            book.id = [NSString stringWithFormat:@"%@", [dict objectForKey:@"id"]];
+            book.name = [NSString stringWithFormat:@"%@", [dict objectForKey:@"personName"]];
+            book.mobilePhone = [NSString stringWithFormat:@"%@", [dict objectForKey:@"mobilePhone"]];
+            book.officePhone = [NSString stringWithFormat:@"%@", [dict objectForKey:@"officePhone"]];
+            book.position = [NSString stringWithFormat:@"%@", [dict objectForKey:@"position"]];
+            book.sort = [dict objectForKey:@"sort"];
+            book.status = [NSString stringWithFormat:@"%@", [dict objectForKey:@"status"]];
+            book.syncFlag = [NSString stringWithFormat:@"%@", [dict objectForKey:@"syncFlag"]];
+            book.belongDepartmentId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongDepartmentId"]];
+            book.belongOrgId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongOrgId"]];
+            
+            MCBookBL *bookBL = [[MCBookBL alloc] init];
+            BOOL isCreatedSuccessfully = [bookBL create:book];
+            if (!isCreatedSuccessfully) {
+#warning 提示用户数据更新不完整
+                DLog(@"插入book失败");
+            }
+        }
+        
+        MCBookBL *bookBL = [[MCBookBL alloc] init];
+        NSMutableArray *bookList = [bookBL findAll];
+        DLog(@"book amount:%d", bookList.count);
+        
+        //更新部门数据
+        NSArray *arrDept = [[dictRoot objectForKey:@"root"] objectForKey:@"department"];
+        for (NSDictionary *dict in arrDept) {
+            MCDept *dept = [[MCDept alloc] init];
+            dept.id = [NSString stringWithFormat:@"%@", [dict objectForKey:@"id"]];
+            dept.name = [NSString stringWithFormat:@"%@", [dict objectForKey:@"name"]];
+            dept.sort = [dict objectForKey:@"sort"];
+            dept.status = [NSString stringWithFormat:@"%@", [dict objectForKey:@"status"]];
+            dept.syncFlag = [NSString stringWithFormat:@"%@", [dict objectForKey:@"syncFlag"]];
+            dept.upDepartmentId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"upDepartmentId"]];
+            dept.belongOrgId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongOrgId"]];
+            
+            MCDeptBL *deptBL = [[MCDeptBL alloc] init];
+            BOOL isCreatedSuccessfully = [deptBL create:dept];
+            if (!isCreatedSuccessfully) {
+#warning 提示用户数据更新不完整
+                DLog(@"插入dept失败");
+            }
+        }
+        
+        MCDeptBL *deptBL = [[MCDeptBL alloc] init];
+        NSMutableArray *deptList = [deptBL findAll];
+        DLog(@"department amount:%d", deptList.count);
+
+    }
 }
 
 #pragma mark TreeView Delegate methods
@@ -142,7 +282,7 @@
         cell.backgroundColor = UIColorFromRGB(0xE0F8D8);
     }
     
-    cell.separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 15.0);
+//    cell.separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 15.0);
 }
 
 #pragma mark TreeView Data Source
@@ -202,6 +342,17 @@
         MCContactsDetailViewController *detailViewController = [segue destinationViewController];
         detailViewController.bookId = self.bookId;
     }
+}
+
+#pragma mark- MBProgressHUDDelegate methods
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+	// Remove HUD from screen when the HUD was hidded
+	[HUD removeFromSuperview];
+	HUD = nil;
+    
+    //绑定并刷新圈子树数据
+    self.data = [MCCircleDataHandler getDataOfCircle];
+    [self.treeView reloadData];
 }
 
 @end

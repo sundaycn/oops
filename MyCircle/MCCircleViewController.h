@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
+#import "MBProgressHUD.h"
 #import "MCGlobal.h"
 #import "MCCircleViewController.h"
 #import "RATreeView.h"
@@ -14,7 +16,10 @@
 #import "MCCircleDataHandler.h"
 #import "MCContactsDetailViewController.h"
 
-@interface MCCircleViewController : UIViewController
+@interface MCCircleViewController : UIViewController <MBProgressHUDDelegate> {
+    //事件进度提示窗
+    MBProgressHUD *HUD;
+}
 
 @property (strong, nonatomic) NSString *bookId;
 - (void)prepareShowCard:(NSNotification *)notification;

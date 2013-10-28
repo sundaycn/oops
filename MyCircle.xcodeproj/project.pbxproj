@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		22024BEC181CFACB0004AFF4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22024BEB181CFACB0004AFF4 /* SystemConfiguration.framework */; };
 		22024BF2181CFD360004AFF4 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 22024BF1181CFD360004AFF4 /* Reachability.m */; };
 		22024BF5181D04B40004AFF4 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 22024BF4181D04B40004AFF4 /* MBProgressHUD.m */; };
+		22024BF8181D42B40004AFF4 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 22024BF7181D42B40004AFF4 /* SFHFKeychainUtils.m */; };
+		22024BFA181D43950004AFF4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22024BF9181D43950004AFF4 /* Security.framework */; };
+		22024BFD181D53000004AFF4 /* MCAbountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22024BFC181D53000004AFF4 /* MCAbountViewController.m */; };
 		2203A586180E774100742830 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2203A585180E774100742830 /* CoreData.framework */; };
 		2203A589180E7BA000742830 /* MCCoreDataDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 2203A588180E7BA000742830 /* MCCoreDataDAO.m */; };
 		2203A58C180E7C8300742830 /* MCBookDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 2203A58B180E7C8300742830 /* MCBookDAO.m */; };
@@ -18,11 +20,11 @@
 		2203A59F180E850700742830 /* MCDeptManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2203A59E180E850700742830 /* MCDeptManagedObject.m */; };
 		2203A5A2180E850700742830 /* MCOrgManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2203A5A1180E850700742830 /* MCOrgManagedObject.m */; };
 		2203A5A7180E872B00742830 /* MCBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 2203A5A6180E872B00742830 /* MCBook.m */; };
+		22098307181E5B3800D33BD9 /* MCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22098306181E5B3800D33BD9 /* MCMainViewController.m */; };
 		220F48FF1808DCFB005112DF /* MCCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 220F48FE1808DCFB005112DF /* MCCrypto.m */; };
 		221C51B1180CCEC700ED8715 /* MCDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B0180CCEC700ED8715 /* MCDataObject.m */; };
 		221C51B5180CCFFE00ED8715 /* MCCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B4180CCFFE00ED8715 /* MCCircleViewController.m */; };
 		221C51B8180CD7F800ED8715 /* MCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B7180CD7F800ED8715 /* MCAppDelegate.m */; };
-		22A1E4C41813869A00A1FA06 /* MCContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1E4C31813869A00A1FA06 /* MCContactsViewController.m */; };
 		22A1E4C71813B10400A1FA06 /* MCContactsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */; };
 		22B669D317FAAA240015A269 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D217FAAA240015A269 /* Foundation.framework */; };
 		22B669D517FAAA240015A269 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D417FAAA240015A269 /* CoreGraphics.framework */; };
@@ -47,7 +49,6 @@
 		22D7F640180BEE60007E5E22 /* RATreeView+TableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D7F634180BEE60007E5E22 /* RATreeView+TableViewDelegate.m */; };
 		22D7F641180BEE60007E5E22 /* RATreeView+UIScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D7F636180BEE60007E5E22 /* RATreeView+UIScrollView.m */; };
 		22D7F642180BEE60007E5E22 /* RATreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D7F638180BEE60007E5E22 /* RATreeView.m */; };
-		22D9F68C1819475200AB28C0 /* MCTESTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D9F68B1819475200AB28C0 /* MCTESTViewController.m */; };
 		22F7E293180F670D0010B5DC /* MCBookBL.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F7E292180F670D0010B5DC /* MCBookBL.m */; };
 		22F86DBB18111FD1000CCB50 /* MCDeptDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DBA18111FD1000CCB50 /* MCDeptDAO.m */; };
 		22F86DBE18111FE4000CCB50 /* MCOrgDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DBD18111FE4000CCB50 /* MCOrgDAO.m */; };
@@ -69,11 +70,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		22024BEB181CFACB0004AFF4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		22024BF0181CFD360004AFF4 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		22024BF1181CFD360004AFF4 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		22024BF3181D04B40004AFF4 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		22024BF4181D04B40004AFF4 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		22024BF6181D42B40004AFF4 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		22024BF7181D42B40004AFF4 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		22024BF9181D43950004AFF4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		22024BFB181D53000004AFF4 /* MCAbountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAbountViewController.h; sourceTree = "<group>"; };
+		22024BFC181D53000004AFF4 /* MCAbountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAbountViewController.m; sourceTree = "<group>"; };
 		2203A57D180E6BF800742830 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		2203A57E180E6BF800742830 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		2203A57F180E6BF900742830 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -91,6 +96,8 @@
 		2203A5A1180E850700742830 /* MCOrgManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCOrgManagedObject.m; sourceTree = "<group>"; };
 		2203A5A5180E872B00742830 /* MCBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBook.h; sourceTree = "<group>"; };
 		2203A5A6180E872B00742830 /* MCBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCBook.m; sourceTree = "<group>"; };
+		22098305181E5B3800D33BD9 /* MCMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMainViewController.h; sourceTree = "<group>"; };
+		22098306181E5B3800D33BD9 /* MCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMainViewController.m; sourceTree = "<group>"; };
 		220F48FD1808DCEA005112DF /* MCCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCrypto.h; sourceTree = "<group>"; };
 		220F48FE1808DCFB005112DF /* MCCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCrypto.m; sourceTree = "<group>"; };
 		221C51AF180CCEC700ED8715 /* MCDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDataObject.h; sourceTree = "<group>"; };
@@ -100,8 +107,6 @@
 		221C51B6180CD7F800ED8715 /* MCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAppDelegate.h; sourceTree = "<group>"; };
 		221C51B7180CD7F800ED8715 /* MCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAppDelegate.m; sourceTree = "<group>"; };
 		221C51B9180CE8F100ED8715 /* MCGlobal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCGlobal.h; sourceTree = "<group>"; };
-		22A1E4C21813869A00A1FA06 /* MCContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCContactsViewController.h; path = ../MCContactsViewController.h; sourceTree = "<group>"; };
-		22A1E4C31813869A00A1FA06 /* MCContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCContactsViewController.m; path = ../MCContactsViewController.m; sourceTree = "<group>"; };
 		22A1E4C51813B10400A1FA06 /* MCContactsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContactsDetailViewController.h; sourceTree = "<group>"; };
 		22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContactsDetailViewController.m; sourceTree = "<group>"; };
 		22B669CF17FAAA240015A269 /* MyCircle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCircle.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,10 +146,6 @@
 		22D7F636180BEE60007E5E22 /* RATreeView+UIScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RATreeView+UIScrollView.m"; sourceTree = "<group>"; };
 		22D7F637180BEE60007E5E22 /* RATreeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RATreeView.h; sourceTree = "<group>"; };
 		22D7F638180BEE60007E5E22 /* RATreeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RATreeView.m; sourceTree = "<group>"; };
-		22D9F68A1819475200AB28C0 /* MCTESTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTESTViewController.h; sourceTree = "<group>"; };
-		22D9F68B1819475200AB28C0 /* MCTESTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCTESTViewController.m; sourceTree = "<group>"; };
-		22F7E28C180F63110010B5DC /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		22F7E28D180F63110010B5DC /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		22F7E291180F670D0010B5DC /* MCBookBL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBookBL.h; sourceTree = "<group>"; };
 		22F7E292180F670D0010B5DC /* MCBookBL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCBookBL.m; sourceTree = "<group>"; };
 		22F86DB918111FD1000CCB50 /* MCDeptDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDeptDAO.h; sourceTree = "<group>"; };
@@ -168,7 +169,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22024BEC181CFACB0004AFF4 /* SystemConfiguration.framework in Frameworks */,
+				22024BFA181D43950004AFF4 /* Security.framework in Frameworks */,
 				2203A586180E774100742830 /* CoreData.framework in Frameworks */,
 				22B669D517FAAA240015A269 /* CoreGraphics.framework in Frameworks */,
 				22B669D717FAAA240015A269 /* UIKit.framework in Frameworks */,
@@ -200,16 +201,16 @@
 		2203A581180E748800742830 /* PresentationLayer */ = {
 			isa = PBXGroup;
 			children = (
+				22B669E417FAAA240015A269 /* Main.storyboard */,
+				22098305181E5B3800D33BD9 /* MCMainViewController.h */,
+				22098306181E5B3800D33BD9 /* MCMainViewController.m */,
 				22024BF3181D04B40004AFF4 /* MBProgressHUD.h */,
 				22024BF4181D04B40004AFF4 /* MBProgressHUD.m */,
-				22B669E417FAAA240015A269 /* Main.storyboard */,
+				22024BFB181D53000004AFF4 /* MCAbountViewController.h */,
+				22024BFC181D53000004AFF4 /* MCAbountViewController.m */,
 				22A1E4C51813B10400A1FA06 /* MCContactsDetailViewController.h */,
 				22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */,
 				2203A597180E803200742830 /* MCCoreData.xcdatamodeld */,
-				22A1E4C21813869A00A1FA06 /* MCContactsViewController.h */,
-				22A1E4C31813869A00A1FA06 /* MCContactsViewController.m */,
-				22D9F68A1819475200AB28C0 /* MCTESTViewController.h */,
-				22D9F68B1819475200AB28C0 /* MCTESTViewController.m */,
 				221C51B3180CCFFE00ED8715 /* MCCircleViewController.h */,
 				221C51B4180CCFFE00ED8715 /* MCCircleViewController.m */,
 				221C51B6180CD7F800ED8715 /* MCAppDelegate.h */,
@@ -229,6 +230,8 @@
 				220F48FE1808DCFB005112DF /* MCCrypto.m */,
 				221C51AF180CCEC700ED8715 /* MCDataObject.h */,
 				221C51B0180CCEC700ED8715 /* MCDataObject.m */,
+				22024BF6181D42B40004AFF4 /* SFHFKeychainUtils.h */,
+				22024BF7181D42B40004AFF4 /* SFHFKeychainUtils.m */,
 				22024BF0181CFD360004AFF4 /* Reachability.h */,
 				22024BF1181CFD360004AFF4 /* Reachability.m */,
 				22F7E291180F670D0010B5DC /* MCBookBL.h */,
@@ -316,9 +319,7 @@
 		22B669D117FAAA240015A269 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				22024BEB181CFACB0004AFF4 /* SystemConfiguration.framework */,
-				22F7E28C180F63110010B5DC /* AddressBook.framework */,
-				22F7E28D180F63110010B5DC /* AddressBookUI.framework */,
+				22024BF9181D43950004AFF4 /* Security.framework */,
 				2203A585180E774100742830 /* CoreData.framework */,
 				22B669D217FAAA240015A269 /* Foundation.framework */,
 				22B669D417FAAA240015A269 /* CoreGraphics.framework */,
@@ -498,7 +499,7 @@
 				22D7F639180BEE60007E5E22 /* RATreeNode.m in Sources */,
 				22A1E4C71813B10400A1FA06 /* MCContactsDetailViewController.m in Sources */,
 				221C51B5180CCFFE00ED8715 /* MCCircleViewController.m in Sources */,
-				22D9F68C1819475200AB28C0 /* MCTESTViewController.m in Sources */,
+				22098307181E5B3800D33BD9 /* MCMainViewController.m in Sources */,
 				2203A59C180E850600742830 /* MCBookManagedObject.m in Sources */,
 				221C51B8180CD7F800ED8715 /* MCAppDelegate.m in Sources */,
 				22F86DC118112114000CCB50 /* MCDept.m in Sources */,
@@ -513,11 +514,12 @@
 				220F48FF1808DCFB005112DF /* MCCrypto.m in Sources */,
 				2203A59F180E850700742830 /* MCDeptManagedObject.m in Sources */,
 				22D7F641180BEE60007E5E22 /* RATreeView+UIScrollView.m in Sources */,
+				22024BFD181D53000004AFF4 /* MCAbountViewController.m in Sources */,
+				22024BF8181D42B40004AFF4 /* SFHFKeychainUtils.m in Sources */,
 				22D7F63B180BEE60007E5E22 /* RATreeNodeInfo+Private.m in Sources */,
 				22F86DC718112F48000CCB50 /* MCDeptBL.m in Sources */,
 				2203A599180E803200742830 /* MCCoreData.xcdatamodeld in Sources */,
 				22F7E293180F670D0010B5DC /* MCBookBL.m in Sources */,
-				22A1E4C41813869A00A1FA06 /* MCContactsViewController.m in Sources */,
 				22024BF2181CFD360004AFF4 /* Reachability.m in Sources */,
 				22D7F63D180BEE60007E5E22 /* RATreeView+Enums.m in Sources */,
 				22D7F642180BEE60007E5E22 /* RATreeView.m in Sources */,
@@ -617,6 +619,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -639,7 +642,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xu JunLiang (TBU28CD573)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JiangXi Telecom Information Industry Co.,LTD.";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -650,6 +654,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
 			};
@@ -673,6 +678,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JiangXi Telecom Information Industry Co.,LTD.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MyCircle/MyCircle-Prefix.pch";
 				INFOPLIST_FILE = "MyCircle/MyCircle-Info.plist";

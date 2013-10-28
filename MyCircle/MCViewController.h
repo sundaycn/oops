@@ -20,12 +20,14 @@
     BOOL keyboardVisible;
     //事件进度提示窗
     MBProgressHUD *HUD;
+    //登录账号
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *textFieldAccount;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldPwd;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inputViewHeight;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSMSPassword;
+@property (weak, nonatomic) IBOutlet UIButton *buttonLogin;
 
 //下载队列
 @property (strong, nonatomic) NSOperationQueue *downloadQueue;
