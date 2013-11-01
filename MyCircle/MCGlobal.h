@@ -11,6 +11,9 @@
 
 #define ISDEBUG YES
 
+#define IS_R4 (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
+#define ASSET_BY_SCREEN_HEIGHT(image) (([[UIScreen mainScreen] bounds].size.height <= 480.0) ? image : [image stringByAppendingString:@"-R4"])
+
 #define IPHONE5_VIEW_HEIGHT 568
 #define HEIGHT_WITH_SCROLLING 75
 

@@ -12,7 +12,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
+        [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
     
+    if ([self isLogged]) {
+        //用户已登陆
+        UIViewController *mainVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+        self.window.rootViewController = mainVC;
+    }
+
     return YES;
 }
 
@@ -53,6 +62,15 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (BOOL)isLogged {
+    //判断用户是否已登录
+    NSUserDefaults *userInfo = [[NSUserDefaults alloc] init];
+    NSString *strAccount = [userInfo stringForKey:@"user"];
+    NSString *strPassword = [userInfo stringForKey:@"password"];
+    
+    return (strAccount.length >0 && strPassword.length >0);
 }
 
 @end

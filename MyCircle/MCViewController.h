@@ -22,6 +22,7 @@
     MBProgressHUD *HUD;
     //登录账号
 }
+@property (weak, nonatomic) IBOutlet UIImageView *imageLoginBackground;
 
 @property (weak, nonatomic) IBOutlet UITextField *textFieldAccount;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldPwd;

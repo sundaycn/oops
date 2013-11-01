@@ -1,18 +1,18 @@
 //
-//  MCAbountViewController.m
+//  MCAboutViewController.m
 //  MyCircle
 //
-//  Created by Samuel on 10/27/13.
+//  Created by Samuel on 10/31/13.
 //
 //
 
-#import "MCAbountViewController.h"
+#import "MCAboutViewController.h"
 
-@interface MCAbountViewController ()
+@interface MCAboutViewController ()
 
 @end
 
-@implementation MCAbountViewController
+@implementation MCAboutViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,7 +35,17 @@
         self.navigationController.navigationBar.tintColor = UIColorFromRGB(0x1F82D6);
     }
     self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+    
+    if (IS_R4) {
+        self.labelQQConstraint.constant += HEIGHT_WITH_SCROLLING;
+    }
 
+
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.imageAbout.image = [UIImage imageNamed:ASSET_BY_SCREEN_HEIGHT(@"About")];
 }
 
 - (void)didReceiveMemoryWarning

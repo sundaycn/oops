@@ -29,7 +29,7 @@
     self.buttonSMSPassword.layer.cornerRadius = 5.0;
     self.buttonSMSPassword.backgroundColor = UIColorFromRGB(0xff6f3d);
     //隐藏输入密码
-    self.textFieldPwd.SecureTextEntry = YES;
+    self.textFieldPwd.SecureTextEntry = YES;        
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,14 +46,13 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector (keyboardWillHide:)
                                                  name: UIKeyboardDidHideNotification object:nil];
     
+    //根据屏幕尺寸设置不同的背景图
+    self.imageLoginBackground.image = [UIImage imageNamed:ASSET_BY_SCREEN_HEIGHT(@"LoginImage")];
+    
     [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    if ([self isLogged]) {
-        DLog(@"\n 登陆成功，跳转到主页面");
-        [self performSegueWithIdentifier:@"showMain" sender:self];
-    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -65,15 +64,6 @@
                                                     name: UIKeyboardDidHideNotification object:nil];
     
     [super viewWillDisappear:animated];
-}
-
-- (BOOL)isLogged {
-    //判断用户是否已登录
-    NSUserDefaults *userInfo = [[NSUserDefaults alloc] init];
-    NSString *strAccount = [userInfo stringForKey:@"user"];
-    NSString *strPassword = [userInfo stringForKey:@"password"];
-    
-    return (strAccount.length >0 && strPassword.length >0);
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification {
@@ -140,7 +130,7 @@
 	HUD.delegate = self;
 	HUD.labelText = @"正在登录";
 	
-	[HUD showWhileExecuting:@selector(startRequest) onTarget:self withObject:nil animated:YES];
+	[HUD showWhileExecuting:@selector(startRequest) onTarget:self withObject:nil animated:NO];
 }
 
 //点击获取短信密码按钮
@@ -203,10 +193,10 @@
 //            DLog(@"删除完毕");
 //        }
         //构建下载队列获取人员部门信息
-        NSInvocationOperation *operation;
-        self.downloadQueue = [NSOperationQueue new];
-        [self.downloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
-        [self.downloadQueue setMaxConcurrentOperationCount:1];
+//        NSInvocationOperation *operation;
+//        self.downloadQueue = [NSOperationQueue new];
+//        [self.downloadQueue addObserver:self forKeyPath:@"operations" options:0 context:NULL];
+//        [self.downloadQueue setMaxConcurrentOperationCount:1];
 
         //清空enterprise数据
         MCOrgBL *orgBL = [[MCOrgBL alloc] init];

@@ -27,7 +27,6 @@
 {
     [super viewDidLoad];
     self.tableView.backgroundColor = UIColorFromRGB(0x3d97e9);
-    [self setExtraCellLineHidden:self.tableView];
 
     //初始化
     MCBookBL *bookBL = [[MCBookBL alloc] init];
@@ -46,18 +45,38 @@
     self.bookId = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    //remove NavigationBar shadow line
+    for (UIView *view in self.navigationController.navigationBar.subviews) {
+        if ([view isKindOfClass:NSClassFromString(@"_UINavigationBarBackground")]) {
+            for (UIView *view2 in view.subviews) {
+                if ([view2 isKindOfClass:[UIImageView class]] && view2.frame.size.height < 1) {
+                    [view2 setHidden:YES];
+                    break;
+                }
+            }
+        }
+    }
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 8;
+    if (section == 0) {
+        return 1;
+    }
+    else {
+        return 7;
+    }
 }
 
 //- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -71,6 +90,7 @@
 //    //cell.textLabel.center = [cell.superview convertPoint:cell.center toView:cell];
 //    if (indexPath.row == 0) {
 //        cell.selectionStyle = UITableViewCellSeparatorStyleNone;
+//
 //    }
 //    // Configure the cell...
 ////    if (cell == nil) {
@@ -100,16 +120,17 @@
 //}
 
 // 自绘分割线
-- (void)drawRect:(CGRect)rect
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
-    CGContextFillRect(context, rect);
-    
-    CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:0xE2/255.0f green:0xE2/255.0f blue:0xE2/255.0f alpha:1].CGColor);
-    CGContextStrokeRect(context, CGRectMake(0, rect.size.height - 1, rect.size.width, 1));
-}
+//- (void)drawRect:(CGRect)rect
+//{
+//    DLog(@"drawRect");
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    
+//    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+//    CGContextFillRect(context, rect);
+//    
+//    CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:0xE2/255.0f green:0xE2/255.0f blue:0xE2/255.0f alpha:1].CGColor);
+//    CGContextStrokeRect(context, CGRectMake(0, rect.size.height - 1, rect.size.width, 1));
+//}
 
 - (void)tableView: (UITableView*)tableView willDisplayCell: (UITableViewCell*)cell forRowAtIndexPath: (NSIndexPath*)indexPath
 {
@@ -122,19 +143,15 @@
 {
 //    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
 //    return cell.frame.size.height;
-    if (indexPath.row == 0) {
-        return 80;
-    }
-    else {
-        return 50;
-    }
+    return 50;
 }
 
-- (void)setExtraCellLineHidden:(UITableView *)tableView
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] init];
+    //隐藏没有内容的单元格的分割线
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
     view.backgroundColor = [UIColor clearColor];
-    [tableView setTableFooterView:view];
+    return view;
 }
 
 - (IBAction)sendSMS:(UIButton *)sender {

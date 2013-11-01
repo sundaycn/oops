@@ -24,66 +24,57 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(prepareShowCard:) name:@"DidSelectLeafNodeNotification" object:nil];
     //ios6 ios7导航条适配
-//    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 6) {
-//        DLog(@"123");
+    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 6) {
 //        [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
 //        [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-//    }
-//    else {
-//        [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-//    }
-    
-    if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
-        self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x3d97e9);
-        
     }
     else {
-        self.navigationController.navigationBar.tintColor = UIColorFromRGB(0x3d97e9);
+//        [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     }
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     
     //修改导航栏返回按钮的文字
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] init];
     barButtonItem.title = @"返回";
     self.navigationItem.backBarButtonItem = barButtonItem;
     
-    //初始化圈子树视图
-    //self.data = [NSArray arrayWithObjects:phone, computer, car, bike, house, flats, motorbike, drinks, food, sweets, watches, walls, nil];
-    //    self.data = [MCCircleDataHandler getDataOfCircle];
     
-//    CGRect treeViewFrame = CGRectMake(0, 110, 320, self.view.frame.size.height);
-    RATreeView *treeView = [[RATreeView alloc] initWithFrame:self.view.frame];
-//    RATreeView *treeView = [[RATreeView alloc] initWithFrame:treeViewFrame];
+    RATreeView *treeView;
+
     
+    if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
+        //修改导航栏背景颜色和字体颜色
+        self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x3d97e9);
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+        
+        treeView = [[RATreeView alloc] initWithFrame:self.view.frame];
+    }
+    else {
+//        self.navigationController.navigationBar.tintColor = UIColorFromRGB(0x3d97e9);
+#warning 代码可以优化
+        CGRect treeViewFrame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height);
+        treeView = [[RATreeView alloc] initWithFrame:treeViewFrame];
+
+    }
+    
+    self.data = [MCCircleDataHandler getDataOfCircle];
     treeView.delegate = self;
     treeView.dataSource = self;
-    treeView.separatorStyle = RATreeViewCellSeparatorStyleSingleLine;
-    
-    //    [treeView reloadData];
-    //    [treeView expandRowForItem:phone withRowAnimation:RATreeViewRowAnimationLeft]; //expands Row
+    treeView.separatorStyle = RATreeViewCellSeparatorStyleNone;
+
+    [treeView reloadData];
     [treeView setBackgroundColor:UIColorFromRGB(0xF7F7F7)];
     
     self.treeView = treeView;
-    self.treeView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:treeView];
     
     if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
         CGRect statusBarViewRect = [[UIApplication sharedApplication] statusBarFrame];
         float heightPadding = statusBarViewRect.size.height+self.navigationController.navigationBar.frame.size.height;
-//        float heightPadding = statusBarViewRect.size.height;
-        float heightBottom = self.tabBarController.tabBar.frame.size.height;
-        //        self.treeView.contentInset = UIEdgeInsetsMake(heightPadding, 0.0, 0.0, 0.0);
         self.treeView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
-        self.treeView.contentOffset = CGPointMake(0.0, -heightPadding-heightBottom);
+        self.treeView.contentOffset = CGPointMake(0.0, -heightPadding);
     }
-//    self.treeView.frame = self.view.bounds;
-    
-    //绑定并刷新圈子树数据
-    self.data = [MCCircleDataHandler getDataOfCircle];
-    [self.treeView reloadData];
     
     //检测网络连接
-#warning 检测网络连接
 //    Reachability *r= [Reachability reachabilityWithHostName:@"www.baidu.com"];
 //    switch([r currentReachabilityStatus])
 //    {    case NotReachable:
@@ -105,22 +96,13 @@
         HUD.delegate = self;
         HUD.labelText = @"正在同步圈子数据";
         
-        [HUD showWhileExecuting:@selector(startSynchronizeData) onTarget:self withObject:nil animated:YES];
+        [HUD showWhileExecuting:@selector(startSynchronizeData) onTarget:self withObject:nil animated:NO];
     }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
-//        CGRect statusBarViewRect = [[UIApplication sharedApplication] statusBarFrame];
-////        float heightPadding = statusBarViewRect.size.height+self.navigationController.navigationBar.frame.size.height;
-//        float heightPadding = statusBarViewRect.size.height;
-//        float heightBottom = self.tabBarController.tabBar.frame.size.height;
-////        self.treeView.contentInset = UIEdgeInsetsMake(heightPadding, 0.0, 0.0, 0.0);
-//        self.treeView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
-//        self.treeView.contentOffset = CGPointMake(0.0, -heightPadding-heightBottom);
-//    }
     self.treeView.frame = self.view.bounds;
 }
 
@@ -247,7 +229,7 @@
 #pragma mark TreeView Delegate methods
 - (CGFloat)treeView:(RATreeView *)treeView heightForRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo
 {
-    return 47;
+    return 40;
 }
 
 - (NSInteger)treeView:(RATreeView *)treeView indentationLevelForRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo
@@ -270,17 +252,19 @@
 
 - (void)treeView:(RATreeView *)treeView willDisplayCell:(UITableViewCell *)cell forItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo
 {
-    if (treeNodeInfo.treeDepthLevel == 0) {
-        cell.backgroundColor = UIColorFromRGB(0xF7F7F7);
-    } else if (treeNodeInfo.treeDepthLevel == 1) {
-        cell.backgroundColor = UIColorFromRGB(0xD1EEFC);
-    } else if (treeNodeInfo.treeDepthLevel == 2) {
-        cell.backgroundColor = UIColorFromRGB(0xE0F8D8);
-    } else if (treeNodeInfo.treeDepthLevel == 3) {
-        cell.backgroundColor = UIColorFromRGB(0xD1EEFC);
-    } else if (treeNodeInfo.treeDepthLevel == 4) {
-        cell.backgroundColor = UIColorFromRGB(0xE0F8D8);
-    }
+//    if (treeNodeInfo.treeDepthLevel == 0) {
+//        cell.backgroundColor = UIColorFromRGB(0xF7F7F7);
+//    } else if (treeNodeInfo.treeDepthLevel == 1) {
+//        cell.backgroundColor = UIColorFromRGB(0xD1EEFC);
+//    } else if (treeNodeInfo.treeDepthLevel == 2) {
+//        cell.backgroundColor = UIColorFromRGB(0xE0F8D8);
+//    } else if (treeNodeInfo.treeDepthLevel == 3) {
+//        cell.backgroundColor = UIColorFromRGB(0xD1EEFC);
+//    } else if (treeNodeInfo.treeDepthLevel == 4) {
+//        cell.backgroundColor = UIColorFromRGB(0xE0F8D8);
+//    }
+    
+    cell.backgroundColor = UIColorFromRGB(0xF7F7F7);
     
 //    cell.separatorInset = UIEdgeInsetsMake(0.0, 15.0, 0.0, 15.0);
 }
