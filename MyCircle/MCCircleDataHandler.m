@@ -20,9 +20,8 @@
         NSArray *arrDept = [deptBL findByUpDeptId:org.id upDepartmentId:@"-1"];
         if ([arrDept count] == 1) {
             MCDept *dept = [arrDept lastObject];
-            NSString *deptName = [MCCrypto DESDecrypt:dept.name WithKey:DESDECRYPTED_KEY];
             NSMutableArray *nodesList = [self getNodesOfOrg:org.id upDepartmentId:dept.id];
-            MCDataObject *deptNode = [MCDataObject dataObjectWithId:dept.id name:deptName children:nodesList];
+            MCDataObject *deptNode = [MCDataObject dataObjectWithId:dept.id type:@"dept" name:dept.name children:nodesList];
             [root addObject:deptNode];
         }
         else
@@ -41,9 +40,8 @@
     NSArray *arrDept = [deptBL findByUpDeptId:orgId upDepartmentId:upDeptId];
     if ([arrDept count] != 0) {
         for (MCDept *dept in arrDept) {
-            NSString *deptName = [MCCrypto DESDecrypt:dept.name WithKey:DESDECRYPTED_KEY];
             NSMutableArray *nodesList = [self getNodesOfOrg:orgId upDepartmentId:dept.id];
-            MCDataObject *deptNode = [MCDataObject dataObjectWithId:dept.id name:deptName children:nodesList];
+            MCDataObject *deptNode = [MCDataObject dataObjectWithId:dept.id type:@"dept" name:dept.name children:nodesList];
             [result addObject:deptNode];
         }
     }
@@ -51,9 +49,8 @@
         MCBookBL *bookBL = [[MCBookBL alloc] init];
         NSArray *arrBook = [bookBL findByBelongDeptId:orgId upDepartmentId:upDeptId];
         for (MCBook *book in arrBook) {
-            NSString *bookName = [MCCrypto DESDecrypt:book.name WithKey:DESDECRYPTED_KEY];
             NSMutableArray *nodesList = [self getNodesOfOrg:orgId upDepartmentId:book.belongDepartmentId];
-            MCDataObject *bookNode = [MCDataObject dataObjectWithId:book.id name:bookName children:nodesList];
+            MCDataObject *bookNode = [MCDataObject dataObjectWithId:book.id type:@"member" name:book.name children:nodesList];
             [result addObject:bookNode];
         }
     }

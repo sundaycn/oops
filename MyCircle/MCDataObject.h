@@ -11,13 +11,14 @@
 @interface MCDataObject : NSObject
 
 @property (strong, nonatomic) NSString *bookId;
+@property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSArray *children;
 
 //- (id)initWithName:(NSString *)name children:(NSArray *)array;
-- (id)initWithId:(NSString *)bookId name:(NSString *)name children:(NSArray *)children;
+- (id)initWithId:(NSString *)bookId type:(NSString *)type name:(NSString *)name children:(NSArray *)children;
 
 //+ (id)dataObjectWithName:(NSString *)name children:(NSArray *)children;
-+ (id)dataObjectWithId:(NSString *)bookId name:(NSString *)name children:(NSArray *)children;
++ (id)dataObjectWithId:(NSString *)bookId type:(NSString *)type name:(NSString *)name children:(NSArray *)children;
 
 @end

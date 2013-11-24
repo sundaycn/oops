@@ -14,7 +14,25 @@
 {
     if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
         [application setStatusBarStyle:UIStatusBarStyleLightContent];
+        [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x2b87d6)];
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+        [[UITabBar appearance] setBackgroundColor:UIColorFromRGB(0xf5f5f5)];
+        [[UITabBar appearance] setTintColor:UIColorFromRGB(0x2b87d6)];
     }
+    else {
+        
+        [application setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+        [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0x2b87d6)];
+        [[UITabBar appearance] setSelectedImageTintColor:UIColorFromRGB(0x2b87d6)];
+        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [UIColor grayColor], UITextAttributeTextColor,
+                                                           nil] forState:UIControlStateNormal];
+        UIColor *titleHighlightedColor = UIColorFromRGB(0x2b87d6);
+        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           titleHighlightedColor, UITextAttributeTextColor,
+                                                           nil] forState:UIControlStateSelected];
+    }
+
     
     if ([self isLogged]) {
         //用户已登陆

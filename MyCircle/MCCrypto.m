@@ -144,6 +144,9 @@
  ******************************************************************************/
 + (NSString *)DESDecrypt:(NSString *)data WithKey:(NSString *)key
 {
+    if (data == nil) {
+        return nil;
+    }
     NSString *plainText = nil;
     NSData *textData = [self dataFromHexString:data];
     size_t dataLength = [textData length];

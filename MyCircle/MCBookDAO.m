@@ -37,12 +37,17 @@ static MCBookDAO *sharedManager = nil;
     book.name = model.name;
     book.mobilePhone = model.mobilePhone;
     book.officePhone = model.officePhone;
+    book.homePhone = model.homePhone;
+    book.mobileShort = model.mobileShort;
+    book.faxNumber = model.faxNumber;
+    book.email = model.email;
     book.position = model.position;
     book.sort = model.sort;
     book.status = model.status;
     book.syncFlag = model.syncFlag;
     book.belongDepartmentId = model.belongDepartmentId;
     book.belongOrgId = model.belongOrgId;
+    book.searchId = model.searchId;
     
     NSError *savingError = nil;
     if ([self.managedObjectContext save:&savingError]){
@@ -203,16 +208,17 @@ static MCBookDAO *sharedManager = nil;
     
     for (MCBookManagedObject *mo in listData) {
         MCBook *book = [[MCBook alloc] init];
-        book.id = mo.id;
+//        book.id = mo.id;
         book.name = mo.name;
         book.mobilePhone = mo.mobilePhone;
-        book.officePhone = mo.officePhone;
-        book.position = mo.position;
-        book.sort = mo.sort;
-        book.status = mo.status;
-        book.syncFlag = mo.syncFlag;
-        book.belongDepartmentId = mo.belongDepartmentId;
-        book.belongOrgId = mo.belongOrgId;
+//        book.officePhone = mo.officePhone;
+//        book.position = mo.position;
+//        book.sort = mo.sort;
+//        book.status = mo.status;
+//        book.syncFlag = mo.syncFlag;
+//        book.belongDepartmentId = mo.belongDepartmentId;
+//        book.belongOrgId = mo.belongOrgId;
+        book.searchId = mo.searchId;
 
         [resListData addObject:book];
     }
@@ -264,7 +270,7 @@ static MCBookDAO *sharedManager = nil;
     [request setEntity:entityDescription];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"id =  %@",bookId];
+                              @"id = %@",bookId];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -274,16 +280,54 @@ static MCBookDAO *sharedManager = nil;
         MCBookManagedObject *mo = [listData lastObject];
         
         MCBook *book = [[MCBook alloc] init];
-//        book.id = mo.id;
+        book.id = mo.id;
         book.name = mo.name;
         book.mobilePhone = mo.mobilePhone;
         book.officePhone = mo.officePhone;
+        book.homePhone = mo.homePhone;
+        book.mobileShort = mo.mobileShort;
+        book.faxNumber = mo.faxNumber;
+        book.email = mo.email;
         book.position = mo.position;
 //        book.sort = mo.sort;
 //        book.status = mo.status;
 //        book.syncFlag = mo.syncFlag;
 //        book.belongDepartmentId = mo.belongDepartmentId;
 //        book.belongOrgId = mo.belongOrgId;
+        
+        return book;
+    }
+    return nil;
+}
+
+-(MCBook *) findBySearchId:(NSNumber *)searchId
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCBook" inManagedObjectContext:cxt];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                              @"searchId = %@",searchId];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    
+    if ([listData count] > 0) {
+        MCBookManagedObject *mo = [listData lastObject];
+        
+        MCBook *book = [[MCBook alloc] init];
+        book.id = mo.id;
+        book.name = mo.name;
+        book.mobilePhone = mo.mobilePhone;
+//        book.officePhone = mo.officePhone;
+        book.position = mo.position;
+        book.belongDepartmentId = mo.belongDepartmentId;
+        book.belongOrgId = mo.belongOrgId;
         
         return book;
     }

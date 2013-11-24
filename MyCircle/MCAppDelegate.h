@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <UI7Kit/UI7Kit.h>
+#import "MCGlobal.h"
 
 @interface MCAppDelegate : UIResponder <UIApplicationDelegate>
 

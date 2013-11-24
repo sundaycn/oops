@@ -15,11 +15,16 @@
 @dynamic name;
 @dynamic mobilePhone;
 @dynamic officePhone;
+@dynamic homePhone;
+@dynamic mobileShort;
+@dynamic faxNumber;
+@dynamic email;
 @dynamic position;
 @dynamic sort;
 @dynamic status;
 @dynamic syncFlag;
 @dynamic belongDepartmentId;
 @dynamic belongOrgId;
+@dynamic searchId;
 
 @end

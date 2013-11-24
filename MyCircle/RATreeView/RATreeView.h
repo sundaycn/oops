@@ -131,6 +131,7 @@ typedef enum RATreeViewRowAnimation {
 - (NSInteger)numberOfRows;
 @property (nonatomic, readonly) RATreeViewStyle style;
 @property (nonatomic) RATreeViewCellSeparatorStyle separatorStyle;
+@property (nonatomic) UIEdgeInsets separatorInset;
 @property (strong, nonatomic) UIColor *separatorColor;
 @property (nonatomic) CGFloat rowHeight;
 @property (strong, nonatomic) UIView *backgroundView;

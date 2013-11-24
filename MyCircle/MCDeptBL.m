@@ -52,5 +52,11 @@
     return [dao findByUpDeptId:belongOrgId upDepartmentId:upDeptId];
 }
 
+//查询所用数据方法
+-(MCDept *) findByDeptId:(NSString *)deptId belongOrgId:(NSString *)belongOrgId
+{
+    MCDeptDAO *dao = [MCDeptDAO sharedManager];
+    return [dao findByDeptId:deptId belongOrgId:belongOrgId];
+}
 
 @end

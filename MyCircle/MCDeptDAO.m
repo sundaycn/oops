@@ -248,6 +248,38 @@ static MCDeptDAO *sharedManager = nil;
     return resListData;
 }
 
+//按照departmentId查询数据方法
+-(MCDept *) findByDeptId:(NSString *)deptId belongOrgId:(NSString *)belongOrgId{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCDept" inManagedObjectContext:cxt];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(id == %@) AND (belongOrgId == %@)",deptId,belongOrgId];;
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    
+    if ([listData count] > 0) {
+        MCDeptManagedObject *mo = [listData lastObject];
+        
+        MCDept *dept = [[MCDept alloc] init];
+//        dept.id = mo.id;
+        dept.name = mo.name;
+//        dept.sort = mo.sort;
+//        dept.status = mo.status;
+//        dept.syncFlag = mo.syncFlag;
+//        dept.upDepartmentId = mo.upDepartmentId;
+//        dept.belongOrgId = mo.belongOrgId;
+        
+        return dept;
+    }
+    return nil;
+}
 
 //按照主键查询数据方法
 -(MCDept *) findById:(MCDept *)model

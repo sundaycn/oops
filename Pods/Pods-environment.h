@@ -6,6 +6,30 @@
 // project.
 
 
+// ASIHTTPRequest
+#define COCOAPODS_POD_AVAILABLE_ASIHTTPRequest
+#define COCOAPODS_VERSION_MAJOR_ASIHTTPRequest 1
+#define COCOAPODS_VERSION_MINOR_ASIHTTPRequest 8
+#define COCOAPODS_VERSION_PATCH_ASIHTTPRequest 1
+
+// ASIHTTPRequest/ASIWebPageRequest
+#define COCOAPODS_POD_AVAILABLE_ASIHTTPRequest_ASIWebPageRequest
+#define COCOAPODS_VERSION_MAJOR_ASIHTTPRequest_ASIWebPageRequest 1
+#define COCOAPODS_VERSION_MINOR_ASIHTTPRequest_ASIWebPageRequest 8
+#define COCOAPODS_VERSION_PATCH_ASIHTTPRequest_ASIWebPageRequest 1
+
+// ASIHTTPRequest/CloudFiles
+#define COCOAPODS_POD_AVAILABLE_ASIHTTPRequest_CloudFiles
+#define COCOAPODS_VERSION_MAJOR_ASIHTTPRequest_CloudFiles 1
+#define COCOAPODS_VERSION_MINOR_ASIHTTPRequest_CloudFiles 8
+#define COCOAPODS_VERSION_PATCH_ASIHTTPRequest_CloudFiles 1
+
+// ASIHTTPRequest/S3
+#define COCOAPODS_POD_AVAILABLE_ASIHTTPRequest_S3
+#define COCOAPODS_VERSION_MAJOR_ASIHTTPRequest_S3 1
+#define COCOAPODS_VERSION_MINOR_ASIHTTPRequest_S3 8
+#define COCOAPODS_VERSION_PATCH_ASIHTTPRequest_S3 1
+
 // FoundationExtension
 #define COCOAPODS_POD_AVAILABLE_FoundationExtension
 #define COCOAPODS_VERSION_MAJOR_FoundationExtension 0
@@ -29,6 +53,18 @@
 #define COCOAPODS_VERSION_MAJOR_GIKPopoverBackgroundView_Core 0
 #define COCOAPODS_VERSION_MINOR_GIKPopoverBackgroundView_Core 0
 #define COCOAPODS_VERSION_PATCH_GIKPopoverBackgroundView_Core 1
+
+// MBProgressHUD
+#define COCOAPODS_POD_AVAILABLE_MBProgressHUD
+#define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0
+#define COCOAPODS_VERSION_MINOR_MBProgressHUD 8
+#define COCOAPODS_VERSION_PATCH_MBProgressHUD 0
+
+// Reachability
+#define COCOAPODS_POD_AVAILABLE_Reachability
+#define COCOAPODS_VERSION_MAJOR_Reachability 3
+#define COCOAPODS_VERSION_MINOR_Reachability 1
+#define COCOAPODS_VERSION_PATCH_Reachability 1
 
 // SevenSwitch
 #define COCOAPODS_POD_AVAILABLE_SevenSwitch

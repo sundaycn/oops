@@ -149,6 +149,17 @@
   self.tableView.separatorStyle = tableViewSeparatorStyle;
 }
 
+- (UIEdgeInsets)separatorInset
+{
+    return self.tableView.separatorInset;
+}
+
+- (void)setSeparatorInset:(UIEdgeInsets)separatorInset
+{
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        self.tableView.separatorInset = separatorInset;
+    }
+}
 
 - (UIColor *)separatorColor
 {

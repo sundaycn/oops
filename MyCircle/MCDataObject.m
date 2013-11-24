@@ -10,20 +10,21 @@
 
 @implementation MCDataObject
 
-- (id)initWithId:(NSString *)bookId name:(NSString *)name children:(NSArray *)children
+- (id)initWithId:(NSString *)bookId type:(NSString *)type name:(NSString *)name children:(NSArray *)children
 {
     self = [super init];
     if (self) {
         self.children = children;
+        self.type = type;
         self.name = name;
         self.bookId = bookId;
     }
     return self;
 }
 
-+ (id)dataObjectWithId:(NSString *)bookId name:(NSString *)name children:(NSArray *)children
++ (id)dataObjectWithId:(NSString *)bookId type:(NSString *)type name:(NSString *)name children:(NSArray *)children
 {
-    return [[self alloc] initWithId:bookId name:name children:children];
+    return [[self alloc] initWithId:bookId type:type name:name children:children];
 }
 
 @end

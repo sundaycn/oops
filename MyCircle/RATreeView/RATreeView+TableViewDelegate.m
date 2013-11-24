@@ -86,14 +86,14 @@
   if ([self.delegate respondsToSelector:@selector(treeView:didSelectRowForItem:treeNodeInfo:)]) {
     [self.delegate treeView:self didSelectRowForItem:treeNode.item treeNodeInfo:[treeNode treeNodeInfo]];
   }
-  if ([[treeNode treeNodeInfo].children count] == 0) {
-    //通知圈子页面打开个人名片
-      NSDictionary *dictUserInfo = [NSDictionary dictionaryWithObject:((MCDataObject *)treeNode.item).bookId forKey:@"id"];
-//      DLog(@"leaf node:%@", ((MCDataObject *)treeNode.item).bookId);
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:@"DidSelectLeafNodeNotification" object:nil userInfo:dictUserInfo];
-    return;
-  }
+//    if ([[treeNode treeNodeInfo].children count] == 0) {
+    if ([((MCDataObject *)treeNode.item).type isEqualToString:@"member"]) {
+        //通知圈子页面打开个人名片
+        NSDictionary *dictUserInfo = [NSDictionary dictionaryWithObject:((MCDataObject *)treeNode.item).bookId forKey:@"id"];
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"DidSelectLeafNodeNotification" object:nil userInfo:dictUserInfo];
+        return;
+    }
   
   if (treeNode.expanded) {
     if ([self.delegate respondsToSelector:@selector(treeView:shouldCollapaseRowForItem:treeNodeInfo:)]) {

@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		22024BF2181CFD360004AFF4 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 22024BF1181CFD360004AFF4 /* Reachability.m */; };
-		22024BF5181D04B40004AFF4 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 22024BF4181D04B40004AFF4 /* MBProgressHUD.m */; };
-		22024BF8181D42B40004AFF4 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 22024BF7181D42B40004AFF4 /* SFHFKeychainUtils.m */; };
 		22024BFA181D43950004AFF4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22024BF9181D43950004AFF4 /* Security.framework */; };
 		2203A586180E774100742830 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2203A585180E774100742830 /* CoreData.framework */; };
 		2203A589180E7BA000742830 /* MCCoreDataDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 2203A588180E7BA000742830 /* MCCoreDataDAO.m */; };
@@ -19,11 +16,18 @@
 		2203A59F180E850700742830 /* MCDeptManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2203A59E180E850700742830 /* MCDeptManagedObject.m */; };
 		2203A5A2180E850700742830 /* MCOrgManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2203A5A1180E850700742830 /* MCOrgManagedObject.m */; };
 		2203A5A7180E872B00742830 /* MCBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 2203A5A6180E872B00742830 /* MCBook.m */; };
-		22098307181E5B3800D33BD9 /* MCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22098306181E5B3800D33BD9 /* MCMainViewController.m */; };
+		220874B41828796600CA1AA0 /* MCCircleOrgAndDeptCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 220874B31828796600CA1AA0 /* MCCircleOrgAndDeptCell.m */; };
+		220874B71828DA2200CA1AA0 /* MCCircleMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 220874B61828DA2200CA1AA0 /* MCCircleMemberCell.m */; };
+		220874BA1829CB6800CA1AA0 /* MCLoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 220874B91829CB6800CA1AA0 /* MCLoginHandler.m */; };
 		220F48FF1808DCFB005112DF /* MCCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 220F48FE1808DCFB005112DF /* MCCrypto.m */; };
 		221C51B1180CCEC700ED8715 /* MCDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B0180CCEC700ED8715 /* MCDataObject.m */; };
 		221C51B5180CCFFE00ED8715 /* MCCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B4180CCFFE00ED8715 /* MCCircleViewController.m */; };
 		221C51B8180CD7F800ED8715 /* MCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B7180CD7F800ED8715 /* MCAppDelegate.m */; };
+		2255E7D9183360B600BAD0ED /* MCContactsSearchLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2255E7D8183360B600BAD0ED /* MCContactsSearchLibrary.m */; };
+		2255E7E2183365FA00BAD0ED /* Array.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2255E7DC183365FA00BAD0ED /* Array.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2255E7E3183365FA00BAD0ED /* multipy_unicode.dat in Resources */ = {isa = PBXBuildFile; fileRef = 2255E7DD183365FA00BAD0ED /* multipy_unicode.dat */; };
+		2255E7E4183365FA00BAD0ED /* SearchCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2255E7DF183365FA00BAD0ED /* SearchCore.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2255E7E5183365FA00BAD0ED /* SearchCoreManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2255E7E1183365FA00BAD0ED /* SearchCoreManager.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		22A1E4C71813B10400A1FA06 /* MCContactsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */; };
 		22B669D317FAAA240015A269 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D217FAAA240015A269 /* Foundation.framework */; };
 		22B669D517FAAA240015A269 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D417FAAA240015A269 /* CoreGraphics.framework */; };
@@ -71,12 +75,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		22024BF0181CFD360004AFF4 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		22024BF1181CFD360004AFF4 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		22024BF3181D04B40004AFF4 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		22024BF4181D04B40004AFF4 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		22024BF6181D42B40004AFF4 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
-		22024BF7181D42B40004AFF4 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		22024BF9181D43950004AFF4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		2203A57D180E6BF800742830 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		2203A57E180E6BF800742830 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -95,8 +93,12 @@
 		2203A5A1180E850700742830 /* MCOrgManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCOrgManagedObject.m; sourceTree = "<group>"; };
 		2203A5A5180E872B00742830 /* MCBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBook.h; sourceTree = "<group>"; };
 		2203A5A6180E872B00742830 /* MCBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCBook.m; sourceTree = "<group>"; };
-		22098305181E5B3800D33BD9 /* MCMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMainViewController.h; sourceTree = "<group>"; };
-		22098306181E5B3800D33BD9 /* MCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMainViewController.m; sourceTree = "<group>"; };
+		220874B21828796600CA1AA0 /* MCCircleOrgAndDeptCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCircleOrgAndDeptCell.h; sourceTree = "<group>"; };
+		220874B31828796600CA1AA0 /* MCCircleOrgAndDeptCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCircleOrgAndDeptCell.m; sourceTree = "<group>"; };
+		220874B51828DA2200CA1AA0 /* MCCircleMemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCircleMemberCell.h; sourceTree = "<group>"; };
+		220874B61828DA2200CA1AA0 /* MCCircleMemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCircleMemberCell.m; sourceTree = "<group>"; };
+		220874B81829CB6800CA1AA0 /* MCLoginHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLoginHandler.h; sourceTree = "<group>"; };
+		220874B91829CB6800CA1AA0 /* MCLoginHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCLoginHandler.m; sourceTree = "<group>"; };
 		220F48FD1808DCEA005112DF /* MCCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCrypto.h; sourceTree = "<group>"; };
 		220F48FE1808DCFB005112DF /* MCCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCrypto.m; sourceTree = "<group>"; };
 		221C51AF180CCEC700ED8715 /* MCDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDataObject.h; sourceTree = "<group>"; };
@@ -106,6 +108,15 @@
 		221C51B6180CD7F800ED8715 /* MCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAppDelegate.h; sourceTree = "<group>"; };
 		221C51B7180CD7F800ED8715 /* MCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAppDelegate.m; sourceTree = "<group>"; };
 		221C51B9180CE8F100ED8715 /* MCGlobal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCGlobal.h; sourceTree = "<group>"; };
+		2255E7D7183360B600BAD0ED /* MCContactsSearchLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContactsSearchLibrary.h; sourceTree = "<group>"; };
+		2255E7D8183360B600BAD0ED /* MCContactsSearchLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContactsSearchLibrary.m; sourceTree = "<group>"; };
+		2255E7DB183365FA00BAD0ED /* Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
+		2255E7DC183365FA00BAD0ED /* Array.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Array.mm; sourceTree = "<group>"; };
+		2255E7DD183365FA00BAD0ED /* multipy_unicode.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multipy_unicode.dat; sourceTree = "<group>"; };
+		2255E7DE183365FA00BAD0ED /* SearchCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCore.h; sourceTree = "<group>"; };
+		2255E7DF183365FA00BAD0ED /* SearchCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SearchCore.mm; sourceTree = "<group>"; };
+		2255E7E0183365FA00BAD0ED /* SearchCoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCoreManager.h; sourceTree = "<group>"; };
+		2255E7E1183365FA00BAD0ED /* SearchCoreManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SearchCoreManager.mm; sourceTree = "<group>"; };
 		22A1E4C51813B10400A1FA06 /* MCContactsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContactsDetailViewController.h; sourceTree = "<group>"; };
 		22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContactsDetailViewController.m; sourceTree = "<group>"; };
 		22B669CF17FAAA240015A269 /* MyCircle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCircle.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,12 +217,8 @@
 			isa = PBXGroup;
 			children = (
 				22B669E417FAAA240015A269 /* Main.storyboard */,
-				22098305181E5B3800D33BD9 /* MCMainViewController.h */,
-				22098306181E5B3800D33BD9 /* MCMainViewController.m */,
 				22D11D711821EBDF00515856 /* MCAboutViewController.h */,
 				22D11D721821EBDF00515856 /* MCAboutViewController.m */,
-				22024BF3181D04B40004AFF4 /* MBProgressHUD.h */,
-				22024BF4181D04B40004AFF4 /* MBProgressHUD.m */,
 				22A1E4C51813B10400A1FA06 /* MCContactsDetailViewController.h */,
 				22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */,
 				2203A597180E803200742830 /* MCCoreData.xcdatamodeld */,
@@ -229,23 +236,28 @@
 		2203A583180E74BC00742830 /* BusinessLogicLayer */ = {
 			isa = PBXGroup;
 			children = (
+				2255E7DA183365FA00BAD0ED /* SearchCore */,
 				22D7F624180BEE60007E5E22 /* RATreeView */,
 				220F48FD1808DCEA005112DF /* MCCrypto.h */,
 				220F48FE1808DCFB005112DF /* MCCrypto.m */,
 				221C51AF180CCEC700ED8715 /* MCDataObject.h */,
 				221C51B0180CCEC700ED8715 /* MCDataObject.m */,
-				22024BF6181D42B40004AFF4 /* SFHFKeychainUtils.h */,
-				22024BF7181D42B40004AFF4 /* SFHFKeychainUtils.m */,
-				22024BF0181CFD360004AFF4 /* Reachability.h */,
-				22024BF1181CFD360004AFF4 /* Reachability.m */,
 				22F7E291180F670D0010B5DC /* MCBookBL.h */,
 				22F7E292180F670D0010B5DC /* MCBookBL.m */,
 				22F86DC518112F48000CCB50 /* MCDeptBL.h */,
 				22F86DC618112F48000CCB50 /* MCDeptBL.m */,
 				22F86DC818112F53000CCB50 /* MCOrgBL.h */,
 				22F86DC918112F53000CCB50 /* MCOrgBL.m */,
+				220874B81829CB6800CA1AA0 /* MCLoginHandler.h */,
+				220874B91829CB6800CA1AA0 /* MCLoginHandler.m */,
 				22FCB4E41814C1F700F2A0CB /* MCCircleDataHandler.h */,
 				22FCB4E51814C1F700F2A0CB /* MCCircleDataHandler.m */,
+				220874B21828796600CA1AA0 /* MCCircleOrgAndDeptCell.h */,
+				220874B31828796600CA1AA0 /* MCCircleOrgAndDeptCell.m */,
+				220874B51828DA2200CA1AA0 /* MCCircleMemberCell.h */,
+				220874B61828DA2200CA1AA0 /* MCCircleMemberCell.m */,
+				2255E7D7183360B600BAD0ED /* MCContactsSearchLibrary.h */,
+				2255E7D8183360B600BAD0ED /* MCContactsSearchLibrary.m */,
 			);
 			name = BusinessLogicLayer;
 			sourceTree = "<group>";
@@ -299,6 +311,20 @@
 				2203A5A4180E855500742830 /* Organization */,
 			);
 			name = DAO;
+			sourceTree = "<group>";
+		};
+		2255E7DA183365FA00BAD0ED /* SearchCore */ = {
+			isa = PBXGroup;
+			children = (
+				2255E7DB183365FA00BAD0ED /* Array.h */,
+				2255E7DC183365FA00BAD0ED /* Array.mm */,
+				2255E7DD183365FA00BAD0ED /* multipy_unicode.dat */,
+				2255E7DE183365FA00BAD0ED /* SearchCore.h */,
+				2255E7DF183365FA00BAD0ED /* SearchCore.mm */,
+				2255E7E0183365FA00BAD0ED /* SearchCoreManager.h */,
+				2255E7E1183365FA00BAD0ED /* SearchCoreManager.mm */,
+			);
+			path = SearchCore;
 			sourceTree = "<group>";
 		};
 		22B669C617FAAA240015A269 = {
@@ -482,6 +508,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2255E7E3183365FA00BAD0ED /* multipy_unicode.dat in Resources */,
 				22B669EB17FAAA240015A269 /* Images.xcassets in Resources */,
 				22B669DD17FAAA240015A269 /* InfoPlist.strings in Resources */,
 				22B669E617FAAA240015A269 /* Main.storyboard in Resources */,
@@ -540,35 +567,38 @@
 				22D7F639180BEE60007E5E22 /* RATreeNode.m in Sources */,
 				22A1E4C71813B10400A1FA06 /* MCContactsDetailViewController.m in Sources */,
 				221C51B5180CCFFE00ED8715 /* MCCircleViewController.m in Sources */,
-				22098307181E5B3800D33BD9 /* MCMainViewController.m in Sources */,
 				2203A59C180E850600742830 /* MCBookManagedObject.m in Sources */,
 				221C51B8180CD7F800ED8715 /* MCAppDelegate.m in Sources */,
+				2255E7E2183365FA00BAD0ED /* Array.mm in Sources */,
 				22F86DC118112114000CCB50 /* MCDept.m in Sources */,
 				22D7F63E180BEE60007E5E22 /* RATreeView+Private.m in Sources */,
 				22D7F640180BEE60007E5E22 /* RATreeView+TableViewDelegate.m in Sources */,
 				2203A589180E7BA000742830 /* MCCoreDataDAO.m in Sources */,
 				2203A5A7180E872B00742830 /* MCBook.m in Sources */,
+				2255E7E4183365FA00BAD0ED /* SearchCore.mm in Sources */,
+				2255E7E5183365FA00BAD0ED /* SearchCoreManager.mm in Sources */,
 				22FCB4E61814C1F700F2A0CB /* MCCircleDataHandler.m in Sources */,
+				220874B41828796600CA1AA0 /* MCCircleOrgAndDeptCell.m in Sources */,
 				22F86DCA18112F53000CCB50 /* MCOrgBL.m in Sources */,
 				22F86DBE18111FE4000CCB50 /* MCOrgDAO.m in Sources */,
 				221C51B1180CCEC700ED8715 /* MCDataObject.m in Sources */,
 				220F48FF1808DCFB005112DF /* MCCrypto.m in Sources */,
 				2203A59F180E850700742830 /* MCDeptManagedObject.m in Sources */,
 				22D7F641180BEE60007E5E22 /* RATreeView+UIScrollView.m in Sources */,
-				22024BF8181D42B40004AFF4 /* SFHFKeychainUtils.m in Sources */,
 				22D7F63B180BEE60007E5E22 /* RATreeNodeInfo+Private.m in Sources */,
 				22F86DC718112F48000CCB50 /* MCDeptBL.m in Sources */,
 				2203A599180E803200742830 /* MCCoreData.xcdatamodeld in Sources */,
+				2255E7D9183360B600BAD0ED /* MCContactsSearchLibrary.m in Sources */,
 				22D11D731821EBDF00515856 /* MCAboutViewController.m in Sources */,
 				22F7E293180F670D0010B5DC /* MCBookBL.m in Sources */,
-				22024BF2181CFD360004AFF4 /* Reachability.m in Sources */,
+				220874BA1829CB6800CA1AA0 /* MCLoginHandler.m in Sources */,
 				22D7F63D180BEE60007E5E22 /* RATreeView+Enums.m in Sources */,
 				22D7F642180BEE60007E5E22 /* RATreeView.m in Sources */,
 				22F86DBB18111FD1000CCB50 /* MCDeptDAO.m in Sources */,
 				22D7F63F180BEE60007E5E22 /* RATreeView+TableViewDataSource.m in Sources */,
+				220874B71828DA2200CA1AA0 /* MCCircleMemberCell.m in Sources */,
 				22B669E917FAAA240015A269 /* MCViewController.m in Sources */,
 				22F86DC41811211D000CCB50 /* MCOrg.m in Sources */,
-				22024BF5181D04B40004AFF4 /* MBProgressHUD.m in Sources */,
 				2203A5A2180E850700742830 /* MCOrgManagedObject.m in Sources */,
 				22B669DF17FAAA240015A269 /* main.m in Sources */,
 				2203A58C180E7C8300742830 /* MCBookDAO.m in Sources */,

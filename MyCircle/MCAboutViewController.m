@@ -39,8 +39,6 @@
     if (IS_R4) {
         self.labelQQConstraint.constant += HEIGHT_WITH_SCROLLING;
     }
-
-
 }
 
 - (void)viewWillAppear:(BOOL)animated

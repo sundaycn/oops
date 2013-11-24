@@ -7,13 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Reachability.h"
-#import "MBProgressHUD.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 #import "MCGlobal.h"
-#import "MCCrypto.h"
-#import "MCBookBL.h"
-#import "MCDeptBL.h"
-#import "MCOrgBL.h"
+#import "MCLoginHandler.h"
 
 @interface MCViewController : UIViewController <UIAlertViewDelegate, MBProgressHUDDelegate> {
     //键盘是否出现
@@ -39,6 +35,8 @@
 - (IBAction)login:(UIButton *)sender;
 - (IBAction)getPasswordFromSMS:(UIButton *)sender;
 
+//登陆视图是否为根视图
++ (BOOL)isInitLoginView;
 //开始请求web service
 - (void)startRequest;
 //向web service发送获短信密码的异步请求

@@ -13,18 +13,15 @@
 #import "MCCrypto.h"
 
 @interface MCContactsDetailViewController : UITableViewController
-@property (weak, nonatomic) IBOutlet UILabel *name;
-@property (weak, nonatomic) IBOutlet UILabel *mobilePhone;
-@property (weak, nonatomic) IBOutlet UILabel *officePhone;
-@property (weak, nonatomic) IBOutlet UILabel *email;
-@property (weak, nonatomic) IBOutlet UILabel *position;
-@property (weak, nonatomic) IBOutlet UILabel *homePhone;
-@property (weak, nonatomic) IBOutlet UILabel *mobileShort;
-@property (weak, nonatomic) IBOutlet UILabel *fax;
-
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSString *mobilePhone;
+@property (strong, nonatomic) NSString *officePhone;
+@property (strong, nonatomic) NSString *email;
+@property (strong, nonatomic) NSString *position;
+@property (strong, nonatomic) NSString *homePhone;
+@property (strong, nonatomic) NSString *mobileShort;
+@property (strong, nonatomic) NSString *fax;
 
 @property (strong, nonatomic) NSString *bookId;
-- (IBAction)sendSMS:(UIButton *)sender;
-- (IBAction)callSomeone:(UIButton *)sender;
 
 @end

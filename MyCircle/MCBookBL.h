@@ -28,4 +28,5 @@
 -(NSMutableArray *) findAll;
 -(NSMutableArray *) findByBelongDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)belongDeptId;
 -(MCBook *) findById:(NSString *)bookId;
+-(MCBook *) findBySearchId:(NSNumber *)searchId;
 @end

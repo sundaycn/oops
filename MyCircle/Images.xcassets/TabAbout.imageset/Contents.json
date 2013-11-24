@@ -3,11 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "设置_ico2.png"
+      "filename" : "设置_ico25_1.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "设置_ico50_1.png"
     }
   ],
   "info" : {

@@ -39,4 +39,7 @@
 //按照主键查询数据方法
 -(MCBook *) findById:(NSString *)bookId;
 
+//按照searchId查询数据方法
+-(MCBook *) findBySearchId:(NSNumber *)searchId;
+
 @end

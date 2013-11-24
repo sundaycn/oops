@@ -14,11 +14,16 @@
 @property (nonatomic, strong) NSString * name;
 @property (nonatomic, strong) NSString * mobilePhone;
 @property (nonatomic, strong) NSString * officePhone;
+@property (nonatomic, strong) NSString * homePhone;
+@property (nonatomic, strong) NSString * mobileShort;
+@property (nonatomic, strong) NSString * faxNumber;
+@property (nonatomic, strong) NSString * email;
 @property (nonatomic, strong) NSString * position;
 @property (nonatomic, strong) NSNumber * sort;
 @property (nonatomic, strong) NSString * status;
 @property (nonatomic, strong) NSString * syncFlag;
 @property (nonatomic, strong) NSString * belongDepartmentId;
 @property (nonatomic, strong) NSString * belongOrgId;
+@property (nonatomic, strong) NSNumber * searchId;
 
 @end

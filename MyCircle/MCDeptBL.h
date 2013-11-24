@@ -30,4 +30,7 @@
 //查询所用数据方法
 -(NSMutableArray*) findByUpDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)upDeptId;
 
+//查询所用数据方法
+-(MCDept *) findByDeptId:(NSString *)deptId belongOrgId:(NSString *)belongOrgId;
+
 @end
