@@ -8,6 +8,8 @@
 
 #import "MCPortalDataHandler.h"
 
+static int totalPages;
+
 @implementation MCPortalDataHandler
 
 + (NSArray *)getPortalList:(NSString *)pageSize pageNo:(NSString *)pageNo
@@ -30,10 +32,16 @@
             DLog(@"\n pageSize:%@", [[dictResponse objectForKey:@"message"] objectForKey:@"pageSize"]);
             DLog(@"\n pageNo:%@", [[dictResponse objectForKey:@"message"] objectForKey:@"pageNo"]);
             NSArray *arrResult = [[dictResponse objectForKey:@"message"] objectForKey:@"result"];
+            totalPages = [(NSNumber *)[[dictResponse objectForKey:@"message"] objectForKey:@"totalPages"] intValue];
             return arrResult;
         }
     }
     return  nil;
+}
+
++ (NSInteger)getPortalListCount
+{
+    return totalPages;
 }
 
 @end

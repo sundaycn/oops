@@ -12,5 +12,6 @@
 @interface MCPortalDataHandler : NSObject
 
 + (NSArray *)getPortalList:(NSString *)pageSize pageNo:(NSString *)pageNo;
++ (NSInteger)getPortalListCount;
 
 @end

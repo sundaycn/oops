@@ -11,6 +11,8 @@
 @interface MCPortalViewController ()
 @property (assign, nonatomic) NSInteger pageNo;
 @property (strong, nonatomic) NSString *pageSize;
+@property (assign, nonatomic) NSInteger totalPages;
+@property (assign, nonatomic) NSInteger loadTimes;
 @end
 
 @implementation MCPortalViewController
@@ -34,11 +36,14 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //初始化数据源
     self.pageSize = @"10";
     self.pageNo = 1;
-    DLog(@"pageNo:%d", self.pageNo);
+    self.loadTimes = 1;
     self.arrPortal = [[NSMutableArray alloc] init];
     [self.arrPortal addObjectsFromArray:[[MCPortalDataHandler getPortalList:self.pageSize pageNo:[NSString stringWithFormat:@"%d", self.pageNo++]] copy]];
+    //请求过一次后得知服务器数据总页数
+    self.totalPages = [MCPortalDataHandler getPortalListCount];
 
     //修改导航栏返回按钮的文字
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] init];
@@ -142,47 +147,28 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-//    CGPoint offset1 = scrollView.contentOffset;
-//    CGRect bounds1 = scrollView.bounds;
-//    CGSize size1 = scrollView.contentSize;
-//    UIEdgeInsets inset1 = scrollView.contentInset;
-//    float y1 = offset1.y + bounds1.size.height - inset1.bottom;
-//    float h1 = size1.height;
-//    DLog(@"offset1.y:%f", offset1.y);
-//    DLog(@"bounds1.size.height:%f", bounds1.size.height);
-//    DLog(@"inset1.bottom:%f", inset1.bottom);
-//    DLog(@"y1:%f", y1);
-//    DLog(@"h1:%f", h1);
-//    DLog(@"tableview.frame.size.height:%f", self.tableView.frame.size.height);
-    
-    DLog(@"tableview.contentOffset.y:%f", self.tableView.contentOffset.y);
-    DLog(@"tableview.contentSize.height:%f", self.tableView.contentSize.height);
-    DLog(@"tableview.bounds.size.height:%f", self.tableView.bounds.size.height);
+//    DLog(@"tableview.contentOffset.y:%f", self.tableView.contentOffset.y);
+//    DLog(@"tableview.contentSize.height:%f", self.tableView.contentSize.height);
+//    DLog(@"tableview.bounds.size.height:%f", self.tableView.bounds.size.height);
     if(self.tableView.contentOffset.y<0)
     {
         //it means table view is pulled down like refresh
-        DLog(@"hit top!");
+//        DLog(@"hit top!");
         return;
     }
     else if(self.tableView.contentOffset.y >= (self.tableView.contentSize.height - self.tableView.bounds.size.height))
     {
-        DLog(@"hit bottom!");
-        DLog(@"pageNo:%d", self.pageNo);
+//        DLog(@"hit bottom!");
+//        DLog(@"totalPages:%d", self.totalPages);
+        self.loadTimes++;
+//        DLog(@"loadTimes:%d", self.loadTimes);
+        if (self.loadTimes > self.totalPages) {
+            return;
+        }
+
         [self.arrPortal addObjectsFromArray:[MCPortalDataHandler getPortalList:self.pageSize pageNo:[NSString stringWithFormat:@"%d", self.pageNo++]]];
         [self.tableView reloadData];
     }
-    
-    
-    
-//    if (y1 > self.tableView.frame.size.height) {
-//        isRefresh = NO;
-//    }
-//    else if (y1 < self.tableView.frame.size.height) {
-//        isRefresh = YES;
-//    }
-//    else if (y1 == self.tableView.frame.size.height) {
-//        DLog(@"%@", isRefresh ? @"上拉刷新" : @"下拉刷新");
-//    }
 }
 
 #pragma mark - Navigation
