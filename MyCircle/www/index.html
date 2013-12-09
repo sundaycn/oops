@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+<title>我搜</title>
+<link rel="stylesheet" type="text/css" href="css3/html5reset.css"/>
+<link rel="stylesheet" type="text/css" href="css3/global.css"/>
+<link rel="stylesheet" type="text/css" href="css3/content.css"/>
+<link rel="stylesheet" type="text/css" href="css3/iScroll.css"/>
+<!--<script type="text/javascript" src="scripts/cordova.js"></script>-->
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="scripts/iscroll.js"></script>
+<script type="text/javascript" src="scripts/app.js"></script>
+<script type="text/javascript" src="scripts/index.js"></script>
+</head>
+<body>
+<div id="page">
+	<form class="searchForm" method="post">
+		<table width="100%">
+			<tr>
+				<td>
+					<div class="s-wrap"><input class="s" type="text" id="searchKeywords" placeholder="请输入公司名称"/></div>
+				</td>
+				<td width="10"></td>
+				<td width="45"><input type="button" id="searchButton" value="搜" class="button"></td>
+			</tr>
+		</table>
+		<table width="100%" height="40" style="margin-top:10px;">
+			<tr>
+				<td>
+					<a id="searchCategory" href="attr.html?from=index.html" class="select">选择类型</a>
+				</td>
+				<td width="10"></td>
+				<td>
+					<a id="searchArea" href="area.html?from=index.html" class="select">所有区域</a>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<div id="wrapper" style="top: 101px;">
+		<div id="scroller" class="list">
+			<div id="pullDown">
+				<span class="pullDownIcon"></span><span class="pullDownLabel"></span>
+			</div>
+			<ul id="listContainer"></ul>
+			<div id="pullUp">
+				<span class="pullUpIcon"></span><span class="pullUpLabel"></span>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>

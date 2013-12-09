@@ -23,12 +23,18 @@
 		221C51B1180CCEC700ED8715 /* MCDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B0180CCEC700ED8715 /* MCDataObject.m */; };
 		221C51B5180CCFFE00ED8715 /* MCCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B4180CCFFE00ED8715 /* MCCircleViewController.m */; };
 		221C51B8180CD7F800ED8715 /* MCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B7180CD7F800ED8715 /* MCAppDelegate.m */; };
+		222CFC48184432B50037E24D /* www in Resources */ = {isa = PBXBuildFile; fileRef = 222CFC47184432B50037E24D /* www */; };
+		2254A077184B63D500DC103F /* MCContensViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2254A076184B63D500DC103F /* MCContensViewController.m */; };
+		2254A079184B650600DC103F /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2254A078184B650600DC103F /* config.xml */; };
+		2254A082184D89EC00DC103F /* MCPortalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2254A081184D89EC00DC103F /* MCPortalCell.m */; };
 		2255E7D9183360B600BAD0ED /* MCContactsSearchLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2255E7D8183360B600BAD0ED /* MCContactsSearchLibrary.m */; };
 		2255E7E2183365FA00BAD0ED /* Array.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2255E7DC183365FA00BAD0ED /* Array.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2255E7E3183365FA00BAD0ED /* multipy_unicode.dat in Resources */ = {isa = PBXBuildFile; fileRef = 2255E7DD183365FA00BAD0ED /* multipy_unicode.dat */; };
 		2255E7E4183365FA00BAD0ED /* SearchCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2255E7DF183365FA00BAD0ED /* SearchCore.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2255E7E5183365FA00BAD0ED /* SearchCoreManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2255E7E1183365FA00BAD0ED /* SearchCoreManager.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		22A1E4C71813B10400A1FA06 /* MCContactsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */; };
+		22AA9AA618433AF2000C3A7F /* MCPortalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AA9AA518433AF2000C3A7F /* MCPortalViewController.m */; };
+		22AA9AA918433DA3000C3A7F /* MCPortalDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AA9AA818433DA3000C3A7F /* MCPortalDataHandler.m */; };
 		22B669D317FAAA240015A269 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D217FAAA240015A269 /* Foundation.framework */; };
 		22B669D517FAAA240015A269 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D417FAAA240015A269 /* CoreGraphics.framework */; };
 		22B669D717FAAA240015A269 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D617FAAA240015A269 /* UIKit.framework */; };
@@ -108,6 +114,12 @@
 		221C51B6180CD7F800ED8715 /* MCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAppDelegate.h; sourceTree = "<group>"; };
 		221C51B7180CD7F800ED8715 /* MCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAppDelegate.m; sourceTree = "<group>"; };
 		221C51B9180CE8F100ED8715 /* MCGlobal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCGlobal.h; sourceTree = "<group>"; };
+		222CFC47184432B50037E24D /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		2254A075184B63D500DC103F /* MCContensViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContensViewController.h; sourceTree = "<group>"; };
+		2254A076184B63D500DC103F /* MCContensViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContensViewController.m; sourceTree = "<group>"; };
+		2254A078184B650600DC103F /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
+		2254A080184D89EC00DC103F /* MCPortalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPortalCell.h; sourceTree = "<group>"; };
+		2254A081184D89EC00DC103F /* MCPortalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPortalCell.m; sourceTree = "<group>"; };
 		2255E7D7183360B600BAD0ED /* MCContactsSearchLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContactsSearchLibrary.h; sourceTree = "<group>"; };
 		2255E7D8183360B600BAD0ED /* MCContactsSearchLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContactsSearchLibrary.m; sourceTree = "<group>"; };
 		2255E7DB183365FA00BAD0ED /* Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
@@ -119,6 +131,10 @@
 		2255E7E1183365FA00BAD0ED /* SearchCoreManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SearchCoreManager.mm; sourceTree = "<group>"; };
 		22A1E4C51813B10400A1FA06 /* MCContactsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContactsDetailViewController.h; sourceTree = "<group>"; };
 		22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContactsDetailViewController.m; sourceTree = "<group>"; };
+		22AA9AA418433AF2000C3A7F /* MCPortalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPortalViewController.h; sourceTree = "<group>"; };
+		22AA9AA518433AF2000C3A7F /* MCPortalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPortalViewController.m; sourceTree = "<group>"; };
+		22AA9AA718433DA3000C3A7F /* MCPortalDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPortalDataHandler.h; sourceTree = "<group>"; };
+		22AA9AA818433DA3000C3A7F /* MCPortalDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPortalDataHandler.m; sourceTree = "<group>"; };
 		22B669CF17FAAA240015A269 /* MyCircle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCircle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22B669D217FAAA240015A269 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		22B669D417FAAA240015A269 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -216,6 +232,7 @@
 		2203A581180E748800742830 /* PresentationLayer */ = {
 			isa = PBXGroup;
 			children = (
+				22AA9AA318433AB8000C3A7F /* Portal */,
 				22B669E417FAAA240015A269 /* Main.storyboard */,
 				22D11D711821EBDF00515856 /* MCAboutViewController.h */,
 				22D11D721821EBDF00515856 /* MCAboutViewController.m */,
@@ -238,6 +255,7 @@
 			children = (
 				2255E7DA183365FA00BAD0ED /* SearchCore */,
 				22D7F624180BEE60007E5E22 /* RATreeView */,
+				22AA9AA218433A27000C3A7F /* Portal */,
 				220F48FD1808DCEA005112DF /* MCCrypto.h */,
 				220F48FE1808DCFB005112DF /* MCCrypto.m */,
 				221C51AF180CCEC700ED8715 /* MCDataObject.h */,
@@ -327,9 +345,33 @@
 			path = SearchCore;
 			sourceTree = "<group>";
 		};
+		22AA9AA218433A27000C3A7F /* Portal */ = {
+			isa = PBXGroup;
+			children = (
+				22AA9AA718433DA3000C3A7F /* MCPortalDataHandler.h */,
+				22AA9AA818433DA3000C3A7F /* MCPortalDataHandler.m */,
+				2254A080184D89EC00DC103F /* MCPortalCell.h */,
+				2254A081184D89EC00DC103F /* MCPortalCell.m */,
+			);
+			name = Portal;
+			sourceTree = "<group>";
+		};
+		22AA9AA318433AB8000C3A7F /* Portal */ = {
+			isa = PBXGroup;
+			children = (
+				222CFC47184432B50037E24D /* www */,
+				22AA9AA418433AF2000C3A7F /* MCPortalViewController.h */,
+				22AA9AA518433AF2000C3A7F /* MCPortalViewController.m */,
+				2254A075184B63D500DC103F /* MCContensViewController.h */,
+				2254A076184B63D500DC103F /* MCContensViewController.m */,
+			);
+			name = Portal;
+			sourceTree = "<group>";
+		};
 		22B669C617FAAA240015A269 = {
 			isa = PBXGroup;
 			children = (
+				2254A078184B650600DC103F /* config.xml */,
 				22B669D817FAAA240015A269 /* MyCircle */,
 				22B669F717FAAA240015A269 /* MyCircleTests */,
 				22B669D117FAAA240015A269 /* Frameworks */,
@@ -511,6 +553,8 @@
 				2255E7E3183365FA00BAD0ED /* multipy_unicode.dat in Resources */,
 				22B669EB17FAAA240015A269 /* Images.xcassets in Resources */,
 				22B669DD17FAAA240015A269 /* InfoPlist.strings in Resources */,
+				2254A079184B650600DC103F /* config.xml in Resources */,
+				222CFC48184432B50037E24D /* www in Resources */,
 				22B669E617FAAA240015A269 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,11 +614,13 @@
 				2203A59C180E850600742830 /* MCBookManagedObject.m in Sources */,
 				221C51B8180CD7F800ED8715 /* MCAppDelegate.m in Sources */,
 				2255E7E2183365FA00BAD0ED /* Array.mm in Sources */,
+				2254A082184D89EC00DC103F /* MCPortalCell.m in Sources */,
 				22F86DC118112114000CCB50 /* MCDept.m in Sources */,
 				22D7F63E180BEE60007E5E22 /* RATreeView+Private.m in Sources */,
 				22D7F640180BEE60007E5E22 /* RATreeView+TableViewDelegate.m in Sources */,
 				2203A589180E7BA000742830 /* MCCoreDataDAO.m in Sources */,
 				2203A5A7180E872B00742830 /* MCBook.m in Sources */,
+				2254A077184B63D500DC103F /* MCContensViewController.m in Sources */,
 				2255E7E4183365FA00BAD0ED /* SearchCore.mm in Sources */,
 				2255E7E5183365FA00BAD0ED /* SearchCoreManager.mm in Sources */,
 				22FCB4E61814C1F700F2A0CB /* MCCircleDataHandler.m in Sources */,
@@ -583,12 +629,14 @@
 				22F86DBE18111FE4000CCB50 /* MCOrgDAO.m in Sources */,
 				221C51B1180CCEC700ED8715 /* MCDataObject.m in Sources */,
 				220F48FF1808DCFB005112DF /* MCCrypto.m in Sources */,
+				22AA9AA918433DA3000C3A7F /* MCPortalDataHandler.m in Sources */,
 				2203A59F180E850700742830 /* MCDeptManagedObject.m in Sources */,
 				22D7F641180BEE60007E5E22 /* RATreeView+UIScrollView.m in Sources */,
 				22D7F63B180BEE60007E5E22 /* RATreeNodeInfo+Private.m in Sources */,
 				22F86DC718112F48000CCB50 /* MCDeptBL.m in Sources */,
 				2203A599180E803200742830 /* MCCoreData.xcdatamodeld in Sources */,
 				2255E7D9183360B600BAD0ED /* MCContactsSearchLibrary.m in Sources */,
+				22AA9AA618433AF2000C3A7F /* MCPortalViewController.m in Sources */,
 				22D11D731821EBDF00515856 /* MCAboutViewController.m in Sources */,
 				22F7E293180F670D0010B5DC /* MCBookBL.m in Sources */,
 				220874BA1829CB6800CA1AA0 /* MCLoginHandler.m in Sources */,
@@ -739,7 +787,39 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MyCircle/MyCircle-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/ASIHTTPRequest\"",
+					"\"${PODS_ROOT}/Headers/FoundationExtension\"",
+					"\"${PODS_ROOT}/Headers/FoundationExtension/UIKitExtension\"",
+					"\"${PODS_ROOT}/Headers/GIKPopoverBackgroundView\"",
+					"\"${PODS_ROOT}/Headers/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Reachability\"",
+					"\"${PODS_ROOT}/Headers/SevenSwitch\"",
+					"\"${PODS_ROOT}/Headers/UI7Kit\"",
+					"\"${PODS_ROOT}/Headers/UI7Kit/UI7Kit\"",
+					"\"${PODS_ROOT}/Headers/UIKitResources\"",
+					"\"${PODS_ROOT}/Headers/cdebug\"",
+					"\"$(SDKROOT)/usr/include/libxml2\"",
+				);
 				INFOPLIST_FILE = "MyCircle/MyCircle-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lxml2.2",
+					"-lz.1",
+					"-framework",
+					CFNetwork,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					QuartzCore,
+					"-framework",
+					SystemConfiguration,
+					"-framework",
+					UIKit,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -755,7 +835,39 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JiangXi Telecom Information Industry Co.,LTD.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MyCircle/MyCircle-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/ASIHTTPRequest\"",
+					"\"${PODS_ROOT}/Headers/FoundationExtension\"",
+					"\"${PODS_ROOT}/Headers/FoundationExtension/UIKitExtension\"",
+					"\"${PODS_ROOT}/Headers/GIKPopoverBackgroundView\"",
+					"\"${PODS_ROOT}/Headers/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Reachability\"",
+					"\"${PODS_ROOT}/Headers/SevenSwitch\"",
+					"\"${PODS_ROOT}/Headers/UI7Kit\"",
+					"\"${PODS_ROOT}/Headers/UI7Kit/UI7Kit\"",
+					"\"${PODS_ROOT}/Headers/UIKitResources\"",
+					"\"${PODS_ROOT}/Headers/cdebug\"",
+					"\"$(SDKROOT)/usr/include/libxml2\"",
+				);
 				INFOPLIST_FILE = "MyCircle/MyCircle-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lxml2.2",
+					"-lz.1",
+					"-framework",
+					CFNetwork,
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					QuartzCore,
+					"-framework",
+					SystemConfiguration,
+					"-framework",
+					UIKit,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

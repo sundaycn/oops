@@ -27,14 +27,14 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
-        self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x1F82D6);
-        
-    }
-    else {
-        self.navigationController.navigationBar.tintColor = UIColorFromRGB(0x1F82D6);
-    }
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+//    if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
+//        self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x1F82D6);
+//        
+//    }
+//    else {
+//        self.navigationController.navigationBar.tintColor = UIColorFromRGB(0x1F82D6);
+//    }
+//    self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:1.0 alpha:1.0];
     
     if (IS_R4) {
         self.labelQQConstraint.constant += HEIGHT_WITH_SCROLLING;

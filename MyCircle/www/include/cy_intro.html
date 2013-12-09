@@ -1,0 +1,439 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
+<meta name="author" content="www.frebsite.nl" />
+<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+<meta name="robots" content="noindex, nofollow" />
+<title>易门户-公司简介-</title>
+<link rel="stylesheet" type="text/css" href="../css3/html5reset.css"/>
+<link rel="stylesheet" type="text/css" href="../css3/global.css"/>
+<link rel="stylesheet" type="text/css" href="../css3/content.css"/>
+<link type="text/css" rel="stylesheet" href="../css3/navagator.css"/>
+<link type="text/css" rel="stylesheet" href="../css3/iScroll.css"/>
+<link type="text/css" rel="stylesheet" href="../css3/pinterest.css"/>
+<script type="text/javascript" src="../scripts/cordova-1.9.0.js"></script>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/navagator.js"></script>
+<script type="text/javascript" src="../scripts/iscroll1.js"></script>
+<script type="text/javascript" src="../scripts/touchmove.js"></script>
+<script type="text/javascript" src="../scripts/pinterest.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+	$(".main_nav li").click(function () {
+		if (!$(this).hasClass("current")) {
+			$(this).addClass("current").siblings().removeClass("current");
+		}
+		
+		if ($(this).data("menu")) {
+			$(".menu-icon").show();
+		} else {
+			$(".menu-icon").hide();
+			$(".nav_li").hide();
+		}
+		
+	});
+	
+	$(".menu-icon").click(function () {
+		if( $(".nav_li").css("display") =="none"){
+			$(".nav_li").css("display","block");
+		}else{
+			$(".nav_li").css("display","none");
+		}
+	});
+	$("#menu_ul li:nth-child(3)").click(function () {
+		$(".menu-icon").css("display","block");
+	});
+	
+	var opt={
+	  getResource:function(index,render){//index为已加载次数,render为渲染接口函数,接受一个dom集合或jquery对象作为参数。通过ajax等异步方法得到的数据可以传入该接口进行渲染，如 render(elem)
+		  if(index>=7) index=index%7+1;
+		  var html='';
+		  for(var i=20*(index-1);i<20*(index-1)+20;i++){
+			 var k='';
+			 for(var ii=0;ii<3-i.toString().length;ii++){
+				k+='0';
+			 }
+			 k+=i;
+			 var src="http://cued.xunlei.com/demos/publ/img/P_"+k+".jpg";
+			 html+='<div class="cell"><img src="'+src+'" /><p>'+k+'</p></div>';
+		  }
+		  return $(html);
+	  },
+	  auto_imgHeight:true,
+	  insert_type:1
+	}
+	$('#tiles').waterfall(opt); 
+	
+	$('.mwui-switch-btn').each(function() {
+		$(this).bind("click", function() {
+			var btn = $(this).find("span");
+			var change = btn.attr("change");
+			btn.toggleClass('off');
+
+			if(btn.attr("class") == 'off') {
+				$(this).find("input").val("0");
+					btn.attr("change", btn.html());
+					btn.html(change);
+				} else {
+					$(this).find("input").val("1");
+					btn.attr("change", btn.html());
+					btn.html(change);
+				} 
+			return false;
+		});
+	});
+
+});
+</script>
+<style>
+	
+</style>
+</head>
+<body>
+	<div id="main-container" class="tk-chaparral-pro">
+		<div id="sub-container">
+			<header>
+				<h1>公司详情</h1>
+				<a href="#"  class="back"></a>
+				<div class="menu-icon" style="display:none;">
+					<div class="bar"> </div>
+					<div class="bar"> </div>
+					<div class="bar"> </div>
+				</div>
+				<div class="nav_li" style="display:none;">
+					<ul>
+						<li><a href="cy_cpjs.html">产品简介</a></li>
+						<li><a href="#">产品留言</a></li>
+						<li><a href="#">联系我们</a></li>
+					</ul>
+				</div>
+			</header>
+			<div id="wrapper3">
+				<ul class="main_nav" id="menu_ul">
+					<li class="current" ><a href="#bit_name">基本信息</a></li>
+					<li ><a href="#">公司动态</a></li>
+					<li data-menu="true"><a href="#">产品信息</a></li>
+					<li ><a href="#">成功案例</a></li>
+					<li><a href="#">留言</a></li>
+					<li><a href="#">产品简介</a></li>
+				</ul>
+			</div>
+			<article class="container" id="content">
+				<!--基本信息-->
+				<div class="bit module" style="display:none;">
+					<div class="bit_name">
+						<a href="include/cy_intro.html"><img src="../images/list_angrybird.png"/></a>
+						<p>
+							<span class="title">深圳市百盛新纪元半导体有限公司</span>
+							<span class="developer">公司类型：国企</span>
+							<span class="leixin">经营模式：服务于大众群体</span>
+						</p>
+					</div>
+					<ul class="bit_bd">
+						<li><span>司类型：</span>国企</li>
+						<li><span>经营模式：</span>服务于大众群体服务于大众群体</li>
+						<li><span>司类型：</span>国企国企国企国企国企</li>
+						<li><span>司类型：</span>国企国企国企国企国企</li>
+					</ul>
+					<ul class="bit_lx bit_mm">
+						<li>联系人：吴小姐</li>
+						<li>电话：0791-88888888</li>
+						<li>公司网址：http://www.jxtill.com</li>
+					</ul>
+					<article class="bit_mm">
+						<h1>公司简介</h1>
+						<p>类型司类型司类型司类型司类型司类型司类型司类型司类型司类型司类型司类型型司类型司类型司类型司类型司类型型司类型司类型司类型司类型司类型司类型司类型类型司类型司类型司类司类型。</p>
+					</article >
+				</div>
+				<!--基本信息-->
+				
+				<!--公司动态-->
+				<div class="list new" style="display:none;">
+					<ul>
+						<li>
+							<a href="include/cy_intro.html"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信中国电信中国电信中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业软件业软件业软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="2/index.html"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="1/assets/www/default.html"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+					</ul>
+				</div>
+				<!--公司动态-->
+				
+				<!--产品信息-->
+				<div class="list cpxx" style="display:none;">
+					<ul>
+						<li>
+							<a href="include/cy_intro.html"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信中国电信中国电信中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业软件业软件业软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="2/index.html"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="1/assets/www/default.html"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+						<li>
+							<a href="#"><img src="../images/list_angrybird.png"/></a>
+							<p>
+								<span class="title">中国电信</span>
+								<span class="developer">江西省东湖区省政府北一路2号</span>
+								<span class="leixin">软件业</span>
+							</p>
+							<div class="list_arrow"></div>
+						</li>
+					</ul>
+				</div>
+				<!--产品信息-->
+				
+				<!--成功案例-->
+				<div class="ggal" id="tiles" style="display:none;">
+				    <div class="cell"><a href="http://www.baidu.com"><img src="http://cued.xunlei.com/demos/publ/img/P_000.jpg" /></a><p>成功案例1</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_001.jpg" /></a><p>成功案例2</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_002.jpg" /></a><p>成功案例3</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_003.jpg" /></a><p>成功案例4</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_004.jpg" /></a><p>成功案例5</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_005.jpg" /></a><p>成功案例6</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_006.jpg" /></a><p>成功案例7</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_007.jpg" /></a><p>成功案例</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_008.jpg" /></a><p>08</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_009.jpg" /></a><p>09</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_010.jpg" /></a><p>10</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_011.jpg" /></a><p>11</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_012.jpg" /></a><p>12</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_013.jpg" /></a><p>13</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_014.jpg" /></a><p>14</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_015.jpg" /></a><p>15</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_016.jpg" /></a><p>16</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_017.jpg" /></a><p>17</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_018.jpg" /></a><p>18</p></div>
+					<div class="cell"><a href="#"><img src="http://cued.xunlei.com/demos/publ/img/P_019.jpg" /></a><p>19</p></div>
+				</div>
+				<!--成功案例-->
+				
+				<!--留言-->
+				<div class="ly" >
+					<div class="ly_from from" style="display">
+						<h2>给我们留言</h2>
+						<ul>
+							<li><span>姓名：</span><span><input type="text" value="廖西"></span></li>
+							<li><span>电话：</span><span><input type="text" value="0791-8888888"></span></li>
+							<li class="ly_gkf">
+								<span>公开</span>
+								<button class="mwui-switch-btn"><span change="是" class="off">否</span><input type="hidden" name="show_icon" value="0" /></button>	
+							</li>
+							<li><span>邮箱：</span><span><input type="text" value="liaoxi@126.com"></span></li>
+							<li>
+							<textarea>
+							新浪网新闻中心是新浪网最重要的频道之一,
+							24小时滚动报道国内、国际及社会新闻。
+							每日编发新闻数以万计。
+							新浪网新闻中心是新浪网最重要的频道之一,
+							24小时滚动报道国内、国际及社会新闻。
+							每日编发新闻数以万计。
+							新浪网新闻中心是新浪网最重要的频道之一报道国</textarea>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="ly_new time">
+						<h2>最新留言<span>(175)</span></h2>
+						<li>
+							<div class="ly_name">
+								<span>阳光</span>
+								<span>2013.08.23 10分钟</span>
+								<p>
+									你们的产品非常的好！希望能再出新产品，下次我还要来关顾
+								</p>
+							</div>
+							<div class="ly_hf">
+								<div class="f_ang_t">
+									<div class="ang_i ang_t_d bor2"></div>
+									<div class="ang_i ang_t_u bor_bg"></div>
+								</div>
+								<ul class="ly_li2">
+									<li>非常感谢您对我们的支持！我们会再接再励!客户满意才是我们的动力！</li>
+									<li>非常感谢您对我们的支持！我们会再接再励!客户满意才是我们的动力！</li>
+									<li>非常感谢您对我们的支持！我们会再接再励!客户满意才是我们的动力！</li>
+								</ul>
+							</div>
+						</li>
+						<li>
+							<div class="ly_name">
+								<span>阳光阳光</span>
+								<span>2013.08.22 30分钟</span>
+								<p>
+									你们的产品非常的好！希望能再出新产品，下次我还要来关顾
+								</p>
+							</div>
+							<div class="ly_hf">
+								<div class="f_ang_t">
+									<div class="ang_i ang_t_d bor2"></div>
+									<div class="ang_i ang_t_u bor_bg"></div>
+								</div>
+								<ul class="ly_li2">
+									<li>非常感谢您对我们的支持！我们会再接再励!客户满意才是我们的动力！</li>
+								</ul>
+							</div>
+						</li>
+					</div>
+				</div>
+				<!--留言-->
+				
+				<!--简介-->
+				<div class="cpjj from" style="display:none;">
+					<h2>联系我们</h2>
+					<ul>
+						<li><span>公司：</span><span>中国电信</span></li>
+						<li><span>联系人：</span><span>吴女士</span></li>
+						<li><span>电话：</span><span>0791-8888888</span></li>
+						<li><span>公司主页：</span><span>http://jxtii/book.html</span></li>
+					</ul>
+				</div>
+				<!--简介-->
+			</article>
+		</div>
+			
+	</div>
+	
+</body>
+</html>

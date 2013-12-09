@@ -16,6 +16,7 @@
         [application setStatusBarStyle:UIStatusBarStyleLightContent];
         [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x2b87d6)];
         [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+        [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor]];
         [[UITabBar appearance] setBackgroundColor:UIColorFromRGB(0xf5f5f5)];
         [[UITabBar appearance] setTintColor:UIColorFromRGB(0x2b87d6)];
     }
@@ -39,6 +40,7 @@
         UIViewController *mainVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
         self.window.rootViewController = mainVC;
     }
+    
 
     return YES;
 }

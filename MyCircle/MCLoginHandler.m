@@ -15,6 +15,7 @@
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
     [request addPostValue:strAccount forKey:@"tel"];
     [request addPostValue:cipherPwd forKey:@"password"];
+#warning 修改为随机数
     [request addPostValue:@"12345" forKey:@"stamp"];
     //同步请求
     [request startSynchronous];

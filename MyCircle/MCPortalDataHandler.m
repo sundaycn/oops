@@ -1,0 +1,39 @@
+//
+//  MCPortalDataHandler.m
+//  MyCircle
+//
+//  Created by Samuel on 11/25/13.
+//
+//
+
+#import "MCPortalDataHandler.h"
+
+@implementation MCPortalDataHandler
+
++ (NSArray *)getPortalList:(NSString *)pageSize pageNo:(NSString *)pageNo
+{
+    NSURL *url = [NSURL URLWithString:@"http://59.52.226.85:8888/EasyContactFY/TcompanyInfo/tcompanyinfo!listAjaxp.action"];
+    __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    [request addPostValue:pageSize forKey:@"page.pageSize"];
+    [request addPostValue:pageNo forKey:@"page.pageNo"];
+    [request startSynchronous];
+    
+    NSError *error = [request error];
+    if (!error) {
+        NSData *response  = [request responseData];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
+        //判断服务器返回结果
+        NSString *strRequestResult = [NSString stringWithFormat:@"%@",[dictResponse objectForKey:@"success"]];
+        DLog(@"\n 微门户列表请求结果:%@", [strRequestResult isEqualToString:@"1"] ? @"true" : @"false");
+        BOOL requestResult = [strRequestResult isEqualToString:@"1"];
+        if (requestResult) {
+            DLog(@"\n pageSize:%@", [[dictResponse objectForKey:@"message"] objectForKey:@"pageSize"]);
+            DLog(@"\n pageNo:%@", [[dictResponse objectForKey:@"message"] objectForKey:@"pageNo"]);
+            NSArray *arrResult = [[dictResponse objectForKey:@"message"] objectForKey:@"result"];
+            return arrResult;
+        }
+    }
+    return  nil;
+}
+
+@end

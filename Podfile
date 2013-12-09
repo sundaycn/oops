@@ -1,5 +1,7 @@
-platform :ios, '5.0'
+platform :ios, '6.0'
 
-pod 'UI7Kit'
+pod 'AFNetworking'
+pod 'SDWebImage'
 pod 'ASIHTTPRequest'
 pod 'MBProgressHUD'
+pod 'Cordova'

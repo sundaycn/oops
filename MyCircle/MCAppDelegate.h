@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <UI7Kit/UI7Kit.h>
+#import <Cordova/CDVViewController.h>
 #import "MCGlobal.h"
 
 @interface MCAppDelegate : UIResponder <UIApplicationDelegate>
