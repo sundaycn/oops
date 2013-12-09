@@ -45,6 +45,21 @@
     //请求过一次后得知服务器数据总页数
     self.totalPages = [MCPortalDataHandler getPortalListCount];
 
+    
+//    //create searchDisplayController and searchBar
+//    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+//    //    searchBar.delegate = self;
+//    searchBar.showsCancelButton = NO;
+//    searchBar.placeholder = @"请输入微门户名称";
+//    
+//    self.mySearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+//    self.mySearchDisplayController.searchResultsDataSource = self;
+//    self.mySearchDisplayController.searchResultsDelegate = self;
+//    self.mySearchDisplayController.delegate = self;
+    
+    self.searchDisplayController.searchBar.showsCancelButton = NO;
+    self.searchDisplayController.searchBar.placeholder = @"请输入微门户名称";
+
     //修改导航栏返回按钮的文字
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] init];
     barButtonItem.title = @"返回";
@@ -70,7 +85,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.arrPortal count];
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [searchResults count];
+    }
+    else
+    {
+        return [self.arrPortal count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -82,10 +103,20 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     // Configure the cell...
-    cell.labelTitle.text = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"companyName"];
-    cell.labelDetail.text = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"officeAddress"];
-    NSString *strURL = [[BASE_URL stringByAppendingString:[[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"image"]] stringByAppendingString:IMAGE_SWITCH];
-    [cell.imageViewLogo setImageWithURL:[NSURL URLWithString:strURL]];
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        cell.labelTitle.text = [[searchResults objectAtIndex:indexPath.row] objectForKey:@"companyName"];
+        cell.labelDetail.text = [[searchResults objectAtIndex:indexPath.row] objectForKey:@"officeAddress"];
+        NSString *strURL = [[BASE_URL stringByAppendingString:[[searchResults objectAtIndex:indexPath.row] objectForKey:@"image"]] stringByAppendingString:IMAGE_SWITCH];
+        [cell.imageViewLogo setImageWithURL:[NSURL URLWithString:strURL]];
+
+    }
+    else
+    {
+        cell.labelTitle.text = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"companyName"];
+        cell.labelDetail.text = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"officeAddress"];
+        NSString *strURL = [[BASE_URL stringByAppendingString:[[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"image"]] stringByAppendingString:IMAGE_SWITCH];
+        [cell.imageViewLogo setImageWithURL:[NSURL URLWithString:strURL]];
+    }
 
     return cell;
 }
@@ -95,8 +126,18 @@
 //    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
 //    self.bookId = cell.bookId;
     DLog(@"did selected");
-    self.id = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"id"];
-    self.belongOrgId = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"belongOrgId"];
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        self.id = [[searchResults objectAtIndex:indexPath.row] objectForKey:@"id"];
+        self.belongOrgId = [[searchResults objectAtIndex:indexPath.row] objectForKey:@"belongOrgId"];
+
+    }
+    else
+    {
+        self.id = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"id"];
+        self.belongOrgId = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"belongOrgId"];
+
+    }
     [self performSegueWithIdentifier:@"showContents" sender:self];
 }
 
@@ -169,6 +210,28 @@
         [self.arrPortal addObjectsFromArray:[MCPortalDataHandler getPortalList:self.pageSize pageNo:[NSString stringWithFormat:@"%d", self.pageNo++]]];
         [self.tableView reloadData];
     }
+}
+
+#pragma mark - UISearchDisplayController Delegate Methods
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    NSPredicate *resultPredicate = [NSPredicate
+                                    predicateWithFormat:@"companyName contains[cd] %@",
+                                    searchText];
+    
+    searchResults = [[NSArray alloc] init];
+    searchResults = [self.arrPortal filteredArrayUsingPredicate:resultPredicate];
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
+                                      objectAtIndex:[self.searchDisplayController.searchBar
+                                                     selectedScopeButtonIndex]]];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
 }
 
 #pragma mark - Navigation

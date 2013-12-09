@@ -523,10 +523,7 @@
 
         return cell;
     }
-    
-//    if (tableView == self.mySearchDisplayController.searchResultsTableView) {
-//        DLog(@"table view shows");
-//    }
+
     NSNumber *searchId = nil;
     NSMutableString *matchString = [NSMutableString string];
     NSMutableArray *matchPos = [NSMutableArray array];
