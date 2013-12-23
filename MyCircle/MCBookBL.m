@@ -7,6 +7,7 @@
 //
 
 #import "MCBookBL.h"
+#import "MCBookDAO.h"
 
 @implementation MCBookBL
 
@@ -63,6 +64,13 @@
 {
     MCBookDAO *dao = [MCBookDAO sharedManager];
     return [dao findBySearchId:searchId];
+}
+
+//按照手机号码查找联系人
+-(MCBook *)findbyMobilePhone:(NSString *)mobilePhone
+{
+    MCBookDAO *dao = [MCBookDAO sharedManager];
+    return [dao findbyMobilePhone:mobilePhone];
 }
 
 @end

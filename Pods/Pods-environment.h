@@ -75,13 +75,13 @@
 // Cordova
 #define COCOAPODS_POD_AVAILABLE_Cordova
 #define COCOAPODS_VERSION_MAJOR_Cordova 3
-#define COCOAPODS_VERSION_MINOR_Cordova 1
+#define COCOAPODS_VERSION_MINOR_Cordova 2
 #define COCOAPODS_VERSION_PATCH_Cordova 0
 
 // Cordova/Base
 #define COCOAPODS_POD_AVAILABLE_Cordova_Base
 #define COCOAPODS_VERSION_MAJOR_Cordova_Base 3
-#define COCOAPODS_VERSION_MINOR_Cordova_Base 1
+#define COCOAPODS_VERSION_MINOR_Cordova_Base 2
 #define COCOAPODS_VERSION_PATCH_Cordova_Base 0
 
 // MBProgressHUD
@@ -96,15 +96,9 @@
 #define COCOAPODS_VERSION_MINOR_Reachability 1
 #define COCOAPODS_VERSION_PATCH_Reachability 1
 
-// SDWebImage
-#define COCOAPODS_POD_AVAILABLE_SDWebImage
-#define COCOAPODS_VERSION_MAJOR_SDWebImage 3
-#define COCOAPODS_VERSION_MINOR_SDWebImage 5
-#define COCOAPODS_VERSION_PATCH_SDWebImage 0
-
-// SDWebImage/Core
-#define COCOAPODS_POD_AVAILABLE_SDWebImage_Core
-#define COCOAPODS_VERSION_MAJOR_SDWebImage_Core 3
-#define COCOAPODS_VERSION_MINOR_SDWebImage_Core 5
-#define COCOAPODS_VERSION_PATCH_SDWebImage_Core 0
+// UIBubbleTableView
+#define COCOAPODS_POD_AVAILABLE_UIBubbleTableView
+#define COCOAPODS_VERSION_MAJOR_UIBubbleTableView 0
+#define COCOAPODS_VERSION_MINOR_UIBubbleTableView 2
+#define COCOAPODS_VERSION_PATCH_UIBubbleTableView 0
 

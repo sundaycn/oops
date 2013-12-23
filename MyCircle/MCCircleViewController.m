@@ -666,7 +666,7 @@
 //        detailViewController.personIDAsNumber = personIDAsNumber;
 //        
 //        CFRelease(thisPerson);
-        MCContactsDetailViewController *detailViewController = [segue destinationViewController];
+        MCContactsDetailViewController *detailViewController = segue.destinationViewController;
         detailViewController.bookId = self.bookId;
     }
 }

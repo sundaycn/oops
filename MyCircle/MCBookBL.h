@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "MCBook.h"
-#import "MCBookDAO.h"
 
 @interface MCBookBL : NSObject
 
@@ -29,4 +28,7 @@
 -(NSMutableArray *) findByBelongDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)belongDeptId;
 -(MCBook *) findById:(NSString *)bookId;
 -(MCBook *) findBySearchId:(NSNumber *)searchId;
+//按照手机号码查找联系人
+-(MCBook *)findbyMobilePhone:(NSString *)mobilePhone;
+
 @end

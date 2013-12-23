@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MCGlobal.h"
 #import "SearchCoreManager.h"
 #import "MCBook.h"
 #import "MCBookBL.h"

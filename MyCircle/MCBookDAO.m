@@ -237,7 +237,7 @@ static MCBookDAO *sharedManager = nil;
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(belongDepartmentId == %@) AND (belongOrgId == %@)",belongDeptId,belongOrgId];;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(belongDepartmentId == %@) AND (belongOrgId == %@)",belongDeptId,belongOrgId];
     [request setPredicate:predicate];
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sort" ascending:YES];
@@ -328,6 +328,35 @@ static MCBookDAO *sharedManager = nil;
         book.position = mo.position;
         book.belongDepartmentId = mo.belongDepartmentId;
         book.belongOrgId = mo.belongOrgId;
+        
+        return book;
+    }
+    return nil;
+}
+
+//按照手机号码查找联系人
+- (MCBook *)findbyMobilePhone:(NSString *)mobilePhone
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCBook" inManagedObjectContext:cxt];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                              @"mobilePhone = %@",mobilePhone];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    
+    if ([listData count] > 0) {
+        MCBookManagedObject *mo = [listData lastObject];
+        
+        MCBook *book = [[MCBook alloc] init];
+        book.name = mo.name;
         
         return book;
     }

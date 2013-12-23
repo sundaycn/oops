@@ -7,6 +7,7 @@
 //
 
 #import "MCViewController.h"
+#import <Reachability/Reachability.h>
 
 @interface MCViewController ()
 
@@ -31,7 +32,26 @@ static BOOL isLoginViewShowed = NO;
     self.buttonSMSPassword.layer.cornerRadius = 5.0;
     self.buttonSMSPassword.backgroundColor = UIColorFromRGB(0xff6f3d);
     //隐藏输入密码
-    self.textFieldPwd.SecureTextEntry = YES;        
+    self.textFieldPwd.SecureTextEntry = YES;
+    
+    UIAlertView *alertView;
+    //检测网络连接
+    Reachability *reachability = [Reachability reachabilityWithHostname:MYCIRCLE_HOST];
+    switch([reachability currentReachabilityStatus])
+    {
+        case NotReachable:
+            // 没有网络连接
+            alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"无法连接到服务器，请确认网络连接是否可用" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alertView show];
+            break;
+        case ReachableViaWWAN:
+            // 使用3G网络
+            break;
+        case ReachableViaWiFi:
+            // 使用WiFi网络
+            break;
+    }
+
 }
 
 - (void)didReceiveMemoryWarning

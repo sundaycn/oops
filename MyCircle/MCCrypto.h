@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonCryptor.h>
-#import "MCGlobal.h"
 
 @interface MCCrypto : NSObject
 

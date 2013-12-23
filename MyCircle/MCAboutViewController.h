@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MCGlobal.h"
 
 @interface MCAboutViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIImageView *imageAbout;

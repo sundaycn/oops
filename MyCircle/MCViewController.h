@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <MBProgressHUD/MBProgressHUD.h>
-#import "MCGlobal.h"
 #import "MCLoginHandler.h"
 
 @interface MCViewController : UIViewController <UIAlertViewDelegate, MBProgressHUDDelegate> {

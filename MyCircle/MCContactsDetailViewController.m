@@ -7,6 +7,12 @@
 //
 
 #import "MCContactsDetailViewController.h"
+#import "MCMessageListViewController.h"
+#import "MCChatSessionViewController.h"
+#import "MCBook.h"
+#import "MCBookBL.h"
+#import "MCCrypto.h"
+#import "MCXmppHelper.h"
 
 @interface MCContactsDetailViewController ()
 
@@ -83,13 +89,17 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
     if (section == 0) {
+        return 1;
+    }
+    else if (section == 2)
+    {
         return 1;
     }
     else {
@@ -142,6 +152,15 @@
         newFrame.size.width = sizeName.width;
         labelName.frame = newFrame;
         [cell.contentView addSubview:labelName];
+    }
+    else if (indexPath.section == 2)
+    {
+        UIButton *buttonSendMsg = [[UIButton alloc] initWithFrame:CGRectMake(50, 10, 220, 30)];
+        buttonSendMsg.backgroundColor = [UIColor whiteColor];
+        [buttonSendMsg setTitle:@"发送消息" forState:UIControlStateNormal];
+        [buttonSendMsg setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [buttonSendMsg addTarget:self action:@selector(sendMessage) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:buttonSendMsg];
     }
     else {
         if (indexPath.row != 0) {
@@ -264,6 +283,10 @@
     if (indexPath.section == 0) {
         return  70;
     }
+    else if (indexPath.section == 2)
+    {
+        return 50;
+    }
     else {
         return 40;
     }
@@ -287,6 +310,33 @@
 //    return view;
 //}
 
+#pragma mark - Navigation
+
+// In a story board-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+//    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"new" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonDidClick)];
+    if ([[segue identifier] isEqualToString:@"sendMessage"])
+    {
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
+                                                 initWithTitle:@"消息"
+                                                 style:UIBarButtonItemStylePlain
+                                                 target:self
+                                                 action:@selector(backMessageListVC)];
+        MCChatSessionViewController *chatSessionVC = segue.destinationViewController;
+        chatSessionVC.jid = [self.mobilePhone stringByAppendingString:@"@127.0.0.1"];
+        MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];
+        xmppHelper.msgrev = chatSessionVC;
+    }
+}
+
+//- (IBAction)backButtonDidClick
+//{
+//    DLog(@"Did Click!");
+//}
+
 - (void)sendSMS {
     DLog(@"SEND SMS OK");
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"sms://" stringByAppendingString:self.mobilePhone]]];
@@ -295,6 +345,17 @@
 - (void)callSomeone {
     DLog(@"CALL SOMEONE OK");
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:self.mobilePhone]]];
+}
+
+- (void)sendMessage
+{
+    [self performSegueWithIdentifier:@"sendMessage" sender:self];
+}
+
+- (void)backMessageListVC
+{
+    DLog(@"contact detail VC: backMessageListVC");
+    self.tabBarController.selectedIndex = 0;
 }
 
 @end

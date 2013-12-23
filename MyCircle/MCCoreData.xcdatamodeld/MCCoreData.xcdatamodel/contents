@@ -17,6 +17,18 @@
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="syncFlag" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="MCChatHistory" representedClassName="MCChatHistoryManagedObject" syncable="YES">
+        <attribute name="from" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isread" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="to" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MCChatSession" representedClassName="MCChatSessionManagedObject" syncable="YES">
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastmsg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
     <entity name="MCDept" representedClassName="MCDeptManagedObject" syncable="YES">
         <attribute name="belongOrgId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
@@ -31,8 +43,10 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MCBook" positionX="-11288" positionY="-5602" width="128" height="268"/>
-        <element name="MCDept" positionX="-11063" positionY="-5616" width="128" height="148"/>
-        <element name="MCOrg" positionX="-10908" positionY="-5616" width="128" height="73"/>
+        <element name="MCBook" positionX="-11403" positionY="-5922" width="128" height="268"/>
+        <element name="MCDept" positionX="-11243" positionY="-5922" width="128" height="148"/>
+        <element name="MCOrg" positionX="-11088" positionY="-5922" width="128" height="73"/>
+        <element name="MCChatSession" positionX="-11241" positionY="-5749" width="128" height="88"/>
+        <element name="MCChatHistory" positionX="-11088" positionY="-5823" width="128" height="118"/>
     </elements>
 </model>

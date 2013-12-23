@@ -28,28 +28,26 @@ PODS:
     - Reachability
   - ASIHTTPRequest/S3 (1.8.1):
     - Reachability
-  - Cordova (3.1.0):
+  - Cordova (3.2.0):
     - Cordova/Base
-  - Cordova/Base (3.1.0)
+  - Cordova/Base (3.2.0)
   - MBProgressHUD (0.8)
   - Reachability (3.1.1)
-  - SDWebImage (3.5):
-    - SDWebImage/Core
-  - SDWebImage/Core (3.5)
+  - UIBubbleTableView (0.2)
 
 DEPENDENCIES:
-  - AFNetworking
-  - ASIHTTPRequest
-  - Cordova
-  - MBProgressHUD
-  - SDWebImage
+  - AFNetworking (~> 2.0.3)
+  - ASIHTTPRequest (~> 1.8.1)
+  - Cordova (~> 3.2.0)
+  - MBProgressHUD (~> 0.8)
+  - UIBubbleTableView (~> 0.2)
 
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
   ASIHTTPRequest: 162783e0cd71bdd3ff1ceed0cd5fa9505e0116a8
-  Cordova: d228f72b7c7e5823af9a8b6645f868daf81e6398
+  Cordova: 4ed878a7c7153a7b888f05e1f18c074343d0be41
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   Reachability: be4883bb93f31e38266ae3365e5600a317aae735
-  SDWebImage: f1a72472f8a2d54445f1fedafe2090593d9caf7f
+  UIBubbleTableView: 08dcbbb351538139d7a2a01216bb427ad4253bb1
 
-COCOAPODS: 0.27.1
+COCOAPODS: 0.28.0

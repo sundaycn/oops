@@ -7,10 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MCGlobal.h"
-#import "MCBook.h"
-#import "MCBookBL.h"
-#import "MCCrypto.h"
 
 @interface MCContactsDetailViewController : UITableViewController
 @property (strong, nonatomic) NSString *name;

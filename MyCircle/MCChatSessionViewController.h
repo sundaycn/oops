@@ -1,0 +1,28 @@
+//
+//  MCChatSessionViewController.h
+//  MyCircle
+//
+//  Created by Samuel on 12/11/13.
+//
+//
+
+#import <UIKit/UIKit.h>
+#import <UIBubbleTableView/UIBubbleTableView.h>
+#import <UIBubbleTableView/UIBubbleTableViewDataSource.h>
+#import <UIBubbleTableView/NSBubbleData.h>
+#import "MCMsgRevDelegate.h"
+
+@interface MCChatSessionViewController : UIViewController <UIBubbleTableViewDataSource, MCMsgRevDelegate, UINavigationControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet UIBubbleTableView *bubbleTableView;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
+@property (weak, nonatomic) IBOutlet UITextField *textInputMessage;
+@property (strong, nonatomic) NSMutableArray *bubbleData;
+@property (strong, nonatomic) NSString *jid;
+@property (strong, nonatomic) NSString *sessionTittle;
+
+
+- (IBAction)buttonSendMessage:(UIBarButtonItem *)sender;
+- (IBAction)textFieldShoudReturn:(UITextField *)sender;
+
+@end

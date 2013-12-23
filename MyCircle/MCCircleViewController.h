@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <Reachability/Reachability.h>
 #import <MBProgressHUD/MBProgressHUD.h>
-#import "MCGlobal.h"
 #import "MCCircleViewController.h"
 #import "RATreeView.h"
 #import "MCDataObject.h"

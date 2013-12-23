@@ -42,4 +42,7 @@
 //按照searchId查询数据方法
 -(MCBook *) findBySearchId:(NSNumber *)searchId;
 
+//按照手机号码查找联系人
+- (MCBook *)findbyMobilePhone:(NSString *)mobilePhone;
+
 @end

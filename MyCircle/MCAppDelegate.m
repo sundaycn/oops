@@ -7,11 +7,14 @@
 //
 
 #import "MCAppDelegate.h"
+#import "DDLog.h"
+#import "DDTTYLogger.h"
 
 @implementation MCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
     if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
         [application setStatusBarStyle:UIStatusBarStyleLightContent];
         [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x2b87d6)];
@@ -51,6 +54,10 @@
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
+    DLog(@"will resign active");
+    if ([self isLogged]) {
+        //发送通知，断开xmpp服务器
+    }
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -73,6 +80,11 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+    DLog(@"did become active");
+    if ([self isLogged]) {
+        //发送通知，连接xmpp服务器
+        
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -86,7 +98,7 @@
 
 - (BOOL)isLogged {
     //判断用户是否已登录
-    NSUserDefaults *userInfo = [[NSUserDefaults alloc] init];
+    NSUserDefaults *userInfo = [NSUserDefaults standardUserDefaults];
     NSString *strAccount = [userInfo stringForKey:@"user"];
     NSString *strPassword = [userInfo stringForKey:@"password"];
     
