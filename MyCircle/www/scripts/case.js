@@ -28,6 +28,16 @@ function setCaseView (rs) {
 			'</div>';
 
 	$("#scroller").html(html);
+	$("#caseContent img").each(function () {
+    	var w = $(window).width();
+    	$(this).load(function () {
+    		if ($(this).width() > w) {
+        		$("#caseContent img").css({
+        	    	width: $(window).width() - 20
+        	    });
+        	}
+    	});
+    });
 	myScroll.refresh();
 }
 

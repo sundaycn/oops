@@ -1,50 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
-<title>产品-我秀</title>
-<link rel="stylesheet" type="text/css" href="css3/html5reset.css"/>
-<link rel="stylesheet" type="text/css" href="css3/global.css"/>
-<link rel="stylesheet" type="text/css" href="css3/content.css"/>
-<link rel="stylesheet" type="text/css" href="css3/iScroll.css"/>
-<script type="text/javascript" src="scripts/cordova.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>产品详情</title>
+<link rel="stylesheet" type="text/css" href="css/global.css"/>
 <script type="text/javascript" src="scripts/jquery-1.8.2.min.js"></script>
-<script type="text/javascript" src="scripts/iscroll.js"></script>
 <script type="text/javascript" src="scripts/app.js"></script>
-<script type="text/javascript" src="scripts/product.js"></script>
+<script type="text/javascript">
+var pageUrl = window.location.href.toString(),
+	data = {
+		"companyId": app.getParam(pageUrl, "companyId"),
+		"id": app.getParam(pageUrl, "id"),
+		"belongOrgId": app.getParam(pageUrl, "belongOrgId")
+	};
+	
+$(function () {
+	app.loadData(app.basePath +"TcompanyProduct/tcompanyproduct!showAjaxp.action", data, setProductInfoView, null, data);
+});
+</script>
 </head>
 <body>
-<div id="page">
+<div id="page" class="theme-default">
 	<header>
-		<h1></h1>
-		<a href="i.html"  class="back"></a>
+		<hgroup>
+            <h2></h2>
+			<a href="feedback.html" class="feedback-btn">我要评论</a>
+        </hgroup>
 	</header>
-	<div id="navWrap" >
-		<div id="nav">
+	<article>
+		<div class="product"></div>
+	</article>
+	<section>
+		<p class="download-apk"><a href="#">下载企业微门户客户端获取更多内容</a></p>
+	</section>
+	<nav>
+		<div class="menu">
+			<span class="left button" onclick="window.history.back()">后退</span>
 			<ul>
-				<li class="current" data-modulecode="MOD_PRODUCT_INFO"><span>产品介绍</span></li>
-				<li data-modulecode="MOD_PRODUCT_FEEDBACK"><span>产品评论</span></li>
-				<li data-modulecode="MOD_PRODUCT_CONTACT"><span>联系方式</span></li>
+				<li><a href="i.html" class="link-index">首页</a></li>
 			</ul>
+			<span class="right button" onclick="window.location.reload()">刷新</span>
 		</div>
-	</div>
-	
-
-	<div id="wrapper" style="top: 90px;">
-		<div id="scroller" class="list">
-			<div id="pullDown">
-				<span class="pullDownIcon"></span><span class="pullDownLabel"></span>
-			</div>
-			<ul id="listContainer">
-				
-			</ul>
-			<div id="pullUp" style="display:none">
-				<span class="pullUpIcon"></span><span class="pullUpLabel"></span>
-			</div>
-		</div>
-	</div>
-
+	</nav>
 </div>
 </body>
 </html>

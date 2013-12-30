@@ -21,6 +21,16 @@ function setNewView (rs) {
 				'</div>';
 				
 	$("#scroller").html(html);
+	$("#newContent img").each(function () {
+    	var w = $(window).width();
+    	$(this).load(function () {
+    		if ($(this).width() > w) {
+        		$("#newContent img").css({
+        	    	width: $(window).width() - 20
+        	    });
+        	}
+    	});
+    });
 	myScroll.refresh();
 }
 

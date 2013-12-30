@@ -132,7 +132,7 @@ button,input{
 }
 
 header{
-/*	height: 50px;
+	height: 50px;
 	line-height:50px;
 	background-color:#3e99ec;
 	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,.72), inset 0 1px rgba(255,255,255,.7);
@@ -145,8 +145,7 @@ header{
 	background-image: linear-gradient(to top, #1964a7, #187bce 5%, #3e99ec);
 /*	border-top-left-radius:10px;
 	border-top-right-radius:10px;*/
-	position:relative;*/
-    display:none;
+	position:relative;
 }
 header h1{
 	color:#fff;

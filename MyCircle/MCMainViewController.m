@@ -15,7 +15,7 @@
 #import "MCChatSession.h"
 #import "MCChatHistoryDAO.h"
 //#import "MCBookBL.h"
-
+    
 @interface MCMainViewController ()
 
 @property (nonatomic, strong) MCXmppHelper *xmppHelper;
@@ -38,16 +38,26 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     //监听wifi/3g网络切换
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(reachabilityChanged:)
+                          name:kReachabilityChangedNotification
+                        object:nil];
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
     
     //监听应用程序从后台切换到前台的动作
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginInXmppServer) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(loginInXmppServer)
+                          name:UIApplicationDidBecomeActiveNotification
+                        object:nil];
     
     //监听应用程序从前台切换到后台的动作
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginOffXmppServer) name:UIApplicationWillResignActiveNotification object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(loginOffXmppServer)
+                          name:UIApplicationWillResignActiveNotification
+                        object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,11 +116,11 @@
 {
     NSInteger cnt = [[MCChatHistoryDAO sharedManager] fetchUnReadMsgCount];
     if(cnt <= 0){
-//        UIViewController *tabBarVC = [self.tabBarController.viewControllers objectAtIndex:0];
-        self.tabBarItem.badgeValue = nil;
+        UIViewController *tabBarVC = [self.viewControllers objectAtIndex:0];
+        tabBarVC.tabBarItem.badgeValue = nil;
     }else{
-//        UIViewController *tabBarVC = [self.tabBarController.viewControllers objectAtIndex:0];
-        self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", cnt];
+        UIViewController *tabBarVC = [self.viewControllers objectAtIndex:0];
+        tabBarVC.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", cnt];
         
     }
     MCMessageListViewController *messageListVC = [[[self.viewControllers objectAtIndex:0] viewControllers] objectAtIndex:0];
@@ -136,11 +146,11 @@
     
     NSInteger cnt = [[MCChatHistoryDAO sharedManager] fetchUnReadMsgCount];
     if(cnt <= 0){
-//        UIViewController *tabBarVC = [self.tabBarController.viewControllers objectAtIndex:0];
-        self.tabBarItem.badgeValue = nil;
+        UIViewController *tabBarVC = [self.viewControllers objectAtIndex:0];
+        tabBarVC.tabBarItem.badgeValue = nil;
     }else{
-//        UIViewController *tabBarVC = [self.tabBarController.viewControllers objectAtIndex:0];
-        self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", cnt];
+        UIViewController *tabBarVC = [self.viewControllers objectAtIndex:0];
+        tabBarVC.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", cnt];
     }
 }
 

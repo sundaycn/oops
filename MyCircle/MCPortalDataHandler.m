@@ -14,7 +14,9 @@ static int totalPages;
 
 + (NSArray *)getPortalList:(NSString *)pageSize pageNo:(NSString *)pageNo
 {
-    NSURL *url = [NSURL URLWithString:@"http://59.52.226.85:8888/EasyContactFY/TcompanyInfo/tcompanyinfo!listAjaxp.action"];
+    NSString *strURL = [BASE_URL stringByAppendingString:@"TcompanyInfo/tcompanyinfo!listAjaxp.action"];
+    NSURL *url = [NSURL URLWithString:strURL];
+//    NSURL *url = [NSURL URLWithString:@"http://59.52.226.85:8888/EasyContactFY/TcompanyInfo/tcompanyinfo!listAjaxp.action"];
     __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
     [request addPostValue:pageSize forKey:@"page.pageSize"];
     [request addPostValue:pageNo forKey:@"page.pageNo"];

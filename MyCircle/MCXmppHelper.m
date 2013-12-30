@@ -43,8 +43,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 //    [self.xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
 
     self.xmppAutoPing = [[XMPPAutoPing alloc] init];
-	self.xmppAutoPing.pingInterval = 90;
-	self.xmppAutoPing.pingTimeout = 10;
+	self.xmppAutoPing.pingInterval = 30;
+	self.xmppAutoPing.pingTimeout = 3;
 	self.xmppAutoPing.targetJID = [XMPPJID jidWithString:XMPP_HOST];
 
     [self.xmppAutoPing activate:self.xmppStream];

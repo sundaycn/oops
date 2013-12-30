@@ -13,16 +13,11 @@
 #import "MCPortalCell.h"
 #import "MCContensViewController.h"
 
-#define BASE_URL @"http://59.52.226.85:8888/EasyContactFY/"
-#define IMAGE_SWITCH @"&needDownload=false&autoContentType=true"
-
 @interface MCPortalViewController : UITableViewController <UIScrollViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 {
     NSArray *searchResults;
 }
 
 @property (strong, nonatomic) NSMutableArray *arrPortal;
-@property (strong, nonatomic) NSString *id;
-@property (strong, nonatomic) NSString *belongOrgId;
 
 @end

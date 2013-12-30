@@ -39,6 +39,11 @@
 #define IPHONE5_VIEW_HEIGHT 568
 #define HEIGHT_WITH_SCROLLING 75
 
+#define LOCAL_NOTIFICATION_SOUND_ID 1015
+
 #define ServiceName @"com.jxtii.MyCircle"
+
+#define BASE_URL @"http://59.52.226.85:8888/EasyContactFY/"
+#define IMAGE_SWITCH @"&needDownload=false&autoContentType=true"
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]

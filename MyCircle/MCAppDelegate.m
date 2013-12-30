@@ -7,6 +7,7 @@
 //
 
 #import "MCAppDelegate.h"
+#import "APService.h"
 #import "DDLog.h"
 #import "DDTTYLogger.h"
 
@@ -15,6 +16,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    // 通知设备需要接收推送通知 Let the device know we want to receive push notifications
+	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                   UIRemoteNotificationTypeSound |
+                                                   UIRemoteNotificationTypeAlert)];
+    [APService setupWithOption:launchOptions];
+    
+    
     if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
         [application setStatusBarStyle:UIStatusBarStyleLightContent];
         [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x2b87d6)];
@@ -24,7 +32,6 @@
         [[UITabBar appearance] setTintColor:UIColorFromRGB(0x2b87d6)];
     }
     else {
-        
         [application setStatusBarStyle:UIStatusBarStyleBlackOpaque];
         [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0x2b87d6)];
         [[UITabBar appearance] setSelectedImageTintColor:UIColorFromRGB(0x2b87d6)];
@@ -94,6 +101,18 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    
+    // Required
+    [APService registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    // Required
+    [APService handleRemoteNotification:userInfo];
 }
 
 - (BOOL)isLogged {

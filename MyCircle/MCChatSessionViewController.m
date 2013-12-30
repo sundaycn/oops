@@ -53,7 +53,7 @@
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTap:)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
     //只需要点击非文字输入区域就会响应
-    [self.view addGestureRecognizer: tapGestureRecognizer];
+    [self.bubbleTableView addGestureRecognizer:tapGestureRecognizer];
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     
     self.navigationItem.leftBarButtonItem.target = self;
@@ -78,6 +78,10 @@
                       selector:@selector(keyboardWillHide:)
                           name:UIKeyboardWillHideNotification
                         object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(keyboardWillShow:)
+                          name:UIKeyboardWillChangeFrameNotification
+                        object:nil];
 
 }
 
@@ -91,6 +95,7 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)loadRecord
@@ -142,41 +147,48 @@
     [self.bubbleTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
 
--(void)keyboardWillShow:(NSNotification*)aNotification
+-(void)keyboardWillShow:(NSNotification*)notification
 {
-    NSDictionary* info = [aNotification userInfo];
-    
-    NSValue* aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    NSDictionary* info = [notification userInfo];
     //键盘的大小
-    CGSize keyboardRect = [aValue CGRectValue].size;
+    CGSize keyboardRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     
-    //设置bubbleTableView的高度=当前的高度-键盘的高度
-    CGFloat ht = self.bubbleTableView.frame.size.height-keyboardRect.height;
-    
-    self.bubbleTableView.frame = CGRectMake(0, self.bubbleTableView.frame.origin.y, self.bubbleTableView.frame.size.width, ht);
-    
-    //toolbar的位置=当前的y坐标-键盘的高度
-    CGFloat tbpoist = self.toolbar.frame.origin.y - keyboardRect.height;
-    self.toolbar.frame = CGRectMake(0,tbpoist, self.toolbar.frame.size.width, self.toolbar.frame.size.height);
+    DLog(@"view origin y:%f", self.view.frame.origin.y);
+    DLog(@"view size height:%f", self.view.frame.size.height);
+    DLog(@"toolbar size height:%f", self.toolbar.frame.size.height);
+    //键盘动画耗时
+    NSTimeInterval animationDuration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    [UIView animateWithDuration:animationDuration animations:^{
+        //设置bubbleTableView的高度
+        CGFloat bubuleTableViewHeight = self.view.frame.size.height - self.toolbar.frame.size.height - keyboardRect.height;
+        DLog(@"bubbleview size height:%f", bubuleTableViewHeight);
+        self.bubbleTableView.frame = CGRectMake(0, self.bubbleTableView.frame.origin.y, self.bubbleTableView.frame.size.width, bubuleTableViewHeight);
+
+        //设置toolbar的位置
+        CGFloat toolbarY = self.view.frame.size.height - self.toolbar.frame.size.height - keyboardRect.height;
+        DLog(@"toolbar origin y:%f", toolbarY);
+        self.toolbar.frame = CGRectMake(0, toolbarY, self.toolbar.frame.size.width, self.toolbar.frame.size.height);
+    }];
     [self scrollTableToFoot:YES];
 }
 
--(void)keyboardWillHide:(NSNotification*)aNotification
+-(void)keyboardWillHide:(NSNotification*)notification
 {
-    NSDictionary* info = [aNotification userInfo];
-    
-    NSValue* aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    NSDictionary* info = [notification userInfo];
     //键盘的大小
-    CGSize keyboardRect = [aValue CGRectValue].size;
+    CGSize keyboardRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    //键盘动画耗时
+    NSTimeInterval animationDuration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
-    //设置chatlisttableview的高度=当前的高度+键盘的高度
-    CGFloat ht=self.bubbleTableView.frame.size.height+keyboardRect.height;
+    [UIView animateWithDuration:animationDuration animations:^{
+        //设置bubbleTableView的高度
+        CGFloat bubuleTableViewHeight = self.bubbleTableView.frame.size.height + keyboardRect.height;
+        self.bubbleTableView.frame = CGRectMake(0, self.bubbleTableView.frame.origin.y, self.bubbleTableView.frame.size.width, bubuleTableViewHeight);
     
-    self.bubbleTableView.frame=CGRectMake(0, self.bubbleTableView.frame.origin.y, self.bubbleTableView.frame.size.width, ht);
-    
-    //toolbar的位置=当前的y坐标-键盘的高度
-    CGFloat tbpoist = self.toolbar.frame.origin.y + keyboardRect.height;
-    self.toolbar.frame = CGRectMake(0,tbpoist, self.toolbar.frame.size.width, self.toolbar.frame.size.height);
+        //设置toolbar的位置
+        CGFloat toolbarY = self.toolbar.frame.origin.y + keyboardRect.height;
+        self.toolbar.frame = CGRectMake(0, toolbarY, self.toolbar.frame.size.width, self.toolbar.frame.size.height);
+    }];
 }
 
 -(void)refreshmsg:(MCMessage *)msg

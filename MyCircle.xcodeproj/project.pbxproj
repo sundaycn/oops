@@ -20,6 +20,7 @@
 		220874B71828DA2200CA1AA0 /* MCCircleMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 220874B61828DA2200CA1AA0 /* MCCircleMemberCell.m */; };
 		220874BA1829CB6800CA1AA0 /* MCLoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 220874B91829CB6800CA1AA0 /* MCLoginHandler.m */; };
 		220F48FF1808DCFB005112DF /* MCCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 220F48FE1808DCFB005112DF /* MCCrypto.m */; };
+		221C1466186D122C0017C307 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 221C1465186D122C0017C307 /* AudioToolbox.framework */; };
 		221C51B1180CCEC700ED8715 /* MCDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B0180CCEC700ED8715 /* MCDataObject.m */; };
 		221C51B5180CCFFE00ED8715 /* MCCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B4180CCFFE00ED8715 /* MCCircleViewController.m */; };
 		221C51B8180CD7F800ED8715 /* MCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B7180CD7F800ED8715 /* MCAppDelegate.m */; };
@@ -43,6 +44,11 @@
 		22560CAF185E90D2002478B5 /* MCChatSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 22560CAE185E90D2002478B5 /* MCChatSession.m */; };
 		22560CB2185E93A8002478B5 /* MCChatHistoryDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 22560CB1185E93A8002478B5 /* MCChatHistoryDAO.m */; };
 		22560CB5185E93B7002478B5 /* MCChatHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 22560CB4185E93B7002478B5 /* MCChatHistory.m */; };
+		229DF0D618710ABE00739C3A /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D518710ABE00739C3A /* libPushSDK.a */; };
+		229DF0D818710AF400739C3A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D718710AF400739C3A /* CoreTelephony.framework */; };
+		229DF0DA18710B2000739C3A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D918710B2000739C3A /* CoreFoundation.framework */; };
+		229DF0DB18710B3300739C3A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22CEC3F618594C9000DC9913 /* SystemConfiguration.framework */; };
+		229DF0DD18710CAE00739C3A /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 229DF0DC18710CAE00739C3A /* PushConfig.plist */; };
 		22A1E4C71813B10400A1FA06 /* MCContactsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */; };
 		22AA9AA618433AF2000C3A7F /* MCPortalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AA9AA518433AF2000C3A7F /* MCPortalViewController.m */; };
 		22AA9AA918433DA3000C3A7F /* MCPortalDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AA9AA818433DA3000C3A7F /* MCPortalDataHandler.m */; };
@@ -249,6 +255,7 @@
 		220874B91829CB6800CA1AA0 /* MCLoginHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCLoginHandler.m; sourceTree = "<group>"; };
 		220F48FD1808DCEA005112DF /* MCCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCrypto.h; sourceTree = "<group>"; };
 		220F48FE1808DCFB005112DF /* MCCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCrypto.m; sourceTree = "<group>"; };
+		221C1465186D122C0017C307 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		221C51AF180CCEC700ED8715 /* MCDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDataObject.h; sourceTree = "<group>"; };
 		221C51B0180CCEC700ED8715 /* MCDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCDataObject.m; sourceTree = "<group>"; };
 		221C51B3180CCFFE00ED8715 /* MCCircleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCircleViewController.h; sourceTree = "<group>"; };
@@ -294,6 +301,11 @@
 		22560CB1185E93A8002478B5 /* MCChatHistoryDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCChatHistoryDAO.m; sourceTree = "<group>"; };
 		22560CB3185E93B7002478B5 /* MCChatHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCChatHistory.h; sourceTree = "<group>"; };
 		22560CB4185E93B7002478B5 /* MCChatHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCChatHistory.m; sourceTree = "<group>"; };
+		229DF0D418710ABE00739C3A /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
+		229DF0D518710ABE00739C3A /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
+		229DF0D718710AF400739C3A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		229DF0D918710B2000739C3A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		229DF0DC18710CAE00739C3A /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		22A1E4C51813B10400A1FA06 /* MCContactsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContactsDetailViewController.h; sourceTree = "<group>"; };
 		22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContactsDetailViewController.m; sourceTree = "<group>"; };
 		22AA9AA418433AF2000C3A7F /* MCPortalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPortalViewController.h; sourceTree = "<group>"; };
@@ -637,9 +649,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				229DF0DB18710B3300739C3A /* SystemConfiguration.framework in Frameworks */,
+				229DF0DA18710B2000739C3A /* CoreFoundation.framework in Frameworks */,
+				229DF0D818710AF400739C3A /* CoreTelephony.framework in Frameworks */,
+				221C1466186D122C0017C307 /* AudioToolbox.framework in Frameworks */,
 				22CEC26718594A9100DC9913 /* libidn.a in Frameworks */,
 				22CEC235185946D000DC9913 /* CFNetwork.framework in Frameworks */,
 				22E985B81856FCEE00032893 /* libxml2.dylib in Frameworks */,
+				229DF0D618710ABE00739C3A /* libPushSDK.a in Frameworks */,
 				22E985B61856FCDE00032893 /* libresolv.dylib in Frameworks */,
 				22024BFA181D43950004AFF4 /* Security.framework in Frameworks */,
 				2203A586180E774100742830 /* CoreData.framework in Frameworks */,
@@ -693,6 +710,7 @@
 		2203A583180E74BC00742830 /* BusinessLogicLayer */ = {
 			isa = PBXGroup;
 			children = (
+				229DF0D318710A9800739C3A /* JPush */,
 				22560CB718614514002478B5 /* DBHelper */,
 				2255FD1B1859B22B00A01BA1 /* Common */,
 				22CEC2161859462600DC9913 /* Xmpp */,
@@ -844,6 +862,15 @@
 			name = DBHelper;
 			sourceTree = "<group>";
 		};
+		229DF0D318710A9800739C3A /* JPush */ = {
+			isa = PBXGroup;
+			children = (
+				229DF0D418710ABE00739C3A /* APService.h */,
+				229DF0D518710ABE00739C3A /* libPushSDK.a */,
+			);
+			name = JPush;
+			sourceTree = "<group>";
+		};
 		22AA9AA218433A27000C3A7F /* Portal */ = {
 			isa = PBXGroup;
 			children = (
@@ -891,6 +918,9 @@
 		22B669D117FAAA240015A269 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				229DF0D918710B2000739C3A /* CoreFoundation.framework */,
+				229DF0D718710AF400739C3A /* CoreTelephony.framework */,
+				221C1465186D122C0017C307 /* AudioToolbox.framework */,
 				22CEC3F618594C9000DC9913 /* SystemConfiguration.framework */,
 				22CEC3F418594C8100DC9913 /* CoreLocation.framework */,
 				22CEC26618594A9100DC9913 /* libidn.a */,
@@ -928,6 +958,7 @@
 				22B669DB17FAAA240015A269 /* InfoPlist.strings */,
 				22B669DE17FAAA240015A269 /* main.m */,
 				22B669E017FAAA240015A269 /* MyCircle-Prefix.pch */,
+				229DF0DC18710CAE00739C3A /* PushConfig.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1837,6 +1868,13 @@
 				CLASSPREFIX = MC;
 				LastUpgradeCheck = 0500;
 				TargetAttributes = {
+					22B669CE17FAAA240015A269 = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
 					22B669EF17FAAA240015A269 = {
 						TestTargetID = 22B669CE17FAAA240015A269;
 					};
@@ -1867,6 +1905,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				229DF0DD18710CAE00739C3A /* PushConfig.plist in Resources */,
 				2255E7E3183365FA00BAD0ED /* multipy_unicode.dat in Resources */,
 				22B669EB17FAAA240015A269 /* Images.xcassets in Resources */,
 				22B669DD17FAAA240015A269 /* InfoPlist.strings in Resources */,
@@ -2263,6 +2302,8 @@
 					/Users/sam/Projects/MyCircle/Pods/XMPPFramework/Vendor/libidn,
 					/Users/sam/Projects/XMPPFramework/Vendor/libidn,
 					/Users/sam/Projects/MyCircle/MyCircle/libidn,
+					/Users/sam/Projects/MyCircle/MyCircle,
+					"\"$(SRCROOT)/BusinessLogicLayer/JPush\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2282,6 +2323,7 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/BusinessLogicLayer/JPush\"";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2317,6 +2359,8 @@
 					/Users/sam/Projects/MyCircle/Pods/XMPPFramework/Vendor/libidn,
 					/Users/sam/Projects/XMPPFramework/Vendor/libidn,
 					/Users/sam/Projects/MyCircle/MyCircle/libidn,
+					/Users/sam/Projects/MyCircle/MyCircle,
+					"\"$(SRCROOT)/BusinessLogicLayer/JPush\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2336,6 +2380,7 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/BusinessLogicLayer/JPush\"";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -1,57 +1,98 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
-<title>我要留言-我秀</title>
-<link rel="stylesheet" type="text/css" href="css3/html5reset.css"/>
-<link rel="stylesheet" type="text/css" href="css3/global.css"/>
-<link rel="stylesheet" type="text/css" href="css3/content.css"/>
-<link rel="stylesheet" type="text/css" href="css3/iScroll.css"/>
-<script type="text/javascript" src="scripts/cordova.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>留言&评论</title>
+<link rel="stylesheet" type="text/css" href="css/global.css"/>
 <script type="text/javascript" src="scripts/jquery-1.8.2.min.js"></script>
-<script type="text/javascript" src="scripts/iscroll.js"></script>
 <script type="text/javascript" src="scripts/app.js"></script>
-<script type="text/javascript" src="scripts/touchmove.js"></script>
-<script type="text/javascript" src="scripts/pinterest.js"></script>
-<script type="text/javascript" src="scripts/feedback.js"></script>
+<script type="text/javascript">
+var pageUrl = window.location.href.toString(),
+	isShowForm = app.getParam(pageUrl, "isShowForm"),
+	data = {
+		"companyId": app.getParam(pageUrl, "companyId"),
+		"objectId": app.getParam(pageUrl, "companyId"),
+		"belongOrgId": app.getParam(pageUrl, "belongOrgId"),
+		"page.pageNo": 1,
+		"page.pageSize": 10,
+		"feedbackType": app.getParam(pageUrl, "feedbackType") || "01"
+	};
+	
+function load (pageNo) {
+	data['page.pageNo'] = (pageNo || 1);
+	if (data['feedbackType'] == "02") data['objectId'] = app.getParam(pageUrl, "id");
+	app.loadData(app.basePath +"TcompanyFeedback/tcompanyfeedback!listAjaxp.action", data, setFeedbackListView, null, data);
+}
+
+$.fn.autosize = function(){
+	$(this).height('0px');
+	var setheight = $(this).get(0).scrollHeight;
+	if($(this).attr("_height") != setheight) {
+		$(this).height(setheight+"px").attr("_height",setheight);
+	} else {
+		$(this).height($(this).attr("_height")+"px");
+	}
+}
+$(function () {
+	load()
+	
+	$("textarea").bind("keydown keyup",function(){
+	   $(this).autosize();
+	}).autosize();
+	
+	$(".feedback-btn").click(function (e) {
+		doFeedback(e, function () {
+			$(".feedback-form").slideUp(function () {
+				$(".feedback-btn").html("我要留言");
+			});
+		});
+	});
+});
+</script>
 </head>
 <body>
-<div id="page">
-	<header>
-		<h1>我要留言</h1>
-		<a href="product.html"  class="back"></a>
+<div id="page" class="theme-default">
+	<header class="fb-header">
+		<ul class="feedback-form">
+			<li class="hd">给我们留言</li>
+			<li><label>姓名</label><span><input type="text" name="tcompanyFeedback.name" id="fb_name" class="txt" placeholder="输入您的称呼" value=""></span></li>
+			<li><label>电话</label><span><input type="text" name="tcompanyFeedback.tel" id="fb_tel" class="txt" placeholder="输入您的联系电话"  value=""></span></li>
+			<li style="display:none"><label>邮箱</label><span><input type="text" name="tcompanyFeedback.email" id="fb_email" class="txt" placeholder="输入您的邮箱"  value=""></span></li>
+			<li class="ly_gkf" style="display:none">
+				<label>留言内容是否公开</label>
+				<button class="mwui-switch-btn" id="fb_public"><span change="是" class="off">否</span><input type="hidden" name="tcompanyFeedback.isPublic" value="Y" /></button>	
+			</li>
+			<li><textarea class="txts" id="fb_content" name="tcompanyFeedback.content"></textarea></li>
+		</ul>
+		<a href="javascript:;" class="feedback-btn sub-btn">我要留言</a>
 	</header>
-	<div id="wrapper" style="top: 50px;">
-		<div id="scroller" class="list">
-			<form method="post" action="">
-			<input type="hidden" id="fb_orgid" name="tcompanyFeedback.belongOrgId" value="" />
-			<input type="hidden" id="fb_oid" name="tcompanyFeedback.objectId" value="" />
-			<input type="hidden" id="fb_type" name="tcompanyFeedback.feedbackType" value="" />
-			<div class="ly_form form">
-				<h2>给我们留言</h2>
-				<ul>
-					<li>
-					<textarea class="txts" id="fb_content" name="tcompanyFeedback.content"></textarea>
-					</li>
-					<li><span>姓名：</span><span><input type="text" name="tcompanyFeedback.name" id="fb_name" class="txt" placeholder="输入您的称呼" value=""></span></li>
-					<li><span>电话：</span><span><input type="text" name="tcompanyFeedback.tel" id="fb_tel" class="txt" placeholder="输入您的联系电话"  value=""></span></li>
-					
-					<li><span>邮箱：</span><span><input type="text" name="tcompanyFeedback.email" id="fb_email" class="txt" placeholder="输入您的邮箱"  value=""></span></li>
-					<li class="ly_gkf" style="display:none">
-						<span>留言内容是否公开</span>
-						<button class="mwui-switch-btn" id="fb_public"><span change="是" class="off">否</span><input type="hidden" name="tcompanyFeedback.isPublic" value="Y" /></button>	
-					</li>
-				</ul>
-				
-				<p class="btn-group" style="padding:10px 0;">
-					<input type="button" class="btn" value="立即保存"/>
-				</p>
-			</div>
-			</form>
+	
+	<article>
+		<ul class="feedbacklist">
+			<li></li>
+		</ul>
+	</article>
+	<section>
+		<div class="pager">
+			<a href="#" class="prev" style="display:none">上一页</a>
+			<a href="#" class="next" style="display:none">下一页</a>
 		</div>
-	</div>
-
+	</section>
+	<nav>
+		<div class="menu">
+			<span class="left button" onclick="window.history.back()">后退</span>
+			<ul>
+				<li><a href="i.html" class="link-index">首页</a></li>
+			</ul>
+			<span class="right button" onclick="window.location.reload()">刷新</span>
+		</div>
+	</nav>
 </div>
 </body>
 </html>

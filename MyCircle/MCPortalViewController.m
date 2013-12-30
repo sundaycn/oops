@@ -13,6 +13,9 @@
 @property (strong, nonatomic) NSString *pageSize;
 @property (assign, nonatomic) NSInteger totalPages;
 @property (assign, nonatomic) NSInteger loadTimes;
+@property (strong, nonatomic) NSString *id;
+@property (strong, nonatomic) NSString *belongOrgId;
+
 @end
 
 @implementation MCPortalViewController
@@ -130,13 +133,11 @@
     {
         self.id = [[searchResults objectAtIndex:indexPath.row] objectForKey:@"id"];
         self.belongOrgId = [[searchResults objectAtIndex:indexPath.row] objectForKey:@"belongOrgId"];
-
     }
     else
     {
         self.id = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"id"];
         self.belongOrgId = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"belongOrgId"];
-
     }
     [self performSegueWithIdentifier:@"showContents" sender:self];
 }

@@ -7,6 +7,7 @@
 //
 
 #import "MCXmppHelper+Message.h"
+#import <AudioToolbox/AudioToolbox.h>
 #import "MCUtility.h"
 #import "MCMessage.h"
 #import "MCChatHistoryDAO.h"
@@ -55,6 +56,9 @@ static const char* ObjectTagKey1 = "Messages";
         if(self.msgrev != nil){
             [self.msgrev refreshmsg:msg];
         }
+        //5.播放提示音(震动模式下为震动提示)
+//        AudioServicesCreateSystemSoundID(<#CFURLRef inFileURL#>, <#SystemSoundID *outSystemSoundID#>) //创建自定义声音
+        AudioServicesPlaySystemSound(LOCAL_NOTIFICATION_SOUND_ID);
     }
 }
 

@@ -41,7 +41,7 @@
 {
     self.viewController = [[CDVViewController alloc] init];
     self.viewController.wwwFolderName = @"www";
-    NSString *strURL = [[[@"i.html?from=activity&id=" stringByAppendingString:self.id] stringByAppendingString:@"&belongOrgId="] stringByAppendingString:self.belongOrgId];
+    NSString *strURL = [[[@"i.html?from=activity&companyId=" stringByAppendingString:self.id] stringByAppendingString:@"&belongOrgId="] stringByAppendingString:self.belongOrgId];
     self.viewController.startPage = strURL;
     //y = 14.9
     self.viewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
