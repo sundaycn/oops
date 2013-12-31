@@ -7,9 +7,12 @@
 //
 
 #import "MCChatSessionViewController.h"
+#import <QuartzCore/QuartzCore.h>
 #import "MCXmppHelper+Message.h"
 #import "MCChatHistoryDAO.h"
 #import "MCChatHistory.h"
+
+#define TEXTVIEW_INIT_HEIGHT 30
 
 @interface MCChatSessionViewController ()
 
@@ -49,6 +52,18 @@
 //    self.navigationItem.backBarButtonItem = customBackBarButtonItem;
 //    [self.navigationItem.backBarButtonItem setTarget:self];
 //    [self.navigationItem.backBarButtonItem setAction:@selector(backButtonDidClick)];
+    //设置聊天文本输入视图样式
+    self.textInputBox = [[UITextView alloc] initWithFrame:CGRectMake(20, 7, 230, 30)];
+    self.textInputBox.layer.cornerRadius = 5;
+    [self.textInputBox.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [self.textInputBox.layer setBorderWidth:1.0];
+    self.textInputBox.clipsToBounds = YES;
+    self.textInputBox.scrollEnabled = NO;
+    self.textInputBox.font = [UIFont fontWithName:@"Helvetica" size:14];
+    self.textInputBox.delegate = self;
+    [self.toolbar addSubview:self.textInputBox];
+
+    
     //添加点击手势识别器
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTap:)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
@@ -82,7 +97,10 @@
                       selector:@selector(keyboardWillShow:)
                           name:UIKeyboardWillChangeFrameNotification
                         object:nil];
-
+    /*[defaultCenter addObserver:self
+                      selector:@selector(textIsChanging:)
+                          name:UITextViewTextDidChangeNotification
+                        object:nil];*/
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -147,7 +165,7 @@
     [self.bubbleTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
 
--(void)keyboardWillShow:(NSNotification*)notification
+- (void)keyboardWillShow:(NSNotification*)notification
 {
     NSDictionary* info = [notification userInfo];
     //键盘的大小
@@ -166,15 +184,21 @@
 
         //设置toolbar的位置
         CGFloat toolbarY = self.view.frame.size.height - self.toolbar.frame.size.height - keyboardRect.height;
+        CGFloat toolbarChangedY = self.toolbar.frame.origin.y - toolbarY;
         DLog(@"toolbar origin y:%f", toolbarY);
         self.toolbar.frame = CGRectMake(0, toolbarY, self.toolbar.frame.size.width, self.toolbar.frame.size.height);
+        
+        //设置UITextView的位置
+//        CGFloat textViewY = self.textInputBox.frame.origin.y - toolbarChangedY;
+//        DLog(@"textView origin y:%f", textViewY);
+//        self.textInputBox.frame = CGRectMake(self.textInputBox.frame.origin.x, textViewY, self.textInputBox.frame.size.width, self.textInputBox.frame.size.height);
     }];
     [self scrollTableToFoot:YES];
 }
 
--(void)keyboardWillHide:(NSNotification*)notification
+- (void)keyboardWillHide:(NSNotification*)notification
 {
-    NSDictionary* info = [notification userInfo];
+    NSDictionary *info = [notification userInfo];
     //键盘的大小
     CGSize keyboardRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     //键盘动画耗时
@@ -188,10 +212,69 @@
         //设置toolbar的位置
         CGFloat toolbarY = self.toolbar.frame.origin.y + keyboardRect.height;
         self.toolbar.frame = CGRectMake(0, toolbarY, self.toolbar.frame.size.width, self.toolbar.frame.size.height);
+        
+        //设置UITextView的位置
+//        CGFloat textViewY = self.textInputBox.frame.origin.y + keyboardRect.height;
+//        self.textInputBox.frame = CGRectMake(self.textInputBox.frame.origin.x, textViewY, self.textInputBox.frame.size.width, self.textInputBox.frame.size.height);
+
     }];
 }
 
--(void)refreshmsg:(MCMessage *)msg
+- (void)textViewDidChange:(UITextView *)textView
+{
+    DLog(@"=====textViewDidChange=======");
+    NSAttributedString *string = [[NSAttributedString alloc] initWithString:textView.text];
+    [textView setAttributedText:string];
+    CGFloat textViewHeightBeforeChanged = textView.frame.size.height;
+    CGSize size = [textView sizeThatFits:CGSizeMake(textView.frame.size.width, FLT_MAX)];
+    DLog(@"-----size height:%f", size.height);
+    if (size.height <= 90)
+    {
+        
+        CGFloat changedHeight = size.height - textViewHeightBeforeChanged;
+        //            [textView scrollRectToVisible:CGRectMake(0,0,1,1) animated:NO];
+        DLog(@"-----changedHeight:%f", changedHeight);
+        //            DLog(@"-----textView.frame.height:%f", textView.frame.size.height);
+        
+        // textView
+        //            chatBoxFrame.size.height = newSizeH + 12;
+        //            chatBoxFrame.size.height = [self textViewHeightForAttributedText:self.textInputBox.text andWidth:self.textInputBox.frame.size.width];
+        //chatBoxFrame.origin.y = self.textInputBox.frame.origin.y - 12;
+        //            self.textInputBox.frame = chatBoxFrame;
+        //            CGRect inputBoxFrame = textView.frame;
+        //            inputBoxFrame.size.height = textView.contentSize.height;
+        //            textView.frame = inputBoxFrame;
+        textView.frame = CGRectMake(textView.frame.origin.x,
+                                    textView.frame.origin.y,
+                                    textView.frame.size.width,
+                                    size.height);
+        DLog(@"after changed textView origin y:%f", textView.frame.origin.y);
+        DLog(@"after changed textView size height:%f", textView.frame.size.height);
+        
+        
+        // toolbar
+        self.toolbar.frame = CGRectMake(self.toolbar.frame.origin.x,
+                                        self.toolbar.frame.origin.y - changedHeight,
+                                        self.toolbar.frame.size.width,
+                                        self.toolbar.frame.size.height + changedHeight);
+        DLog(@"after changed toolbar origin y:%f", self.toolbar.frame.origin.y);
+        DLog(@"after changed toolbar size height:%f", self.toolbar.frame.size.height);
+        
+        // bubbleTableView
+        CGRect bubbleTableFrame = self.bubbleTableView.frame;
+        bubbleTableFrame.size.height = self.bubbleTableView.frame.size.height - changedHeight;
+        self.bubbleTableView.frame = bubbleTableFrame;
+        DLog(@"after changed bubbleTableView size height:%f", self.bubbleTableView.frame.size.height);
+    }
+    else
+    {
+        DLog(@"@@@@@@@@@@@@@@@@@");
+        textView.scrollEnabled = YES;
+        [textView scrollRectToVisible:CGRectMake(0,0,1,1) animated:NO];
+    }
+}
+
+- (void)refreshmsg:(MCMessage *)msg
 {
     if([msg.from isEqualToString:self.jid])
     {
@@ -243,7 +326,7 @@
 - (void)backgroundTap:(UITapGestureRecognizer *)sender
 {
     //关闭所有UITextField控件的键盘
-    [self.textInputMessage resignFirstResponder];
+    [self.textInputBox resignFirstResponder];
 }
 
 - (IBAction)buttonSendMessage:(UIBarButtonItem *)sender
@@ -251,14 +334,14 @@
     MCMessage *message = [[MCMessage alloc] init];
     message.from = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] bare];
     message.to = self.jid;
-    message.message = self.textInputMessage.text;
+    message.message = self.textInputBox.text;
     message.date = [NSDate date];
     [[MCXmppHelper sharedInstance] sendMessage:message];
-    NSBubbleData *msg = [NSBubbleData dataWithText:self.textInputMessage.text date:[NSDate dateWithTimeIntervalSinceNow:-0] type:BubbleTypeMine];
+    NSBubbleData *msg = [NSBubbleData dataWithText:self.textInputBox.text date:[NSDate dateWithTimeIntervalSinceNow:-0] type:BubbleTypeMine];
     [self.bubbleData addObject:msg];
     [self.bubbleTableView reloadData];
     [self scrollTableToFoot:YES];
-    [self.textInputMessage setText:nil];
+    [self.textInputBox setText:nil];
 }
 
 - (IBAction)textFieldShoudReturn:(UITextField *)sender

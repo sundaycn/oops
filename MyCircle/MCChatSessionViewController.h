@@ -12,17 +12,17 @@
 #import <UIBubbleTableView/NSBubbleData.h>
 #import "MCMsgRevDelegate.h"
 
-@interface MCChatSessionViewController : UIViewController <UIBubbleTableViewDataSource, MCMsgRevDelegate, UINavigationControllerDelegate>
+@interface MCChatSessionViewController : UIViewController <UIBubbleTableViewDataSource, MCMsgRevDelegate, UINavigationControllerDelegate, UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBubbleTableView *bubbleTableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (weak, nonatomic) IBOutlet UITextField *textInputMessage;
+@property (strong, nonatomic) UITextView *textInputBox;
 @property (strong, nonatomic) NSMutableArray *bubbleData;
 @property (strong, nonatomic) NSString *jid;
 @property (strong, nonatomic) NSString *sessionTittle;
 
 
 - (IBAction)buttonSendMessage:(UIBarButtonItem *)sender;
-- (IBAction)textFieldShoudReturn:(UITextField *)sender;
+//- (IBAction)textFieldShoudReturn:(UITextField *)sender;
 
 @end

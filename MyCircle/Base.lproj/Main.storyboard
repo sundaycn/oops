@@ -265,18 +265,7 @@
                                 <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem width="230" style="plain" id="PeM-is-Esb">
-                                        <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="LqJ-29-Aya">
-                                            <rect key="frame" x="16" y="7" width="230" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                            <connections>
-                                                <action selector="textFieldShoudReturn:" destination="yav-oi-KBQ" eventType="editingDidEndOnExit" id="Txd-gR-nuf"/>
-                                            </connections>
-                                        </textField>
-                                    </barButtonItem>
-                                    <barButtonItem title="发送" width="50" id="qBo-ls-Jj9">
+                                    <barButtonItem title="发送" width="540" id="qBo-ls-Jj9">
                                         <connections>
                                             <action selector="buttonSendMessage:" destination="yav-oi-KBQ" id="1Nl-Yb-Xdx"/>
                                         </connections>
@@ -291,7 +280,6 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="bubbleTableView" destination="Uhj-wp-NI6" id="LN8-Li-E72"/>
-                        <outlet property="textInputMessage" destination="LqJ-29-Aya" id="e8N-w4-a0h"/>
                         <outlet property="toolbar" destination="wIh-G1-Xk8" id="GV4-lC-f67"/>
                     </connections>
                 </viewController>

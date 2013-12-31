@@ -16,11 +16,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
-    // 通知设备需要接收推送通知 Let the device know we want to receive push notifications
-	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                   UIRemoteNotificationTypeSound |
-                                                   UIRemoteNotificationTypeAlert)];
-    [APService setupWithOption:launchOptions];
     
     
     if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
@@ -50,6 +45,14 @@
         UIViewController *mainVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
         self.window.rootViewController = mainVC;
     }
+    
+    //通知设备需要接收推送通知 Let the device know we want to receive push notifications
+	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                   UIRemoteNotificationTypeSound |
+                                                   UIRemoteNotificationTypeAlert)];
+    [APService setupWithOption:launchOptions];
+    //清除主屏幕上icon右上角的badge数字
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     
 
     return YES;
