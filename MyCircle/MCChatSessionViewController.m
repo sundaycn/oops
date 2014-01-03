@@ -11,6 +11,7 @@
 #import "MCXmppHelper+Message.h"
 #import "MCChatHistoryDAO.h"
 #import "MCChatHistory.h"
+#import "MCPullToRefreshManager.h"
 
 #define TEXTVIEW_INIT_HEIGHT 30
 
@@ -59,7 +60,8 @@
     [self.textInputBox.layer setBorderWidth:1.0];
     self.textInputBox.clipsToBounds = YES;
     self.textInputBox.scrollEnabled = NO;
-    self.textInputBox.font = [UIFont fontWithName:@"Helvetica" size:14];
+//    self.textInputBox.selectable = YES;
+    self.textInputBox.font = [UIFont systemFontOfSize:20];//[UIFont fontWithName:@"Helvetica" size:14];
     self.textInputBox.delegate = self;
     [self.toolbar addSubview:self.textInputBox];
 
@@ -71,14 +73,19 @@
     [self.bubbleTableView addGestureRecognizer:tapGestureRecognizer];
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     
+    //导航
     self.navigationItem.leftBarButtonItem.target = self;
     self.navigationItem.leftBarButtonItem.action = @selector(backMessageList);
-    
     self.navigationItem.title = self.sessionTittle;
-    
+
+    //聊天会话视图
     self.bubbleTableView.bubbleDataSource = self;
     self.bubbleTableView.backgroundColor = [UIColor whiteColor];
     self.bubbleData = [[NSMutableArray alloc] init];
+    
+    //添加下拉刷新加载更多记录管理器
+    self.pullToRefreshManager = [[MCPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0f tableView:self.bubbleTableView delegate:self];
+    
     //加载未读的消息
     [self loadRecord];
     
@@ -232,31 +239,22 @@
     {
         
         CGFloat changedHeight = size.height - textViewHeightBeforeChanged;
-        //            [textView scrollRectToVisible:CGRectMake(0,0,1,1) animated:NO];
+        [textView scrollRectToVisible:CGRectMake(0,0,1,1) animated:NO];
         DLog(@"-----changedHeight:%f", changedHeight);
         //            DLog(@"-----textView.frame.height:%f", textView.frame.size.height);
         
         // textView
-        //            chatBoxFrame.size.height = newSizeH + 12;
-        //            chatBoxFrame.size.height = [self textViewHeightForAttributedText:self.textInputBox.text andWidth:self.textInputBox.frame.size.width];
-        //chatBoxFrame.origin.y = self.textInputBox.frame.origin.y - 12;
-        //            self.textInputBox.frame = chatBoxFrame;
-        //            CGRect inputBoxFrame = textView.frame;
-        //            inputBoxFrame.size.height = textView.contentSize.height;
-        //            textView.frame = inputBoxFrame;
-        textView.frame = CGRectMake(textView.frame.origin.x,
-                                    textView.frame.origin.y,
-                                    textView.frame.size.width,
-                                    size.height);
+        CGRect inputBoxFrame = textView.frame;
+        inputBoxFrame.size.height = size.height;
+        textView.frame = inputBoxFrame;
         DLog(@"after changed textView origin y:%f", textView.frame.origin.y);
         DLog(@"after changed textView size height:%f", textView.frame.size.height);
         
-        
         // toolbar
-        self.toolbar.frame = CGRectMake(self.toolbar.frame.origin.x,
-                                        self.toolbar.frame.origin.y - changedHeight,
-                                        self.toolbar.frame.size.width,
-                                        self.toolbar.frame.size.height + changedHeight);
+        CGRect toolbarFrame = self.toolbar.frame;
+        toolbarFrame.origin.y = self.toolbar.frame.origin.y - changedHeight;
+        toolbarFrame.size.height = self.toolbar.frame.size.height + changedHeight;
+        self.toolbar.frame = toolbarFrame;
         DLog(@"after changed toolbar origin y:%f", self.toolbar.frame.origin.y);
         DLog(@"after changed toolbar size height:%f", self.toolbar.frame.size.height);
         
@@ -268,8 +266,10 @@
     }
     else
     {
-        DLog(@"@@@@@@@@@@@@@@@@@");
-        textView.scrollEnabled = YES;
+        DLog(@"*******content height is more than 90");
+        if (!textView.scrollEnabled) {
+            textView.scrollEnabled = YES;
+        }
         [textView scrollRectToVisible:CGRectMake(0,0,1,1) animated:NO];
     }
 }
@@ -297,6 +297,43 @@
 - (NSBubbleData *)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row
 {
     return [self.bubbleData objectAtIndex:row];
+}
+
+#pragma mark - MCPullToRefreshManagerDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    DLog(@"Scroll...");
+    [self.pullToRefreshManager tableViewScrolled];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (scrollView.contentOffset.y >=360.0f)
+    {
+    }
+    else
+        [self.pullToRefreshManager tableViewReleased];
+}
+
+- (void)pullToRefreshTriggered:(MCPullToRefreshManager *)manager
+{
+    DLog(@"Refresh Triggered");
+    self.reloads++;
+    [self performSelector:@selector(getEarlierMessages) withObject:nil afterDelay:0.0f];
+}
+
+-(void)getEarlierMessages
+{
+    DLog(@"get Earlir Messages And Appand to Array");
+    [self performSelector:@selector(loadfinished) withObject:nil afterDelay:1];
+}
+
+-(void)loadfinished
+{
+    [self.pullToRefreshManager tableViewReloadFinishedAnimated:YES];
+    [self.bubbleTableView reloadData];
+    
 }
 
 /*
