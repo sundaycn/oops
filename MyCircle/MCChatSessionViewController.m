@@ -11,7 +11,6 @@
 #import "MCXmppHelper+Message.h"
 #import "MCChatHistoryDAO.h"
 #import "MCChatHistory.h"
-#import "MCPullToRefreshManager.h"
 
 #define TEXTVIEW_INIT_HEIGHT 30
 
@@ -83,11 +82,20 @@
     self.bubbleTableView.backgroundColor = [UIColor whiteColor];
     self.bubbleData = [[NSMutableArray alloc] init];
     
-    //添加下拉刷新加载更多记录管理器
-    self.pullToRefreshManager = [[MCPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0f tableView:self.bubbleTableView delegate:self];
-    
     //加载未读的消息
     [self loadRecord];
+    
+    //下拉刷新
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新"];
+//    self.refreshControl.tag = 99;
+    [self.refreshControl addTarget:self
+                            action:@selector(refreshBubbleTableView)
+                  forControlEvents:UIControlEventValueChanged];
+    [self.bubbleTableView addSubview:self.refreshControl];
+    self.bubbleTableView.alwaysBounceVertical = YES;
+    [self.refreshControl beginRefreshing];
+    [self.refreshControl endRefreshing];
     
     //监听键盘
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
@@ -299,43 +307,23 @@
     return [self.bubbleData objectAtIndex:row];
 }
 
-#pragma mark - MCPullToRefreshManagerDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)refreshBubbleTableView
 {
-    DLog(@"Scroll...");
-    [self.pullToRefreshManager tableViewScrolled];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (scrollView.contentOffset.y >=360.0f)
-    {
+    if (self.refreshControl.refreshing) {
+        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"正在加载..."];
+        //加载更多数据
+        //回调方法
+        [self performSelector:@selector(callBackMethod:) withObject:nil afterDelay:3];
     }
-    else
-        [self.pullToRefreshManager tableViewReleased];
 }
 
-- (void)pullToRefreshTriggered:(MCPullToRefreshManager *)manager
+- (void)callBackMethod:(id)obj
 {
-    DLog(@"Refresh Triggered");
-    self.reloads++;
-    [self performSelector:@selector(getEarlierMessages) withObject:nil afterDelay:0.0f];
-}
-
--(void)getEarlierMessages
-{
-    DLog(@"get Earlir Messages And Appand to Array");
-    [self performSelector:@selector(loadfinished) withObject:nil afterDelay:1];
-}
-
--(void)loadfinished
-{
-    [self.pullToRefreshManager tableViewReloadFinishedAnimated:YES];
+    [self.refreshControl endRefreshing];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新"];
+    DLog(@"-----callBackMethod-----");
     [self.bubbleTableView reloadData];
-    
 }
-
 /*
 #pragma mark - Navigation
 

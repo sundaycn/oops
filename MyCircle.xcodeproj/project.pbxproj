@@ -49,8 +49,6 @@
 		229DF0DA18710B2000739C3A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D918710B2000739C3A /* CoreFoundation.framework */; };
 		229DF0DB18710B3300739C3A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22CEC3F618594C9000DC9913 /* SystemConfiguration.framework */; };
 		229DF0DD18710CAE00739C3A /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 229DF0DC18710CAE00739C3A /* PushConfig.plist */; };
-		229DF0E118754F7800739C3A /* MCPullToRefreshManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229DF0E018754F7800739C3A /* MCPullToRefreshManager.m */; };
-		229DF0E41875503500739C3A /* MCPullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 229DF0E31875503500739C3A /* MCPullToRefreshView.m */; };
 		22A1E4C71813B10400A1FA06 /* MCContactsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */; };
 		22AA9AA618433AF2000C3A7F /* MCPortalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AA9AA518433AF2000C3A7F /* MCPortalViewController.m */; };
 		22AA9AA918433DA3000C3A7F /* MCPortalDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AA9AA818433DA3000C3A7F /* MCPortalDataHandler.m */; };
@@ -308,11 +306,6 @@
 		229DF0D718710AF400739C3A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		229DF0D918710B2000739C3A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		229DF0DC18710CAE00739C3A /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
-		229DF0DF18754E9000739C3A /* MCPullToRefreshManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCPullToRefreshManager.h; sourceTree = "<group>"; };
-		229DF0E018754F7800739C3A /* MCPullToRefreshManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPullToRefreshManager.m; sourceTree = "<group>"; };
-		229DF0E21875503500739C3A /* MCPullToRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPullToRefreshView.h; sourceTree = "<group>"; };
-		229DF0E31875503500739C3A /* MCPullToRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPullToRefreshView.m; sourceTree = "<group>"; };
-		229DF0E518764B1C00739C3A /* MCPullToRefreshManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCPullToRefreshManagerDelegate.h; sourceTree = "<group>"; };
 		22A1E4C51813B10400A1FA06 /* MCContactsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContactsDetailViewController.h; sourceTree = "<group>"; };
 		22A1E4C61813B10400A1FA06 /* MCContactsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContactsDetailViewController.m; sourceTree = "<group>"; };
 		22AA9AA418433AF2000C3A7F /* MCPortalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPortalViewController.h; sourceTree = "<group>"; };
@@ -717,7 +710,6 @@
 		2203A583180E74BC00742830 /* BusinessLogicLayer */ = {
 			isa = PBXGroup;
 			children = (
-				229DF0DE18754E2100739C3A /* PullToRefresh */,
 				229DF0D318710A9800739C3A /* JPush */,
 				22560CB718614514002478B5 /* DBHelper */,
 				2255FD1B1859B22B00A01BA1 /* Common */,
@@ -877,18 +869,6 @@
 				229DF0D518710ABE00739C3A /* libPushSDK.a */,
 			);
 			name = JPush;
-			sourceTree = "<group>";
-		};
-		229DF0DE18754E2100739C3A /* PullToRefresh */ = {
-			isa = PBXGroup;
-			children = (
-				229DF0DF18754E9000739C3A /* MCPullToRefreshManager.h */,
-				229DF0E018754F7800739C3A /* MCPullToRefreshManager.m */,
-				229DF0E21875503500739C3A /* MCPullToRefreshView.h */,
-				229DF0E31875503500739C3A /* MCPullToRefreshView.m */,
-				229DF0E518764B1C00739C3A /* MCPullToRefreshManagerDelegate.h */,
-			);
-			name = PullToRefresh;
 			sourceTree = "<group>";
 		};
 		22AA9AA218433A27000C3A7F /* Portal */ = {
@@ -2109,7 +2089,6 @@
 				22CEC3B718594B3D00DC9913 /* XMPPRoomOccupantHybridMemoryStorageObject.m in Sources */,
 				2203A599180E803200742830 /* MCCoreData.xcdatamodeld in Sources */,
 				2255E7D9183360B600BAD0ED /* MCContactsSearchLibrary.m in Sources */,
-				229DF0E118754F7800739C3A /* MCPullToRefreshManager.m in Sources */,
 				22E985C21857030F00032893 /* MCMessageCell.m in Sources */,
 				22CEC3BF18594B3D00DC9913 /* XMPPvCardAvatarCoreDataStorageObject.m in Sources */,
 				22CEC2A918594AD700DC9913 /* XMPPXFacebookPlatformAuthentication.m in Sources */,
@@ -2157,7 +2136,6 @@
 				22CEC3D418594B3D00DC9913 /* XMPPMessage+XEP_0085.m in Sources */,
 				22CEC25C18594A5400DC9913 /* DDXMLDocument.m in Sources */,
 				2255FD0718599F0D00A01BA1 /* MCXmppHelper+Message.m in Sources */,
-				229DF0E41875503500739C3A /* MCPullToRefreshView.m in Sources */,
 				2255FD041859616000A01BA1 /* MCXmppHelper+Login.m in Sources */,
 				22CEC3EB18594B3E00DC9913 /* NSXMLElement+XEP_0203.m in Sources */,
 				22CEC22D1859467400DC9913 /* ContextFilterLogFormatter.m in Sources */,

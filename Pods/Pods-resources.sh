@@ -45,8 +45,6 @@ install_resource "UIBubbleTableView/images/bubbleMine.png"
 install_resource "UIBubbleTableView/images/bubbleMine@2x.png"
 install_resource "UIBubbleTableView/images/bubbleSomeone.png"
 install_resource "UIBubbleTableView/images/bubbleSomeone@2x.png"
-install_resource "UIBubbleTableView/images/missingAvatar.png"
-install_resource "UIBubbleTableView/images/missingAvatar@2x.png"
 install_resource "UIBubbleTableView/images/typingMine.png"
 install_resource "UIBubbleTableView/images/typingMine@2x.png"
 install_resource "UIBubbleTableView/images/typingSomeone.png"
@@ -58,21 +56,8 @@ if [[ "${ACTION}" == "install" ]]; then
 fi
 rm -f "$RESOURCES_TO_COPY"
 
-if [[ -n "${WRAPPER_EXTENSION}" ]] && [ `xcrun --find actool` ] && [ `find . -name '*.xcassets' | wc -l` -ne 0 ]
+if [ `find . -name '*.xcassets' | wc -l` -ne 0 ]
 then
-  case "${TARGETED_DEVICE_FAMILY}" in 
-    1,2)
-      TARGET_DEVICE_ARGS="--target-device ipad --target-device iphone"
-      ;;
-    1)
-      TARGET_DEVICE_ARGS="--target-device iphone"
-      ;;
-    2)
-      TARGET_DEVICE_ARGS="--target-device ipad"
-      ;;
-    *)
-      TARGET_DEVICE_ARGS="--target-device mac"
-      ;;  
-  esac 
-  find "${PWD}" -name "*.xcassets" -print0 | xargs -0 actool --output-format human-readable-text --notices --warnings --platform "${PLATFORM_NAME}" --minimum-deployment-target "${IPHONEOS_DEPLOYMENT_TARGET}" ${TARGET_DEVICE_ARGS} --compress-pngs --compile "${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
+  DEVICE=`if [ "${TARGETED_DEVICE_FAMILY}" -eq 1 ]; then echo "iphone"; else echo "ipad"; fi`
+  find "${PWD}" -name "*.xcassets" -print0 | xargs -0 actool --output-format human-readable-text --notices --warnings --platform "${PLATFORM_NAME}" --minimum-deployment-target "${IPHONEOS_DEPLOYMENT_TARGET}" --target-device "${DEVICE}" --compress-pngs --compile "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.${WRAPPER_EXTENSION}"
 fi

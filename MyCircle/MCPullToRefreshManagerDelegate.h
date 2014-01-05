@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class MCPullToRefreshManager;
+//#import "MCPullToRefreshManager.h"
 /**
  * Delegate protocol to implement by `MNMPullToRefreshManager` observers to keep track of changes in pull-to-refresh view
  * and its state.
@@ -45,6 +44,6 @@
  *
  * @param manager The pull to refresh manager.
  */
-- (void)pullToRefreshTriggered:(MCPullToRefreshManager *)manager;
+//- (void)pullToRefreshTriggered:(MCPullToRefreshManager *)manager;
 
 @end
