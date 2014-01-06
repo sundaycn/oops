@@ -117,8 +117,52 @@ static MCChatHistoryDAO *sharedManager = nil;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(from=%@ AND to=%@) OR (from=%@ AND to=%@)", jid, myJid, myJid, jid];
     [request setPredicate:predicate];
     
-//    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"time" ascending:YES];
-//    [request setSortDescriptors:@[sortDescriptor]];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"time" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    NSMutableArray *resListData = [[NSMutableArray alloc] init];
+    
+    int listCount = listData.count;
+    int loopTimes = 10;
+    while (listCount > 0 && loopTimes > 0)
+    {
+        MCChatHistoryManagedObject *mo = [listData objectAtIndex:listCount-1];
+        listCount--;
+        MCChatHistory *chatHistory = [[MCChatHistory alloc] init];
+        chatHistory.from = mo.from;
+        chatHistory.to = mo.to;
+        chatHistory.message = mo.message;
+        chatHistory.time = mo.time;
+        chatHistory.isread = mo.isread;
+        [resListData addObject:chatHistory];
+        loopTimes--;
+    }
+    return [resListData copy];
+}
+
+//在聊天历史记录表中，查找某个时间段内的记录
+- (NSArray *)findSomeMessageByTime:(NSDate *)time jid:(NSString *)jid myJid:(NSString *)myJid
+{
+    // Define a date formatter for storage, full style for more flexibility
+    /*NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterFullStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterFullStyle];
+    // Format back to a date using the same styles
+    NSDate *dtime = [dateFormatter dateFromString:time];*/
+    
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCChatHistory" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"((from=%@ AND to=%@) OR (from=%@ AND to=%@)) AND time<%@", jid, myJid, myJid, jid, time];
+    [request setPredicate:predicate];
+    
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"time" ascending:YES];
+    [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error = nil;
     NSArray *listData = [cxt executeFetchRequest:request error:&error];

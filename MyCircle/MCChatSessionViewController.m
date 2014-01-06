@@ -83,11 +83,13 @@
     self.bubbleData = [[NSMutableArray alloc] init];
     
     //加载未读的消息
+    myJid = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] bare];
+    timeOfFirstMessage = nil;
     [self loadRecord];
     
     //下拉刷新
     self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新"];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉查看历史记录"];
 //    self.refreshControl.tag = 99;
     [self.refreshControl addTarget:self
                             action:@selector(refreshBubbleTableView)
@@ -136,8 +138,13 @@
     //1.加载未读消息
     //2.修改未读记录为已读
     //3.重设计数器
-    NSString *myJid = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] bare];
     NSArray *arrRecentMessage = [[MCChatHistoryDAO sharedManager] findRecentMessageByJid:self.jid myJid:myJid];
+    if (arrRecentMessage.count < 10) {
+        refreshControlVisable = NO;
+    }
+    else {
+        refreshControlVisable = YES;
+    }
     for (MCChatHistory *obj in arrRecentMessage)
     {
         NSBubbleData *data;
@@ -150,6 +157,11 @@
         }
         [self.bubbleData addObject:data];
     }
+    //保存已展示的第一条记录的时间，便于获取更多历史记录
+    if (!timeOfFirstMessage) {
+        timeOfFirstMessage = [[arrRecentMessage lastObject] time];
+    }
+
     [[MCChatHistoryDAO sharedManager] updateByJid:self.jid];
     [self resetUnreadBadge];
     [self.bubbleTableView reloadData];
@@ -199,14 +211,8 @@
 
         //设置toolbar的位置
         CGFloat toolbarY = self.view.frame.size.height - self.toolbar.frame.size.height - keyboardRect.height;
-        CGFloat toolbarChangedY = self.toolbar.frame.origin.y - toolbarY;
         DLog(@"toolbar origin y:%f", toolbarY);
         self.toolbar.frame = CGRectMake(0, toolbarY, self.toolbar.frame.size.width, self.toolbar.frame.size.height);
-        
-        //设置UITextView的位置
-//        CGFloat textViewY = self.textInputBox.frame.origin.y - toolbarChangedY;
-//        DLog(@"textView origin y:%f", textViewY);
-//        self.textInputBox.frame = CGRectMake(self.textInputBox.frame.origin.x, textViewY, self.textInputBox.frame.size.width, self.textInputBox.frame.size.height);
     }];
     [self scrollTableToFoot:YES];
 }
@@ -312,16 +318,38 @@
     if (self.refreshControl.refreshing) {
         self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"正在加载..."];
         //加载更多数据
+        NSArray *arrEarlyMessage = [[MCChatHistoryDAO sharedManager] findSomeMessageByTime:timeOfFirstMessage jid:self.jid myJid:myJid];
+        if (arrEarlyMessage.count < 10) {
+            refreshControlVisable = NO;
+        }
+        for (MCChatHistory *obj in arrEarlyMessage)
+        {
+            NSBubbleData *data;
+            if ([obj.from isEqualToString:self.jid]) {
+                data = [NSBubbleData dataWithText:obj.message date:obj.time type:BubbleTypeSomeoneElse];
+            }
+            else
+            {
+                data = [NSBubbleData dataWithText:obj.message date:obj.time type:BubbleTypeMine];
+            }
+            [self.bubbleData addObject:data];
+        }
+        //保存已展示的第一条记录的时间
+        timeOfFirstMessage = [[arrEarlyMessage lastObject] time];
         //回调方法
-        [self performSelector:@selector(callBackMethod:) withObject:nil afterDelay:3];
+        [self performSelector:@selector(callBackMethod:) withObject:nil];
     }
 }
 
 - (void)callBackMethod:(id)obj
 {
     [self.refreshControl endRefreshing];
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新"];
-    DLog(@"-----callBackMethod-----");
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉查看历史记录"];
+    if (!refreshControlVisable) {
+        //没有更多记录则移除refreshControl
+        self.refreshControl = nil;
+        [self.refreshControl removeFromSuperview];
+    }
     [self.bubbleTableView reloadData];
 }
 /*
@@ -361,6 +389,7 @@
     message.to = self.jid;
     message.message = self.textInputBox.text;
     message.date = [NSDate date];
+    DLog(@"======send date:%@", message.date);
     [[MCXmppHelper sharedInstance] sendMessage:message];
     NSBubbleData *msg = [NSBubbleData dataWithText:self.textInputBox.text date:[NSDate dateWithTimeIntervalSinceNow:-0] type:BubbleTypeMine];
     [self.bubbleData addObject:msg];
@@ -372,5 +401,14 @@
 - (IBAction)textFieldShoudReturn:(UITextField *)sender
 {
     [sender resignFirstResponder];
+}
+
+//暂时没用到
+- (NSDate *)getLocalDate:(NSDate *)gmtDate
+{
+    //获取本地时间，默认是GMT时间
+    NSTimeZone *zone = [NSTimeZone systemTimeZone];
+    NSInteger interval = [zone secondsFromGMTForDate:gmtDate];
+    return [gmtDate dateByAddingTimeInterval:interval];
 }
 @end

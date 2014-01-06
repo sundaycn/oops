@@ -16,6 +16,11 @@
 @class MCPullToRefreshManager;
 
 @interface MCChatSessionViewController : UIViewController <UIBubbleTableViewDataSource, MCMsgRevDelegate, UINavigationControllerDelegate, UITextViewDelegate>
+{
+    NSString *myJid;
+    NSDate *timeOfFirstMessage;
+    BOOL refreshControlVisable;
+}
 
 @property (weak, nonatomic) IBOutlet UIBubbleTableView *bubbleTableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;

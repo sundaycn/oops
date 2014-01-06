@@ -22,6 +22,8 @@
 - (NSArray *)findUnreadMessageByJid:(NSString *)jid;
 //在聊天历史记录表中，查找最近10条记录
 - (NSArray *)findRecentMessageByJid:(NSString *)jid myJid:(NSString *)myJid;
+//在聊天历史记录表中，查找某个时间段内的记录
+- (NSArray *)findSomeMessageByTime:(NSDate *)time jid:(NSString *)jid myJid:(NSString *)myJid;
 // 获取未读消息数
 - (NSInteger)fetchUnReadMsgCount;
 
