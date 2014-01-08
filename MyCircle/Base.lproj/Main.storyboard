@@ -166,7 +166,7 @@
         <!--Contacts Detail View Controller-->
         <scene sceneID="K2S-bY-FuK">
             <objects>
-                <tableViewController id="wXF-Ho-IJh" customClass="MCContactsDetailViewController" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="wXF-Ho-IJh" customClass="MCContactsDetailViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="30" sectionFooterHeight="22" id="BBO-bq-5ou">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -238,11 +238,41 @@
                     <navigationItem key="navigationItem" title="消息" id="Gv9-Ei-JRt"/>
                     <connections>
                         <segue destination="yav-oi-KBQ" kind="push" identifier="showChatSession" id="4rL-on-H2P"/>
+                        <segue destination="msB-fW-66E" kind="push" identifier="showNotificationSession" id="fLh-5U-1b5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7H2-L5-Xjc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2249" y="-1586"/>
+        </scene>
+        <!--Notification Session View Controller-->
+        <scene sceneID="K02-5Q-PSr">
+            <objects>
+                <tableViewController hidesBottomBarWhenPushed="YES" id="msB-fW-66E" customClass="MCNotificationSessionViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="hJi-rD-Fga">
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="cU1-D8-KEi">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cU1-D8-KEi" id="abS-sr-Y3W">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="msB-fW-66E" id="2Xl-MC-RYq"/>
+                            <outlet property="delegate" destination="msB-fW-66E" id="zq1-n9-L8E"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Rkv-Fm-FIj"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Fw-ZR-iDD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2820" y="-2430"/>
         </scene>
         <!--Chat Session View Controller-->
         <scene sceneID="y9X-Aw-6WY">
@@ -450,7 +480,7 @@
         <!--Contens View Controller-->
         <scene sceneID="f5d-hm-8A4">
             <objects>
-                <viewController id="hzv-RG-F4B" customClass="MCContensViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="hzv-RG-F4B" customClass="MCContensViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OBl-H4-26L"/>
                         <viewControllerLayoutGuide type="bottom" id="H4m-kq-JmG"/>
@@ -496,6 +526,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Xt3-2W-ncC"/>
+        <segue reference="4rL-on-H2P"/>
     </inferredMetricsTieBreakers>
 </document>

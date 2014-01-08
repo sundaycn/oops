@@ -11,9 +11,6 @@
 #import <UIBubbleTableView/UIBubbleTableViewDataSource.h>
 #import <UIBubbleTableView/NSBubbleData.h>
 #import "MCMsgRevDelegate.h"
-#import "MCPullToRefreshManagerDelegate.h"
-
-@class MCPullToRefreshManager;
 
 @interface MCChatSessionViewController : UIViewController <UIBubbleTableViewDataSource, MCMsgRevDelegate, UINavigationControllerDelegate, UITextViewDelegate>
 {

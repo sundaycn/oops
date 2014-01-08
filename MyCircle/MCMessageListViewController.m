@@ -62,49 +62,99 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    self.keys = [[[[MCXmppHelper sharedInstance] Messages] allKeys] copy];
-    if(!self.keys){
-        return 0;
+    if (section == 0) {
+        //企业动态
+        return 1;
     }
-    else{
-        return self.keys.count;
+    else {
+        //聊天会话
+        self.keys = [[[[MCXmppHelper sharedInstance] Messages] allKeys] copy];
+        if(!self.keys){
+            return 0;
+        }
+        else{
+            return self.keys.count;
+        }
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"MsgListCell";
-    MCMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    if (indexPath.section == 0) {
+        static NSString *CellIdentifier1 = @"ComanpyNewsCell";
+        MCMessageCell *cell1 = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+        if (cell1 == nil) {
+            cell1 = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
+        }
+        
+        MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:XMPP_ADMIN_JID];
+        
+        cell1.labelName.text = @"企业动态";
+        if (msg) {
+            NSData *dataMessage = [msg.message dataUsingEncoding:NSUTF8StringEncoding];
+            DLog(@"dataMessage:%@", dataMessage);
+            id arrMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingMutableContainers error:nil];
+            if ([arrMessage isKindOfClass:[NSArray class]]) {
+                DLog(@"it's array!");
+            }
+            else if ([arrMessage isKindOfClass:[NSDictionary class]]) {
+                DLog(@"it's dictionary");
+            }
+            else {
+                DLog(@"others!");
+            }
+            DLog(@"dictMessage all:%@", arrMessage);
+            cell1.labelTime.text = [MCUtility getmessageTime:msg.date];
+            cell1.labelMessage.text = [arrMessage lastObject];
+            
+            //从最近消息组中移除admin
+//            [self.keys removeObject:XMPP_ADMIN_JID];
+            DLog(@"dicMessage:%@", [arrMessage lastObject]);
+        }
+
+        return cell1;
     }
-    // Configure the cell...
-    NSString *jid = [self.keys objectAtIndex:indexPath.row];
-    MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:jid];
-    
-    NSString *mobilePhone;
-    if ([msg.from isEqualToString:[[self.userInfo stringForKey:@"user"] stringByAppendingString:@"@127.0.0.1"]]) {
-        NSRange separator = [msg.to rangeOfString:@"@"];
-        mobilePhone = [msg.to substringWithRange:NSMakeRange(0, separator.location)];
+    else {
+        static NSString *CellIdentifier = @"MsgListCell";
+        MCMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        // Configure the cell...
+        NSString *jid = [self.keys objectAtIndex:indexPath.row];
+        MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:jid];
+        
+        if ([msg.from isEqualToString:XMPP_ADMIN_JID]) {
+            NSData *dataMessage = [msg.message dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *dictMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingAllowFragments error:nil];
+            cell.labelName.text = @"企业动态";
+            cell.labelTime.text = [MCUtility getmessageTime:msg.date];
+            cell.labelMessage.text = [[[dictMessage objectForKey:@"message"] lastObject] objectForKey:@"msgTitle"];
+        }
+        
+        NSString *mobilePhone;
+        if ([msg.from isEqualToString:[[self.userInfo stringForKey:@"user"] stringByAppendingString:@"@127.0.0.1"]]) {
+            NSRange separator = [msg.to rangeOfString:@"@"];
+            mobilePhone = [msg.to substringWithRange:NSMakeRange(0, separator.location)];
+        }
+        else {
+            NSRange separator = [msg.from rangeOfString:@"@"];
+            mobilePhone = [msg.from substringWithRange:NSMakeRange(0, separator.location)];
+        }
+        
+        MCBook *book = [[[MCBookBL alloc] init] findbyMobilePhone:mobilePhone];
+        cell.labelName.text = book.name;
+        cell.labelTime.text = [MCUtility getmessageTime:msg.date];
+        cell.labelMessage.text = msg.message;
+        
+        return cell;
     }
-    else
-    {
-        NSRange separator = [msg.from rangeOfString:@"@"];
-        mobilePhone = [msg.from substringWithRange:NSMakeRange(0, separator.location)];
-    }
-    MCBook *book = [[[MCBookBL alloc] init] findbyMobilePhone:mobilePhone];
-    
-    cell.labelName.text = book.name;
-    cell.labelTime.text = [MCUtility getmessageTime:msg.date];
-    cell.labelMessage.text = msg.message;
-    
-    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -114,7 +164,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self performSegueWithIdentifier:@"showChatSession" sender:self];
+    if (indexPath.section == 0) {
+        [self performSegueWithIdentifier:@"showNotificationSession" sender:self];
+    }
+    else {
+        [self performSegueWithIdentifier:@"showChatSession" sender:self];
+    }
 }
 
 /*

@@ -27,6 +27,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.hidesBottomBarWhenPushed = YES;
     [self initStartPage];
     [self.view addSubview:self.viewController.view];
 }

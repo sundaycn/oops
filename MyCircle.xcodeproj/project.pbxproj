@@ -44,6 +44,8 @@
 		22560CAF185E90D2002478B5 /* MCChatSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 22560CAE185E90D2002478B5 /* MCChatSession.m */; };
 		22560CB2185E93A8002478B5 /* MCChatHistoryDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 22560CB1185E93A8002478B5 /* MCChatHistoryDAO.m */; };
 		22560CB5185E93B7002478B5 /* MCChatHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 22560CB4185E93B7002478B5 /* MCChatHistory.m */; };
+		2258D0FD187CE1260047EB72 /* MCNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2258D0FC187CE1260047EB72 /* MCNotificationCell.m */; };
+		2258D100187CE6F40047EB72 /* MCNotificationSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2258D0FF187CE6F40047EB72 /* MCNotificationSessionViewController.m */; };
 		229DF0D618710ABE00739C3A /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D518710ABE00739C3A /* libPushSDK.a */; };
 		229DF0D818710AF400739C3A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D718710AF400739C3A /* CoreTelephony.framework */; };
 		229DF0DA18710B2000739C3A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D918710B2000739C3A /* CoreFoundation.framework */; };
@@ -301,6 +303,10 @@
 		22560CB1185E93A8002478B5 /* MCChatHistoryDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCChatHistoryDAO.m; sourceTree = "<group>"; };
 		22560CB3185E93B7002478B5 /* MCChatHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCChatHistory.h; sourceTree = "<group>"; };
 		22560CB4185E93B7002478B5 /* MCChatHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCChatHistory.m; sourceTree = "<group>"; };
+		2258D0FB187CE1260047EB72 /* MCNotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNotificationCell.h; sourceTree = "<group>"; };
+		2258D0FC187CE1260047EB72 /* MCNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCNotificationCell.m; sourceTree = "<group>"; };
+		2258D0FE187CE6F40047EB72 /* MCNotificationSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNotificationSessionViewController.h; sourceTree = "<group>"; };
+		2258D0FF187CE6F40047EB72 /* MCNotificationSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCNotificationSessionViewController.m; sourceTree = "<group>"; };
 		229DF0D418710ABE00739C3A /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
 		229DF0D518710ABE00739C3A /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
 		229DF0D718710AF400739C3A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -1771,6 +1777,8 @@
 			children = (
 				22E985C91857E9FF00032893 /* MCMessageListViewController.h */,
 				22E985CA1857E9FF00032893 /* MCMessageListViewController.m */,
+				2258D0FE187CE6F40047EB72 /* MCNotificationSessionViewController.h */,
+				2258D0FF187CE6F40047EB72 /* MCNotificationSessionViewController.m */,
 				22E985CC1857EA0D00032893 /* MCChatSessionViewController.h */,
 				22E985CD1857EA0D00032893 /* MCChatSessionViewController.m */,
 			);
@@ -1786,6 +1794,8 @@
 				22560CA8185AB27E002478B5 /* MCMessageUserUionObject.m */,
 				2255FD1F1859B56100A01BA1 /* MCMsgRevDelegate.h */,
 				2255FD201859B57700A01BA1 /* MCMessageCountDelegate.h */,
+				2258D0FB187CE1260047EB72 /* MCNotificationCell.h */,
+				2258D0FC187CE1260047EB72 /* MCNotificationCell.m */,
 			);
 			name = Message;
 			sourceTree = "<group>";
@@ -2025,6 +2035,7 @@
 				22CEC3CF18594B3D00DC9913 /* TURNSocket.m in Sources */,
 				22CEC3CC18594B3D00DC9913 /* XMPPResultSet.m in Sources */,
 				22CEC3DB18594B3D00DC9913 /* XMPPCapsResourceCoreDataStorageObject.m in Sources */,
+				2258D100187CE6F40047EB72 /* MCNotificationSessionViewController.m in Sources */,
 				2203A5A7180E872B00742830 /* MCBook.m in Sources */,
 				2254A077184B63D500DC103F /* MCContensViewController.m in Sources */,
 				22CEC3C418594B3D00DC9913 /* XMPPvCardTempAdr.m in Sources */,
@@ -2083,6 +2094,7 @@
 				22CEC2A718594AD700DC9913 /* XMPPDigestMD5Authentication.m in Sources */,
 				22CEC3CE18594B3D00DC9913 /* XMPPPubSub.m in Sources */,
 				22D7F63B180BEE60007E5E22 /* RATreeNodeInfo+Private.m in Sources */,
+				2258D0FD187CE1260047EB72 /* MCNotificationCell.m in Sources */,
 				22F86DC718112F48000CCB50 /* MCDeptBL.m in Sources */,
 				22E985CB1857E9FF00032893 /* MCMessageListViewController.m in Sources */,
 				22CEC3A418594B3D00DC9913 /* XMPPUserCoreDataStorageObject.m in Sources */,
