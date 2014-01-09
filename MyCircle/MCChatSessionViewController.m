@@ -84,7 +84,7 @@
     self.bubbleTableView.backgroundColor = [UIColor whiteColor];
     self.bubbleData = [[NSMutableArray alloc] init];
     
-    //加载未读的消息
+    //加载消息记录
     myJid = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] bare];
     timeOfFirstMessage = nil;
     [self loadRecord];
@@ -137,7 +137,7 @@
 
 - (void)loadRecord
 {
-    //1.加载未读消息
+    //1.加载消息记录
     //2.修改未读记录为已读
     //3.重设计数器
     NSArray *arrRecentMessage = [[MCChatHistoryDAO sharedManager] findRecentMessageByJid:self.jid myJid:myJid];

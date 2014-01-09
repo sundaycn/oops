@@ -65,8 +65,6 @@ static MCChatHistoryDAO *sharedManager = nil;
     {
         for(MCChatHistory *obj in result)
         {
-            DLog(@"obj.from:%@", obj.from);
-            DLog(@"obj.isread:%@", obj.isread);
             obj.isread = @"YES";
         }
     }
@@ -106,15 +104,21 @@ static MCChatHistoryDAO *sharedManager = nil;
 }
 
 //在聊天历史记录表中，查找最近10条记录
-- (NSArray *)findRecentMessageByJid:(NSString *)jid myJid:(NSString *)myJid
+- (NSArray *)findRecentMessageByType:(NSString *)type jid:(NSString *)jid myJid:(NSString *)myJid
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCChatHistory" inManagedObjectContext:cxt];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(from=%@ AND to=%@) OR (from=%@ AND to=%@)", jid, myJid, myJid, jid];
+    
+    NSPredicate *predicate;
+    if (!type) {
+        predicate = [NSPredicate predicateWithFormat:@"(from=%@ AND to=%@) OR (from=%@ AND to=%@)", jid, myJid, myJid, jid];
+    }
+    else {
+        predicate = [NSPredicate predicateWithFormat:@"from=%@ AND ", jid, type];
+    }
     [request setPredicate:predicate];
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"time" ascending:YES];

@@ -109,17 +109,21 @@
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         cell.labelTitle.text = [[searchResults objectAtIndex:indexPath.row] objectForKey:@"companyName"];
         cell.labelDetail.text = [[searchResults objectAtIndex:indexPath.row] objectForKey:@"officeAddress"];
-        NSString *strURL = [[BASE_URL stringByAppendingString:[[searchResults objectAtIndex:indexPath.row] objectForKey:@"image"]] stringByAppendingString:IMAGE_SWITCH];
-        [cell.imageViewLogo setImageWithURL:[NSURL URLWithString:strURL]];
+        if ([[searchResults objectAtIndex:indexPath.row] objectForKey:@"image"]) {
+            NSString *strURL = [[BASE_URL stringByAppendingString:[[searchResults objectAtIndex:indexPath.row] objectForKey:@"image"]] stringByAppendingString:IMAGE_SWITCH];
+            [cell.imageViewLogo setImageWithURL:[NSURL URLWithString:strURL]];
+        }
 
     }
     else
     {
         cell.labelTitle.text = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"companyName"];
         cell.labelDetail.text = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"officeAddress"];
-        NSString *strURL = [[BASE_URL stringByAppendingString:[[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"image"]] stringByAppendingString:IMAGE_SWITCH];
-        [cell.imageViewLogo setImageWithURL:[NSURL URLWithString:strURL]];
-    }
+        if ([[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"image"]) {
+            NSString *strURL = [[BASE_URL stringByAppendingString:[[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"image"]] stringByAppendingString:IMAGE_SWITCH];
+            [cell.imageViewLogo setImageWithURL:[NSURL URLWithString:strURL]];
+        }
+   }
 
     return cell;
 }

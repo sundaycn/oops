@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MCMsgRevDelegate.h"
 
-@interface MCNotificationSessionViewController : UITableViewController
+@interface MCNotificationSessionViewController : UITableViewController<MCMsgRevDelegate>
+
+@property (strong, nonatomic) NSString *msgType;
+@property (strong, nonatomic) NSString *mobilePhone;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "MCViewController.h"
 #import <Reachability/Reachability.h>
+#import "MCCrypto.h"
 
 @interface MCViewController ()
 

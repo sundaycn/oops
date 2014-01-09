@@ -11,13 +11,15 @@
 #import "MCMessageCell.h"
 #import "MCUtility.h"
 #import "MCChatSessionViewController.h"
+#import "MCNotificationSessionViewController.h"
 #import "MCBookBL.h"
 
 @interface MCMessageListViewController ()
 
 @property (nonatomic, strong) NSUserDefaults *userInfo;
 @property (nonatomic, strong) NSMutableArray *keys;
-@property (nonatomic, strong) MCChatSessionViewController *destview;
+@property (nonatomic, strong) MCChatSessionViewController *chatSessionVC;
+@property (nonatomic, strong) MCNotificationSessionViewController *notificationSessionVC;
 
 @end
 
@@ -74,11 +76,18 @@
     }
     else {
         //聊天会话
-        self.keys = [[[[MCXmppHelper sharedInstance] Messages] allKeys] copy];
+        self.keys = [[[[MCXmppHelper sharedInstance] Messages] allKeys] mutableCopy];
         if(!self.keys){
             return 0;
         }
         else{
+            for (NSString *key in self.keys) {
+                if ([key isEqualToString:XMPP_ADMIN_JID]) {
+                    [self.keys removeObject:key];
+                    break;
+                }
+            }
+
             return self.keys.count;
         }
     }
@@ -92,30 +101,18 @@
         if (cell1 == nil) {
             cell1 = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
         }
-        
-        MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:XMPP_ADMIN_JID];
-        
+
         cell1.labelName.text = @"企业动态";
+        MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:XMPP_ADMIN_JID];
         if (msg) {
-            NSData *dataMessage = [msg.message dataUsingEncoding:NSUTF8StringEncoding];
-            DLog(@"dataMessage:%@", dataMessage);
-            id arrMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingMutableContainers error:nil];
-            if ([arrMessage isKindOfClass:[NSArray class]]) {
-                DLog(@"it's array!");
-            }
-            else if ([arrMessage isKindOfClass:[NSDictionary class]]) {
-                DLog(@"it's dictionary");
-            }
-            else {
-                DLog(@"others!");
-            }
-            DLog(@"dictMessage all:%@", arrMessage);
-            cell1.labelTime.text = [MCUtility getmessageTime:msg.date];
-            cell1.labelMessage.text = [arrMessage lastObject];
+            //消息前缀WOQUANQUAN_CB462135_MSG:
+            NSRange rangeJsonMessage = [msg.message rangeOfString:@":"];
+            NSString *strJsonMessage = [msg.message substringWithRange:NSMakeRange(rangeJsonMessage.location+1, msg.message.length-(rangeJsonMessage.location+1))];
+            NSData *dataMessage = [strJsonMessage dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *dictMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingAllowFragments error:nil];
             
-            //从最近消息组中移除admin
-//            [self.keys removeObject:XMPP_ADMIN_JID];
-            DLog(@"dicMessage:%@", [arrMessage lastObject]);
+            cell1.labelTime.text = [MCUtility getmessageTime:msg.date];
+            cell1.labelMessage.text = [dictMessage objectForKey:@"msgTitle"];
         }
 
         return cell1;
@@ -129,15 +126,6 @@
         // Configure the cell...
         NSString *jid = [self.keys objectAtIndex:indexPath.row];
         MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:jid];
-        
-        if ([msg.from isEqualToString:XMPP_ADMIN_JID]) {
-            NSData *dataMessage = [msg.message dataUsingEncoding:NSUTF8StringEncoding];
-            NSDictionary *dictMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingAllowFragments error:nil];
-            cell.labelName.text = @"企业动态";
-            cell.labelTime.text = [MCUtility getmessageTime:msg.date];
-            cell.labelMessage.text = [[[dictMessage objectForKey:@"message"] lastObject] objectForKey:@"msgTitle"];
-        }
-        
         NSString *mobilePhone;
         if ([msg.from isEqualToString:[[self.userInfo stringForKey:@"user"] stringByAppendingString:@"@127.0.0.1"]]) {
             NSRange separator = [msg.to rangeOfString:@"@"];
@@ -225,12 +213,20 @@
                                                  style:UIBarButtonItemStylePlain
                                                  target:nil
                                                  action:nil];
-        self.destview = segue.destinationViewController;
-        self.destview.jid = [self.keys objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        self.chatSessionVC = segue.destinationViewController;
+        self.chatSessionVC.jid = [self.keys objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
-        self.destview.sessionTittle = cell.labelName.text;
+        self.chatSessionVC.sessionTittle = cell.labelName.text;
         MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];
-        xmppHelper.msgrev = self.destview;
+        xmppHelper.msgrev = self.chatSessionVC;
+    }
+    else if ([[segue identifier] isEqualToString:@"showNotificationSession"]) {
+        self.notificationSessionVC = segue.destinationViewController;
+        //msgType
+        MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
+        self.notificationSessionVC.msgType = cell.labelName.text;
+        MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];
+        xmppHelper.msgrev = self.notificationSessionVC;
     }
 }
 /*
