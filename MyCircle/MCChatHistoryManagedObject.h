@@ -17,5 +17,6 @@
 @property (nonatomic, retain) NSString * message;
 @property (nonatomic, retain) NSDate * time;
 @property (nonatomic, retain) NSString * isread;
+@property (nonatomic, retain) NSString * type;
 
 @end

@@ -131,6 +131,23 @@ static const char* ObjectTagKey1 = "Messages";
     chatHistory.message = msg.message;
     chatHistory.time = msg.date;
     chatHistory.isread = msg.isread;
+    
+    if ([msg.from isEqualToString:XMPP_ADMIN_JID]) {
+        //消息头为WOQUANQUAN_CB462135_MSG则属于通知公告短信
+        if ([[msg.message substringToIndex:[MSG_HEAD_NOTIFICATION length]] isEqualToString:MSG_HEAD_NOTIFICATION]) {
+            NSRange rangeMsgType = [msg.message rangeOfString:@"\"msgType\":\""];
+            NSRange rangeToPhone = [msg.message rangeOfString:@"\",\"toPhone\""];
+            NSString *strMsgType = [msg.message substringWithRange:NSMakeRange(rangeMsgType.location+rangeMsgType.length, rangeToPhone.location-rangeMsgType.location-rangeMsgType.length)];
+            chatHistory.type = strMsgType;
+        }
+        else {
+            DLog(@"未定义消息头");
+        }
+    }
+    else {
+        chatHistory.type = MSG_TYPE_NORMAL_CHAT;
+        DLog(@"普通聊天消息");
+    }
     [[MCChatHistoryDAO sharedManager] insert:chatHistory];
 }
 

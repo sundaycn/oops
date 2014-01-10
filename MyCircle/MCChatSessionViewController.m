@@ -140,7 +140,7 @@
     //1.加载消息记录
     //2.修改未读记录为已读
     //3.重设计数器
-    NSArray *arrRecentMessage = [[MCChatHistoryDAO sharedManager] findRecentMessageByJid:self.jid myJid:myJid];
+    NSArray *arrRecentMessage = [[MCChatHistoryDAO sharedManager] findRecentMessageByType:MSG_TYPE_NORMAL_CHAT jid:self.jid myJid:myJid];
     if (arrRecentMessage.count < 10) {
         refreshControlVisable = NO;
     }
@@ -320,7 +320,7 @@
     if (self.refreshControl.refreshing) {
         self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"正在加载..."];
         //加载更多数据
-        NSArray *arrEarlyMessage = [[MCChatHistoryDAO sharedManager] findSomeMessageByTime:timeOfFirstMessage jid:self.jid myJid:myJid];
+        NSArray *arrEarlyMessage = [[MCChatHistoryDAO sharedManager] findSomeMessageByType:self.msgType time:timeOfFirstMessage jid:self.jid myJid:myJid];
         if (arrEarlyMessage.count < 10) {
             refreshControlVisable = NO;
         }

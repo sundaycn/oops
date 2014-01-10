@@ -217,6 +217,7 @@
         self.chatSessionVC.jid = [self.keys objectAtIndex:[self.tableView indexPathForSelectedRow].row];
         MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
         self.chatSessionVC.sessionTittle = cell.labelName.text;
+        self.chatSessionVC.msgType = MSG_TYPE_NORMAL_CHAT;
         MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];
         xmppHelper.msgrev = self.chatSessionVC;
     }
@@ -224,90 +225,12 @@
         self.notificationSessionVC = segue.destinationViewController;
         //msgType
         MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
-        self.notificationSessionVC.msgType = cell.labelName.text;
+        if ([cell.labelName.text isEqualToString:@"企业动态"]) {
+            self.notificationSessionVC.msgType = MSG_TYPE_COMPANY_NEWS;
+        }
         MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];
         xmppHelper.msgrev = self.notificationSessionVC;
     }
 }
-/*
-- (void)reachabilityChanged:(NSNotification *)notification
-{
-    NetworkStatus remoteHostStatus = [self.reachability currentReachabilityStatus];
-    switch (remoteHostStatus) {
-        case NotReachable:
-            DLog(@"not reachable");
-            break;
-        case ReachableViaWiFi:
-            DLog(@"wifi reachable");
-//            break;
-        case ReachableViaWWAN:
-            DLog(@"3g reachable");
-            //断开XMPP连接并重新连接
-            [self.xmppHelper disconnect];
-            [self.xmppHelper.xmppReconnect manualStart];
-            break;
-        default:
-            break;
-    }
-}
-
-- (void)connectXmppServer
-{
-    //登陆Xmpp服务器
-    self.xmppHelper = [MCXmppHelper sharedInstance];
-    self.userInfo = [NSUserDefaults standardUserDefaults];
-    NSString *isLogined = [self.xmppHelper login:self.userInfo success:^{
-        //登陆成功
-        DLog(@"login successfully");
-        //更新最近一条消息和未读消息数
-        self.xmppHelper.msgcount = self;
-        //获取聊天会话并显示
-        [self fetchChatSession];
-    } fail:^(NSError *err) {
-        //登陆失败
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:err.localizedDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alertView show];
-    }];
-}
-
-- (void)resetMsgCount
-{
-    NSInteger cnt = [[MCChatHistoryDAO sharedManager] fetchUnReadMsgCount];
-    if(cnt <= 0){
-        UIViewController *tabBarVC = [self.tabBarController.viewControllers objectAtIndex:0];
-        tabBarVC.tabBarItem.badgeValue = nil;
-    }else{
-        UIViewController *tabBarVC = [self.tabBarController.viewControllers objectAtIndex:0];
-        tabBarVC.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", cnt];
-        
-    }
-    [self.tableView reloadData];
-}
-
-- (void)fetchChatSession{
-    NSArray *chatSession = [[MCChatSessionDAO sharedManager] findAll];
-    for (MCChatSession *obj in chatSession) {
-        MCXmppHelper *helper =[MCXmppHelper sharedInstance];
-        if(helper.Messages == nil){
-            helper.Messages = [[NSMutableDictionary alloc] init];
-        }
-        MCMessage *msg = [[MCMessage alloc] init];
-        msg.from = obj.key;
-        msg.to = nil;
-        msg.message = obj.lastmsg;
-        msg.date = obj.time;
-        [helper.Messages setObject:msg forKey:obj.key];
-    }
-    [self.tableView reloadData];
-    
-    NSInteger cnt = [[MCChatHistoryDAO sharedManager] fetchUnReadMsgCount];
-    if(cnt <= 0){
-        UIViewController *tabBarVC = [self.tabBarController.viewControllers objectAtIndex:0];
-        tabBarVC.tabBarItem.badgeValue = nil;
-    }else{
-        UIViewController *tabBarVC = [self.tabBarController.viewControllers objectAtIndex:0];
-        tabBarVC.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", cnt];
-    }
-}*/
 
 @end

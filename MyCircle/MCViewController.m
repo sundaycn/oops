@@ -211,7 +211,7 @@ static BOOL isLoginViewShowed = NO;
 
 //向web service发送获短信密码的异步请求
 - (void)startRequestPasswordFromSMS:(NSString *)strAccount {
-    NSString *strURL = [[NSString alloc] initWithFormat:@"http://117.21.209.104/EasyContact/Contact/contact!applyRanAjax.action?tel=%@",strAccount];
+    NSString *strURL = [[NSString alloc] initWithFormat:[BASE_URL stringByAppendingString:@"Contact/contact!applyRanAjax.action?tel=%@"],strAccount];
 	NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:strURL]];
     
 	NSURLConnection *connection = [[NSURLConnection alloc]

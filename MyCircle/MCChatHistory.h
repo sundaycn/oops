@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSString * message;
 @property (nonatomic, strong) NSDate * time;
 @property (nonatomic, strong) NSString * isread;
+@property (nonatomic, strong) NSString * type;
 
 @end

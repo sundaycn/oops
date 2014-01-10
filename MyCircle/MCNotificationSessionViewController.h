@@ -10,6 +10,11 @@
 #import "MCMsgRevDelegate.h"
 
 @interface MCNotificationSessionViewController : UITableViewController<MCMsgRevDelegate>
+{
+    NSString *myJid;
+    NSDate *timeOfFirstMessage;
+    BOOL refreshControlVisable;
+}
 
 @property (strong, nonatomic) NSString *msgType;
 @property (strong, nonatomic) NSString *mobilePhone;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="MCBook" representedClassName="MCBookManagedObject" syncable="YES">
         <attribute name="belongDepartmentId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="belongOrgId" optional="YES" attributeType="String" syncable="YES"/>
@@ -23,6 +23,7 @@
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="to" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="MCChatSession" representedClassName="MCChatSessionManagedObject" syncable="YES">
         <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
@@ -43,10 +44,10 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MCBook" positionX="-11403" positionY="-5922" width="128" height="268"/>
-        <element name="MCDept" positionX="-11243" positionY="-5922" width="128" height="148"/>
-        <element name="MCOrg" positionX="-11088" positionY="-5922" width="128" height="73"/>
-        <element name="MCChatSession" positionX="-11241" positionY="-5749" width="128" height="88"/>
-        <element name="MCChatHistory" positionX="-11088" positionY="-5823" width="128" height="118"/>
+        <element name="MCBook" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MCChatHistory" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MCChatSession" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MCDept" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="MCOrg" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

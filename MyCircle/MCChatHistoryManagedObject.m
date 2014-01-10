@@ -16,5 +16,6 @@
 @dynamic message;
 @dynamic time;
 @dynamic isread;
+@dynamic type;
 
 @end

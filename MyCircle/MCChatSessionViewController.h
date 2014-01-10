@@ -26,6 +26,7 @@
 @property (strong, nonatomic) NSString *jid;
 @property (strong, nonatomic) NSString *sessionTittle;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSString *msgType;
 
 - (IBAction)buttonSendMessage:(UIBarButtonItem *)sender;
 //- (IBAction)textFieldShoudReturn:(UITextField *)sender;

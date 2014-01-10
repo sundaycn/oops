@@ -35,10 +35,11 @@ static MCChatHistoryDAO *sharedManager = nil;
     chatHistory.message = model.message;
     chatHistory.time = model.time;
     chatHistory.isread = model.isread;
+    chatHistory.type = model.type;
     
     NSError *savingError = nil;
     if ([self.managedObjectContext save:&savingError]){
-        //        NSLog(@"插入数据成功");
+        //        DLog(@"插入数据成功");
     } else {
         DLog(@"插入数据失败");
         return -1;
@@ -113,11 +114,11 @@ static MCChatHistoryDAO *sharedManager = nil;
     [request setEntity:entityDescription];
     
     NSPredicate *predicate;
-    if (!type) {
+    if ([type isEqualToString:MSG_TYPE_NORMAL_CHAT]) {
         predicate = [NSPredicate predicateWithFormat:@"(from=%@ AND to=%@) OR (from=%@ AND to=%@)", jid, myJid, myJid, jid];
     }
     else {
-        predicate = [NSPredicate predicateWithFormat:@"from=%@ AND ", jid, type];
+        predicate = [NSPredicate predicateWithFormat:@"from=%@ AND to=%@ AND type=%@", jid, myJid, type];
     }
     [request setPredicate:predicate];
     
@@ -147,7 +148,7 @@ static MCChatHistoryDAO *sharedManager = nil;
 }
 
 //在聊天历史记录表中，查找某个时间段内的记录
-- (NSArray *)findSomeMessageByTime:(NSDate *)time jid:(NSString *)jid myJid:(NSString *)myJid
+- (NSArray *)findSomeMessageByType:(NSString *)type time:(NSDate *)time jid:(NSString *)jid myJid:(NSString *)myJid
 {
     // Define a date formatter for storage, full style for more flexibility
     /*NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -162,7 +163,13 @@ static MCChatHistoryDAO *sharedManager = nil;
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"((from=%@ AND to=%@) OR (from=%@ AND to=%@)) AND time<%@", jid, myJid, myJid, jid, time];
+    NSPredicate *predicate;
+    if ([type isEqualToString:MSG_TYPE_NORMAL_CHAT]) {
+        predicate = [NSPredicate predicateWithFormat:@"((from=%@ AND to=%@) OR (from=%@ AND to=%@)) AND time<%@", jid, myJid, myJid, jid, time];
+    }
+    else {
+        predicate = [NSPredicate predicateWithFormat:@"from=%@ AND to=%@ AND type=%@ AND time<%@", jid, myJid, type, time];
+    }
     [request setPredicate:predicate];
     
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"time" ascending:YES];

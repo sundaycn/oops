@@ -10,6 +10,7 @@
 #import "MCNotificationCell.h"
 #import "MCChatHistoryDAO.h"
 #import <ASIHTTPRequest/ASIFormDataRequest.h>
+#import "MCXmppHelper+Message.m"
 
 @interface MCNotificationSessionViewController ()
 @property (strong, nonatomic) NSMutableArray *arrNotification;
@@ -40,40 +41,54 @@
     
     //为数据源分配空间
     self.arrNotification = [[NSMutableArray alloc] init];
+    
+    //加载消息记录
+    myJid = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] bare];
+    timeOfFirstMessage = nil;
+    [self loadRecord];
+    
+    //下拉刷新
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉查看历史记录"];
+    //    self.refreshControl.tag = 99;
+    [self.refreshControl addTarget:self
+                            action:@selector(refreshTableView)
+                  forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl beginRefreshing];
+    [self.refreshControl endRefreshing];
 }
 
 - (void)loadRecord
 {
-    //1.加载消息记录
-    //2.修改未读记录为已读
-    //3.重设计数器
-    NSArray *arrRecentMessage = [[MCChatHistoryDAO sharedManager] findRecentMessageByJid:XMPP_ADMIN_JID myJid:myJid];
+    //加载消息记录
+    NSArray *arrRecentMessage = [[MCChatHistoryDAO sharedManager] findRecentMessageByType:self.msgType jid:XMPP_ADMIN_JID myJid:myJid];
     if (arrRecentMessage.count < 10) {
         refreshControlVisable = NO;
     }
     else {
         refreshControlVisable = YES;
     }
-    for (MCChatHistory *obj in arrRecentMessage)
-    {
-        NSBubbleData *data;
-        if ([obj.from isEqualToString:self.jid]) {
-            data = [NSBubbleData dataWithText:obj.message date:obj.time type:BubbleTypeSomeoneElse];
-        }
-        else
-        {
-            data = [NSBubbleData dataWithText:obj.message date:obj.time type:BubbleTypeMine];
-        }
-        [self.bubbleData addObject:data];
+    MCChatHistory *obj;
+    NSEnumerator *enumer = [arrRecentMessage reverseObjectEnumerator];
+    while (obj = [enumer nextObject]) {
+        NSDictionary *dictMessage = [self getJsonFromMessage:obj.message];
+        //向服务器请求通知详情
+        NSDictionary *dictDetail = [self requestNotificationDetail:[dictMessage objectForKey:@"toPhone"] msgType:[dictMessage objectForKey:@"msgType"] msgId:[dictMessage objectForKey:@"msgId"]];
+        NSDictionary *dictBody = [[dictDetail objectForKey:@"message"] lastObject];
+        [self.arrNotification addObject:dictBody];
+
     }
     //保存已展示的第一条记录的时间，便于获取更多历史记录
     if (!timeOfFirstMessage) {
         timeOfFirstMessage = [[arrRecentMessage lastObject] time];
     }
-    
-    [[MCChatHistoryDAO sharedManager] updateByJid:self.jid];
+    //修改未读记录为已读
+    [[MCChatHistoryDAO sharedManager] updateByJid:XMPP_ADMIN_JID];
+    //重设计数器
     [self resetUnreadBadge];
-    [self.bubbleTableView reloadData];
+    //刷新表视图并滚动到最新记录处
+    [self.tableView reloadData];
+//    [self.tableView setContentOffset:CGPointMake(0, CGFLOAT_MAX) animated:YES];
     [self scrollTableToFoot:YES];
 }
 
@@ -181,12 +196,7 @@
     if([msg.from isEqualToString:XMPP_ADMIN_JID])
     {
         //获取admin消息中的msgId,msgType,toPhone
-        //消息前缀WOQUANQUAN_CB462135_MSG:
-        NSRange rangeJsonMessage = [msg.message rangeOfString:@":"];
-        NSString *strJsonMessage = [msg.message substringWithRange:NSMakeRange(rangeJsonMessage.location+1, msg.message.length-(rangeJsonMessage.location+1))];
-        DLog(@"来自ADMIN的通知消息体\n %@", strJsonMessage);
-        NSData *dataMessage = [strJsonMessage dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *dictMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingAllowFragments error:nil];
+        NSDictionary *dictMessage = [self getJsonFromMessage:msg.message];
         //向服务器请求通知详情
         NSDictionary *dictDetail = [self requestNotificationDetail:[dictMessage objectForKey:@"toPhone"] msgType:[dictMessage objectForKey:@"msgType"] msgId:[dictMessage objectForKey:@"msgId"]];
         if (!dictDetail) {
@@ -197,14 +207,25 @@
         NSDictionary *dictBody = [[dictDetail objectForKey:@"message"] lastObject];
         [self.arrNotification addObject:dictBody];
         [self.tableView reloadData];
+        [self scrollToBottom];
         //根据jid和msgType更新消息未读标识
         [[MCChatHistoryDAO sharedManager] updateByJid:XMPP_ADMIN_JID];
     }
 }
 
+- (NSDictionary *)getJsonFromMessage:(NSString *)strMessage
+{
+    //消息前缀WOQUANQUAN_CB462135_MSG:
+    NSRange rangeJsonMessage = [strMessage rangeOfString:@":"];
+    NSString *strJsonMessage = [strMessage substringWithRange:NSMakeRange(rangeJsonMessage.location+1, strMessage.length-(rangeJsonMessage.location+1))];
+    NSData *dataMessage = [strJsonMessage dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *dictMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingAllowFragments error:nil];
+    return dictMessage;
+}
+
 - (NSDictionary *)requestNotificationDetail:(NSString *)mobilePhone msgType:(NSString *)msgType msgId:(NSString *)msgId
 {
-    NSString *strURL = [BASE_URL stringByAppendingString:@"SystemPhoneMessage/systemphonemessage!queryMessageDetailsAjaxp.action?"];
+    NSString *strURL = [BASE_URL stringByAppendingString:@"SystemPhoneMessage/systemphonemessage!queryMessageDetailsAjaxp.action"];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
     [request addPostValue:mobilePhone forKey:@"mobilePhone"];
     [request addPostValue:msgType forKey:@"msgType"];
@@ -234,6 +255,66 @@
         UIViewController *tabBarVC = [self.tabBarController.viewControllers objectAtIndex:0];
         tabBarVC.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", cnt];
     }
+}
+
+- (void)refreshTableView
+{
+    if (self.refreshControl.refreshing) {
+        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"正在加载..."];
+        //加载更多数据
+        NSArray *arrEarlyMessage = [[MCChatHistoryDAO sharedManager] findSomeMessageByType:self.msgType time:timeOfFirstMessage jid:XMPP_ADMIN_JID myJid:myJid];
+        if (arrEarlyMessage.count < 10) {
+            refreshControlVisable = NO;
+        }
+        for (MCChatHistory *obj in arrEarlyMessage)
+        {
+            NSDictionary *dictMessage = [self getJsonFromMessage:obj.message];
+            //向服务器请求通知详情
+            NSDictionary *dictDetail = [self requestNotificationDetail:[dictMessage objectForKey:@"toPhone"] msgType:[dictMessage objectForKey:@"msgType"] msgId:[dictMessage objectForKey:@"msgId"]];
+            NSDictionary *dictBody = [[dictDetail objectForKey:@"message"] lastObject];
+            [self.arrNotification addObject:dictBody];
+        }
+        //保存已展示的第一条记录的时间
+        timeOfFirstMessage = [[arrEarlyMessage lastObject] time];
+        //回调方法
+        [self performSelector:@selector(callBackMethod:) withObject:nil];
+    }
+}
+
+- (void)callBackMethod:(id)obj
+{
+    [self.refreshControl endRefreshing];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉查看历史记录"];
+    if (!refreshControlVisable) {
+        //没有更多记录则移除refreshControl
+        for (id subview in self.tableView.subviews) {
+            if ([subview isKindOfClass:[UIRefreshControl class]]) {
+                [subview removeFromSuperview];
+            }
+        }
+    }
+    [self.tableView reloadData];
+}
+
+- (void)scrollToBottom
+{
+    /*NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lastRowIndex inSection:0];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];*/
+//    CGPoint bottomOffset = CGFLOAT_MAX;
+    CGPoint bottomOffset = CGPointMake(0, self.tableView.contentSize.height-self.tableView.bounds.size.height);
+    [self.tableView setContentOffset:bottomOffset animated:YES];
+}
+
+- (void)scrollTableToFoot:(BOOL)animated
+{
+    NSInteger s = [self.tableView numberOfSections];
+    if (s < 1) return;
+    NSInteger r = [self.tableView numberOfRowsInSection:s-1];
+    if (r < 1) return;
+    
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
+    
+    [self.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
 
 @end
