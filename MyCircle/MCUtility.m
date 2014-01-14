@@ -105,6 +105,15 @@
     return days;
 }
 
+//格式化指定时间，输出格式为yyyy年MM月dd日 HH:mm:ss
++ (NSString *)getFormatedTime:(NSDate *)date
+{
+    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    fmt.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
+    fmt.dateFormat = @"yyyy年MM月dd日' 'HH:mm:ss";
+    return [fmt stringFromDate:date];
+}
+
 //气泡中添加数字，提醒有几条消息
 +(UIImage *)imageFromText:(int)count image:(UIImage *)image{
     UIImage *myImage = image;

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "MCMsgRevDelegate.h"
 
+@class ASINetworkQueue;
+
 @interface MCNotificationSessionViewController : UITableViewController<MCMsgRevDelegate>
 {
     NSString *myJid;
@@ -18,5 +20,6 @@
 
 @property (strong, nonatomic) NSString *msgType;
 @property (strong, nonatomic) NSString *mobilePhone;
+@property (strong) ASINetworkQueue *networkQueue;
 
 @end

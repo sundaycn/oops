@@ -245,6 +245,35 @@
             </objects>
             <point key="canvasLocation" x="2249" y="-1586"/>
         </scene>
+        <!--Notifation Content View Controller-->
+        <scene sceneID="LSc-Ma-4E1">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="QLf-Ab-OIF" customClass="MCNotifationContentViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2cd-Vd-PbO"/>
+                        <viewControllerLayoutGuide type="bottom" id="lUL-tp-nhK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Pd7-Eg-gHt">
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S4s-ey-tjh">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="fWX-kv-H4B"/>
+                    <connections>
+                        <outlet property="webView" destination="S4s-ey-tjh" id="vEK-o2-wtq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iQN-d0-uBb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3465" y="-2430"/>
+        </scene>
         <!--Notification Session View Controller-->
         <scene sceneID="K02-5Q-PSr">
             <objects>
@@ -269,6 +298,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Rkv-Fm-FIj"/>
+                    <connections>
+                        <segue destination="QLf-Ab-OIF" kind="push" identifier="showNotificationContent" id="oaK-vL-ITQ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Fw-ZR-iDD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

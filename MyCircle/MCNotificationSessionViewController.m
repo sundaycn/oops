@@ -10,10 +10,14 @@
 #import "MCNotificationCell.h"
 #import "MCChatHistoryDAO.h"
 #import <ASIHTTPRequest/ASIFormDataRequest.h>
+#import <ASIHTTPRequest/ASINetworkQueue.h>
 #import "MCXmppHelper+Message.m"
+#import "MCNotifationContentViewController.h"
+#import "MCUtility.h"
 
 @interface MCNotificationSessionViewController ()
 @property (strong, nonatomic) NSMutableArray *arrNotification;
+@property (strong, nonatomic) NSDictionary *dictNotificationDetail;
 @end
 
 @implementation MCNotificationSessionViewController
@@ -45,56 +49,43 @@
     //加载消息记录
     myJid = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] bare];
     timeOfFirstMessage = nil;
-    [self loadRecord];
+    [self willLoadRecord];
     
-    //下拉刷新
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉查看历史记录"];
-    //    self.refreshControl.tag = 99;
-    [self.refreshControl addTarget:self
-                            action:@selector(refreshTableView)
-                  forControlEvents:UIControlEventValueChanged];
-    [self.refreshControl beginRefreshing];
-    [self.refreshControl endRefreshing];
 }
 
-- (void)loadRecord
+- (void)willLoadRecord
 {
-    //加载消息记录
+    //准备加载消息记录
     NSArray *arrRecentMessage = [[MCChatHistoryDAO sharedManager] findRecentMessageByType:self.msgType jid:XMPP_ADMIN_JID myJid:myJid];
-    if (arrRecentMessage.count < 10) {
+    if (arrRecentMessage.count < 3) {
         refreshControlVisable = NO;
     }
     else {
         refreshControlVisable = YES;
     }
+    //保存已展示的第一条记录的时间，便于获取更多历史记录
+    if (!timeOfFirstMessage) {
+        timeOfFirstMessage = [[arrRecentMessage lastObject] time];
+    }
+    //向服务器请求通知详情
     MCChatHistory *obj;
     NSEnumerator *enumer = [arrRecentMessage reverseObjectEnumerator];
     while (obj = [enumer nextObject]) {
         NSDictionary *dictMessage = [self getJsonFromMessage:obj.message];
-        //向服务器请求通知详情
-        NSDictionary *dictDetail = [self requestNotificationDetail:[dictMessage objectForKey:@"toPhone"] msgType:[dictMessage objectForKey:@"msgType"] msgId:[dictMessage objectForKey:@"msgId"]];
-        NSDictionary *dictBody = [[dictDetail objectForKey:@"message"] lastObject];
-        [self.arrNotification addObject:dictBody];
-
-    }
-    //保存已展示的第一条记录的时间，便于获取更多历史记录
-    if (!timeOfFirstMessage) {
-        timeOfFirstMessage = [[arrRecentMessage lastObject] time];
+        [self requestNotificationDetail:[dictMessage objectForKey:@"toPhone"] msgType:[dictMessage objectForKey:@"msgType"] msgId:[dictMessage objectForKey:@"msgId"]];
     }
     //修改未读记录为已读
     [[MCChatHistoryDAO sharedManager] updateByJid:XMPP_ADMIN_JID];
     //重设计数器
     [self resetUnreadBadge];
-    //刷新表视图并滚动到最新记录处
-    [self.tableView reloadData];
-//    [self.tableView setContentOffset:CGPointMake(0, CGFLOAT_MAX) animated:YES];
-    [self scrollTableToFoot:YES];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
     [self resetUnreadBadge];
+    if (self.networkQueue) {
+        [self.networkQueue cancelAllOperations];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -107,14 +98,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return self.arrNotification.count;
 }
@@ -129,6 +118,8 @@
     
     // Configure the cell...
     NSDictionary *dictBody = [self.arrNotification objectAtIndex:indexPath.row];
+    NSTimeInterval timeInterval = [[dictBody objectForKey:@"msgCreateDate"] doubleValue]/1000;
+    cell.labelTime.text = [MCUtility getFormatedTime:[NSDate dateWithTimeIntervalSince1970:timeInterval]];
     cell.labelTitle.text = [dictBody objectForKey:@"msgTitle"];
     cell.textView.text = [dictBody objectForKey:@"msgDescription"];
     
@@ -140,6 +131,11 @@
     return 260;
 }
 
+#pragma mark - Table view data delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"showNotificationContent" sender:self];
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -191,6 +187,15 @@
 
  */
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showNotificationContent"]) {
+        MCNotifationContentViewController *notificationVC = segue.destinationViewController;
+        NSDictionary *dictBody = [self.arrNotification objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        notificationVC.msgUrl = [dictBody objectForKey:@"msgUrl"];
+    }
+}
+
 - (void)refreshmsg:(MCMessage *)msg
 {
     if([msg.from isEqualToString:XMPP_ADMIN_JID])
@@ -198,16 +203,7 @@
         //获取admin消息中的msgId,msgType,toPhone
         NSDictionary *dictMessage = [self getJsonFromMessage:msg.message];
         //向服务器请求通知详情
-        NSDictionary *dictDetail = [self requestNotificationDetail:[dictMessage objectForKey:@"toPhone"] msgType:[dictMessage objectForKey:@"msgType"] msgId:[dictMessage objectForKey:@"msgId"]];
-        if (!dictDetail) {
-            return;
-        }
-        //解析msgCreateDate,msgDescription,mstTitle,msgType,msgUrl
-        //追加数据
-        NSDictionary *dictBody = [[dictDetail objectForKey:@"message"] lastObject];
-        [self.arrNotification addObject:dictBody];
-        [self.tableView reloadData];
-        [self scrollToBottom];
+        [self requestNotificationDetail:[dictMessage objectForKey:@"toPhone"] msgType:[dictMessage objectForKey:@"msgType"] msgId:[dictMessage objectForKey:@"msgId"]];
         //根据jid和msgType更新消息未读标识
         [[MCChatHistoryDAO sharedManager] updateByJid:XMPP_ADMIN_JID];
     }
@@ -223,16 +219,29 @@
     return dictMessage;
 }
 
-- (NSDictionary *)requestNotificationDetail:(NSString *)mobilePhone msgType:(NSString *)msgType msgId:(NSString *)msgId
+- (void)requestNotificationDetail:(NSString *)mobilePhone msgType:(NSString *)msgType msgId:(NSString *)msgId
 {
+    if (!self.networkQueue) {
+        [self setNetworkQueue:[ASINetworkQueue queue]];
+        self.networkQueue.maxConcurrentOperationCount = 1;
+    }
     NSString *strURL = [BASE_URL stringByAppendingString:@"SystemPhoneMessage/systemphonemessage!queryMessageDetailsAjaxp.action"];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
     [request addPostValue:mobilePhone forKey:@"mobilePhone"];
     [request addPostValue:msgType forKey:@"msgType"];
     [request addPostValue:msgId forKey:@"msgId"];
+    //添加委托
+    [self.networkQueue setDelegate:self];
+    [self.networkQueue setRequestDidFinishSelector:@selector(requestFinished:)];
+	[self.networkQueue setRequestDidFailSelector:@selector(requestFailed:)];
+	[self.networkQueue setQueueDidFinishSelector:@selector(queueFinished:)];
+    //异步请求
+    [self.networkQueue addOperation:request];
+    [self.networkQueue go];
+//    [request startAsynchronous];
 
     //同步请求
-    [request startSynchronous];
+    /*[request startSynchronous];
     NSError *error = [request error];
     if (!error) {
         NSData *response  = [request responseData];
@@ -242,7 +251,63 @@
     else {
         DLog(@"\n 请求通知公告详情发生错误\n %@", error);
         return nil;
+    }*/
+}
+
+- (void)requestFinished:(ASIFormDataRequest *)request
+{
+    // Use when fetching binary data
+    DLog(@"Request finished");
+    NSData *responseData = [request responseData];
+    NSDictionary *dictDetail = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingAllowFragments error:nil];
+    NSDictionary *dictBody = [[dictDetail objectForKey:@"message"] lastObject];
+
+    if (self.refreshControl.refreshing) {
+        [self.arrNotification insertObject:dictBody atIndex:0];
     }
+    else {
+        //第一次初始化最近记录和加载历史记录
+        [self.arrNotification addObject:dictBody];
+        //刷新表视图并滚动到最新记录处
+        [self.tableView reloadData];
+        //    [self.tableView setContentOffset:CGPointMake(0, CGFLOAT_MAX) animated:YES];
+        [self scrollTableToFoot:YES];
+    }
+}
+
+- (void)requestFailed:(ASIFormDataRequest *)request
+{
+    NSError *error = [request error];
+    self.dictNotificationDetail = nil;
+    DLog(@"\n 请求通知公告详情发生错误\n %@", error);
+}
+
+- (void)queueFinished:(ASINetworkQueue *)queue
+{
+	// You could release the queue here if you wanted
+	if ([[self networkQueue] requestsCount] == 0) {
+		[self setNetworkQueue:nil];
+        //初始化下拉加载控件
+        if (refreshControlVisable) {
+            if (!self.refreshControl) {
+                self.refreshControl = [[UIRefreshControl alloc] init];
+                self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉查看历史记录"];
+                //    self.refreshControl.tag = 99;
+                [self.refreshControl addTarget:self
+                                        action:@selector(willLoadMoreRecord)
+                              forControlEvents:UIControlEventValueChanged];
+                //            [self.refreshControl beginRefreshing];
+                //            [self.refreshControl endRefreshing];
+            }
+            else {
+                if (self.refreshControl.refreshing) {
+                    //回调方法
+                    [self performSelector:@selector(callBackMethod:) withObject:nil];
+                }
+            }
+        }
+    }
+	DLog(@"Queue finished");
 }
 
 - (void)resetUnreadBadge
@@ -257,27 +322,27 @@
     }
 }
 
-- (void)refreshTableView
+- (void)willLoadMoreRecord
 {
     if (self.refreshControl.refreshing) {
         self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"正在加载..."];
         //加载更多数据
         NSArray *arrEarlyMessage = [[MCChatHistoryDAO sharedManager] findSomeMessageByType:self.msgType time:timeOfFirstMessage jid:XMPP_ADMIN_JID myJid:myJid];
-        if (arrEarlyMessage.count < 10) {
+        if (arrEarlyMessage.count < 5) {
             refreshControlVisable = NO;
         }
+        //没有更多记录
+        if (arrEarlyMessage.count == 0) {
+            [self performSelector:@selector(callBackMethod:) withObject:nil];
+        }
+        //保存已展示的第一条记录的时间
+        timeOfFirstMessage = [[arrEarlyMessage lastObject] time];
         for (MCChatHistory *obj in arrEarlyMessage)
         {
             NSDictionary *dictMessage = [self getJsonFromMessage:obj.message];
             //向服务器请求通知详情
-            NSDictionary *dictDetail = [self requestNotificationDetail:[dictMessage objectForKey:@"toPhone"] msgType:[dictMessage objectForKey:@"msgType"] msgId:[dictMessage objectForKey:@"msgId"]];
-            NSDictionary *dictBody = [[dictDetail objectForKey:@"message"] lastObject];
-            [self.arrNotification addObject:dictBody];
+            [self requestNotificationDetail:[dictMessage objectForKey:@"toPhone"] msgType:[dictMessage objectForKey:@"msgType"] msgId:[dictMessage objectForKey:@"msgId"]];
         }
-        //保存已展示的第一条记录的时间
-        timeOfFirstMessage = [[arrEarlyMessage lastObject] time];
-        //回调方法
-        [self performSelector:@selector(callBackMethod:) withObject:nil];
     }
 }
 

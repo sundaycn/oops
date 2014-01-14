@@ -64,7 +64,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -72,6 +72,10 @@
     // Return the number of rows in the section.
     if (section == 0) {
         //企业动态
+        return 1;
+    }
+    else if (section == 1) {
+        //通知通告
         return 1;
     }
     else {
@@ -110,12 +114,36 @@
             NSString *strJsonMessage = [msg.message substringWithRange:NSMakeRange(rangeJsonMessage.location+1, msg.message.length-(rangeJsonMessage.location+1))];
             NSData *dataMessage = [strJsonMessage dataUsingEncoding:NSUTF8StringEncoding];
             NSDictionary *dictMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingAllowFragments error:nil];
-            
-            cell1.labelTime.text = [MCUtility getmessageTime:msg.date];
-            cell1.labelMessage.text = [dictMessage objectForKey:@"msgTitle"];
+            if ([[dictMessage objectForKey:@"msgType"] isEqualToString:MSG_TYPE_COMPANY_NEWS]) {
+                cell1.labelTime.text = [MCUtility getmessageTime:msg.date];
+                cell1.labelMessage.text = [dictMessage objectForKey:@"msgTitle"];
+            }
         }
 
         return cell1;
+    }
+    else if (indexPath.section == 1) {
+        static NSString *CellIdentifier2 = @"NotificationsCell";
+        MCMessageCell *cell2 = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
+        if (cell2 == nil) {
+            cell2 = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
+        }
+        
+        cell2.labelName.text = @"组织公告";
+        MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:XMPP_ADMIN_JID];
+        if (msg) {
+            //消息前缀WOQUANQUAN_CB462135_MSG:
+            NSRange rangeJsonMessage = [msg.message rangeOfString:@":"];
+            NSString *strJsonMessage = [msg.message substringWithRange:NSMakeRange(rangeJsonMessage.location+1, msg.message.length-(rangeJsonMessage.location+1))];
+            NSData *dataMessage = [strJsonMessage dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *dictMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingAllowFragments error:nil];
+            if ([[dictMessage objectForKey:@"msgType"] isEqualToString:MSG_TYPE_ORG_NEWS]) {
+                cell2.labelTime.text = [MCUtility getmessageTime:msg.date];
+                cell2.labelMessage.text = [dictMessage objectForKey:@"msgTitle"];
+            }
+        }
+        
+        return cell2;
     }
     else {
         static NSString *CellIdentifier = @"MsgListCell";
@@ -152,7 +180,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section != 2) {
         [self performSegueWithIdentifier:@"showNotificationSession" sender:self];
     }
     else {
@@ -227,6 +255,9 @@
         MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
         if ([cell.labelName.text isEqualToString:@"企业动态"]) {
             self.notificationSessionVC.msgType = MSG_TYPE_COMPANY_NEWS;
+        }
+        else if ([cell.labelName.text isEqualToString:@"组织公告"]) {
+            self.notificationSessionVC.msgType = MSG_TYPE_ORG_NEWS;
         }
         MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];
         xmppHelper.msgrev = self.notificationSessionVC;

@@ -217,6 +217,7 @@
 		22F86DC718112F48000CCB50 /* MCDeptBL.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DC618112F48000CCB50 /* MCDeptBL.m */; };
 		22F86DCA18112F53000CCB50 /* MCOrgBL.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DC918112F53000CCB50 /* MCOrgBL.m */; };
 		22FCB4E61814C1F700F2A0CB /* MCCircleDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FCB4E51814C1F700F2A0CB /* MCCircleDataHandler.m */; };
+		22FF53DA1883732A002F9447 /* MCNotifationContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FF53D91883732A002F9447 /* MCNotifationContentViewController.m */; };
 		DB16393397DB4D17A69D07D6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4320CC666B854B42AEA2DCEF /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -646,6 +647,8 @@
 		22F86DC918112F53000CCB50 /* MCOrgBL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCOrgBL.m; sourceTree = "<group>"; };
 		22FCB4E41814C1F700F2A0CB /* MCCircleDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCircleDataHandler.h; sourceTree = "<group>"; };
 		22FCB4E51814C1F700F2A0CB /* MCCircleDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCircleDataHandler.m; sourceTree = "<group>"; };
+		22FF53D81883732A002F9447 /* MCNotifationContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNotifationContentViewController.h; sourceTree = "<group>"; };
+		22FF53D91883732A002F9447 /* MCNotifationContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCNotifationContentViewController.m; sourceTree = "<group>"; };
 		2EC788B6F9144C69B40E4A16 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		4320CC666B854B42AEA2DCEF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1779,6 +1782,8 @@
 				22E985CA1857E9FF00032893 /* MCMessageListViewController.m */,
 				2258D0FE187CE6F40047EB72 /* MCNotificationSessionViewController.h */,
 				2258D0FF187CE6F40047EB72 /* MCNotificationSessionViewController.m */,
+				22FF53D81883732A002F9447 /* MCNotifationContentViewController.h */,
+				22FF53D91883732A002F9447 /* MCNotifationContentViewController.m */,
 				22E985CC1857EA0D00032893 /* MCChatSessionViewController.h */,
 				22E985CD1857EA0D00032893 /* MCChatSessionViewController.m */,
 			);
@@ -2073,6 +2078,7 @@
 				22CEC25D18594A5400DC9913 /* DDXMLElement.m in Sources */,
 				22CEC3A018594B3D00DC9913 /* XMPPGroupCoreDataStorageObject.m in Sources */,
 				221C51B1180CCEC700ED8715 /* MCDataObject.m in Sources */,
+				22FF53DA1883732A002F9447 /* MCNotifationContentViewController.m in Sources */,
 				22CEC3D618594B3D00DC9913 /* XMPPTransports.m in Sources */,
 				220F48FF1808DCFB005112DF /* MCCrypto.m in Sources */,
 				22CEC3FB185953DB00DC9913 /* MCXmppHelper.m in Sources */,

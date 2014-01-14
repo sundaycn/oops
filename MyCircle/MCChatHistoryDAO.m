@@ -130,7 +130,14 @@ static MCChatHistoryDAO *sharedManager = nil;
     NSMutableArray *resListData = [[NSMutableArray alloc] init];
     
     int listCount = listData.count;
-    int loopTimes = 10;
+    int loopTimes;
+    if ([type isEqualToString:MSG_TYPE_NORMAL_CHAT]) {
+        loopTimes = 10;
+    }
+    else {
+        loopTimes = 3;
+    }
+
     while (listCount > 0 && loopTimes > 0)
     {
         MCChatHistoryManagedObject *mo = [listData objectAtIndex:listCount-1];
@@ -180,7 +187,14 @@ static MCChatHistoryDAO *sharedManager = nil;
     NSMutableArray *resListData = [[NSMutableArray alloc] init];
     
     int listCount = listData.count;
-    int loopTimes = 10;
+    int loopTimes;
+    if ([type isEqualToString:MSG_TYPE_NORMAL_CHAT]) {
+        loopTimes = 10;
+    }
+    else {
+        loopTimes = 5;
+    }
+    
     while (listCount > 0 && loopTimes > 0)
     {
         MCChatHistoryManagedObject *mo = [listData objectAtIndex:listCount-1];
@@ -194,6 +208,7 @@ static MCChatHistoryDAO *sharedManager = nil;
         [resListData addObject:chatHistory];
         loopTimes--;
     }
+
     return [resListData copy];
 }
 

@@ -10,8 +10,10 @@
 
 @interface MCNotificationCell : UITableViewCell
 
+@property (strong, nonatomic) UILabel *labelTime;
 @property (strong, nonatomic) UILabel *labelTitle;
 @property (strong, nonatomic) UITextView *textView;
-@property (strong, nonatomic) UIButton *buttonReadText;
+//@property (strong, nonatomic) UIButton *buttonReadText;
+@property (strong, nonatomic) UILabel *labelReadText;
 
 @end

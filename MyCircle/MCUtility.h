@@ -22,6 +22,8 @@
 
 + (NSString *)getmessageTime:(NSDate *)date;
 
++ (NSString *)getFormatedTime:(NSDate *)date;
+
 + (UIImage *)imageFromText:(int)count image:(UIImage *)image;
 
 @end
