@@ -47,6 +47,10 @@
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
     
+    if (self.isFirstLogined) {
+        [self loginInXmppServer];
+    }
+    
     //监听应用程序从后台切换到前台的动作
     [defaultCenter addObserver:self
                       selector:@selector(loginInXmppServer)

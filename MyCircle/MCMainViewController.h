@@ -11,4 +11,6 @@
 
 @interface MCMainViewController : UITabBarController <MCMessageCountDelegate>
 
+@property (assign, nonatomic) BOOL isFirstLogined;
+
 @end

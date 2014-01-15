@@ -63,7 +63,7 @@
             
             //清除不再拥有的enterprise数据以及下属的联系人数据
             MCOrgBL *orgBL = [[MCOrgBL alloc] init];
-#warning AAA优先处理
+#warning 优先处理AAAAA
 //            NSMutableArray *orgList = [orgBL findAll];
 //            for (MCOrg *org in orgList) {
 //                for (NSDictionary *dictOrgInfo in arrOrgInfo) {

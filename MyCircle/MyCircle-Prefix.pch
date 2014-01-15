@@ -41,6 +41,10 @@
 #define MSG_TYPE_COMPANY_PRODUCT @"COMPANY_PRODUCT"
 #define MSG_TYPE_COMPANY_EXAMPL @"COMPANY_EXAMPL"
 
+//企业动态键
+#define MSG_KEY_COMPANY_NEWS @"admin@127.0.0.1COMPANY_NEWS"
+#define MSG_KEY_ORG_NEWS @"admin@127.0.0.1ORG_NEWS"
+
 //-----------------------------------------------------------------
 #define DESENCRYPTED_KEY @"3B71617A40575C58"
 #define DESDECRYPTED_KEY @"02FBD079EA8F3457"

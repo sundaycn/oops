@@ -81,16 +81,13 @@
     else {
         //聊天会话
         self.keys = [[[[MCXmppHelper sharedInstance] Messages] allKeys] mutableCopy];
-        if(!self.keys){
+        if(!self.keys) {
             return 0;
         }
-        else{
-            for (NSString *key in self.keys) {
-                if ([key isEqualToString:XMPP_ADMIN_JID]) {
-                    [self.keys removeObject:key];
-                    break;
-                }
-            }
+        else {
+            [self.keys removeObject:MSG_KEY_COMPANY_NEWS];
+            [self.keys removeObject:MSG_KEY_ORG_NEWS];
+            [self.keys removeObject:XMPP_ADMIN_JID];
 
             return self.keys.count;
         }
@@ -107,7 +104,7 @@
         }
 
         cell1.labelName.text = @"企业动态";
-        MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:XMPP_ADMIN_JID];
+        MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:MSG_KEY_COMPANY_NEWS];
         if (msg) {
             //消息前缀WOQUANQUAN_CB462135_MSG:
             NSRange rangeJsonMessage = [msg.message rangeOfString:@":"];
@@ -130,7 +127,7 @@
         }
         
         cell2.labelName.text = @"组织公告";
-        MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:XMPP_ADMIN_JID];
+        MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:MSG_KEY_ORG_NEWS];
         if (msg) {
             //消息前缀WOQUANQUAN_CB462135_MSG:
             NSRange rangeJsonMessage = [msg.message rangeOfString:@":"];

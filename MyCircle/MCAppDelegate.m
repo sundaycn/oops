@@ -38,19 +38,21 @@
                                                            titleHighlightedColor, UITextAttributeTextColor,
                                                            nil] forState:UIControlStateSelected];
     }
-
-    
-    if ([self isLogged]) {
-        //用户已登陆
-        UIViewController *mainVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-        self.window.rootViewController = mainVC;
-    }
     
     //通知设备需要接收推送通知 Let the device know we want to receive push notifications
 	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                    UIRemoteNotificationTypeSound |
                                                    UIRemoteNotificationTypeAlert)];
     [APService setupWithOption:launchOptions];
+    if ([self isLogged]) {
+        //用户已登陆
+        UIViewController *mainVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+        self.window.rootViewController = mainVC;
+        NSUserDefaults *userInfo = [NSUserDefaults standardUserDefaults];
+        NSString *strAccount = [userInfo stringForKey:@"user"];
+        [APService setAlias:strAccount callbackSelector:nil object:nil];
+    }
+
     //清除主屏幕上icon右上角的badge数字
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     

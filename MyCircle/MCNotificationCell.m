@@ -31,14 +31,14 @@
         sepratorView.backgroundColor = [UIColor grayColor];
         [backgroundView addSubview:sepratorView];
         
-        self.labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 240, 55)];
+        self.labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 240, 20)];
         self.labelTitle.numberOfLines = 0;
         self.labelTitle.lineBreakMode = NSLineBreakByCharWrapping;
         self.labelTitle.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         self.labelTitle.font = [UIFont systemFontOfSize:16];
         [backgroundView addSubview:self.labelTitle];
         
-        self.textView = [[UITextView alloc] initWithFrame:CGRectMake(20, 60, 240, 100)];
+        self.textView = [[UITextView alloc] initWithFrame:CGRectMake(20, 30, 240, 100)];
         self.textView.backgroundColor = UIColorFromRGB(0xfcfcfd);
         self.textView.scrollEnabled = NO;
         self.textView.font = [UIFont systemFontOfSize:13];

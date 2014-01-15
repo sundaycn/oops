@@ -34,21 +34,41 @@ static const char* ObjectTagKey1 = "Messages";
     NSString *content = message.body;
     NSString *sendtime = [[message elementForName:@"time"] stringValue];
     NSString *from = message.from.bareJID.bare;
-    if(content != nil){
+    if(content != nil) {
         //1.封装收到的消息
         MCMessage *msg = [[MCMessage alloc] init];
         msg.message = content;
         msg.from = from;
         msg.to = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] bare];
         msg.isread = @"NO";
-        if(sendtime != nil){
+        if(sendtime != nil) {
             msg.date = [MCUtility getCurrentTimeFromString:sendtime];
-        }else{
+        }else {
             msg.date = [NSDate date];
         }
         //2.将消息保存到会话表，保存最后一条收到的记录。
-        [self saveLastMessage:msg.from msg:msg];
-        [self saveLastMessageToDB:msg.from content:msg.message time:msg.date];
+        //通知公告消息账号为XMPP_ADMIN_JID
+        NSString *key;
+        if ([msg.from isEqualToString:XMPP_ADMIN_JID]) {
+            //消息头为WOQUANQUAN_CB462135_MSG则属于通知公告短信
+            if ([[msg.message substringToIndex:[MSG_HEAD_NOTIFICATION length]] isEqualToString:MSG_HEAD_NOTIFICATION]) {
+                DLog(@"通知公告消息");
+                NSRange rangeMsgType = [msg.message rangeOfString:@"\"msgType\":\""];
+                NSRange rangeToPhone = [msg.message rangeOfString:@"\",\"toPhone\""];
+                NSString *strMsgType = [msg.message substringWithRange:NSMakeRange(rangeMsgType.location+rangeMsgType.length, rangeToPhone.location-rangeMsgType.location-rangeMsgType.length)];
+                key = [msg.from stringByAppendingString:strMsgType];
+            }
+            else {
+                DLog(@"未定义消息头");
+                return;
+            }
+        }
+        else {
+            DLog(@"普通聊天消息");
+            key = msg.from;
+        }
+        [self saveLastMessage:key msg:msg];
+        [self saveLastMessageToDB:key content:msg.message time:msg.date];
         //3.将消息保存到历史记录表，标记为未读
         [self saveHistoryMessageToDB:msg];
         //4.消息计数器加1
@@ -57,7 +77,6 @@ static const char* ObjectTagKey1 = "Messages";
             [self.msgrev refreshmsg:msg];
         }
         //5.播放提示音(震动模式下为震动提示)
-//        AudioServicesCreateSystemSoundID(<#CFURLRef inFileURL#>, <#SystemSoundID *outSystemSoundID#>) //创建自定义声音
         AudioServicesPlaySystemSound(LOCAL_NOTIFICATION_SOUND_ID);
     }
 }
@@ -146,7 +165,6 @@ static const char* ObjectTagKey1 = "Messages";
     }
     else {
         chatHistory.type = MSG_TYPE_NORMAL_CHAT;
-        DLog(@"普通聊天消息");
     }
     [[MCChatHistoryDAO sharedManager] insert:chatHistory];
 }
