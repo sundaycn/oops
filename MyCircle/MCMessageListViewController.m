@@ -45,6 +45,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navigationItem.title = @"消息";
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.userInfo = [NSUserDefaults standardUserDefaults];
 }
 
@@ -101,6 +102,8 @@
         MCMessageCell *cell1 = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
         if (cell1 == nil) {
             cell1 = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
+            [cell1 setCellHeight:cell1.frame.size.height];
+            cell1.containingTableView = tableView;
         }
 
         cell1.labelName.text = @"企业动态";
@@ -124,9 +127,11 @@
         MCMessageCell *cell2 = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
         if (cell2 == nil) {
             cell2 = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
+            [cell2 setCellHeight:cell2.frame.size.height];
+            cell2.containingTableView = tableView;
         }
         
-        cell2.labelName.text = @"组织公告";
+        cell2.labelName.text = @"通知公告";
         MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:MSG_KEY_ORG_NEWS];
         if (msg) {
             //消息前缀WOQUANQUAN_CB462135_MSG:
@@ -147,6 +152,8 @@
         MCMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
             cell = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            [cell setCellHeight:cell.frame.size.height];
+            cell.containingTableView = tableView;
         }
         // Configure the cell...
         NSString *jid = [self.keys objectAtIndex:indexPath.row];
@@ -166,10 +173,17 @@
         cell.labelTime.text = [MCUtility getmessageTime:msg.date];
         cell.labelMessage.text = msg.message;
         
+        //添加滑动删除按钮
+        NSMutableArray *rightUtilityButtons = [[NSMutableArray alloc] init];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]                                                   title:@"Delete"];
+        cell.rightUtilityButtons = rightUtilityButtons;
+        cell.delegate = self;
+        
         return cell;
     }
 }
 
+#pragma mark - TableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 48;
@@ -183,6 +197,26 @@
     else {
         [self performSegueWithIdentifier:@"showChatSession" sender:self];
     }
+}
+
+#pragma mark - SWTableViewDelegate
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
+{
+    if (index == 0) {
+        //按下删除按钮
+        NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+        [self removeChatSession:cellIndexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath]
+                              withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+- (void)removeChatSession:(NSUInteger)index
+{
+    NSString *key = [self.keys objectAtIndex:index];
+    [self.keys removeObjectAtIndex:index];
+    [[MCXmppHelper sharedInstance] removeLastMessage:key];
+    [[MCXmppHelper sharedInstance] removeLastMessageFromDB:key];
 }
 
 /*

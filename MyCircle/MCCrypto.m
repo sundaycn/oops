@@ -7,9 +7,9 @@
 //
 
 #import "MCCrypto.h"
+#import <CommonCrypto/CommonCryptor.h>
 
 @implementation MCCrypto
-
 
 //普通字符串转换为十六进制
 + (NSString *)hexStringFromString:(NSString *)string{

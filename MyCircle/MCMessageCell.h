@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SWTableViewCell/SWTableViewCell.h>
 
-@interface MCMessageCell : UITableViewCell{
+@interface MCMessageCell : SWTableViewCell{
     UIImageView *_userHead;
     UIImageView *_bageView;
     UILabel *_bageNumber;

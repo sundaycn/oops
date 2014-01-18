@@ -15,5 +15,9 @@
 
 //发送消息
 - (void)sendMessage:(MCMessage *)message;
+//删除最后一条聊天记录
+- (void)removeLastMessage:(NSString *)key;
+//删除最后一条聊天记录
+- (void)removeLastMessageFromDB:(NSString *)key;
 
 @end

@@ -100,7 +100,7 @@ function ishow (id, belongOrgId, name) {
 	localStorage.iId = id;
 	localStorage.iBelongOrgId = belongOrgId;
 	localStorage.iName = name;
-	window.location.href="i.html";
+	window.location.href="i.html?companyId="+id+"&belongOrgId="+belongOrgId;
 	return false;
 }
 
@@ -190,7 +190,7 @@ function initLayout () {
 }
 
 $(function () {
-	initLayout();
+	//initLayout();
 	data['filter_LIKES_companyName'] = sessionStorage.getItem("filter_LIKES_companyName");
 	data['filter_EQS_companyType'] = sessionStorage.getItem("filter_EQS_companyType");
 	data['filter_EQS_companyMode'] = sessionStorage.getItem("filter_EQS_companyMode");

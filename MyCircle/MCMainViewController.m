@@ -11,6 +11,7 @@
 #import "MCMessageListViewController.h"
 #import "MCXmppHelper+Login.h"
 #import "MCXmppHelper+Message.h"
+#import "MCConfig.h"
 #import "MCChatSessionDAO.h"
 #import "MCChatSession.h"
 #import "MCChatHistoryDAO.h"
@@ -94,8 +95,9 @@
 {
     //登陆Xmpp服务器
     self.xmppHelper = [MCXmppHelper sharedInstance];
-    NSUserDefaults *userInfo = [NSUserDefaults standardUserDefaults];
-    NSString *isLogined = [self.xmppHelper login:userInfo success:^{
+    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+    NSString *strPassword = [[MCConfig sharedInstance] getPlainPassword];
+    NSString *isLogined = [self.xmppHelper loginByAccount:strAccount password:strPassword success:^{
         //登陆成功
         DLog(@"login in xmpp server successfully");
         //更新最近一条消息和未读消息数

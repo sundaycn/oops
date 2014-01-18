@@ -130,6 +130,12 @@ static const char* ObjectTagKey1 = "Messages";
     [self.Messages setObject:msg forKey:key];
 }
 
+//删除最后一条聊天记录
+- (void)removeLastMessage:(NSString *)key
+{
+    [self.Messages removeObjectForKey:key];
+}
+
 //保存最后一条聊天记录到数据库
 - (void)saveLastMessageToDB:(NSString *)key content:(NSString *)content time:(NSDate *)time
 {
@@ -139,6 +145,14 @@ static const char* ObjectTagKey1 = "Messages";
     chatSession.time = time;
     [[MCChatSessionDAO sharedManager] remove:chatSession];
     [[MCChatSessionDAO sharedManager] insert:chatSession];
+}
+
+//删除最后一条聊天记录
+- (void)removeLastMessageFromDB:(NSString *)key
+{
+    MCChatSession *chatSession = [[MCChatSession alloc] init];
+    chatSession.key = key;
+    [[MCChatSessionDAO sharedManager] remove:chatSession];
 }
 
 //保存所有消息到数据库

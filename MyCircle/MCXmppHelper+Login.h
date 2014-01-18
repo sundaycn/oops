@@ -13,6 +13,6 @@
 @property (strong,nonatomic) CallBackVoid Loginsuccess;
 @property (strong,nonatomic) CallBackError Loginfail;
 
-- (NSString *)login:(NSUserDefaults *)userinfo success:(CallBackVoid)success fail:(CallBackError)fail;
+- (NSString *)loginByAccount:(NSString *)account password:(NSString *)password success:(CallBackVoid)success fail:(CallBackError)fail;
 
 @end

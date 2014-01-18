@@ -33,6 +33,7 @@ PODS:
   - Cordova/Base (3.2.0)
   - MBProgressHUD (0.8)
   - Reachability (3.1.1)
+  - SWTableViewCell (0.2.2)
   - UIBubbleTableView (0.2)
 
 DEPENDENCIES:
@@ -40,6 +41,7 @@ DEPENDENCIES:
   - ASIHTTPRequest (~> 1.8.1)
   - Cordova (~> 3.2.0)
   - MBProgressHUD (~> 0.8)
+  - SWTableViewCell (~> 0.2.2)
   - UIBubbleTableView (~> 0.2)
 
 SPEC CHECKSUMS:
@@ -48,6 +50,7 @@ SPEC CHECKSUMS:
   Cordova: 4ed878a7c7153a7b888f05e1f18c074343d0be41
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   Reachability: be4883bb93f31e38266ae3365e5600a317aae735
+  SWTableViewCell: b20432962d410c45c25b69e7c519a1296ecce70b
   UIBubbleTableView: 08dcbbb351538139d7a2a01216bb427ad4253bb1
 
 COCOAPODS: 0.28.0

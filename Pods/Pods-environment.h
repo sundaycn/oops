@@ -96,6 +96,12 @@
 #define COCOAPODS_VERSION_MINOR_Reachability 1
 #define COCOAPODS_VERSION_PATCH_Reachability 1
 
+// SWTableViewCell
+#define COCOAPODS_POD_AVAILABLE_SWTableViewCell
+#define COCOAPODS_VERSION_MAJOR_SWTableViewCell 0
+#define COCOAPODS_VERSION_MINOR_SWTableViewCell 2
+#define COCOAPODS_VERSION_PATCH_SWTableViewCell 2
+
 // UIBubbleTableView
 #define COCOAPODS_POD_AVAILABLE_UIBubbleTableView
 #define COCOAPODS_VERSION_MAJOR_UIBubbleTableView 0

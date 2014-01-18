@@ -12,16 +12,21 @@
 #import "MCBookBL.h"
 #import "MCDeptBL.h"
 #import "MCOrgBL.h"
+#import "MCConfig.h"
 
 @implementation MCLoginHandler
 
-+ (NSInteger)isLoginedSuccessfully:(NSString *)strAccount password:(NSString *)cipherPwd {
-    NSString *strURL = [[NSString alloc] initWithFormat:@"http://117.21.209.104/EasyContact/Contact/contact!loginAjax.action"];
++ (NSInteger)isLoginedSuccessfully:(NSString *)strAccount password:(NSString *)cipherPwd
+{
+    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!loginAjax.action"]];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
     [request addPostValue:strAccount forKey:@"tel"];
     [request addPostValue:cipherPwd forKey:@"password"];
-#warning 修改为随机数
-    [request addPostValue:@"12345" forKey:@"stamp"];
+    //获取1到x之间的整数
+    NSUInteger randomInteger = (arc4random() % 99999999) + 1;
+    NSString *stamp = [[NSString alloc] initWithFormat:@"%d", randomInteger];
+    DLog(@"用于登陆服务器的随机数:%@", stamp);
+    [request addPostValue:stamp forKey:@"stamp"];
     //同步请求
     [request startSynchronous];
     
@@ -33,18 +38,17 @@
         strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\"[" withString:@"["];
         strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
         strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"]\"" withString:@"]"];
-        DLog(@"\n 服务器返回:\n%@", strJsonResult);
+        DLog(@"服务器返回:\n%@", strJsonResult);
         
         //重新封装json数据
         NSData *dataLoginResponse = [strJsonResult dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary* dictLoginResponse = [NSJSONSerialization JSONObjectWithData:dataLoginResponse options:NSJSONReadingAllowFragments error:nil];
         //判断服务器返回结果
         NSString *strLoginResult = [NSString stringWithFormat:@"%@",[[dictLoginResponse objectForKey:@"root"] objectForKey:@"result"]];
-        DLog(@"\n 登陆结果:%@", [strLoginResult isEqualToString:@"1"] ? @"true" : @"false");
         BOOL isLogined = [strLoginResult isEqualToString:@"1"];
         if (isLogined) {
             //保存用户名和密码
-            [self saveNSUserDefaults:strAccount password:cipherPwd];
+            [[MCConfig sharedInstance] saveAccount:strAccount password:cipherPwd];
             
             //提取组织id
             NSArray *arrOrgInfo = [[dictLoginResponse objectForKey:@"root"] objectForKey:@"enterprise"];
@@ -208,17 +212,5 @@
 //        DLog(@"圈子数据更新完毕");
 //    }
 //}
-
-//保存数据到NSUserDefaults
-+ (void)saveNSUserDefaults:(NSString *)user password:(NSString *)pwd {
-    //将上述数据全部存储到NSUserDefaults中
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:user forKey:@"user"];
-    [userDefaults setObject:pwd forKey:@"password"];
-    
-    //这里建议同步存储到磁盘中，但是不是必须的
-    [userDefaults synchronize];
-    
-}
 
 @end

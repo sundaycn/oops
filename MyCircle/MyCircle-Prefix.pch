@@ -27,6 +27,8 @@
 
 #define MYCIRCLE_HOST @"117.21.209.104"
 //-----------------------------------------------------------------
+//XMPP协议交互日志
+//#define DDLOG
 //XMPP服务器信息
 #define XMPP_HOST @"117.21.209.104"
 #define XMPP_DOMAIN @"@127.0.0.1"
@@ -46,6 +48,7 @@
 #define MSG_KEY_ORG_NEWS @"admin@127.0.0.1ORG_NEWS"
 
 //-----------------------------------------------------------------
+//秘钥
 #define DESENCRYPTED_KEY @"3B71617A40575C58"
 #define DESDECRYPTED_KEY @"02FBD079EA8F3457"
 

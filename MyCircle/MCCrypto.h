@@ -7,18 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonCryptor.h>
 
 @interface MCCrypto : NSObject
-
-//字符串转16进制
-+ (NSString *)hexStringFromString:(NSString *)string;
-
-//16进制字符串转换为NSData
-+ (NSData*)dataFromHexString:(NSString*)hexString;
-
-//NSData转换成16进制字符串
-+ (NSString *)hexStringFromData:(NSData *)data;
 
 //加密
 + (NSString *)DESEncrypt:(NSString *)data WithKey:(NSString *)key;

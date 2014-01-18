@@ -68,7 +68,8 @@
     barButtonItem.title = @"返回";
     self.navigationItem.backBarButtonItem = barButtonItem;
     //缩进分割线
-    self.tableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.tableView.separatorColor = UIColorFromRGB(0xd5d5d5);
 }
 
 - (void)didReceiveMemoryWarning
@@ -117,11 +118,31 @@
     }
     else
     {
+        if (indexPath.row % 2 == 0) {
+            cell.backgroundColor = UIColorFromRGB(0xebebeb);
+        }
+        else {
+            cell.backgroundColor = UIColorFromRGB(0xf5f5f5);
+        }
+        cell.labelTitle.font = [UIFont systemFontOfSize:17];
+        cell.labelTitle.textColor = UIColorFromRGB(0x2f2e2e);
         cell.labelTitle.text = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"companyName"];
-        cell.labelDetail.text = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"officeAddress"];
+        cell.labelDetail.font = [UIFont systemFontOfSize:11];
+        cell.labelDetail.textColor = UIColorFromRGB(0x4847474);
+        NSString *strDetail = [[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"officeAddress"];
+        if (!strDetail) {
+            cell.labelDetail.text = @"未填写地址";
+        }
+        else {
+            cell.imageViewAddr.image = [UIImage imageNamed:@"PortalListAddrIcon"];
+            cell.labelDetail.text = strDetail;
+        }
         if ([[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"image"]) {
             NSString *strURL = [[BASE_URL stringByAppendingString:[[self.arrPortal objectAtIndex:indexPath.row] objectForKey:@"image"]] stringByAppendingString:IMAGE_SWITCH];
             [cell.imageViewLogo setImageWithURL:[NSURL URLWithString:strURL]];
+        }
+        else {
+            cell.imageViewLogo.image = [UIImage imageNamed:@"PortalListLogo"];
         }
    }
 

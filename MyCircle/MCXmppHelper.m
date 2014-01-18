@@ -124,10 +124,11 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 //    self.DidDisConnectCallBack();
 }
 
-+ (MCXmppHelper *)sharedInstance{
-    MCAppDelegate *appDelegate= (MCAppDelegate *)[[UIApplication sharedApplication] delegate];
++ (MCXmppHelper *)sharedInstance
+{
+    MCAppDelegate *appDelegate = (MCAppDelegate *)[[UIApplication sharedApplication] delegate];
     if(!appDelegate.xmppHepler)
-        appDelegate.xmppHepler=[[MCXmppHelper alloc] init];
+        appDelegate.xmppHepler = [[MCXmppHelper alloc] init];
     return appDelegate.xmppHepler;
 }
 

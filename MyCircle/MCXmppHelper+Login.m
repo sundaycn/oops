@@ -29,16 +29,17 @@ static const char* ObjectTagKey2 = "loginfail";
     objc_setAssociatedObject(self,ObjectTagKey2,Loginfail,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (NSString *)login:(NSUserDefaults *)userinfo success:(CallBackVoid)success fail:(CallBackError)fail{
+- (NSString *)loginByAccount:(NSString *)account password:(NSString *)password success:(CallBackVoid)success fail:(CallBackError)fail{
     self.Loginsuccess = success;
     self.Loginfail = fail;
-    NSString *isconnect = [self connect:[[userinfo stringForKey:@"user"] stringByAppendingString:XMPP_DOMAIN] host:self.host success:^{
+    
+    NSString *isconnect = [self connect:[account stringByAppendingString:XMPP_DOMAIN] host:self.host success:^{
         //连接成功，就进行登陆
         DLog(@"ready to login");
-        DLog(@"xmpp login username:%@", [userinfo stringForKey:@"user"]);
-        DLog(@"xmpp login password:%@", [MCCrypto DESDecrypt:[userinfo stringForKey:@"password"] WithKey:DESENCRYPTED_KEY]);
+        DLog(@"xmpp login username:%@", account);
+        DLog(@"xmpp login password:%@", password);
         NSError *error = nil;
-        [[self xmppStream] authenticateWithPassword:[MCCrypto DESDecrypt:[userinfo stringForKey:@"password"] WithKey:DESENCRYPTED_KEY] error:&error];
+        [[self xmppStream] authenticateWithPassword:password error:&error];
 //        if(error != nil)
 //        {
 //            [self disconnect];
@@ -50,12 +51,14 @@ static const char* ObjectTagKey2 = "loginfail";
         return nil;
     }else{
         DLog(@"xmpp conn failed");
+#warning xmpp定时连接bug
         //连接失败启动周期性重连定时器
+        /*
         self.timer = [NSTimer scheduledTimerWithTimeInterval:60
                                                       target:self
                                                     selector:@selector(loginPeriodically:)
                                                     userInfo:userinfo
-                                                     repeats:YES];
+                                                     repeats:YES];*/
         return isconnect;
     }
 }

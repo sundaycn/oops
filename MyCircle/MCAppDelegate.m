@@ -7,49 +7,40 @@
 //
 
 #import "MCAppDelegate.h"
+#import "MCConfig.h"
 #import "APService.h"
+#ifdef DDLOG
 #import "DDLog.h"
 #import "DDTTYLogger.h"
+#endif
 
 @implementation MCAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+#ifdef DDLOG
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+#endif
     
+    //自定义navigationBar和tabBar样式
+    [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x2b87d6)];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName]];
+    [[UITabBar appearance] setBackgroundColor:UIColorFromRGB(0xf5f5f5)];
+    [[UITabBar appearance] setTintColor:UIColorFromRGB(0x2b87d6)];
+
     
-    if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
-        [application setStatusBarStyle:UIStatusBarStyleLightContent];
-        [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x2b87d6)];
-        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-        [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor]];
-        [[UITabBar appearance] setBackgroundColor:UIColorFromRGB(0xf5f5f5)];
-        [[UITabBar appearance] setTintColor:UIColorFromRGB(0x2b87d6)];
-    }
-    else {
-        [application setStatusBarStyle:UIStatusBarStyleBlackOpaque];
-        [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0x2b87d6)];
-        [[UITabBar appearance] setSelectedImageTintColor:UIColorFromRGB(0x2b87d6)];
-        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [UIColor grayColor], UITextAttributeTextColor,
-                                                           nil] forState:UIControlStateNormal];
-        UIColor *titleHighlightedColor = UIColorFromRGB(0x2b87d6);
-        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                           titleHighlightedColor, UITextAttributeTextColor,
-                                                           nil] forState:UIControlStateSelected];
-    }
-    
-    //通知设备需要接收推送通知 Let the device know we want to receive push notifications
+    //通知设备接收JPush推送通知
 	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                    UIRemoteNotificationTypeSound |
                                                    UIRemoteNotificationTypeAlert)];
     [APService setupWithOption:launchOptions];
-    if ([self isLogged]) {
+    if ([[MCConfig sharedInstance] isLogined]) {
         //用户已登陆
         UIViewController *mainVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
         self.window.rootViewController = mainVC;
-        NSUserDefaults *userInfo = [NSUserDefaults standardUserDefaults];
-        NSString *strAccount = [userInfo stringForKey:@"user"];
+        NSString *strAccount = [[MCConfig sharedInstance] getAccount];
         [APService setAlias:strAccount callbackSelector:nil object:nil];
     }
 
@@ -67,7 +58,7 @@
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
     DLog(@"will resign active");
-    if ([self isLogged]) {
+    if ([[MCConfig sharedInstance] isLogined]) {
         //发送通知，断开xmpp服务器
     }
 }
@@ -93,7 +84,7 @@
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
     DLog(@"did become active");
-    if ([self isLogged]) {
+    if ([[MCConfig sharedInstance] isLogined]) {
         //发送通知，连接xmpp服务器
         
     }
@@ -108,6 +99,7 @@
      */
 }
 
+#pragma mark - JPush delegate
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
     // Required
@@ -118,15 +110,6 @@
     
     // Required
     [APService handleRemoteNotification:userInfo];
-}
-
-- (BOOL)isLogged {
-    //判断用户是否已登录
-    NSUserDefaults *userInfo = [NSUserDefaults standardUserDefaults];
-    NSString *strAccount = [userInfo stringForKey:@"user"];
-    NSString *strPassword = [userInfo stringForKey:@"password"];
-    
-    return (strAccount.length >0 && strPassword.length >0);
 }
 
 @end
