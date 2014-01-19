@@ -20,7 +20,7 @@
 @interface MCMainViewController ()
 
 @property (nonatomic, strong) MCXmppHelper *xmppHelper;
-@property (nonatomic, strong) Reachability* reachability;
+@property (nonatomic, strong) Reachability *reachability;
 
 @end
 

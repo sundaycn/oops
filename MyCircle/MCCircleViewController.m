@@ -7,6 +7,22 @@
 //
 
 #import "MCCircleViewController.h"
+#import <Reachability/Reachability.h>
+#import "MCConfig.h"
+#import "MCCircleViewController.h"
+#import "RATreeView.h"
+#import "MCDataObject.h"
+#import "MCLoginHandler.h"
+#import "MCCircleDataHandler.h"
+#import "MCCircleOrgAndDeptCell.h"
+#import "MCCircleMemberCell.h"
+#import "MCContactsDetailViewController.h"
+#import "MCViewController.h"
+#import "MCBook.h"
+#import "MCBookBL.h"
+#import "MCCrypto.h"
+#import "MCContactsSearchLibrary.h"
+#import "SearchCoreManager.h"
 
 @interface MCCircleViewController () <RATreeViewDelegate, RATreeViewDataSource>
 
@@ -82,18 +98,11 @@
     float statusBarHeight = CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]);
     float navigationBarHeight = CGRectGetHeight(self.navigationController.navigationBar.frame);
     float tabBarHeight = CGRectGetHeight(self.tabBarController.tabBar.frame);
-    float heightPadding;
+    float heightPadding = statusBarHeight + navigationBarHeight + tabBarHeight;;
     
     //初始化圈子树
-    RATreeView *treeView;
-    if ([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
-        heightPadding = statusBarHeight + navigationBarHeight + tabBarHeight;
-    }
-    else {
-        heightPadding = navigationBarHeight + tabBarHeight;
-    }
     CGRect treeViewFrame = CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height-heightPadding);
-    treeView = [[RATreeView alloc] initWithFrame:treeViewFrame];
+    RATreeView *treeView = [[RATreeView alloc] initWithFrame:treeViewFrame];
 
     treeView.delegate = self;
     treeView.dataSource = self;
@@ -204,11 +213,9 @@
 //同步圈子数据
 - (void)startSynchronizeData
 {
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    NSString *strAccount = [userDefaultes stringForKey:@"user"];
-
+    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
     if (![MCViewController isInitLoginView]) {
-        NSString *strCipherPwd = [userDefaultes stringForKey:@"password"];
+        NSString *strCipherPwd = [[MCConfig sharedInstance] getCipherPassword];
         if ([MCLoginHandler isLoginedSuccessfully:strAccount password:strCipherPwd] != 0) {
             //登陆获取组织数据失败
             [self showHUD:1];

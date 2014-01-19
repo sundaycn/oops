@@ -381,10 +381,10 @@
             </objects>
             <point key="canvasLocation" x="1703" y="-812"/>
         </scene>
-        <!--Table View Controller-->
+        <!--My Info View Controller-->
         <scene sceneID="OCg-Oz-WnQ">
             <objects>
-                <tableViewController id="0h2-Nw-w92" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="0h2-Nw-w92" customClass="MCMyInfoViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dk4-td-daJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -405,10 +405,42 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="wfB-Up-77f"/>
+                    <connections>
+                        <segue destination="4f8-SQ-283" kind="push" identifier="showInputBox" id="uXB-Sl-kms"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q7r-50-3IW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2820" y="737"/>
+            <point key="canvasLocation" x="2820" y="835"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="8WM-ZJ-alS">
+            <objects>
+                <tableViewController hidesBottomBarWhenPushed="YES" id="4f8-SQ-283" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xKA-xd-QAQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="XGD-Zc-gBS">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XGD-Zc-gBS" id="2Y3-9Z-mTh">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="4f8-SQ-283" id="27u-E2-QCU"/>
+                            <outlet property="delegate" destination="4f8-SQ-283" id="74U-nh-G2x"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="cqa-8i-BwY"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Adl-Bj-of3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3465" y="835"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="9el-Ed-uU6">
@@ -490,7 +522,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFL-Vq-R4z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2820" y="1517"/>
+            <point key="canvasLocation" x="2820" y="1657"/>
         </scene>
         <!--Navigation Controller - 更多-->
         <scene sceneID="HRt-OR-Emf">

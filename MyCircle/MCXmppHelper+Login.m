@@ -85,15 +85,15 @@ static const char* ObjectTagKey2 = "loginfail";
     self.Loginsuccess();
 }
 
-- (void)loginPeriodically:(NSUserDefaults *)userinfo
+- (void)loginPeriodicallyByAccount:(NSString *)account password:(NSString *)password
 {
-    NSString *isconnect = [self connect:[[userinfo stringForKey:@"user"] stringByAppendingString:XMPP_DOMAIN] host:self.host success:^{
+    NSString *isconnect = [self connect:[account stringByAppendingString:XMPP_DOMAIN] host:self.host success:^{
         //连接成功，就进行登陆
         DLog(@"ready to login");
-        DLog(@"xmpp login username:%@", [userinfo stringForKey:@"user"]);
-        DLog(@"xmpp login password:%@", [MCCrypto DESDecrypt:[userinfo stringForKey:@"password"] WithKey:DESENCRYPTED_KEY]);
+        DLog(@"xmpp login username:%@", account);
+        DLog(@"xmpp login password:%@", password);
         NSError *error = nil;
-        [[self xmppStream] authenticateWithPassword:[MCCrypto DESDecrypt:[userinfo stringForKey:@"password"] WithKey:DESENCRYPTED_KEY] error:&error];
+        [[self xmppStream] authenticateWithPassword:password error:&error];
     }];
     if([isconnect isEqualToString:@"Y"]){
         DLog(@"xmpp conn successfully periodically");

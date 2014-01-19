@@ -47,6 +47,8 @@
 		22560CB5185E93B7002478B5 /* MCChatHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 22560CB4185E93B7002478B5 /* MCChatHistory.m */; };
 		2258D0FD187CE1260047EB72 /* MCNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2258D0FC187CE1260047EB72 /* MCNotificationCell.m */; };
 		2258D100187CE6F40047EB72 /* MCNotificationSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2258D0FF187CE6F40047EB72 /* MCNotificationSessionViewController.m */; };
+		225B1817188BB57900832573 /* MCSettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 225B1816188BB57900832573 /* MCSettingModel.m */; };
+		225B181A188BC59B00832573 /* MCMyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 225B1819188BC59B00832573 /* MCMyInfoViewController.m */; };
 		229DF0D618710ABE00739C3A /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D518710ABE00739C3A /* libPushSDK.a */; };
 		229DF0D818710AF400739C3A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D718710AF400739C3A /* CoreTelephony.framework */; };
 		229DF0DA18710B2000739C3A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D918710B2000739C3A /* CoreFoundation.framework */; };
@@ -313,6 +315,10 @@
 		2258D0FC187CE1260047EB72 /* MCNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCNotificationCell.m; sourceTree = "<group>"; };
 		2258D0FE187CE6F40047EB72 /* MCNotificationSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNotificationSessionViewController.h; sourceTree = "<group>"; };
 		2258D0FF187CE6F40047EB72 /* MCNotificationSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCNotificationSessionViewController.m; sourceTree = "<group>"; };
+		225B1815188BB57900832573 /* MCSettingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSettingModel.h; sourceTree = "<group>"; };
+		225B1816188BB57900832573 /* MCSettingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSettingModel.m; sourceTree = "<group>"; };
+		225B1818188BC59B00832573 /* MCMyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoViewController.h; sourceTree = "<group>"; };
+		225B1819188BC59B00832573 /* MCMyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoViewController.m; sourceTree = "<group>"; };
 		229DF0D418710ABE00739C3A /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
 		229DF0D518710ABE00739C3A /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
 		229DF0D718710AF400739C3A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -897,6 +903,8 @@
 			children = (
 				22A7AB761887C09000DC35AA /* MCMoreCell.h */,
 				22A7AB771887C09000DC35AA /* MCMoreCell.m */,
+				225B1815188BB57900832573 /* MCSettingModel.h */,
+				225B1816188BB57900832573 /* MCSettingModel.m */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -1853,6 +1861,8 @@
 				22D11D721821EBDF00515856 /* MCAboutViewController.m */,
 				22A7AB711887BFA100DC35AA /* MCMoreViewController.h */,
 				22A7AB721887BFA100DC35AA /* MCMoreViewController.m */,
+				225B1818188BC59B00832573 /* MCMyInfoViewController.h */,
+				225B1819188BC59B00832573 /* MCMyInfoViewController.m */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -2054,6 +2064,7 @@
 				22CEC3BD18594B3D00DC9913 /* XMPPRoom.m in Sources */,
 				22CEC39F18594B3D00DC9913 /* XMPPReconnect.m in Sources */,
 				22CEC3CB18594B3D00DC9913 /* NSXMLElement+XEP_0059.m in Sources */,
+				225B181A188BC59B00832573 /* MCMyInfoViewController.m in Sources */,
 				22CEC2281859467400DC9913 /* DDAbstractDatabaseLogger.m in Sources */,
 				22CEC3E618594B3E00DC9913 /* XMPPMessageDeliveryReceipts.m in Sources */,
 				22CEC3A118594B3D00DC9913 /* XMPPResourceCoreDataStorageObject.m in Sources */,
@@ -2180,6 +2191,7 @@
 				22CEC3D418594B3D00DC9913 /* XMPPMessage+XEP_0085.m in Sources */,
 				22CEC25C18594A5400DC9913 /* DDXMLDocument.m in Sources */,
 				2255FD0718599F0D00A01BA1 /* MCXmppHelper+Message.m in Sources */,
+				225B1817188BB57900832573 /* MCSettingModel.m in Sources */,
 				2255FD041859616000A01BA1 /* MCXmppHelper+Login.m in Sources */,
 				22CEC3EB18594B3E00DC9913 /* NSXMLElement+XEP_0203.m in Sources */,
 				22CEC22D1859467400DC9913 /* ContextFilterLogFormatter.m in Sources */,

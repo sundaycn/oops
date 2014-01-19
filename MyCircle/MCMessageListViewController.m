@@ -13,10 +13,10 @@
 #import "MCChatSessionViewController.h"
 #import "MCNotificationSessionViewController.h"
 #import "MCBookBL.h"
+#import "MCConfig.h"
 
 @interface MCMessageListViewController ()
 
-@property (nonatomic, strong) NSUserDefaults *userInfo;
 @property (nonatomic, strong) NSMutableArray *keys;
 @property (nonatomic, strong) MCChatSessionViewController *chatSessionVC;
 @property (nonatomic, strong) MCNotificationSessionViewController *notificationSessionVC;
@@ -46,7 +46,6 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navigationItem.title = @"消息";
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.userInfo = [NSUserDefaults standardUserDefaults];
 }
 
 - (void)didReceiveMemoryWarning
@@ -159,7 +158,8 @@
         NSString *jid = [self.keys objectAtIndex:indexPath.row];
         MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:jid];
         NSString *mobilePhone;
-        if ([msg.from isEqualToString:[[self.userInfo stringForKey:@"user"] stringByAppendingString:@"@127.0.0.1"]]) {
+        NSString *account = [[MCConfig sharedInstance] getAccount];
+        if ([msg.from isEqualToString:[account stringByAppendingString:XMPP_DOMAIN]]) {
             NSRange separator = [msg.to rangeOfString:@"@"];
             mobilePhone = [msg.to substringWithRange:NSMakeRange(0, separator.location)];
         }

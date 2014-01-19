@@ -7,10 +7,11 @@
 //
 
 #import "MCMoreViewController.h"
-#import "MCMoreCell.h"
+#import "MCSettingModel.h"
 
 @interface MCMoreViewController ()
-
+@property(strong, nonatomic) NSMutableDictionary *dictSettingsInSection;
+@property(strong, nonatomic) NSArray *arrSettings;
 @end
 
 @implementation MCMoreViewController
@@ -37,6 +38,23 @@
     self.tableView.separatorColor = UIColorFromRGB(0xd8d8d8);
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.tableView.scrollEnabled = NO;
+    
+    //配置数据源
+    self.dictSettingsInSection = [[NSMutableDictionary alloc] initWithCapacity:3];
+    NSArray *first = [[NSArray alloc] initWithObjects:
+                      [[MCSettingModel alloc] initWithTitle: @"个人资料" image:@"accountIcon" tag:1 title2:nil],
+                      nil];
+    NSArray *second = [[NSArray alloc] initWithObjects:
+                       [[MCSettingModel alloc] initWithTitle:@"检查更新" image:@"checkAndUpdateIcon" tag:2 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"关于我圈圈" image:@"aboutIcon" tag:3 title2:nil],
+                       nil];
+    NSArray *third = [[NSArray alloc] initWithObjects:
+                      [[MCSettingModel alloc] initWithTitle:@"退出当前账号" image:@"" tag:4 title2:nil],
+                      nil];
+    [self.dictSettingsInSection setObject:first forKey:@"firstSection"];
+    [self.dictSettingsInSection setObject:second forKey:@"secondSection"];
+    [self.dictSettingsInSection setObject:third forKey:@"thirdSection"];
+    self.arrSettings = [[NSArray alloc] initWithObjects:@"firstSection",@"secondSection",@"thirdSection",nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,59 +68,61 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 3;
+    return [self.arrSettings count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if (section == 0) {
-        return 2;
-    }
-    else if (section == 1) {
-        return 1;
-    }
-    else {
-        return 1;
-    }
+    NSString *sectionKey = [self.arrSettings objectAtIndex:section];
+    
+    return [[self.dictSettingsInSection objectForKey:sectionKey] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"MoreCell";
-    MCMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
-        cell = [[MCMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.opaque = YES;
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     // Configure the cell...
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            //
-        }
-        else {
-            UILabel *labelInfo = [[UILabel alloc] initWithFrame:CGRectMake(20, 14, 100, 16)];
-            labelInfo.text = @"个人资料";
-            [cell.contentView addSubview:labelInfo];
-        }
-        return cell;
-    }
-    else if (indexPath.section == 1) {
-        UILabel *labelInfo = [[UILabel alloc] initWithFrame:CGRectMake(20, 14, 100, 16)];
-        labelInfo.text = @"关于我圈圈";
-        [cell.contentView addSubview:labelInfo];
-        return cell;
-    }
-    else {
-        cell.backgroundColor = UIColorFromRGB(0xe7342d);
-        UILabel *labelText = [[UILabel alloc] initWithFrame:CGRectMake(80, 12, 130, 20)];
-        labelText.font = [UIFont systemFontOfSize:20];
-        labelText.textColor = [UIColor whiteColor];
-        labelText.text = @"退出当前账号";
-        [cell.contentView addSubview:labelText];
-        return cell;
-    }
+    NSString *sectionKey = [self.arrSettings objectAtIndex:indexPath.section];
+    NSArray *arrData = [self.dictSettingsInSection objectForKey:sectionKey];
+    MCSettingModel *model = [arrData objectAtIndex:indexPath.row];
+    cell.imageView.image = [UIImage imageNamed:model.image];
+    cell.textLabel.text = model.title;
+    cell.tag = model.tag;
+    
+    return cell;
+//    if (indexPath.section == 0) {
+//        if (indexPath.row == 0) {
+//            //
+//        }
+//        else {
+//            UILabel *labelInfo = [[UILabel alloc] initWithFrame:CGRectMake(20, 14, 100, 16)];
+//            labelInfo.text = @"个人资料";
+//            [cell.contentView addSubview:labelInfo];
+//        }
+//        return cell;
+//    }
+//    else if (indexPath.section == 1) {
+//        UILabel *labelInfo = [[UILabel alloc] initWithFrame:CGRectMake(20, 14, 100, 16)];
+//        labelInfo.text = @"关于我圈圈";
+//        [cell.contentView addSubview:labelInfo];
+//        return cell;
+//    }
+//    else {
+//        cell.backgroundColor = UIColorFromRGB(0xe7342d);
+//        UILabel *labelText = [[UILabel alloc] initWithFrame:CGRectMake(80, 12, 130, 20)];
+//        labelText.font = [UIFont systemFontOfSize:20];
+//        labelText.textColor = [UIColor whiteColor];
+//        labelText.text = @"退出当前账号";
+//        [cell.contentView addSubview:labelText];
+//        return cell;
+//    }
 }
 
 #pragma mark - TableView Delegate
@@ -111,22 +131,31 @@
     return 15;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] init];
-    view.backgroundColor = UIColorFromRGB(0xd8d8d8);
-    return view;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    UIView *view = [[UIView alloc] init];
+//    view.backgroundColor = UIColorFromRGB(0xd8d8d8);
+//    return view;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        if (indexPath.row == 1) {
+    NSString *sectionKey = [self.arrSettings objectAtIndex:indexPath.section];
+    NSArray *arrData = [self.dictSettingsInSection objectForKey:sectionKey];
+    MCSettingModel *model = [arrData objectAtIndex:indexPath.row];
+    
+    switch (model.tag) {
+        case 1:
             [self performSegueWithIdentifier:@"showMyInfo" sender:self];
-        }
-    }
-    else if (indexPath.section == 1) {
-        [self performSegueWithIdentifier:@"showAbout" sender:self];
+            break;
+        case 2:
+            [self checkAndUpdateVersion];
+            break;
+        case 3:
+            [self performSegueWithIdentifier:@"showAbout" sender:self];
+            break;
+        default:
+            break;
     }
 }
 
@@ -147,5 +176,10 @@
 }
 
  */
+
+- (void)checkAndUpdateVersion
+{
+    DLog(@"检查更新");
+}
 
 @end
