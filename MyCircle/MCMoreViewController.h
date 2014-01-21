@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MCMoreViewController : UITableViewController
+@interface MCMoreViewController : UITableViewController<UIAlertViewDelegate>
 
 @end

@@ -33,13 +33,13 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navigationItem.title = @"个人资料";
-    self.tableView.backgroundColor = UIColorFromRGB(0xd8d8d8);
-    self.tableView.separatorColor = UIColorFromRGB(0xd8d8d8);
+    self.tableView.backgroundColor = UIColorFromRGB(0xd5d5d5);
+    self.tableView.separatorColor = UIColorFromRGB(0xd5d5d5);
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.tableView.scrollEnabled = NO;
     
     //配置数据
-    self.arrItem = [[NSArray alloc] initWithObjects:@"头像", @"名字", @"性别", @"生日", @"手机号码", @"办公电话", @"电子邮箱", @"行业", @"地区", @"通讯地址", @"邮政编码", nil];
+    self.arrItem = [[NSArray alloc] initWithObjects:@"头像", @"名字", @"性别", @"生日", @"手机号码", @"办公电话", @"电子邮箱", nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,7 +49,6 @@
 }
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -85,7 +84,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 40;
+    return 44;
 }
 
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

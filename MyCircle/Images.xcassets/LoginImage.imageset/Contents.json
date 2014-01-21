@@ -3,12 +3,12 @@
     {
       "idiom" : "iphone",
       "scale" : "1x",
-      "filename" : "Login.png"
+      "filename" : "登陆页.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "2x",
-      "filename" : "Login@2x.png"
+      "filename" : "登陆页@2x.png"
     }
   ],
   "info" : {

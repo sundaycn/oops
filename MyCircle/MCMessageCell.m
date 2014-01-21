@@ -57,22 +57,44 @@
         
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
          */
-        self.labelName = [[UILabel alloc] initWithFrame:CGRectMake(40, 5, 250, 15)];
+        //设置单元格高度
+        [self setCellHeight:60.0f];
+        //
+        self.imageViewAvatar = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 50, 50)];
+        self.imageViewAvatar.image = [UIImage imageNamed:@"DefaultAvatar"];
+        //圆角设置
+        self.imageViewAvatar.layer.cornerRadius = self.imageViewAvatar.frame.size.width / 2;
+        self.imageViewAvatar.layer.masksToBounds = YES;
+        //边框宽度及颜色设置
+        //        [self.imageViewLogo.layer setBorderWidth:0.5];
+        //        [self.imageViewLogo.layer setBorderColor:[UIColor grayColor].CGColor];
+        //自动适应,保持图片宽高比
+        self.imageViewAvatar.contentMode = UIViewContentModeScaleAspectFit;
+        [self.contentView addSubview:self.imageViewAvatar];
+        
+        self.labelName = [[UILabel alloc] initWithFrame:CGRectMake(70, 12, 250, 15)];
         self.labelName.backgroundColor = [UIColor clearColor];
+        self.labelName.textColor = UIColorFromRGB(0x2f2e2e);
+//        self.labelName.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:17];
+        self.labelName.font = [UIFont systemFontOfSize:17];
         [self.contentView addSubview:self.labelName];
         
         self.labelTime = [[UILabel alloc] initWithFrame:CGRectMake(255, 8, 50, 12)];
         self.labelTime.backgroundColor = [UIColor clearColor];
+        self.labelTime.textColor = UIColorFromRGB(0x8b8b8b);
+        self.labelTime.textAlignment = NSTextAlignmentRight;
+        self.labelTime.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:11];
         [self.contentView addSubview:self.labelTime];
         
-        self.labelMessage = [[UILabel alloc] initWithFrame:CGRectMake(40, 25, 250, 20)];
-        self.labelMessage.backgroundColor = [UIColor clearColor];
-        [self.contentView addSubview:self.labelMessage];
+        self.imageViewIcon = [[UIImageView alloc] initWithFrame:CGRectMake(70, 37, 15, 15)];
+        [self.contentView addSubview:self.imageViewIcon];
         
-        self.imageViewAvatar = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 20, 20)];
-        self.imageViewAvatar.image = [UIImage imageNamed:@"TreeLeafImage"];
-        [self.contentView addSubview:self.imageViewAvatar];
-
+        self.labelMessage = [[UILabel alloc] initWithFrame:CGRectMake(88, 35, 200, 20)];
+        self.labelMessage.backgroundColor = [UIColor clearColor];
+        self.labelMessage.textColor = UIColorFromRGB(0x4847474);
+//        self.labelMessage.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:10];
+        self.labelMessage.font = [UIFont systemFontOfSize:13];
+        [self.contentView addSubview:self.labelMessage];        
     }
     return self;
 }

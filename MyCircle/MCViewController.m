@@ -27,7 +27,7 @@ static BOOL isLoginViewShowed = NO;
     [super viewDidLoad];
     isLoginViewShowed = YES;
 	// Do any additional setup after loading the view, typically from a nib.
-    self.buttonLogin.backgroundColor = UIColorFromRGB(0x3d97e9);
+    self.buttonLogin.backgroundColor = UIColorFromRGB(0x2a84d1);
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector (backgroundTap:)];
     tapGestureRecognizer.numberOfTapsRequired = 1;    
@@ -36,7 +36,7 @@ static BOOL isLoginViewShowed = NO;
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     
     self.buttonSMSPassword.layer.cornerRadius = 5.0;
-    self.buttonSMSPassword.backgroundColor = UIColorFromRGB(0xff6f3d);
+    self.buttonSMSPassword.backgroundColor = UIColorFromRGB(0xed6969);
     //隐藏输入密码
     self.textFieldPwd.SecureTextEntry = YES;
     

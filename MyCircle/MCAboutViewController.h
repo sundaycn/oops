@@ -9,7 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MCAboutViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIImageView *imageAbout;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelQQConstraint;
 
 @end

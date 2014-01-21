@@ -155,16 +155,17 @@
     }
     else if (indexPath.section == 2)
     {
-        UIButton *buttonSendMsg = [[UIButton alloc] initWithFrame:CGRectMake(50, 10, 220, 30)];
-        buttonSendMsg.backgroundColor = [UIColor whiteColor];
-        [buttonSendMsg setTitle:@"发送消息" forState:UIControlStateNormal];
-        [buttonSendMsg setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        UIButton *buttonSendMsg = [[UIButton alloc] initWithFrame:CGRectMake(15, 30, 290, 40)];
+        [buttonSendMsg setBackgroundImage:[UIImage imageNamed:@"SendMsgButtonNormalImage"] forState:UIControlStateNormal];
+        [buttonSendMsg setBackgroundImage:[UIImage imageNamed:@"SendMsgButtonSelectedImage"] forState:UIControlStateHighlighted];
+//        [buttonSendMsg setTitle:@"发送消息" forState:UIControlStateNormal];
+//        [buttonSendMsg setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [buttonSendMsg addTarget:self action:@selector(sendMessage) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:buttonSendMsg];
     }
     else {
         if (indexPath.row != 0) {
-            UIView *separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(15, 0, tableView.frame.size.width-30, 1)];
+            UIView *separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(15, 0, tableView.frame.size.width-30, 0.5)];
             if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >=7) {
                 separatorLineView.backgroundColor = UIColorFromRGB(0xf7f7f7);
             }
@@ -285,7 +286,7 @@
     }
     else if (indexPath.section == 2)
     {
-        return 50;
+        return 70;
     }
     else {
         return 40;

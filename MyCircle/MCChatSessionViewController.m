@@ -54,6 +54,8 @@
 //    [self.navigationItem.backBarButtonItem setAction:@selector(backButtonDidClick)];
     //不显示底部bar
 //    self.hidesBottomBarWhenPushed = YES;
+    //设置导航文字
+    self.navigationItem.title = self.sessionTittle;
     //设置聊天文本输入视图样式
     self.textInputBox = [[UITextView alloc] initWithFrame:CGRectMake(20, 7, 230, 30)];
     self.textInputBox.layer.cornerRadius = 5;

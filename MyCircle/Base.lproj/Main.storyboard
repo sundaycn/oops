@@ -353,7 +353,7 @@
         <scene sceneID="FgL-bW-XMk">
             <objects>
                 <navigationController definesPresentationContext="YES" id="mma-Ce-GJb" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="消息" id="cLm-n9-9hg"/>
+                    <tabBarItem key="tabBarItem" title="消息" image="TabMessage" id="cLm-n9-9hg"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="dYl-O5-rsf">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -365,11 +365,11 @@
             </objects>
             <point key="canvasLocation" x="1703" y="-1586"/>
         </scene>
-        <!--Navigation Controller - 圈子-->
+        <!--Navigation Controller - 联系人-->
         <scene sceneID="XEN-AR-8YD">
             <objects>
                 <navigationController definesPresentationContext="YES" id="lZi-xh-gdH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="圈子" image="TabCircle" id="F2Q-fY-SAf"/>
+                    <tabBarItem key="tabBarItem" title="联系人" image="TabCircle" id="F2Q-fY-SAf"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="FRt-Rw-dRr">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -453,72 +453,9 @@
                     <view key="view" contentMode="scaleToFill" id="OIa-BD-QPi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ifo-p2-pQt" userLabel="LoginImage">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="QQ群：156514822" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f02-uC-vvU">
-                                <rect key="frame" x="103" y="224" width="129" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="129" id="VtJ-hw-ce2"/>
-                                    <constraint firstAttribute="height" constant="21" id="jsH-pb-rdD"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="手机：18970879838" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGj-nk-3Pq">
-                                <rect key="frame" x="102" y="253" width="130" height="158"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="电话：0791-86590919" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uEq-su-2Au">
-                                <rect key="frame" x="90" y="370" width="149" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="kL3-AJ-eff"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="http://www.woquanquan.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mWc-6w-YSf">
-                                <rect key="frame" x="65" y="399" width="191" height="17"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="uEq-su-2Au" firstAttribute="top" secondItem="AGj-nk-3Pq" secondAttribute="bottom" constant="8" symbolic="YES" id="31e-1P-K4l"/>
-                            <constraint firstItem="uEq-su-2Au" firstAttribute="leading" secondItem="OIa-BD-QPi" secondAttribute="leading" constant="90" id="3KV-Fo-V9o"/>
-                            <constraint firstItem="AGj-nk-3Pq" firstAttribute="top" secondItem="f02-uC-vvU" secondAttribute="bottom" constant="8" id="Dlf-rY-LWF"/>
-                            <constraint firstAttribute="trailing" secondItem="f02-uC-vvU" secondAttribute="trailing" constant="88" id="GdA-1K-1Y5"/>
-                            <constraint firstItem="mWc-6w-YSf" firstAttribute="top" secondItem="uEq-su-2Au" secondAttribute="bottom" constant="8" id="Zn6-q9-Ote"/>
-                            <constraint firstItem="ifo-p2-pQt" firstAttribute="centerX" secondItem="mWc-6w-YSf" secondAttribute="centerX" id="aYy-st-14G"/>
-                            <constraint firstAttribute="trailing" secondItem="ifo-p2-pQt" secondAttribute="trailing" id="ehH-ER-Qfh"/>
-                            <constraint firstItem="ifo-p2-pQt" firstAttribute="top" secondItem="OIa-BD-QPi" secondAttribute="top" id="f6D-gu-Jfe"/>
-                            <constraint firstItem="uEq-su-2Au" firstAttribute="top" secondItem="AGj-nk-3Pq" secondAttribute="bottom" constant="8" id="fAX-w9-dMP"/>
-                            <constraint firstAttribute="bottom" secondItem="uEq-su-2Au" secondAttribute="bottom" constant="128" id="ioK-HV-XYN"/>
-                            <constraint firstItem="f02-uC-vvU" firstAttribute="trailing" secondItem="AGj-nk-3Pq" secondAttribute="trailing" id="myv-vv-A68"/>
-                            <constraint firstItem="f02-uC-vvU" firstAttribute="top" secondItem="XkA-Bf-sps" secondAttribute="bottom" constant="204" id="oh0-Tg-z79"/>
-                            <constraint firstItem="F4c-z2-xSE" firstAttribute="top" secondItem="ifo-p2-pQt" secondAttribute="bottom" id="u8n-fw-Vqo"/>
-                            <constraint firstItem="ifo-p2-pQt" firstAttribute="leading" secondItem="OIa-BD-QPi" secondAttribute="leading" id="wXP-x4-f6j"/>
-                            <constraint firstItem="uEq-su-2Au" firstAttribute="top" secondItem="AGj-nk-3Pq" secondAttribute="bottom" constant="8" id="y2N-jx-zp0"/>
-                            <constraint firstAttribute="trailing" secondItem="uEq-su-2Au" secondAttribute="trailing" constant="81" id="zTa-iQ-UKo"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Aca-4q-z3A"/>
-                    <connections>
-                        <outlet property="imageAbout" destination="ifo-p2-pQt" id="ylT-er-MnM"/>
-                        <outlet property="labelQQConstraint" destination="oh0-Tg-z79" id="VAZ-Ul-qAc"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFL-Vq-R4z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -528,7 +465,7 @@
         <scene sceneID="HRt-OR-Emf">
             <objects>
                 <navigationController definesPresentationContext="YES" id="CKD-r9-uh6" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="更多" id="vm8-3z-dT8"/>
+                    <tabBarItem key="tabBarItem" title="更多" image="TabMore" id="vm8-3z-dT8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5ie-Wq-fm6">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -643,7 +580,7 @@
         <scene sceneID="lP1-Z7-PsU">
             <objects>
                 <navigationController definesPresentationContext="YES" id="KM9-Kq-sCm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="微门户" id="2tj-A6-VWI"/>
+                    <tabBarItem key="tabBarItem" title="微门户" image="TabPortal" id="2tj-A6-VWI"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="MI1-z6-OYU">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -661,6 +598,9 @@
         <image name="ContactsAvatar" width="18" height="22"/>
         <image name="PasswordImage" width="25" height="25"/>
         <image name="TabCircle" width="25" height="25"/>
+        <image name="TabMessage" width="25" height="25"/>
+        <image name="TabMore" width="25" height="25"/>
+        <image name="TabPortal" width="25" height="25"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

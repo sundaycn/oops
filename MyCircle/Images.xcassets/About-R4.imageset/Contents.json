@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "关于-R4.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "2x",
-      "filename" : "联系我们_640_1087.png"
+      "filename" : "关于-R4@2x.png"
     }
   ],
   "info" : {

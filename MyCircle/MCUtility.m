@@ -7,8 +7,54 @@
 //
 
 #import "MCUtility.h"
+#import <ASIHTTPRequest/ASIFormDataRequest.h>
 
 @implementation MCUtility
+
++ (NSString *)checkAndUpdateVersion
+{
+    NSURL *url = [NSURL URLWithString:[BASE_URL stringByAppendingString:@"TcmContactClientVersion/tcmcontactclientversion!checkInBySyncAjax.action"]];
+    ASIFormDataRequest *versionRequest = [ASIFormDataRequest requestWithURL:url];
+    [versionRequest addPostValue:@"002" forKey:@"clientType"];
+    [versionRequest addPostValue:[self versionBuild] forKey:@"versionCode"];
+    [versionRequest setTimeOutSeconds:10];
+    [versionRequest startSynchronous];
+    
+    NSError *error = [versionRequest error];
+    if (!error) {
+        NSData *response  = [versionRequest responseData];
+        //判断服务器返回结果
+        NSDictionary *dictVersionResponse = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
+        NSString *strLoginResult = [NSString stringWithFormat:@"%@",[[dictVersionResponse objectForKey:@"root"] objectForKey:@"hasClientNewest"]];
+        BOOL hasNewVersion = [strLoginResult isEqualToString:@"1"];
+        if (hasNewVersion) {
+            return [NSString stringWithFormat:@"%@", [[dictVersionResponse objectForKey:@"root"] objectForKey:@"clientDownloadUrl"]];
+        }
+    }
+
+    return nil;
+}
++ (NSString *)appVersion
+{
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+}
++ (NSString *)build
+{
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString *)kCFBundleVersionKey];
+}
++ (NSString *)versionBuild
+{
+    NSString *version = [self appVersion];
+    NSString *build = [self build];
+    
+    NSString *versionBuild = [NSString stringWithFormat: @"v%@", version];
+    
+    if (![version isEqualToString: build]) {
+        versionBuild = [NSString stringWithFormat: @"%@(%@)", versionBuild, build];
+    }
+    
+    return versionBuild;
+}
 
 //获取当前时间
 +(NSString *)getCurrentTime{
@@ -125,7 +171,7 @@
     UIColor *redColor=[UIColor whiteColor];
     [redColor set];
     UIFont *font=[UIFont fontWithName:@"Helvetica-Bold" size:25];
-    if(count<10){
+    if(count<10) {
         [myWatermarkText drawAtPoint: CGPointMake(22, 10) withFont: font];
     }else if(count<100){
         [myWatermarkText drawAtPoint: CGPointMake(18, 10) withFont: font];

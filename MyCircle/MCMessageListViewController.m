@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMutableArray *keys;
 @property (nonatomic, strong) MCChatSessionViewController *chatSessionVC;
 @property (nonatomic, strong) MCNotificationSessionViewController *notificationSessionVC;
+@property (nonatomic, strong) NSIndexPath *indexPath;
 
 @end
 
@@ -45,6 +46,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navigationItem.title = @"消息";
+    self.tableView.separatorColor = UIColorFromRGB(0xd5d5d5);
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
@@ -101,10 +103,12 @@
         MCMessageCell *cell1 = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
         if (cell1 == nil) {
             cell1 = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
-            [cell1 setCellHeight:cell1.frame.size.height];
             cell1.containingTableView = tableView;
         }
-
+        
+        cell1.imageViewAvatar.image = [UIImage imageNamed:@"CompanyNewsLogo"];
+        cell1.imageViewIcon.image = [UIImage imageNamed:@"NotificationIcon"];
+//        cell1.backgroundColor = UIColorFromRGB(0xebebeb);
         cell1.labelName.text = @"企业动态";
         MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:MSG_KEY_COMPANY_NEWS];
         if (msg) {
@@ -118,6 +122,9 @@
                 cell1.labelMessage.text = [dictMessage objectForKey:@"msgTitle"];
             }
         }
+        else {
+            cell1.labelMessage.text = @"暂时没有企业动态";
+        }
 
         return cell1;
     }
@@ -126,10 +133,12 @@
         MCMessageCell *cell2 = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
         if (cell2 == nil) {
             cell2 = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
-            [cell2 setCellHeight:cell2.frame.size.height];
             cell2.containingTableView = tableView;
         }
         
+        cell2.imageViewAvatar.image = [UIImage imageNamed:@"NotificationLogo"];
+        cell2.imageViewIcon.image = [UIImage imageNamed:@"NotificationIcon"];
+//        cell2.backgroundColor = UIColorFromRGB(0xf5f5f5);
         cell2.labelName.text = @"通知公告";
         MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:MSG_KEY_ORG_NEWS];
         if (msg) {
@@ -143,6 +152,9 @@
                 cell2.labelMessage.text = [dictMessage objectForKey:@"msgTitle"];
             }
         }
+        else {
+            cell2.labelMessage.text = @"暂时没有通知公告";
+        }
         
         return cell2;
     }
@@ -151,9 +163,9 @@
         MCMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
             cell = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            [cell setCellHeight:cell.frame.size.height];
             cell.containingTableView = tableView;
         }
+        
         // Configure the cell...
         NSString *jid = [self.keys objectAtIndex:indexPath.row];
         MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:jid];
@@ -168,11 +180,17 @@
             mobilePhone = [msg.from substringWithRange:NSMakeRange(0, separator.location)];
         }
         
+        cell.imageViewIcon.image = [UIImage imageNamed:@"MessageIcon"];
         MCBook *book = [[[MCBookBL alloc] init] findbyMobilePhone:mobilePhone];
         cell.labelName.text = book.name;
         cell.labelTime.text = [MCUtility getmessageTime:msg.date];
         cell.labelMessage.text = msg.message;
-        
+//        if (indexPath.row % 2 == 0) {
+//            cell.backgroundColor = UIColorFromRGB(0xebebeb);
+//        }
+//        else {
+//            cell.backgroundColor = UIColorFromRGB(0xf5f5f5);
+//        }
         //添加滑动删除按钮
         NSMutableArray *rightUtilityButtons = [[NSMutableArray alloc] init];
         [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]                                                   title:@"Delete"];
@@ -186,19 +204,55 @@
 #pragma mark - TableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 48;
+    return 60;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.indexPath = indexPath;
     if (indexPath.section != 2) {
         [self performSegueWithIdentifier:@"showNotificationSession" sender:self];
     }
     else {
+        DLog(@"did select section:%d", indexPath.section);
+        DLog(@"did select row:%d", indexPath.row);
         [self performSegueWithIdentifier:@"showChatSession" sender:self];
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 2) {
+        return 20;
+    }
+    else {
+        return 0;
+    }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 2) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 20)];
+        view.backgroundColor = UIColorFromRGB(0xf5f5f5);
+        
+        UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(0, 19, tableView.frame.size.width, 0.5)];
+        separator.backgroundColor = UIColorFromRGB(0xa8a8a8);
+        
+        UILabel *labelTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 2, 100, 15)];
+        labelTitle.font = [UIFont systemFontOfSize:12];
+        labelTitle.textColor = UIColorFromRGB(0x8b8b8b);
+        labelTitle.text = @"联系人消息";
+        
+        [view addSubview:separator];
+        [view addSubview:labelTitle];
+        
+        return view;
+    }
+    else {
+        return nil;
+    }
+}
 #pragma mark - SWTableViewDelegate
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
 {
@@ -267,14 +321,17 @@
     // Pass the selected object to the new view controller.
     if ([[segue identifier] isEqualToString:@"showChatSession"])
     {
-        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
-                                                 initWithTitle:@"消息"
-                                                 style:UIBarButtonItemStylePlain
-                                                 target:nil
-                                                 action:nil];
+//        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
+//                                                 initWithTitle:@"消息"
+//                                                 style:UIBarButtonItemStylePlain
+//                                                 target:nil
+//                                                 action:nil];
         self.chatSessionVC = segue.destinationViewController;
-        self.chatSessionVC.jid = [self.keys objectAtIndex:[self.tableView indexPathForSelectedRow].row];
-        MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
+//        self.chatSessionVC.jid = [self.keys objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+        self.chatSessionVC.jid = [self.keys objectAtIndex:self.indexPath.row];
+//        MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
+        MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:self.indexPath];
+        DLog(@"cell name:%@", cell.labelName.text);
         self.chatSessionVC.sessionTittle = cell.labelName.text;
         self.chatSessionVC.msgType = MSG_TYPE_NORMAL_CHAT;
         MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];
@@ -283,7 +340,10 @@
     else if ([[segue identifier] isEqualToString:@"showNotificationSession"]) {
         self.notificationSessionVC = segue.destinationViewController;
         //msgType
-        MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
+//        MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
+        MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:self.indexPath];
+        DLog(@"cell name:%@", cell.labelName.text);
+
         if ([cell.labelName.text isEqualToString:@"企业动态"]) {
             self.notificationSessionVC.msgType = MSG_TYPE_COMPANY_NEWS;
         }

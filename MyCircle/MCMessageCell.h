@@ -9,21 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <SWTableViewCell/SWTableViewCell.h>
 
-@interface MCMessageCell : SWTableViewCell{
-    UIImageView *_userHead;
-    UIImageView *_bageView;
-    UILabel *_bageNumber;
-    UILabel *_userNickname;
-    UILabel *_messageConent;
-    UILabel *_timeLable;
-    UIImageView *_cellBkg;
-}
-
-//- (void)setUnionObject:(WCMessageUserUnionObject*)aUnionObj;
-//- (void)setHeadImage:(NSString*)imageURL;
+@interface MCMessageCell : SWTableViewCell
 
 @property (strong, nonatomic) UILabel *labelName;
 @property (strong, nonatomic) UILabel *labelMessage;
+@property (strong, nonatomic) UIImageView *imageViewIcon;
 @property (strong, nonatomic) UILabel *labelTime;
 @property (strong, nonatomic) UIImageView *imageViewAvatar;
 

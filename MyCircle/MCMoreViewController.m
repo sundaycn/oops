@@ -8,6 +8,7 @@
 
 #import "MCMoreViewController.h"
 #import "MCSettingModel.h"
+#import "MCUtility.h"
 
 @interface MCMoreViewController ()
 @property(strong, nonatomic) NSMutableDictionary *dictSettingsInSection;
@@ -34,22 +35,23 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.tableView.backgroundColor = UIColorFromRGB(0xd8d8d8);
-    self.tableView.separatorColor = UIColorFromRGB(0xd8d8d8);
+    self.tableView.backgroundColor = UIColorFromRGB(0xd5d5d5);
+    self.tableView.separatorColor = UIColorFromRGB(0xd5d5d5);
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.tableView.scrollEnabled = NO;
     
     //配置数据源
     self.dictSettingsInSection = [[NSMutableDictionary alloc] initWithCapacity:3];
     NSArray *first = [[NSArray alloc] initWithObjects:
-                      [[MCSettingModel alloc] initWithTitle: @"个人资料" image:@"accountIcon" tag:1 title2:nil],
+                      [[MCSettingModel alloc] initWithTitle: @"个人资料" image:@"AccountIcon" tag:1 title2:nil],
                       nil];
     NSArray *second = [[NSArray alloc] initWithObjects:
-                       [[MCSettingModel alloc] initWithTitle:@"检查更新" image:@"checkAndUpdateIcon" tag:2 title2:nil],
-                       [[MCSettingModel alloc] initWithTitle:@"关于我圈圈" image:@"aboutIcon" tag:3 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"应用中心" image:@"AppCenterIcon" tag:2 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"检查更新" image:@"CheckAndUpdateIcon" tag:3 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"关于我圈圈" image:@"AboutIcon" tag:4 title2:nil],
                        nil];
     NSArray *third = [[NSArray alloc] initWithObjects:
-                      [[MCSettingModel alloc] initWithTitle:@"退出当前账号" image:@"" tag:4 title2:nil],
+                      [[MCSettingModel alloc] initWithTitle:nil image:@"" tag:5 title2:nil],
                       nil];
     [self.dictSettingsInSection setObject:first forKey:@"firstSection"];
     [self.dictSettingsInSection setObject:second forKey:@"secondSection"];
@@ -92,8 +94,18 @@
     NSString *sectionKey = [self.arrSettings objectAtIndex:indexPath.section];
     NSArray *arrData = [self.dictSettingsInSection objectForKey:sectionKey];
     MCSettingModel *model = [arrData objectAtIndex:indexPath.row];
-    cell.imageView.image = [UIImage imageNamed:model.image];
-    cell.textLabel.text = model.title;
+    if (model.tag == 5) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.contentView.backgroundColor = UIColorFromRGB(0xd5d5d5);
+        UIButton *buttonLogOff = [[UIButton alloc] initWithFrame:CGRectMake(15, 2, 290, 40)];
+        [buttonLogOff setBackgroundImage:[UIImage imageNamed:@"LogOffButtonNormalImage"] forState:UIControlStateNormal];
+        [buttonLogOff setBackgroundImage:[UIImage imageNamed:@"LogOffButtonSelectedImage"] forState:UIControlStateHighlighted];
+        [cell.contentView addSubview:buttonLogOff];
+    }
+    else {
+        cell.imageView.image = [UIImage imageNamed:model.image];
+        cell.textLabel.text = model.title;
+    }
     cell.tag = model.tag;
     
     return cell;
@@ -148,15 +160,17 @@
         case 1:
             [self performSegueWithIdentifier:@"showMyInfo" sender:self];
             break;
-        case 2:
+        case 3:
             [self checkAndUpdateVersion];
             break;
-        case 3:
+        case 4:
             [self performSegueWithIdentifier:@"showAbout" sender:self];
             break;
         default:
             break;
     }
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -179,7 +193,30 @@
 
 - (void)checkAndUpdateVersion
 {
-    DLog(@"检查更新");
+    NSString *strNewVesrionUrl = [MCUtility checkAndUpdateVersion];
+    DLog(@"新版本下载地址:%@", strNewVesrionUrl);
+    if (strNewVesrionUrl) {
+        //pop alert dialog
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"检测到新版本" message:@"如需下载更新请点击确定按钮" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil];
+        //optional - add more buttons:
+        [alert addButtonWithTitle:@"确定"];
+        alert.tag = 1;
+        [alert show];
+    }
+    else {
+        //pop alert dialog
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"没有检测到新版本" message:@"当前版本已经是最新版本" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        alert.tag = 1;
+        [alert show];
+    }
+}
+
+#pragma mark- UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 1) {
+        if (buttonIndex == 0) {
+        }
+    }
 }
 
 @end

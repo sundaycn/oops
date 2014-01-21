@@ -10,6 +10,8 @@
 
 @interface MCUtility : NSObject
 
++ (NSString *)checkAndUpdateVersion;
+
 + (NSString *)getCurrentTime;
 
 + (NSDate *)getCurrentTimeFromString:(NSString *)datetime;
