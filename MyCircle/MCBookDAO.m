@@ -36,6 +36,7 @@ static MCBookDAO *sharedManager = nil;
     book.id = model.id;
     book.name = model.name;
     book.mobilePhone = model.mobilePhone;
+    book.deputyMobilePhone = model.deputyMobilePhone;
     book.officePhone = model.officePhone;
     book.homePhone = model.homePhone;
     book.mobileShort = model.mobileShort;
@@ -262,15 +263,11 @@ static MCBookDAO *sharedManager = nil;
 -(MCBook *) findById:(NSString *)bookId
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCBook" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"id = %@",bookId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", bookId];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -283,6 +280,7 @@ static MCBookDAO *sharedManager = nil;
         book.id = mo.id;
         book.name = mo.name;
         book.mobilePhone = mo.mobilePhone;
+        book.deputyMobilePhone = mo.deputyMobilePhone;
         book.officePhone = mo.officePhone;
         book.homePhone = mo.homePhone;
         book.mobileShort = mo.mobileShort;
@@ -303,15 +301,11 @@ static MCBookDAO *sharedManager = nil;
 -(MCBook *) findBySearchId:(NSNumber *)searchId
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCBook" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"searchId = %@",searchId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"searchId = %@",searchId];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -338,15 +332,11 @@ static MCBookDAO *sharedManager = nil;
 - (MCBook *)findbyMobilePhone:(NSString *)mobilePhone
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCBook" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"mobilePhone = %@",mobilePhone];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"mobilePhone = %@",mobilePhone];
     [request setPredicate:predicate];
     
     NSError *error = nil;

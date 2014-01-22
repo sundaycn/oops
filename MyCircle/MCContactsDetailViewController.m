@@ -15,7 +15,17 @@
 #import "MCXmppHelper.h"
 
 @interface MCContactsDetailViewController ()
+@property (copy, nonatomic) NSString *name;
+@property (copy, nonatomic) NSString *mobilePhone;
+@property (copy, nonatomic) NSString *deputyMobilePhone;
+@property (copy, nonatomic) NSString *officePhone;
+@property (copy, nonatomic) NSString *email;
+@property (copy, nonatomic) NSString *position;
+@property (copy, nonatomic) NSString *homePhone;
+@property (copy, nonatomic) NSString *mobileShort;
+@property (copy, nonatomic) NSString *fax;
 
+//@property (strong, nonatomic) NSArray *arrContactInfo;
 @end
 
 @implementation MCContactsDetailViewController
@@ -34,27 +44,21 @@
 {
     [super viewDidLoad];
 
-    //2b87d6
-    //0x2b6bac
-    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >=7) {
-        self.tableView.backgroundColor = UIColorFromRGB(0x2b87d6);
-    }
-    else {
-        self.tableView.backgroundColor = UIColorFromRGB(0xf7f7f7);
-    }
+    self.tableView.backgroundColor = UIColorFromRGB(0xf7f7f7);//bule 0x2b87d6
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-    //初始化
+    //配置数据源
     MCBookBL *bookBL = [[MCBookBL alloc] init];
     MCBook *book = [bookBL findById:self.bookId];
     self.name = book.name;
     self.mobilePhone = book.mobilePhone;
+    self.deputyMobilePhone = book.deputyMobilePhone;
     self.officePhone = book.officePhone;
+    self.email = book.email;
+    self.position = book.position;
     self.homePhone = book.homePhone;
     self.mobileShort = book.mobileShort;
     self.fax = book.faxNumber;
-    self.email = book.email;
-    self.position = book.position;
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,7 +89,6 @@
 }
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -113,49 +116,57 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >=7) {
-        cell.backgroundColor = UIColorFromRGB(0x2b87d6);
-        }
-        else {
-            cell.backgroundColor = UIColorFromRGB(0xf7f7f7);
-        }
+        cell.backgroundColor = UIColorFromRGB(0xf7f7f7);
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     if (indexPath.section == 0) {
-        UIImageView *imageAvatar = [[UIImageView alloc] initWithFrame:CGRectMake(35, 30, 18, 22)];
-        if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
-            imageAvatar.image = [UIImage imageNamed:@"ContactsAvatar"];
-        }
-        else {
-            imageAvatar.image = [UIImage imageNamed:@"ContactsAvatariOS6"];
-        }
-        [cell.contentView addSubview:imageAvatar];
-        UILabel *labelName;
-        if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
-            labelName = [[UILabel alloc] initWithFrame:CGRectMake(63, 12, 0, 55)];
-        }
-        else {
-            labelName = [[UILabel alloc] initWithFrame:CGRectMake(63, 19, 0, 55)];
-        }
+        UIImageView *headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 140)];
+        headerImageView.image = [UIImage imageNamed:@"ContactsHeaderImage"];
+        UIImageView *avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(133, 15.5, 54, 54)];
+        avatarImageView.image = [UIImage imageNamed:@"ContactsDefaultAvatar"];
+        avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2;
+        avatarImageView.layer.masksToBounds = YES;
+        [headerImageView addSubview:avatarImageView];
+
+        [cell.contentView addSubview:headerImageView];
+
+        UILabel *labelName = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 0, 0)];
         labelName.backgroundColor = [UIColor clearColor];
         labelName.text = self.name;
-        if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >=7) {
-            labelName.textColor = UIColorFromRGB(0xf7f7f7);
-        }
-        else {
-            labelName.textColor = UIColorFromRGB(0x595959);
-        }
-        labelName.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:24];
-        CGSize sizeName = [labelName.text sizeWithFont:labelName.font];
-        CGRect newFrame = labelName.frame;
-        newFrame.size.width = sizeName.width;
-        labelName.frame = newFrame;
+        labelName.textColor = [UIColor whiteColor];
+        labelName.font = [UIFont systemFontOfSize:17];
+        [labelName sizeToFit];
+//        CGSize sizeName = [labelName.text sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HiraKakuProN-W6" size:15]}];
+        CGRect newNameFrame = labelName.frame;
+        newNameFrame.origin.x = (self.tableView.frame.size.width - labelName.frame.size.width) / 2;
+        labelName.frame = newNameFrame;
         [cell.contentView addSubview:labelName];
+        
+        UILabel *labelPhone = [[UILabel alloc] initWithFrame:CGRectMake(0, 95+newNameFrame.size.height, 0, 0)];
+        labelPhone.backgroundColor = [UIColor clearColor];
+        labelPhone.text = self.mobilePhone;
+        labelPhone.textColor = [UIColor whiteColor];
+        labelPhone.font = [UIFont systemFontOfSize:13];
+        [labelPhone sizeToFit];
+        CGRect newPhoneFrame = labelPhone.frame;
+        newPhoneFrame.origin.x = (self.tableView.frame.size.width - labelPhone.frame.size.width) / 2;
+        labelPhone.frame = newPhoneFrame;
+        [cell.contentView addSubview:labelPhone];
+        
+        UIButton *buttonSMS = [[UIButton alloc] initWithFrame:CGRectMake(220, 30, 40, 40)];;
+        [buttonSMS setBackgroundImage:[UIImage imageNamed:@"SMS"] forState:UIControlStateNormal];
+        [buttonSMS addTarget:self action:@selector(sendSMS) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:buttonSMS];
+        
+        UIButton *buttonCALL = [[UIButton alloc] initWithFrame:CGRectMake(60, 30, 40, 40)];
+        [buttonCALL setBackgroundImage:[UIImage imageNamed:@"CALL"] forState:UIControlStateNormal];
+        [buttonCALL addTarget:self action:@selector(callSomeone) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:buttonCALL];
     }
     else if (indexPath.section == 2)
     {
-        UIButton *buttonSendMsg = [[UIButton alloc] initWithFrame:CGRectMake(15, 30, 290, 40)];
+        UIButton *buttonSendMsg = [[UIButton alloc] initWithFrame:CGRectMake(15, 15, 290, 40)];
         [buttonSendMsg setBackgroundImage:[UIImage imageNamed:@"SendMsgButtonNormalImage"] forState:UIControlStateNormal];
         [buttonSendMsg setBackgroundImage:[UIImage imageNamed:@"SendMsgButtonSelectedImage"] forState:UIControlStateHighlighted];
 //        [buttonSendMsg setTitle:@"发送消息" forState:UIControlStateNormal];
@@ -166,45 +177,16 @@
     else {
         if (indexPath.row != 0) {
             UIView *separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(15, 0, tableView.frame.size.width-30, 0.5)];
-            if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >=7) {
-                separatorLineView.backgroundColor = UIColorFromRGB(0xf7f7f7);
-            }
-            else {
-                separatorLineView.backgroundColor = UIColorFromRGB(0xd3d3d3);
-                UIView *separatorLineView1 = [[UIView alloc] initWithFrame:CGRectMake(15, 1, tableView.frame.size.width-30, 1)];
-                separatorLineView1.backgroundColor = UIColorFromRGB(0xffffff);
-                [cell.contentView addSubview:separatorLineView1];
-            }
+            separatorLineView.backgroundColor = UIColorFromRGB(0xd5d5d5);
             [cell.contentView addSubview:separatorLineView];
         }
         
         NSString *name;
         NSString *value;
-        UIButton *buttonSMS;
-        UIButton *buttonCALL;
         switch (indexPath.row) {
             case 0:
-                name = @"手机：";
-                value = self.mobilePhone;
-                buttonSMS = [[UIButton alloc] initWithFrame:CGRectMake(212, 5, 30, 30)];
-                if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >=7) {
-                    [buttonSMS setBackgroundImage:[UIImage imageNamed:@"SMS"] forState:UIControlStateNormal];
-                }
-                else {
-                    [buttonSMS setBackgroundImage:[UIImage imageNamed:@"SMSiOS6"] forState:UIControlStateNormal];
-                }
-                [buttonSMS addTarget:self action:@selector(sendSMS) forControlEvents:UIControlEventTouchUpInside];
-                [cell.contentView addSubview:buttonSMS];
-                
-                buttonCALL = [[UIButton alloc] initWithFrame:CGRectMake(260, 5, 30, 30)];
-                if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >=7) {
-                    [buttonCALL setBackgroundImage:[UIImage imageNamed:@"CALL"] forState:UIControlStateNormal];
-                }
-                else {
-                    [buttonCALL setBackgroundImage:[UIImage imageNamed:@"CALLiOS6"] forState:UIControlStateNormal];
-                }
-                [buttonCALL addTarget:self action:@selector(callSomeone) forControlEvents:UIControlEventTouchUpInside];
-                [cell.contentView addSubview:buttonCALL];
+                name = @"手机副号：";
+                value = self.deputyMobilePhone;
                 break;
             case 1:
                 name = @"办公电话：";
@@ -237,34 +219,22 @@
         UILabel *labelName = [[UILabel alloc] initWithFrame:CGRectMake(35, 9, 0, 21)];
         labelName.backgroundColor = [UIColor clearColor];
         labelName.text = name;
-        if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >=7) {
-            labelName.textColor = UIColorFromRGB(0xf7f7f7);
-        }
-        else {
-            labelName.textColor = UIColorFromRGB(0x619bda);
-        }
-        labelName.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:17];
-        CGSize sizeName = [labelName.text sizeWithFont:labelName.font];
-        CGRect newFrame = labelName.frame;
-        newFrame.size.width = sizeName.width;
-        labelName.frame = newFrame;
+        labelName.textColor = UIColorFromRGB(0x2b87d6);
+//        labelName.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:17];
+        labelName.font = [UIFont systemFontOfSize:17];
+        [labelName sizeToFit];
         [cell.contentView addSubview:labelName];
 
         UILabel *labelValue = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 0, 21)];
         labelValue.backgroundColor = [UIColor clearColor];
         labelValue.text = value;
-        if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >=7) {
-            labelValue.textColor = UIColorFromRGB(0xf7f7f7);
-        }
-        else {
-            labelValue.textColor = UIColorFromRGB(0x666666);
-        }
-        labelValue.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15];
-        CGSize sizeValue = [labelValue.text sizeWithFont:labelValue.font];
+        labelValue.textColor = UIColorFromRGB(0x2b87d6);
+//        labelValue.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:15];
+        labelValue.font = [UIFont systemFontOfSize:15];
+        [labelValue sizeToFit];
         CGRect newValueFrame = labelValue.frame;
-        newValueFrame.size.width = sizeValue.width;
+        newValueFrame.origin.x = CGRectGetMaxX(labelName.frame)+5;
         labelValue.frame = newValueFrame;
-        labelValue.frame = CGRectMake(CGRectGetMaxX(labelName.frame)+5, labelValue.frame.origin.y, labelValue.frame.size.width, labelValue.frame.size.height);
         [cell.contentView addSubview:labelValue];
     }
     
@@ -282,34 +252,37 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return  70;
+        return  140;
     }
     else if (indexPath.section == 2)
     {
-        return 70;
+        return 200;
     }
     else {
         return 40;
     }
 }
+/*
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == 2) {
+        return 100;
+    }
+    
+    return 0;
+}
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-//{
-//    if (section == 0) {
-//        return 3;
-//    }
-//    
-//    return 50;
-//}
-
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-//{
-//    //隐藏没有内容的单元格的分割线
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 3)];
-////    view.backgroundColor = [UIColor clearColor];
-//    view.backgroundColor = UIColorFromRGB(0x2b87d6);
-//    return view;
-//}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == 2) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 110, tableView.frame.size.width, 100)];
+        view.backgroundColor = UIColorFromRGB(0xf7f7f7);
+        
+        return view;
+    }
+    
+    return nil;
+}*/
 
 #pragma mark - Navigation
 

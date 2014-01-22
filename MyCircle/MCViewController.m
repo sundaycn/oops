@@ -308,6 +308,9 @@ static BOOL isLoginViewShowed = NO;
             book.name = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"personName"]] WithKey:DESDECRYPTED_KEY];
             //移动电话
             book.mobilePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"mobilePhone"]] WithKey:DESDECRYPTED_KEY];
+#warning 其他移动电话号码接口没加密
+            //其他移动电话
+            book.deputyMobilePhone = [NSString stringWithFormat:@"%@", [dict objectForKey:@"deputyMobilePhone"]];
             //办公电话
             book.officePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"officePhone"]] WithKey:DESDECRYPTED_KEY];
             //住宅电话

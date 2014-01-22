@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "iphone.png"
+      "filename" : "defaultAvatar.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "iphone@2x.png"
+      "filename" : "defaultAvatar@2x.png"
     }
   ],
   "info" : {

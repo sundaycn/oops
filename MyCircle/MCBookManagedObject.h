@@ -15,6 +15,7 @@
 @property (nonatomic, retain) NSString * id;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * mobilePhone;
+@property (nonatomic, retain) NSString * deputyMobilePhone;
 @property (nonatomic, retain) NSString * officePhone;
 @property (nonatomic, retain) NSString * homePhone;
 @property (nonatomic, retain) NSString * mobileShort;

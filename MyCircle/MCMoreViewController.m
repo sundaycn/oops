@@ -13,6 +13,7 @@
 @interface MCMoreViewController ()
 @property(strong, nonatomic) NSMutableDictionary *dictSettingsInSection;
 @property(strong, nonatomic) NSArray *arrSettings;
+@property(strong, nonatomic) NSString *strNewVersionUrl;
 @end
 
 @implementation MCMoreViewController
@@ -188,14 +189,13 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-
- */
+*/
 
 - (void)checkAndUpdateVersion
 {
-    NSString *strNewVesrionUrl = [MCUtility checkAndUpdateVersion];
-    DLog(@"新版本下载地址:%@", strNewVesrionUrl);
-    if (strNewVesrionUrl) {
+    self.strNewVersionUrl = [MCUtility checkAndUpdateVersion];
+    DLog(@"新版本下载地址:%@", self.strNewVersionUrl);
+    if (self.strNewVersionUrl) {
         //pop alert dialog
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"检测到新版本" message:@"如需下载更新请点击确定按钮" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil];
         //optional - add more buttons:
@@ -206,7 +206,7 @@
     else {
         //pop alert dialog
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"没有检测到新版本" message:@"当前版本已经是最新版本" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        alert.tag = 1;
+        alert.tag = 2;
         [alert show];
     }
 }
@@ -214,7 +214,8 @@
 #pragma mark- UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 1) {
-        if (buttonIndex == 0) {
+        if (buttonIndex == 1) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.strNewVersionUrl]];
         }
     }
 }

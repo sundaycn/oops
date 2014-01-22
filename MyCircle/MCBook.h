@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSString * id;
 @property (nonatomic, strong) NSString * name;
 @property (nonatomic, strong) NSString * mobilePhone;
+@property (nonatomic, strong) NSString * deputyMobilePhone;
 @property (nonatomic, strong) NSString * officePhone;
 @property (nonatomic, strong) NSString * homePhone;
 @property (nonatomic, strong) NSString * mobileShort;

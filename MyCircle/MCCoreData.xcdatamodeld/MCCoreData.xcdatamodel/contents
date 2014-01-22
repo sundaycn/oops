@@ -3,6 +3,7 @@
     <entity name="MCBook" representedClassName="MCBookManagedObject" syncable="YES">
         <attribute name="belongDepartmentId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="belongOrgId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deputyMobilePhone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="faxNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="homePhone" optional="YES" attributeType="String" syncable="YES"/>

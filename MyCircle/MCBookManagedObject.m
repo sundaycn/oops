@@ -14,6 +14,7 @@
 @dynamic id;
 @dynamic name;
 @dynamic mobilePhone;
+@dynamic deputyMobilePhone;
 @dynamic officePhone;
 @dynamic homePhone;
 @dynamic mobileShort;
