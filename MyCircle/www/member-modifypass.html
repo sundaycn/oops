@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>修改密码</title>
+<link rel="stylesheet" type="text/css" href="css/global.css"/>
+<link href="skins/minimal/blue.css" rel="stylesheet">
+<script type="text/javascript" src="scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="scripts/app.js"></script>
+<script type="text/javascript" src="scripts/icheck.js"></script>
+<script type="text/javascript">
+var pageUrl = window.location.href.toString(),
+	data = {
+		"companyId": app.getParam(pageUrl, "companyId"),
+		"belongOrgId": app.getParam(pageUrl, "belongOrgId"),
+		"weixinOpenId": app.getParam(pageUrl, "weixinOpenId")
+	};
+	
+$(function () {
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		WeixinJSBridge.call('hideOptionMenu');
+	});
+	
+	$(".card-form li").css("display", "-webkit-box");
+	app.loadData(app.basePath +"TmemberCardInfo/tmembercardinfo!queryMemberInfoAjaxp.action", data, setModifyMemberPass);
+	$(".card-form .btn:first").click(function () {
+		var oldPass = $("input[name='c-f-newcpass']").val(),
+			newPass = $("input[name='c-f-newpass']").val(),
+			newPassConfirm = $("input[name='c-f-newcpass']").val();
+			
+		if (!newPass) {
+			alert("密码不能为空");
+			return false;
+		}
+		if (newPass != newPassConfirm) {
+			alert("两次输入的密码不一致");
+			return false;
+		}
+		data["memberPassword"] = newPassConfirm;
+		app.loadData(app.basePath +"TmemberCardInfo/tmembercardinfo!modifyMemberInfoAjaxp.action", data, function (rs) {
+			if (rs.success) {
+				alert("您的密码已修改。");
+				window.location.href="member.html?companyId="+ data['companyId'] +"&belongOrgId="+ data['belongOrgId'] +"&weixinOpenId="+ data['weixinOpenId'];
+			}
+		});
+	});
+	
+	$(".card-form .btn-gray").click(function () {
+		window.location.href="member.html?companyId="+ data['companyId'] +"&belongOrgId="+ data['belongOrgId'] +"&weixinOpenId="+ data['weixinOpenId'];
+	});
+});
+</script>
+</head>
+<body class="card" style="background-image:none">
+<div  id="page" class="theme-default">
+	<header style="display:none">
+		<hgroup>
+            <h2>修改密码</h2>
+        </hgroup>
+	</header>
+	<article>
+		<form>
+			<div class="card-status">亲，会员卡密码是你消费时的安全保障途径之一，要妥善保管哦</div>
+			<ul class="card-desc card-form">
+				<li class="isPassword"><label>原密码</label><input type="text" placeholder="请输入原始密码" class="txt" name="c-f-oldpass" /></li>
+				<li class="isPassword"><label>新密码</label><input type="text" placeholder="请设置新密码" class="txt" name="c-f-newpass" /></li>
+				<li class="isConfirmPass"><label>重复</label><input type="text" placeholder="请重复输入新密码" class="txt" name="c-f-newcpass" /></li>
+				<li>
+					<a href="javascript:void(0)" class="btn" style="height:25px;line-height:25px;">保存</a>
+					<a href="javascript:void(0)" class="btn btn-gray" style="height:25px;line-height:25px;">取消</a>
+				</li>
+			</ul>
+		</form>
+	</article>
+	<nav>
+		<div class="menu">
+			<span class="left button" onclick="window.history.back()">后退</span>
+			<ul>
+				<li><a href="i.html" class="link-index">首页</a></li>
+			</ul>
+			<span class="right button" onclick="window.location.reload()">刷新</span>
+		</div>
+	</nav>
+</div>
+</body>
+</html>

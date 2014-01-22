@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>详细内容</title>
+<link rel="stylesheet" type="text/css" href="css/global.css"/>
+<script type="text/javascript" src="scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="scripts/app.js"></script>
+<script type="text/javascript">
+var pageUrl = window.location.href.toString(),
+	data = {
+		"companyId": app.getParam(pageUrl, "companyId"),
+		"id": app.getParam(pageUrl, "id"),
+		"belongOrgId": app.getParam(pageUrl, "belongOrgId"),
+		"weixinOpenId": app.getParam(pageUrl, "weixinOpenId")
+	};
+	
+$(function () {
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		WeixinJSBridge.call('hideOptionMenu');
+	});
+	
+	app.loadData(app.basePath +"TmemberCardInfo/tmembercardinfo!queryMemberInfoAjaxp.action", data, setMemberInfo, null, data);
+	$(".card-desc li>a").live("click", function () {
+		if ($(this).parent("li").hasClass("selected")) {
+			$(this).parent("li").removeClass("selected");
+			$(this).siblings(".c-d-d").slideUp(10);
+		} else {
+			$(this).parent("li").addClass("selected");
+			$(this).siblings(".c-d-d").slideDown(20);
+		}
+	});
+	
+	
+});
+</script>
+</head>
+<body class="card">
+<div id="page" class="theme-default">
+	<header>
+		<div class="card-view">
+			<span class="c-name"></span>
+			<div class="c-number">
+				<span>会员卡号：</span><span></span>
+			</div>
+			<div class="c-info">
+				<a href="#" class="c-register">点击这里领取会员卡</a>
+				<div class="c-sn"></div>
+			</div>
+		</div>
+		<section><span class="card-ps">(消费时请向服务人员出示本卡，即可享受优惠)</span></section>
+	</header>
+	<article>
+		
+		<ul class="card-desc">
+			<li class="">
+				<a href="javascript:void(0)">会员卡特权</a>
+				<div class="c-d-d" id="memCardPriv"></div>
+			</li>
+		</ul>
+		<ul class="card-desc">
+			<li class="border">
+				<a href="javascript:void(0)">会员卡使用说明</a>
+				<div class="c-d-d" id="memCardUse"></div>
+			</li>
+			<li>
+				<a href="javascript:void(0)">会员积分说明</a>
+				<div class="c-d-d" id="memCardScore"></div>
+			</li>
+		</ul>
+		<ul class="card-desc" id="cardinfo" style="display:none">
+			<li class="border">
+				<a href="javascript:void(0)">个人资料</a>
+				<div class="c-d-d" id="cardinfoDetail"></div>
+			</li>
+			<li class="border" id="modifyInfo"><a href="#">修改个人资料</a></li>
+			<li class="border" id="modifyInfoPass"><a href="#">修改密码</a></li>
+			<li><a href="javascript:void(0)">签到赚积分</a></li>
+		</ul>
+		<ul class="card-desc">
+			<li class="border" id="companyName"><a href="javascript:void(0)"></a></li>
+			<li class="border" id="companyMobile"></li>
+			<li  class="border" id="companyOfficePhone"></li>
+			<li class="border" ><a href="javascript:void(0)">详细通信地址</a>
+				<div class="c-d-d" id="companyOfficeAddress"></div>
+			</li>
+			<li id="companyMapLocal"><a href="javascript:void(0)">查看地图</a></li>
+		</ul>
+	</article>
+	<nav>
+		<div class="menu">
+			<span class="left button" onclick="window.history.back()">后退</span>
+			<ul>
+				<li><a href="i.html" class="link-index">首页</a></li>
+			</ul>
+			<span class="right button" onclick="window.location.reload()">刷新</span>
+		</div>
+	</nav>
+</div>
+</body>
+</html>
