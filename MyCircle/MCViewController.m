@@ -19,13 +19,11 @@
 
 @end
 
-static BOOL isLoginViewShowed = NO;
 @implementation MCViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    isLoginViewShowed = YES;
 	// Do any additional setup after loading the view, typically from a nib.
     self.buttonLogin.backgroundColor = UIColorFromRGB(0x2a84d1);
     
@@ -162,11 +160,6 @@ static BOOL isLoginViewShowed = NO;
 - (IBAction)getPasswordFromSMS:(UIButton *)sender {
     NSString *strAccount = self.textFieldAccount.text;
     [self startRequestPasswordFromSMS:strAccount];
-}
-
-//登陆视图是否为根视图
-+ (BOOL)isInitLoginView {
-    return isLoginViewShowed;
 }
 
 //开始请求Web Service

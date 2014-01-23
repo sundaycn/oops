@@ -38,6 +38,13 @@
     return [dao removeAll] ? 0 : -1;
 }
 
+//查询所有组织id
+- (NSArray *)findAllId
+{
+    MCOrgDAO *dao = [MCOrgDAO sharedManager];
+    return [dao findAllId];
+}
+
 //查询所用数据方法
 -(NSMutableArray*) findAll
 {

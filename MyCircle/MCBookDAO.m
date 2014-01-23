@@ -66,15 +66,11 @@ static MCBookDAO *sharedManager = nil;
 {
     
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCBook" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"id =  %@", model.id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", model.id];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -96,7 +92,7 @@ static MCBookDAO *sharedManager = nil;
 }
 
 //通过belongOrgId删除Book方法
--(int) removeByOrgId:(NSString *)orgId
+- (int)removeByOrgId:(NSString *)orgId
 {
     
     NSManagedObjectContext *cxt = [self managedObjectContext];
@@ -130,9 +126,38 @@ static MCBookDAO *sharedManager = nil;
     return 0;
 }
 
+//删除不再belongOrgId集合内得所有数据
+- (int)removeStaffNotInOrgIdSet:(NSArray *)arrOrgId
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCBook" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (belongOrgId IN %@)", arrOrgId];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *listData = [NSMutableArray arrayWithArray:[cxt executeFetchRequest:request error:&error]];
+
+    while ([listData count] > 0) {
+        MCBookManagedObject *book = [listData lastObject];
+        [self.managedObjectContext deleteObject:book];
+        
+        NSError *savingError = nil;
+        if ([self.managedObjectContext save:&savingError]){
+            [listData removeLastObject];
+        } else {
+            DLog(@"删除数据失败");
+            return -1;
+        }
+    }
+    
+    return 0;
+}
 
 //删除所有Book方法
--(int) removeAll
+- (int)removeAll
 {
     
     NSManagedObjectContext *cxt = [self managedObjectContext];

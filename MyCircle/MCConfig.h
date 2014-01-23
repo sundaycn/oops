@@ -21,6 +21,11 @@
 //获取密文密码
 - (NSString *)getCipherPassword;
 
+//保存联系人数据版本
+- (void)saveContactsVersion:(NSUInteger)contactsVersion;
+//获取联系人数据版本
+- (NSUInteger)getContactsVersion;
+
 //是否已登陆
 - (BOOL)isLogined;
 @end

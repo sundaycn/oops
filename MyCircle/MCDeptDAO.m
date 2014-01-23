@@ -84,19 +84,15 @@ static MCDeptDAO *sharedManager = nil;
 }
 
 //通过belongOrgId删除dept方法
--(int) removeByOrgId:(NSString *)orgId
+- (int)removeByOrgId:(NSString *)orgId
 {
     
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCDept" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"belongOrgId = %@", orgId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"belongOrgId = %@", orgId];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -118,9 +114,38 @@ static MCDeptDAO *sharedManager = nil;
     return 0;
 }
 
+//删除不再belongOrgId集合内得所有数据
+- (BOOL)removeDeptNotInOrgIdSet:(NSArray *)arrOrgId
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCDept" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (belongOrgId IN %@)", arrOrgId];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSMutableArray *listData = [NSMutableArray arrayWithArray:[cxt executeFetchRequest:request error:&error]];
+    while ([listData count] > 0) {
+        MCDeptManagedObject *dept = [listData lastObject];
+        [self.managedObjectContext deleteObject:dept];
+        
+        NSError *savingError = nil;
+        if ([self.managedObjectContext save:&savingError]){
+            [listData removeLastObject];
+        } else {
+            DLog(@"删除数据失败");
+            return -1;
+        }
+    }
+    
+    return 0;
+}
+
 
 //删除所有dept方法
--(int) removeAll
+- (int)removeAll
 {
     
     NSManagedObjectContext *cxt = [self managedObjectContext];

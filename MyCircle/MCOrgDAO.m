@@ -171,8 +171,31 @@ static MCOrgDAO *sharedManager = nil;
     return 0;
 }
 
+//查询所有组织id
+- (NSArray *)findAllId
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCOrg" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    //    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sort" ascending:YES];
+    //    [request setSortDescriptors:@[sortDescriptor]];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    NSMutableArray *resListData = [[NSMutableArray alloc] init];
+    
+    for (MCOrgManagedObject *mo in listData) {
+        [resListData addObject:mo.id];
+    }
+    
+    return [resListData copy];
+}
+
 //查询所有数据方法
--(NSMutableArray*) findAll
+- (NSMutableArray *)findAll
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     

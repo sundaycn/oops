@@ -20,6 +20,9 @@
 //通过belongOrgId删除Book方法
 -(BOOL) removeByOrgId:(NSString *)orgId;
 
+//删除不再belongOrgId集合内得所有数据
+- (BOOL)removeStaffNotInOrgIdSet:(NSArray *)arrOrgId;
+
 //删除所有Book方法
 -(BOOL) removeAll;
 

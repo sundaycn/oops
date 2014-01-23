@@ -18,6 +18,7 @@
 @property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
 @property (strong, nonatomic) NSMutableArray *searchByName;
 @property (strong, nonatomic) NSMutableArray *searchByPhone;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 - (void)prepareShowCard:(NSNotification *)notification;
 

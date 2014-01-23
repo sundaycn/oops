@@ -34,8 +34,6 @@
 - (IBAction)login:(UIButton *)sender;
 - (IBAction)getPasswordFromSMS:(UIButton *)sender;
 
-//登陆视图是否为根视图
-+ (BOOL)isInitLoginView;
 //开始请求web service
 - (void)startRequest;
 //向web service发送获短信密码的异步请求

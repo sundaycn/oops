@@ -59,6 +59,23 @@ static MCConfig *sharedInstance = nil;
     return cipherPwd;
 }
 
+//保存联系人数据版本
+- (void)saveContactsVersion:(NSUInteger)contactsVersion
+{
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    [settings removeObjectForKey:@"contactsVersion"];
+    [settings setObject:[NSString stringWithFormat:@"%d", contactsVersion] forKey:@"contactsVersion"];
+    [settings synchronize];
+}
+//获取联系人数据版本
+- (NSUInteger)getContactsVersion
+{
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    NSString *contactsVersion = [settings objectForKey:@"contactsVersion"];
+    
+    return [contactsVersion integerValue];
+}
+
 //是否已登陆
 - (BOOL)isLogined
 {

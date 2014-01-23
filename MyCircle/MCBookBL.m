@@ -32,6 +32,13 @@
     return [dao removeByOrgId:orgId] ? 0 : -1;
 }
 
+//删除不再belongOrgId集合内得所有数据
+- (BOOL)removeStaffNotInOrgIdSet:(NSArray *)arrOrgId
+{
+    MCBookDAO *dao = [MCBookDAO sharedManager];
+    return [dao removeStaffNotInOrgIdSet:arrOrgId] ? 0 : -1;
+}
+
 //删除所有Book方法
 -(BOOL) removeAll
 {

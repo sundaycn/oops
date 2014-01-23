@@ -21,6 +21,9 @@
 //通过belongOrgId删除Dept方法
 -(BOOL) removeByOrgId:(NSString *)orgId;
 
+//删除不再belongOrgId集合内得所有数据
+- (BOOL)removeDeptNotInOrgIdSet:(NSArray *)arrOrgId;
+
 //删除所有Dept方法
 -(BOOL) removeAll;
 

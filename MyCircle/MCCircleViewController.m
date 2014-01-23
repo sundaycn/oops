@@ -53,47 +53,16 @@
     self.searchByName = [[NSMutableArray alloc] init];
     self.searchByPhone = [[NSMutableArray alloc] init];
 
-    //ios6导航条适配
-//    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] <7) {
-//        [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
-//        [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-//        DLog(@"ios6");
-//        CALayer *subLayer = [CALayer layer];
-//        subLayer.backgroundColor = UIColorFromRGB(0x2b87d6).CGColor;
-//        subLayer.frame = CGRectMake(0, 0, 320, 44);
-//        [self.navigationController.navigationBar.layer addSublayer:subLayer];
-//        self.navigationController.navigationBar.layer.backgroundColor = UIColorFromRGB(0x2b87d6).CGColor;
-        //修改导航栏背景
-//        for (UIView *view in self.navigationController.navigationBar.subviews) {
-//            if ([view isKindOfClass:NSClassFromString(@"_UINavigationBarBackground")]) {
-//                UIView *shadowLineCover = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, 44)];
-//                shadowLineCover.backgroundColor = UIColorFromRGB(0x2b87d6);
-//                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 22)];
-//                label.backgroundColor = [UIColor clearColor];
-//                label.text = @"我的圈子";
-//                label.font = [UIFont systemFontOfSize:17];
-//                label.textColor = [UIColor whiteColor];
-//                CGSize sizeName = [label.text sizeWithFont:label.font];
-//                CGRect newFrame = label.frame;
-//                newFrame.size.width = sizeName.width;
-//                label.frame = newFrame;
-//                label.center = CGPointMake(shadowLineCover.frame.size.width/2, shadowLineCover.frame.size.height/2);
-//                [shadowLineCover addSubview:label];
-//                [self.navigationController.navigationBar addSubview:shadowLineCover];
-//                //            for (UIView *view2 in view.subviews) {
-//                //                if ([view2 isKindOfClass:[UIImageView class]] && view2.frame.size.height < 1) {
-//                //                    [view2 setHidden:YES];
-//                //                    break;
-//                //                }
-//                //            }
-//            }
-//        }
-
-//    }
     //修改导航栏返回按钮的文字
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] init];
     barButtonItem.title = @"返回";
     self.navigationItem.backBarButtonItem = barButtonItem;
+    //添加刷新按钮
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]
+                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                               target:self
+                               action:@selector(refresh)];
+    self.navigationItem.rightBarButtonItem = rightButton;
 
     float statusBarHeight = CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]);
     float navigationBarHeight = CGRectGetHeight(self.navigationController.navigationBar.frame);
@@ -116,6 +85,10 @@
     [self.treeView reloadData];
     [self.view addSubview:treeView];
     
+    //初始化搜索库
+    [MCContactsSearchLibrary initContactsSearchLibrary];
+
+    
 //    if([[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."][0] intValue] >= 7) {
 //        self.treeView.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
 //        self.treeView.contentOffset = CGPointMake(0.0, 44.0);
@@ -135,24 +108,8 @@
 //            // 使用WiFi网络
 //            break;
 //    }
-    if ([self isEnableWIFI] || [self isEnable3G]) {
-        //同步圈子数据
-        //提示用户正在同步中
-        HUD = [[MBProgressHUD alloc] initWithView:self.view];
-        [self.view addSubview:HUD];
-        
-        HUD.delegate = self;
-        HUD.labelText = @"正在同步圈子数据";
-        
-        [HUD showWhileExecuting:@selector(startSynchronizeData) onTarget:self withObject:nil animated:NO];
-    }
-    else{
-        //绑定圈子数据
-//        self.data = [MCCircleDataHandler getDataOfCircle];
-//        [self.treeView reloadData];
-        //无网络连接直接初始化搜索库
-        [MCContactsSearchLibrary initContactsSearchLibrary];
-    }
+    
+    //下拉刷新
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -177,6 +134,19 @@
 // 是否启动3G
 - (BOOL)isEnable3G {
     return([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable);
+}
+
+- (void)refresh
+{
+    //提示用户正在刷新
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+	
+	HUD.delegate = self;
+	HUD.labelText = @"正在同步...";
+	
+	[HUD showWhileExecuting:@selector(updateContactsData) onTarget:self withObject:nil animated:NO];
+
 }
 
 - (void)showHUD:(NSInteger)type {
@@ -210,23 +180,29 @@
     }
 }
 
-//同步圈子数据
-- (void)startSynchronizeData
+//更新联系人数据
+- (void)updateContactsData
 {
     NSString *strAccount = [[MCConfig sharedInstance] getAccount];
-    if (![MCViewController isInitLoginView]) {
-        NSString *strCipherPwd = [[MCConfig sharedInstance] getCipherPassword];
-        if ([MCLoginHandler isLoginedSuccessfully:strAccount password:strCipherPwd] != 0) {
-            //登陆获取组织数据失败
-            [self showHUD:1];
-            return;
-        }
+    NSString *strCipherPwd = [[MCConfig sharedInstance] getCipherPassword];
+    if ([MCLoginHandler isLoginedSuccessfully:strAccount password:strCipherPwd] != 0) {
+        //登陆获取组织数据失败
+        [self showHUD:1];
+        return;
     }
-    
+
     MCOrgBL *orgBL = [[MCOrgBL alloc] init];
-    NSMutableArray *orgList = [orgBL findAll];
-    for (MCOrg *org in orgList) {
-        NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"http://117.21.209.104/EasyContact/Contact/contact!syncAjax.action?orgId=%@&tel=%@",org.id,strAccount]];
+    NSArray *arrOrgId = [orgBL findAllId];
+    //删除不再归属当前用户的联系人数据
+    MCBookBL *bookBL = [[MCBookBL alloc] init];
+    [bookBL removeStaffNotInOrgIdSet:arrOrgId];
+    MCDeptBL *deptBL = [[MCDeptBL alloc] init];
+    [deptBL removeDeptNotInOrgIdSet:arrOrgId];
+    
+    //更新联系人数据
+    for (NSString *strOrgId in arrOrgId) {
+        NSString *strUrl = [BASE_URL stringByAppendingString:@"Contact/contact!syncAjax.action?orgId=%@&tel=%@"];
+        NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:strUrl, strOrgId, strAccount]];
 //        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
 //        
 //        //同步请求
@@ -247,18 +223,17 @@
         NSData *data = [NSData dataWithContentsOfURL:url];
         //保存数据
         NSDictionary *dictRoot = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-//        //判断本地保存的数据版本号与服务器返回是否一致，如不同则保存新的数据版本号并更新本地数据
-//        NSString *strVersion = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"newestVersion"]];
-//        NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
-//        if ([[userDefaults stringForKey:@"contactsVersion"] isEqualToString:strVersion]) {
-//            DLog(@"contactsVersion is not changed");
-//            [self showHUD:0];
-//            return;
-//        }
-//        [userDefaults setObject:strVersion forKey:@"contactsVersion"];
-//        //这里建议同步存储到磁盘中，但是不是必须的
-//        [userDefaults synchronize];
-
+        //判断本地保存的数据版本号与服务器返回是否一致，如不同则保存新的数据版本号并更新本地数据
+        NSUInteger remoteContactsVersion = [[[dictRoot objectForKey:@"root"] objectForKey:@"newestVersion"] integerValue];
+        DLog(@"服务器联系人版本号:%d", remoteContactsVersion);
+        NSUInteger localContactsVersion = [[MCConfig sharedInstance] getContactsVersion];
+        DLog(@"本地联系人版本号:%d", localContactsVersion);
+        DLog(@"版本号一致:%@", remoteContactsVersion == localContactsVersion ? @"YES" : @"NO");
+        if (localContactsVersion < remoteContactsVersion) {
+            //
+            
+        }
+        
         //判断是否清除该组织的所有人员和部门数据
         NSString *strClearAll = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"clearLocaldataAll"]];
         BOOL isClearAll = [strClearAll isEqualToString:@"1"];
@@ -290,9 +265,8 @@
             book.name = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"personName"]] WithKey:DESDECRYPTED_KEY];
             //移动电话
             book.mobilePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"mobilePhone"]] WithKey:DESDECRYPTED_KEY];
-#warning 其他移动电话接口未加密
-            //其他移动电话
-            book.deputyMobilePhone = [NSString stringWithFormat:@"%@", [dict objectForKey:@"deputyMobilePhone"]];
+            //其他移动电话(未加密)
+            book.deputyMobilePhone = [dict objectForKey:@"deputyMobilePhone"];
             //办公电话
             book.officePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"officePhone"]] WithKey:DESDECRYPTED_KEY];
             //住宅电话
@@ -364,7 +338,7 @@
     
     
     
-    [self showHUD:0];
+//    [self showHUD:0];
     return;
 }
 
@@ -410,11 +384,11 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
-- (UITableViewCellEditingStyle)treeView:(RATreeView *)treeView editingStyleForRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo
-{
-    //关闭编辑模式
-    return UITableViewCellEditingStyleNone;
-}
+//- (UITableViewCellEditingStyle)treeView:(RATreeView *)treeView editingStyleForRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo
+//{
+//    //关闭编辑模式
+//    return UITableViewCellEditingStyleNone;
+//}
 
 #pragma mark TreeView Data Source
 - (UITableViewCell *)treeView:(RATreeView *)treeView cellForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo
@@ -562,10 +536,7 @@
     cell.lableName.text = book.name;
     cell.lableName.font = [UIFont fontWithName:@"Heiti SC" size:15];
     cell.lableName.textColor = UIColorFromRGB(0x585858);
-    CGSize sizeName = [cell.lableName.text sizeWithFont:cell.lableName.font];
-    CGRect newFrame = cell.lableName.frame;
-    newFrame.size.width = sizeName.width;
-    cell.lableName.frame = newFrame;
+    [cell.lableName sizeToFit];
     cell.lablePhone.text = book.mobilePhone;
     cell.lablePhone.font = [UIFont fontWithName:@"HelveticaNeue" size:10];
     cell.lablePhone.textColor = UIColorFromRGB(0x8b8b8b);

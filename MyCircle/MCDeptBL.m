@@ -31,6 +31,13 @@
     return [dao removeByOrgId:orgId] ? 0 : -1;
 }
 
+//删除不再belongOrgId集合内得所有数据
+- (BOOL)removeDeptNotInOrgIdSet:(NSArray *)arrOrgId
+{
+    MCDeptDAO *dao = [MCDeptDAO sharedManager];
+    return [dao removeDeptNotInOrgIdSet:arrOrgId] ? 0 : -1;
+}
+
 //删除所有Dept方法
 -(BOOL) removeAll
 {
