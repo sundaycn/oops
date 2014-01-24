@@ -34,7 +34,7 @@
 - (NSArray *)findAllId;
 
 //查询所有数据方法
-- (NSMutableArray *)findAll;
+- (NSArray *)findAll;
 
 //按照主键查询数据方法
 - (MCOrg *)findById:(MCOrg *)model;

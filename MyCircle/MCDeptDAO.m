@@ -26,7 +26,7 @@ static MCDeptDAO *sharedManager = nil;
 
 
 //插入dept方法
--(int) create:(MCDept *)model
+- (int)create:(MCDept *)model
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     MCDeptManagedObject *dept = [NSEntityDescription insertNewObjectForEntityForName:@"MCDept" inManagedObjectContext:cxt];
@@ -50,19 +50,15 @@ static MCDeptDAO *sharedManager = nil;
 }
 
 //删除dept方法
--(int) remove:(MCDept *)model
+- (int)remove:(MCDept *)model
 {
     
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCDept" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"id = %@", model.id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", model.id];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -73,9 +69,9 @@ static MCDeptDAO *sharedManager = nil;
         
         NSError *savingError = nil;
         if ([self.managedObjectContext save:&savingError]){
-            DLog(@"删除数据成功");
+            DLog(@"删除部门数据成功");
         } else {
-            DLog(@"删除数据失败");
+            DLog(@"删除部门数据失败");
             return -1;
         }
     }
@@ -170,18 +166,15 @@ static MCDeptDAO *sharedManager = nil;
 
 
 //修改dept方法
--(int) modify:(MCDept *)model
+- (int)modify:(MCDept *)model
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCDept" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"id = %@", model.id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", model.id];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -189,12 +182,17 @@ static MCDeptDAO *sharedManager = nil;
     if ([listData count] > 0) {
         MCDeptManagedObject *dept = [listData lastObject];
         dept.name = model.name;
+        dept.sort = model.sort;
+        dept.status = model.status;
+        dept.syncFlag = model.syncFlag;
+        dept.upDepartmentId = model.upDepartmentId;
+        dept.belongOrgId = model.belongOrgId;
         
         NSError *savingError = nil;
         if ([self.managedObjectContext save:&savingError]){
-            DLog(@"修改数据成功");
+            DLog(@"修改部门数据成功");
         } else {
-            DLog(@"修改数据失败");
+            DLog(@"修改部门数据失败");
             return -1;
         }
     }
@@ -202,7 +200,7 @@ static MCDeptDAO *sharedManager = nil;
 }
 
 //查询所有数据方法
--(NSMutableArray*) findAll
+- (NSArray *)findAll
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     
@@ -233,11 +231,11 @@ static MCDeptDAO *sharedManager = nil;
         [resListData addObject:dept];
     }
     
-    return resListData;
+    return [resListData copy];
 }
 
 //按照upDepartmentId查询数据方法
--(NSMutableArray *) findByUpDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)upDeptId
+- (NSMutableArray *)findByUpDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)upDeptId
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     
@@ -274,7 +272,7 @@ static MCDeptDAO *sharedManager = nil;
 }
 
 //按照departmentId查询数据方法
--(MCDept *) findByDeptId:(NSString *)deptId belongOrgId:(NSString *)belongOrgId{
+- (MCDept *)findByDeptId:(NSString *)deptId belongOrgId:(NSString *)belongOrgId{
     NSManagedObjectContext *cxt = [self managedObjectContext];
     
     NSEntityDescription *entityDescription = [NSEntityDescription
@@ -307,7 +305,7 @@ static MCDeptDAO *sharedManager = nil;
 }
 
 //按照主键查询数据方法
--(MCDept *) findById:(MCDept *)model
+- (MCDept *)findById:(MCDept *)model
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     

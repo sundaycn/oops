@@ -201,37 +201,22 @@
     
     //更新联系人数据
     for (NSString *strOrgId in arrOrgId) {
-        NSString *strUrl = [BASE_URL stringByAppendingString:@"Contact/contact!syncAjax.action?orgId=%@&tel=%@"];
-        NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:strUrl, strOrgId, strAccount]];
-//        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-//        
-//        //同步请求
-//        NSError *error = nil;
-//        NSData *response  = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
-//        if (response == nil) {
-//            DLog(@"同步请求发生错误\n %@", error);
-//            //弹出警告窗
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"网络异常" message:@"请检查网络连接是否正常，并尝试重新登陆" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-//            //optional - add more buttons:
-//            //[alert addButtonWithTitle:@"Yes"];
-//            alert.tag = 1;
-//            [alert show];
-//            
-//            return;
-//        }
-        
+        NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:[BASE_URL stringByAppendingString:@"Contact/contact!syncAjax.action?orgId=%@&tel=%@"], strOrgId, strAccount]];
         NSData *data = [NSData dataWithContentsOfURL:url];
         //保存数据
         NSDictionary *dictRoot = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        //判断本地保存的数据版本号与服务器返回是否一致，如不同则保存新的数据版本号并更新本地数据
-        NSUInteger remoteContactsVersion = [[[dictRoot objectForKey:@"root"] objectForKey:@"newestVersion"] integerValue];
-        DLog(@"服务器联系人版本号:%d", remoteContactsVersion);
-        NSUInteger localContactsVersion = [[MCConfig sharedInstance] getContactsVersion];
-        DLog(@"本地联系人版本号:%d", localContactsVersion);
-        DLog(@"版本号一致:%@", remoteContactsVersion == localContactsVersion ? @"YES" : @"NO");
-        if (localContactsVersion < remoteContactsVersion) {
-            //
-            
+        //判断本地保存的数据版本号与服务器返回是否一致，如不同则保存新的数据版本号并更新本地联系人数据
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setNumberStyle:NSNumberFormatterNoStyle];
+        NSString *remoteContactsVersion = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"newestVersion"]];
+        DLog(@"服务器联系人版本号:%@", remoteContactsVersion);
+        NSString *localContactsVersion = [orgBL]
+        DLog(@"本地联系人版本号:%@", localContactsVersion);
+#warning 不同组织的联系人数据版本号单独保存
+        if ([localContactsVersion isEqualToString:remoteContactsVersion]) {
+            //版本号一致，联系人数据无需更新
+            [self showHUD:0];
+            return;
         }
         
         //判断是否清除该组织的所有人员和部门数据
@@ -239,107 +224,119 @@
         BOOL isClearAll = [strClearAll isEqualToString:@"1"];
         if (isClearAll) {
             //获取belongOrgId
-#warning 获取方式可以优化为截取字符串
-            NSString *belongOrgId = [NSString stringWithFormat:@"%@", [[[[dictRoot objectForKey:@"root"] objectForKey:@"book"] lastObject] objectForKey:@"belongOrgId"]];
+//            NSString *belongOrgId = [NSString stringWithFormat:@"%@", [[[[dictRoot objectForKey:@"root"] objectForKey:@"book"] lastObject] objectForKey:@"belongOrgId"]];
             //删除人员数据
-            MCBookBL *bookBL = [[MCBookBL alloc] init];
-            BOOL isDeletedAll = [bookBL removeByOrgId:belongOrgId];
+            BOOL isDeletedAll = [bookBL removeByOrgId:strOrgId];
             if (isDeletedAll) {
-                DLog(@"%@ 的人员删除完毕", belongOrgId);
+                DLog(@"%@ 的人员删除完毕", strOrgId);
             }
             //删除部门数据
-            MCDeptBL *deptBL = [[MCDeptBL alloc] init];
-            isDeletedAll = [deptBL removeByOrgId:belongOrgId];
+            isDeletedAll = [deptBL removeByOrgId:strOrgId];
             if (isDeletedAll) {
-                DLog(@"%@ 的部门删除完毕", belongOrgId);
+                DLog(@"%@ 的部门删除完毕", strOrgId);
             }
-            
-        }
-        //更新人员数据
-        static int i = 0;
-        NSArray *arrBook = [[dictRoot objectForKey:@"root"] objectForKey:@"book"];
-        for (NSDictionary *dict in arrBook) {
-            MCBook *book = [[MCBook alloc] init];
-            book.id = [NSString stringWithFormat:@"%@", [dict objectForKey:@"id"]];
-            //姓名
-            book.name = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"personName"]] WithKey:DESDECRYPTED_KEY];
-            //移动电话
-            book.mobilePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"mobilePhone"]] WithKey:DESDECRYPTED_KEY];
-            //其他移动电话(未加密)
-            book.deputyMobilePhone = [dict objectForKey:@"deputyMobilePhone"];
-            //办公电话
-            book.officePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"officePhone"]] WithKey:DESDECRYPTED_KEY];
-            //住宅电话
-            book.homePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"addressPhone"]] WithKey:DESDECRYPTED_KEY];
-            //短号
-            book.mobileShort = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"mobileShort"]] WithKey:DESDECRYPTED_KEY];
-            //传真号码
-            book.faxNumber = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"faxNumber"]] WithKey:DESDECRYPTED_KEY];
-            //电子邮箱
-            book.email = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"email"]] WithKey:DESDECRYPTED_KEY];
-            //工作职位
-            book.position = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"position"]] WithKey:DESDECRYPTED_KEY];
-            book.sort = [dict objectForKey:@"sort"];
-            book.status = [NSString stringWithFormat:@"%@", [dict objectForKey:@"status"]];
-            book.syncFlag = [NSString stringWithFormat:@"%@", [dict objectForKey:@"syncFlag"]];
-            book.belongDepartmentId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongDepartmentId"]];
-            book.belongOrgId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongOrgId"]];
-            book.searchId = [NSNumber numberWithInt:i];
-            
-            MCBookBL *bookBL = [[MCBookBL alloc] init];
-            BOOL isCreatedSuccessfully = [bookBL create:book];
-            if (!isCreatedSuccessfully) {
-#warning 提示用户数据更新不完整
-                DLog(@"插入book失败");
-            }
-            
-            //初始化联系人搜索库
-            NSMutableArray *phoneList = [[NSMutableArray alloc] init];
-            if (book.mobilePhone == nil) {
-                [phoneList addObject:@""];
-            }
-            else {
-                [phoneList addObject:book.mobilePhone];
-            }
-            [[SearchCoreManager share] AddContact:book.searchId name:book.name phone:phoneList];
-            
-            i++;
         }
         
-        MCBookBL *bookBL = [[MCBookBL alloc] init];
-        NSMutableArray *bookList = [bookBL findAll];
+        //更新人员数据
+        NSArray *arrBook = [[dictRoot objectForKey:@"root"] objectForKey:@"book"];
+        [self updateStaffData:arrBook];
+#ifdef DEBUG
+        NSArray *bookList = [bookBL findAll];
         DLog(@"book amount:%d", bookList.count);
+#endif
         
         //更新部门数据
         NSArray *arrDept = [[dictRoot objectForKey:@"root"] objectForKey:@"department"];
-        for (NSDictionary *dict in arrDept) {
-            MCDept *dept = [[MCDept alloc] init];
-            dept.id = [NSString stringWithFormat:@"%@", [dict objectForKey:@"id"]];
-            dept.name = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"name"]] WithKey:DESDECRYPTED_KEY];
-            dept.sort = [dict objectForKey:@"sort"];
-            dept.status = [NSString stringWithFormat:@"%@", [dict objectForKey:@"status"]];
-            dept.syncFlag = [NSString stringWithFormat:@"%@", [dict objectForKey:@"syncFlag"]];
-            dept.upDepartmentId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"upDepartmentId"]];
-            dept.belongOrgId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongOrgId"]];
-            
-            MCDeptBL *deptBL = [[MCDeptBL alloc] init];
-            BOOL isCreatedSuccessfully = [deptBL create:dept];
-            if (!isCreatedSuccessfully) {
-#warning 提示用户数据更新不完整
-                DLog(@"插入dept失败");
-            }
-        }
-        
-        MCDeptBL *deptBL = [[MCDeptBL alloc] init];
-        NSMutableArray *deptList = [deptBL findAll];
+        [self updateDeptData:arrDept];
+#ifdef DEBUG
+        NSArray *deptList = [deptBL findAll];
         DLog(@"department amount:%d", deptList.count);
+#endif
+        
+        //保存最新联系人数据版本号
+//        [[MCConfig sharedInstance] saveContactsVersion:remoteContactsVersion];
 
     }
+    //初始化联系人搜索库
+    [bookBL updateSearchId];
+    [MCContactsSearchLibrary initContactsSearchLibrary];
     
-    
-    
-//    [self showHUD:0];
-    return;
+    [self showHUD:0];
+}
+
+- (void)updateStaffData:(NSArray *)arrBook
+{
+    for (NSDictionary *dict in arrBook) {
+        MCBook *book = [[MCBook alloc] init];
+        book.id = [NSString stringWithFormat:@"%@", [dict objectForKey:@"id"]];
+        //姓名
+        book.name = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"personName"]] WithKey:DESDECRYPTED_KEY];
+        //移动电话
+        book.mobilePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"mobilePhone"]] WithKey:DESDECRYPTED_KEY];
+        //其他移动电话(未加密)
+        book.deputyMobilePhone = [dict objectForKey:@"deputyMobilePhone"];
+        //办公电话
+        book.officePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"officePhone"]] WithKey:DESDECRYPTED_KEY];
+        //住宅电话
+        book.homePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"addressPhone"]] WithKey:DESDECRYPTED_KEY];
+        //短号
+        book.mobileShort = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"mobileShort"]] WithKey:DESDECRYPTED_KEY];
+        //传真号码
+        book.faxNumber = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"faxNumber"]] WithKey:DESDECRYPTED_KEY];
+        //电子邮箱
+        book.email = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"email"]] WithKey:DESDECRYPTED_KEY];
+        //工作职位
+        book.position = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"position"]] WithKey:DESDECRYPTED_KEY];
+        book.sort = [dict objectForKey:@"sort"];
+        book.status = [NSString stringWithFormat:@"%@", [dict objectForKey:@"status"]];
+        book.syncFlag = [NSString stringWithFormat:@"%@", [dict objectForKey:@"syncFlag"]];
+        book.belongDepartmentId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongDepartmentId"]];
+        book.belongOrgId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongOrgId"]];
+        
+        MCBookBL *bookBL = [[MCBookBL alloc] init];
+        if ([book.syncFlag isEqualToString:@"A"]) {
+            //增加
+            //可能更新不完整
+            [bookBL create:book];
+        }
+        else if ([book.syncFlag isEqualToString:@"M"]) {
+            //修改
+            [bookBL modify:book];
+        }
+        else if ([book.syncFlag isEqualToString:@"D"]) {
+            //删除
+            [bookBL remove:book];
+        }
+    }
+}
+
+- (void)updateDeptData:(NSArray *) arrDept
+{
+    for (NSDictionary *dict in arrDept) {
+        MCDept *dept = [[MCDept alloc] init];
+        dept.id = [NSString stringWithFormat:@"%@", [dict objectForKey:@"id"]];
+        dept.name = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"name"]] WithKey:DESDECRYPTED_KEY];
+        dept.sort = [dict objectForKey:@"sort"];
+        dept.status = [NSString stringWithFormat:@"%@", [dict objectForKey:@"status"]];
+        dept.syncFlag = [NSString stringWithFormat:@"%@", [dict objectForKey:@"syncFlag"]];
+        dept.upDepartmentId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"upDepartmentId"]];
+        dept.belongOrgId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongOrgId"]];
+        
+        MCDeptBL *deptBL = [[MCDeptBL alloc] init];
+        if ([dept.syncFlag isEqualToString:@"A"]) {
+            //增加
+            //可能更新不完整
+            [deptBL create:dept];
+        }
+        else if ([dept.syncFlag isEqualToString:@"M"]) {
+            //修改
+            [deptBL modify:dept];
+        }
+        else if ([dept.syncFlag isEqualToString:@"D"]) {
+            //删除
+            [deptBL remove:dept];
+        }
+    }
 }
 
 #pragma mark TreeView Delegate methods
@@ -384,11 +381,11 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
-//- (UITableViewCellEditingStyle)treeView:(RATreeView *)treeView editingStyleForRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo
-//{
-//    //关闭编辑模式
-//    return UITableViewCellEditingStyleNone;
-//}
+- (UITableViewCellEditingStyle)treeView:(RATreeView *)treeView editingStyleForRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo
+{
+    //关闭编辑模式
+    return UITableViewCellEditingStyleNone;
+}
 
 #pragma mark TreeView Data Source
 - (UITableViewCell *)treeView:(RATreeView *)treeView cellForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo

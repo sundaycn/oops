@@ -138,9 +138,8 @@ static MCOrgDAO *sharedManager = nil;
     return 0;
 }
 
-
 //修改org方法
--(int) modify:(MCOrg *)model
+- (int)modify:(MCOrg *)model
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     
@@ -195,13 +194,11 @@ static MCOrgDAO *sharedManager = nil;
 }
 
 //查询所有数据方法
-- (NSMutableArray *)findAll
+- (NSArray *)findAll
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCOrg" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
@@ -210,9 +207,7 @@ static MCOrgDAO *sharedManager = nil;
     
     NSError *error = nil;
     NSArray *listData = [cxt executeFetchRequest:request error:&error];
-    
     NSMutableArray *resListData = [[NSMutableArray alloc] init];
-    
     for (MCOrgManagedObject *mo in listData) {
         MCOrg *org = [[MCOrg alloc] init];
         org.id = mo.id;
@@ -221,11 +216,11 @@ static MCOrgDAO *sharedManager = nil;
         [resListData addObject:org];
     }
     
-    return resListData;
+    return [resListData copy];
 }
 
 //按照主键查询数据方法
--(MCOrg *) findById:(MCOrg *)model
+- (MCOrg *)findById:(MCOrg *)model
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     

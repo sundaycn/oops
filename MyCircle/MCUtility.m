@@ -160,29 +160,29 @@
     return [fmt stringFromDate:date];
 }
 
-//气泡中添加数字，提醒有几条消息
-+(UIImage *)imageFromText:(int)count image:(UIImage *)image{
-    UIImage *myImage = image;
-    NSString *myWatermarkText = [NSString stringWithFormat:@"%d",count];
-    UIImage *watermarkedImage = nil;
-    
-    UIGraphicsBeginImageContext(myImage.size);
-    [myImage drawAtPoint: CGPointZero];
-    UIColor *redColor=[UIColor whiteColor];
-    [redColor set];
-    UIFont *font=[UIFont fontWithName:@"Helvetica-Bold" size:25];
-    if(count<10) {
-        [myWatermarkText drawAtPoint: CGPointMake(22, 10) withFont: font];
-    }else if(count<100){
-        [myWatermarkText drawAtPoint: CGPointMake(18, 10) withFont: font];
-    }else if(count<999){
-        [myWatermarkText drawAtPoint: CGPointMake(10, 10) withFont: font];
-    }else{
-        [@"..." drawAtPoint: CGPointMake(18, 10) withFont: font];
-    }
-    watermarkedImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return watermarkedImage;
-}
+////气泡中添加数字，提醒有几条消息
+//+(UIImage *)imageFromText:(int)count image:(UIImage *)image{
+//    UIImage *myImage = image;
+//    NSString *myWatermarkText = [NSString stringWithFormat:@"%d",count];
+//    UIImage *watermarkedImage = nil;
+//    
+//    UIGraphicsBeginImageContext(myImage.size);
+//    [myImage drawAtPoint: CGPointZero];
+//    UIColor *redColor=[UIColor whiteColor];
+//    [redColor set];
+//    UIFont *font=[UIFont fontWithName:@"Helvetica-Bold" size:25];
+//    if(count<10) {
+//        [myWatermarkText drawAtPoint: CGPointMake(22, 10) withFont: font];
+//    }else if(count<100){
+//        [myWatermarkText drawAtPoint: CGPointMake(18, 10) withFont: font];
+//    }else if(count<999){
+//        [myWatermarkText drawAtPoint: CGPointMake(10, 10) withFont: font];
+//    }else{
+//        [@"..." drawAtPoint: CGPointMake(18, 10) withFont: font];
+//    }
+//    watermarkedImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return watermarkedImage;
+//}
 
 @end

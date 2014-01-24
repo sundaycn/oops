@@ -13,27 +13,30 @@
 @interface MCDeptBL : NSObject
 
 //插入Dept方法
--(BOOL) create:(MCDept *)model;
+- (BOOL)create:(MCDept *)model;
 
 //删除Dept方法
--(BOOL) remove:(MCDept *)model;
+- (BOOL)remove:(MCDept *)model;
 
 //通过belongOrgId删除Dept方法
--(BOOL) removeByOrgId:(NSString *)orgId;
+- (BOOL)removeByOrgId:(NSString *)orgId;
 
 //删除不再belongOrgId集合内得所有数据
 - (BOOL)removeDeptNotInOrgIdSet:(NSArray *)arrOrgId;
 
 //删除所有Dept方法
--(BOOL) removeAll;
+- (BOOL)removeAll;
+
+//修改部门
+- (BOOL)modify:(MCDept *)model;
 
 //查询所用数据方法
--(NSMutableArray*) findAll;
+- (NSArray*)findAll;
 
 //查询所用数据方法
--(NSMutableArray*) findByUpDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)upDeptId;
+- (NSMutableArray *)findByUpDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)upDeptId;
 
 //查询所用数据方法
--(MCDept *) findByDeptId:(NSString *)deptId belongOrgId:(NSString *)belongOrgId;
+- (MCDept *)findByDeptId:(NSString *)deptId belongOrgId:(NSString *)belongOrgId;
 
 @end

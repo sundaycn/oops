@@ -13,21 +13,29 @@
 + (void)initContactsSearchLibrary
 {
     MCBookBL *bookBL = [[MCBookBL alloc] init];
-    NSArray *bookList = [[bookBL findAll] copy];
+    NSArray *bookList = [bookBL findAll];
     
-    for (MCBook *book in bookList) {
+    for (MCBook *contact in bookList) {
         //初始化联系人搜索库
         NSMutableArray *phoneList = [[NSMutableArray alloc] init];
-        if (book.mobilePhone == nil) {
+        if (contact.mobilePhone == nil && contact.deputyMobilePhone == nil) {
             [phoneList addObject:@""];
         }
-        else {
-            [phoneList addObject:book.mobilePhone];
+        else if (contact.mobilePhone != nil && contact.deputyMobilePhone == nil) {
+            [phoneList addObject:contact.mobilePhone];
         }
-        [[SearchCoreManager share] AddContact:book.searchId name:book.name phone:phoneList];
+        else if (contact.mobilePhone == nil && contact.deputyMobilePhone != nil) {
+            [phoneList addObject:contact.deputyMobilePhone];
+        }
+        else {
+            [phoneList addObject:contact.mobilePhone];
+            [phoneList addObject:contact.deputyMobilePhone];
+        }
+
+        [[SearchCoreManager share] AddContact:contact.searchId name:contact.name phone:phoneList];
     }
     
-    DLog(@"complete contacts search library initialization");
+    DLog(@"初始化联系人搜索库成功");
 }
 
 @end

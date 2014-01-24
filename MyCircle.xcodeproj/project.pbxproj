@@ -26,6 +26,7 @@
 		221C51B5180CCFFE00ED8715 /* MCCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B4180CCFFE00ED8715 /* MCCircleViewController.m */; };
 		221C51B8180CD7F800ED8715 /* MCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B7180CD7F800ED8715 /* MCAppDelegate.m */; };
 		222CFC48184432B50037E24D /* www in Resources */ = {isa = PBXBuildFile; fileRef = 222CFC47184432B50037E24D /* www */; };
+		223A432718925690003E457E /* ContactsVersion.plist in Resources */ = {isa = PBXBuildFile; fileRef = 223A432618925690003E457E /* ContactsVersion.plist */; };
 		2254A077184B63D500DC103F /* MCContensViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2254A076184B63D500DC103F /* MCContensViewController.m */; };
 		2254A079184B650600DC103F /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2254A078184B650600DC103F /* config.xml */; };
 		2254A082184D89EC00DC103F /* MCPortalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2254A081184D89EC00DC103F /* MCPortalCell.m */; };
@@ -273,6 +274,7 @@
 		221C51B6180CD7F800ED8715 /* MCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAppDelegate.h; sourceTree = "<group>"; };
 		221C51B7180CD7F800ED8715 /* MCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAppDelegate.m; sourceTree = "<group>"; };
 		222CFC47184432B50037E24D /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		223A432618925690003E457E /* ContactsVersion.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ContactsVersion.plist; sourceTree = "<group>"; };
 		2254A075184B63D500DC103F /* MCContensViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContensViewController.h; sourceTree = "<group>"; };
 		2254A076184B63D500DC103F /* MCContensViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContensViewController.m; sourceTree = "<group>"; };
 		2254A078184B650600DC103F /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
@@ -997,6 +999,7 @@
 				22B669DE17FAAA240015A269 /* main.m */,
 				22B669E017FAAA240015A269 /* MyCircle-Prefix.pch */,
 				229DF0DC18710CAE00739C3A /* PushConfig.plist */,
+				223A432618925690003E457E /* ContactsVersion.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1961,6 +1964,7 @@
 				222CFC48184432B50037E24D /* www in Resources */,
 				22CEC22F1859467400DC9913 /* README.txt in Resources */,
 				22B669E617FAAA240015A269 /* Main.storyboard in Resources */,
+				223A432718925690003E457E /* ContactsVersion.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,6 +28,6 @@
 - (NSArray *)findAllId;
 
 //查询所用数据方法
-- (NSMutableArray*)findAll;
+- (NSArray *)findAll;
 
 @end

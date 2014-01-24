@@ -26,7 +26,7 @@ static MCBookDAO *sharedManager = nil;
 
 
 //插入Book方法
--(int) create:(MCBook *)model
+- (int)create:(MCBook *)model
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     MCBookManagedObject *book = [NSEntityDescription insertNewObjectForEntityForName:@"MCBook" inManagedObjectContext:cxt];
@@ -62,7 +62,7 @@ static MCBookDAO *sharedManager = nil;
 }
 
 //删除Book方法
--(int) remove:(MCBook *)model
+- (int)remove:(MCBook *)model
 {
     
     NSManagedObjectContext *cxt = [self managedObjectContext];
@@ -81,9 +81,9 @@ static MCBookDAO *sharedManager = nil;
         
         NSError *savingError = nil;
         if ([self.managedObjectContext save:&savingError]){
-            DLog(@"删除数据成功");
+            DLog(@"删除联系人成功");
         } else {
-            DLog(@"删除数据失败");
+            DLog(@"删除联系人失败");
             return -1;
         }
     }
@@ -182,18 +182,14 @@ static MCBookDAO *sharedManager = nil;
 
 
 //修改Book方法
--(int) modify:(MCBook *)model
+- (int)modify:(MCBook *)model
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCBook" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"id =  %@", model.id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", model.id];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -201,42 +197,81 @@ static MCBookDAO *sharedManager = nil;
     if ([listData count] > 0) {
         MCBookManagedObject *book = [listData lastObject];
         book.name = model.name;
+        book.mobilePhone = model.mobilePhone;
+        book.deputyMobilePhone = model.deputyMobilePhone;
+        book.officePhone = model.officePhone;
+        book.homePhone = model.homePhone;
+        book.mobileShort = model.mobileShort;
+        book.faxNumber = model.faxNumber;
+        book.email = model.email;
+        book.position = model.position;
+        book.sort = model.sort;
+        book.status = model.status;
+        book.syncFlag = model.syncFlag;
+        book.belongDepartmentId = model.belongDepartmentId;
+        book.belongOrgId = model.belongOrgId;
+//        book.searchId = model.searchId;
         
         NSError *savingError = nil;
         if ([self.managedObjectContext save:&savingError]){
-            DLog(@"修改数据成功");
+            DLog(@"修改联系人资料成功");
         } else {
-            DLog(@"修改数据失败");
+            DLog(@"修改联系人资料失败");
             return -1;
         }
     }
     return 0;
 }
 
-//查询所有数据方法
--(NSMutableArray*) findAll
+//更新searchId
+- (int)updateSearchId
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCBook" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    NSUInteger searchId = 0;
+    for (MCBookManagedObject *obj in listData) {
+        obj.searchId = [NSNumber numberWithUnsignedInteger:searchId];
+        
+        NSError *savingError = nil;
+        if ([self.managedObjectContext save:&savingError]){
+            DLog(@"更新searchId成功");
+        } else {
+            DLog(@"更新searchId失败");
+            return -1;
+        }
+        
+        searchId++;
+    }
+
+    return 0;
+}
+
+//查询所有数据方法
+- (NSArray *)findAll
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCBook" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sort" ascending:YES];
     [request setSortDescriptors:@[sortDescriptor]];
     
     NSError *error = nil;
     NSArray *listData = [cxt executeFetchRequest:request error:&error];
-    
     NSMutableArray *resListData = [[NSMutableArray alloc] init];
-    
     for (MCBookManagedObject *mo in listData) {
         MCBook *book = [[MCBook alloc] init];
 //        book.id = mo.id;
         book.name = mo.name;
         book.mobilePhone = mo.mobilePhone;
+        book.deputyMobilePhone = mo.deputyMobilePhone;
 //        book.officePhone = mo.officePhone;
 //        book.position = mo.position;
 //        book.sort = mo.sort;
@@ -249,11 +284,11 @@ static MCBookDAO *sharedManager = nil;
         [resListData addObject:book];
     }
     
-    return resListData;
+    return [resListData copy];
 }
 
 //按照belongDepartmentId查询数据方法
--(NSMutableArray *) findByBelongDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)belongDeptId
+- (NSMutableArray *)findByBelongDeptId:(NSString *)belongOrgId upDepartmentId:(NSString *)belongDeptId
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     
@@ -285,7 +320,7 @@ static MCBookDAO *sharedManager = nil;
 }
 
 //按照主键查询数据方法
--(MCBook *) findById:(NSString *)bookId
+- (MCBook *)findById:(NSString *)bookId
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     NSEntityDescription *entityDescription = [NSEntityDescription
@@ -323,7 +358,7 @@ static MCBookDAO *sharedManager = nil;
     return nil;
 }
 
--(MCBook *) findBySearchId:(NSNumber *)searchId
+- (MCBook *)findBySearchId:(NSNumber *)searchId
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     NSEntityDescription *entityDescription = [NSEntityDescription
