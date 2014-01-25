@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MCContactsDetailViewController : UITableViewController
+@interface MCContactsDetailViewController : UITableViewController <UIActionSheetDelegate>
 
 @property (strong, nonatomic) NSString *bookId;
 

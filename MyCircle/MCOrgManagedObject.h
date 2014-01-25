@@ -14,5 +14,6 @@
 
 @property (nonatomic, retain) NSString * id;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, strong) NSString * version;
 
 @end

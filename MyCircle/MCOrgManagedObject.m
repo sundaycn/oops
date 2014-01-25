@@ -13,5 +13,6 @@
 
 @dynamic id;
 @dynamic name;
+@dynamic version;
 
 @end

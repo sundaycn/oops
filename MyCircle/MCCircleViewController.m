@@ -108,8 +108,6 @@
 //            // 使用WiFi网络
 //            break;
 //    }
-    
-    //下拉刷新
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -193,6 +191,10 @@
 
     MCOrgBL *orgBL = [[MCOrgBL alloc] init];
     NSArray *arrOrgId = [orgBL findAllId];
+//    NSArray *arrOrgObj = [orgBL findAll];
+//    for (MCOrg *obj in arrOrgObj) {
+//        DLog(@"name:%@ version:%@", obj.name, obj.version);
+//    }
     //删除不再归属当前用户的联系人数据
     MCBookBL *bookBL = [[MCBookBL alloc] init];
     [bookBL removeStaffNotInOrgIdSet:arrOrgId];
@@ -209,22 +211,18 @@
         NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
         [numberFormatter setNumberStyle:NSNumberFormatterNoStyle];
         NSString *remoteContactsVersion = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"newestVersion"]];
-        DLog(@"服务器联系人版本号:%@", remoteContactsVersion);
-        NSString *localContactsVersion = [orgBL]
-        DLog(@"本地联系人版本号:%@", localContactsVersion);
-#warning 不同组织的联系人数据版本号单独保存
+        DLog(@"服务器%@联系人版本号:%@", strOrgId, remoteContactsVersion);
+        NSString *localContactsVersion = [orgBL findVersionByOrgId:strOrgId];
+        DLog(@"本地%@联系人版本号:%@", strOrgId, localContactsVersion);
         if ([localContactsVersion isEqualToString:remoteContactsVersion]) {
-            //版本号一致，联系人数据无需更新
-            [self showHUD:0];
-            return;
+            //版本号一致，该组织联系人数据无需更新
+            continue;
         }
         
         //判断是否清除该组织的所有人员和部门数据
         NSString *strClearAll = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"clearLocaldataAll"]];
         BOOL isClearAll = [strClearAll isEqualToString:@"1"];
         if (isClearAll) {
-            //获取belongOrgId
-//            NSString *belongOrgId = [NSString stringWithFormat:@"%@", [[[[dictRoot objectForKey:@"root"] objectForKey:@"book"] lastObject] objectForKey:@"belongOrgId"]];
             //删除人员数据
             BOOL isDeletedAll = [bookBL removeByOrgId:strOrgId];
             if (isDeletedAll) {
@@ -254,7 +252,7 @@
 #endif
         
         //保存最新联系人数据版本号
-//        [[MCConfig sharedInstance] saveContactsVersion:remoteContactsVersion];
+        [orgBL updateVersionByOrgId:strOrgId version:remoteContactsVersion];
 
     }
     //初始化联系人搜索库

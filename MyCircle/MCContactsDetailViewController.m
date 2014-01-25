@@ -161,7 +161,7 @@
         
         UIButton *buttonCALL = [[UIButton alloc] initWithFrame:CGRectMake(60, 30, 40, 40)];
         [buttonCALL setBackgroundImage:[UIImage imageNamed:@"CALL"] forState:UIControlStateNormal];
-        [buttonCALL addTarget:self action:@selector(callSomeone) forControlEvents:UIControlEventTouchUpInside];
+        [buttonCALL addTarget:self action:@selector(callMainPhone) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:buttonCALL];
     }
     else if (indexPath.section == 2)
@@ -235,6 +235,18 @@
         CGRect newValueFrame = labelValue.frame;
         newValueFrame.origin.x = CGRectGetMaxX(labelName.frame)+5;
         labelValue.frame = newValueFrame;
+        if ([name isEqualToString:@"手机副号："]) {
+            [labelValue setUserInteractionEnabled:YES];
+            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showActionSheet)];
+            [tapGestureRecognizer setNumberOfTapsRequired:1];
+            [labelValue addGestureRecognizer:tapGestureRecognizer];
+        }
+        else if ([name isEqualToString:@"办公电话："] || [name isEqualToString:@"住宅电话："] || [name isEqualToString:@"短号："]) {
+            [labelValue setUserInteractionEnabled:YES];
+            UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhone)];
+            [tapGestureRecognizer setNumberOfTapsRequired:1];
+            [labelValue addGestureRecognizer:tapGestureRecognizer];
+        }
         [cell.contentView addSubview:labelValue];
     }
     
@@ -262,27 +274,6 @@
         return 40;
     }
 }
-/*
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    if (section == 2) {
-        return 100;
-    }
-    
-    return 0;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    if (section == 2) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 110, tableView.frame.size.width, 100)];
-        view.backgroundColor = UIColorFromRGB(0xf7f7f7);
-        
-        return view;
-    }
-    
-    return nil;
-}*/
 
 #pragma mark - Navigation
 
@@ -311,13 +302,59 @@
 //    DLog(@"Did Click!");
 //}
 
+#pragma mark - UIActionsheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self callPhone];
+    }
+    else if (buttonIndex == 1) {
+        [self sendSMS];
+    }
+}
+
+- (void)showActionSheet
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"取消"
+                                  destructiveButtonTitle:@"拨打电话"
+                                  otherButtonTitles:@"发送短信", nil];
+    DLog(@"===================");
+    actionSheet.actionSheetStyle = UIActionSheetStyleAutomatic;
+    [actionSheet showInView:self.view];
+}
+
 - (void)sendSMS {
     DLog(@"SEND SMS OK");
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"sms://" stringByAppendingString:self.mobilePhone]]];
 }
 
-- (void)callSomeone {
-    DLog(@"CALL SOMEONE OK");
+- (void)callPhone {
+    NSString *number;
+    NSInteger row = [self.tableView indexPathForSelectedRow].row;
+    switch (row) {
+        case 0:
+            number = self.deputyMobilePhone;
+            break;
+        case 1:
+            number = self.officePhone;
+            break;
+        case 2:
+            number = self.homePhone;
+            break;
+        case 3:
+            number = self.mobileShort;
+            break;
+        default:
+            break;
+    }
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:number]]];
+}
+
+- (void)callMainPhone
+{
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:self.mobilePhone]]];
 }
 

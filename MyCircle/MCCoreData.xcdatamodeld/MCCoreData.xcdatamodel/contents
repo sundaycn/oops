@@ -43,6 +43,7 @@
     <entity name="MCOrg" representedClassName="MCOrgManagedObject" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="version" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="MCBook" positionX="0" positionY="0" width="0" height="0"/>

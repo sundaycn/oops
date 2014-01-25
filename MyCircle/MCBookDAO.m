@@ -240,7 +240,7 @@ static MCBookDAO *sharedManager = nil;
         
         NSError *savingError = nil;
         if ([self.managedObjectContext save:&savingError]){
-            DLog(@"更新searchId成功");
+//            DLog(@"更新searchId成功");
         } else {
             DLog(@"更新searchId失败");
             return -1;

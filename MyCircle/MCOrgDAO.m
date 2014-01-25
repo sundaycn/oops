@@ -26,16 +26,17 @@ static MCOrgDAO *sharedManager = nil;
 
 
 //插入org方法
--(int) create:(MCOrg *)model
+- (int)create:(MCOrg *)model
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     MCOrgManagedObject *org = [NSEntityDescription insertNewObjectForEntityForName:@"MCOrg" inManagedObjectContext:cxt];
     org.id = model.id;
     org.name = model.name;
+    org.version = model.version;
     
     NSError *savingError = nil;
     if ([self.managedObjectContext save:&savingError]){
-        DLog(@"插入数据成功");
+//        DLog(@"插入数据成功");
     } else {
         DLog(@"插入数据失败");
         return -1;
@@ -45,19 +46,15 @@ static MCOrgDAO *sharedManager = nil;
 }
 
 //删除org方法
--(int) remove:(MCOrg *)model
+- (int)remove:(MCOrg *)model
 {
     
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCOrg" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"id = %@", model.id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", model.id];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -79,7 +76,7 @@ static MCOrgDAO *sharedManager = nil;
 }
 
 //通过orgId删除org方法
--(int) removeByOrgId:(NSString *)orgId
+- (int)removeByOrgId:(NSString *)orgId
 {
     
     NSManagedObjectContext *cxt = [self managedObjectContext];
@@ -115,13 +112,11 @@ static MCOrgDAO *sharedManager = nil;
 
 
 //删除所有org方法
--(int) removeAll
+- (int)removeAll
 {
-    
     NSManagedObjectContext *cxt = [self managedObjectContext];
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCOrg" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
     
@@ -131,10 +126,13 @@ static MCOrgDAO *sharedManager = nil;
         [cxt deleteObject:managedObject];
         //NSLog(@"%@ object deleted",entityDescription);
     }
+    
+    [cxt setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
     if (![cxt save:&error]) {
         //错误处理
         DLog(@"Error deleting %@ - error:%@",entityDescription,error);
     }
+    
     return 0;
 }
 
@@ -142,15 +140,11 @@ static MCOrgDAO *sharedManager = nil;
 - (int)modify:(MCOrg *)model
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCOrg" inManagedObjectContext:cxt];
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"id = %@", model.id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", model.id];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -167,6 +161,63 @@ static MCOrgDAO *sharedManager = nil;
             return -1;
         }
     }
+    
+    return 0;
+}
+
+//更新指定组织的联系人数据版本号
+- (int)updateVersionByOrgId:(NSString *)orgId version:(NSString *)version
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCOrg" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", orgId];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    for (MCOrgManagedObject *obj in listData) {
+        obj.version = version;
+        NSError *savingError = nil;
+        if ([self.managedObjectContext save:&savingError]){
+//            DLog(@"%@的联系人数据版本号更新成功", obj.id);
+        } else {
+            DLog(@"%@的联系人数据版本号更新失败", obj.id);
+            return -1;
+        }
+        
+    }
+    
+    return 0;
+}
+
+//更新对应的联系人数据版本号
+- (int)updateAllVersion:(NSDictionary *)dictVersion
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCOrg" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id IN %@", [dictVersion allKeys]];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    for (MCOrgManagedObject *obj in listData) {
+        obj.version = [dictVersion objectForKey:obj.id];
+        NSError *savingError = nil;
+        if ([self.managedObjectContext save:&savingError]){
+//            DLog(@"%@的联系人数据版本号更新成功", obj.id);
+        } else {
+            DLog(@"%@的联系人数据版本号更新失败", obj.id);
+            return -1;
+        }
+
+    }
+
     return 0;
 }
 
@@ -174,7 +225,6 @@ static MCOrgDAO *sharedManager = nil;
 - (NSArray *)findAllId
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
-    
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"MCOrg" inManagedObjectContext:cxt];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
@@ -191,6 +241,45 @@ static MCOrgDAO *sharedManager = nil;
     }
     
     return [resListData copy];
+}
+
+//获取当前所有联系人数据版本号
+- (NSDictionary *)findAllVersion
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCOrg" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    //    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sort" ascending:YES];
+    //    [request setSortDescriptors:@[sortDescriptor]];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    NSMutableDictionary *dictVersion = [[NSMutableDictionary alloc] init];
+    for (MCOrgManagedObject *mo in listData) {
+        [dictVersion setValue:mo.version forKey:mo.id];
+    }
+    
+    return [dictVersion copy];
+}
+
+//根据orgId获取对应联系人数据版本号
+- (NSString *)findVersionByOrgId:(NSString *)orgId
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCOrg" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", orgId];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    MCOrgManagedObject *org = [listData lastObject];
+    
+    return org.version;
 }
 
 //查询所有数据方法
@@ -212,6 +301,7 @@ static MCOrgDAO *sharedManager = nil;
         MCOrg *org = [[MCOrg alloc] init];
         org.id = mo.id;
         org.name = mo.name;
+        org.version = mo.version;
         
         [resListData addObject:org];
     }
