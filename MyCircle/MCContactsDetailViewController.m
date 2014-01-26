@@ -235,13 +235,15 @@
         CGRect newValueFrame = labelValue.frame;
         newValueFrame.origin.x = CGRectGetMaxX(labelName.frame)+5;
         labelValue.frame = newValueFrame;
-        if ([name isEqualToString:@"手机副号："]) {
+        if (indexPath.row == 0) {
+            //手机副号
             [labelValue setUserInteractionEnabled:YES];
             UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showActionSheet)];
             [tapGestureRecognizer setNumberOfTapsRequired:1];
             [labelValue addGestureRecognizer:tapGestureRecognizer];
         }
-        else if ([name isEqualToString:@"办公电话："] || [name isEqualToString:@"住宅电话："] || [name isEqualToString:@"短号："]) {
+        else if (indexPath.row >= 1 && indexPath.row <= 3) {
+            //办公电话，住宅电话，短号
             [labelValue setUserInteractionEnabled:YES];
             UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(callPhone)];
             [tapGestureRecognizer setNumberOfTapsRequired:1];

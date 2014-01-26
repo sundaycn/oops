@@ -9,6 +9,7 @@
 #import "MCMoreViewController.h"
 #import "MCSettingModel.h"
 #import "MCUtility.h"
+#import "MCLoginOffHandler.h"
 
 @interface MCMoreViewController ()
 @property(strong, nonatomic) NSMutableDictionary *dictSettingsInSection;
@@ -101,6 +102,7 @@
         UIButton *buttonLogOff = [[UIButton alloc] initWithFrame:CGRectMake(15, 2, 290, 40)];
         [buttonLogOff setBackgroundImage:[UIImage imageNamed:@"LogOffButtonNormalImage"] forState:UIControlStateNormal];
         [buttonLogOff setBackgroundImage:[UIImage imageNamed:@"LogOffButtonSelectedImage"] forState:UIControlStateHighlighted];
+        [buttonLogOff addTarget:self action:@selector(loginOff) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:buttonLogOff];
     }
     else {
@@ -191,6 +193,7 @@
 }
 */
 
+//检查更新
 - (void)checkAndUpdateVersion
 {
     self.strNewVersionUrl = [MCUtility checkAndUpdateVersion];
@@ -209,6 +212,15 @@
         alert.tag = 2;
         [alert show];
     }
+}
+
+//退出登陆
+- (void)loginOff
+{
+    //清除相关数据
+    [MCLoginOffHandler prepareForLoginOff];
+    //返回loginView
+    [self performSegueWithIdentifier:@"showLoginView" sender:self];
 }
 
 #pragma mark- UIAlertViewDelegate

@@ -75,6 +75,30 @@ static MCChatSessionDAO *sharedManager = nil;
     return 0;
 }
 
+//删除所有历史消息记录
+- (void)deleteAllSession
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCChatSession"
+                                              inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    NSError *error = nil;
+    NSArray *dataList = [cxt executeFetchRequest:request error:&error];
+    for (NSManagedObject *managedObject in dataList) {
+        [cxt deleteObject:managedObject];
+        //NSLog(@"%@ object deleted",entityDescription);
+    }
+    
+    [cxt setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
+    if (![cxt save:&error]) {
+        //错误处理
+        DLog(@"Error deleting %@ - error:%@",entityDescription,error);
+    }
+}
+
 //查询所有消息
 - (NSMutableArray*)findAll
 {

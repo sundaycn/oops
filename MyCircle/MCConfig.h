@@ -23,6 +23,8 @@
 
 //是否已登陆
 - (BOOL)isLogined;
+//退出登陆
+- (void)setLoginOff;
 
 //获取应用版本号
 - (NSString *)getAppVersion;

@@ -66,6 +66,13 @@ static MCConfig *sharedInstance = nil;
     
     return [[settings objectForKey:@"isLogined"] isEqualToString:@"1"] ? YES : NO;
 }
+//退出登陆
+- (void)setLoginOff
+{
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    [settings removeObjectForKey:@"isLogined"];
+    [settings setObject:@"0" forKey:@"isLogined"];
+}
 
 //获取应用版本号
 - (NSString *)getAppVersion

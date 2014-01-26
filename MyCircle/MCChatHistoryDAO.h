@@ -16,6 +16,8 @@
 
 // 插入消息
 - (int)insert:(MCChatHistory *)model;
+//删除所有历史消息记录
+- (void)deleteAllHistory;
 // 根据聊天对象jid更新未读为已读
 - (void)updateByJid:(NSString *)jid;
 // 在聊天历史记录表中，根据对方jid查找未读消息

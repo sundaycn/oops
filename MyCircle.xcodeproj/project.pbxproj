@@ -210,6 +210,7 @@
 		22D7F640180BEE60007E5E22 /* RATreeView+TableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D7F634180BEE60007E5E22 /* RATreeView+TableViewDelegate.m */; };
 		22D7F641180BEE60007E5E22 /* RATreeView+UIScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D7F636180BEE60007E5E22 /* RATreeView+UIScrollView.m */; };
 		22D7F642180BEE60007E5E22 /* RATreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22D7F638180BEE60007E5E22 /* RATreeView.m */; };
+		22E5628B1894EE6F00314E19 /* MCLoginOffHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E5628A1894EE6F00314E19 /* MCLoginOffHandler.m */; };
 		22E985B61856FCDE00032893 /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E985B51856FCDE00032893 /* libresolv.dylib */; };
 		22E985B81856FCEE00032893 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 22E985B71856FCEE00032893 /* libxml2.dylib */; };
 		22E985C21857030F00032893 /* MCMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E985C11857030F00032893 /* MCMessageCell.m */; };
@@ -638,6 +639,8 @@
 		22D7F636180BEE60007E5E22 /* RATreeView+UIScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RATreeView+UIScrollView.m"; sourceTree = "<group>"; };
 		22D7F637180BEE60007E5E22 /* RATreeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RATreeView.h; sourceTree = "<group>"; };
 		22D7F638180BEE60007E5E22 /* RATreeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RATreeView.m; sourceTree = "<group>"; };
+		22E562891894EE6F00314E19 /* MCLoginOffHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLoginOffHandler.h; sourceTree = "<group>"; };
+		22E5628A1894EE6F00314E19 /* MCLoginOffHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCLoginOffHandler.m; sourceTree = "<group>"; };
 		22E985B51856FCDE00032893 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		22E985B71856FCEE00032893 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		22E985B91856FDF400032893 /* Pods */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pods; sourceTree = "<group>"; };
@@ -905,6 +908,8 @@
 				22A7AB771887C09000DC35AA /* MCMoreCell.m */,
 				225B1815188BB57900832573 /* MCSettingModel.h */,
 				225B1816188BB57900832573 /* MCSettingModel.m */,
+				22E562891894EE6F00314E19 /* MCLoginOffHandler.h */,
+				22E5628A1894EE6F00314E19 /* MCLoginOffHandler.m */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -2162,6 +2167,7 @@
 				22E985CB1857E9FF00032893 /* MCMessageListViewController.m in Sources */,
 				22CEC3A418594B3D00DC9913 /* XMPPUserCoreDataStorageObject.m in Sources */,
 				22CEC3B718594B3D00DC9913 /* XMPPRoomOccupantHybridMemoryStorageObject.m in Sources */,
+				22E5628B1894EE6F00314E19 /* MCLoginOffHandler.m in Sources */,
 				2203A599180E803200742830 /* MCCoreData.xcdatamodeld in Sources */,
 				2255E7D9183360B600BAD0ED /* MCContactsSearchLibrary.m in Sources */,
 				22E985C21857030F00032893 /* MCMessageCell.m in Sources */,

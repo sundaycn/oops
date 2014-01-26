@@ -8,7 +8,7 @@
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="MCViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginViewController" id="vXZ-lx-hvc" customClass="MCViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qLf-dp-GKB"/>
                         <viewControllerLayoutGuide type="bottom" id="1DI-PH-d2e"/>
@@ -505,6 +505,7 @@
                     <connections>
                         <segue destination="SyN-Uc-yje" kind="push" identifier="showAbout" id="FYs-jZ-u7x"/>
                         <segue destination="0h2-Nw-w92" kind="push" identifier="showMyInfo" id="LVt-eI-iaZ"/>
+                        <segue destination="vXZ-lx-hvc" kind="modal" identifier="showLoginView" modalTransitionStyle="crossDissolve" id="6HL-aZ-Z2y"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wri-ra-0hF" userLabel="First Responder" sceneMemberID="firstResponder"/>

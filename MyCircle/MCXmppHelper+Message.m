@@ -135,6 +135,11 @@ static const char* ObjectTagKey1 = "Messages";
 {
     [self.Messages removeObjectForKey:key];
 }
+//删除所有聊天记录
+- (void)removeAllMessages
+{
+    [self.Messages removeAllObjects];
+}
 
 //保存最后一条聊天记录到数据库
 - (void)saveLastMessageToDB:(NSString *)key content:(NSString *)content time:(NSDate *)time

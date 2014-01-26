@@ -17,6 +17,8 @@
 - (int)insert:(MCChatSession *)model;
 //根据聊天对象key删除消息
 - (int)remove:(MCChatSession *)model;
+//删除所有历史消息记录
+- (void)deleteAllSession;
 //查询所有消息
 - (NSMutableArray*)findAll;
 
