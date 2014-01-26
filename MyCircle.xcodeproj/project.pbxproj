@@ -744,14 +744,12 @@
 				22D7F624180BEE60007E5E22 /* RATreeView */,
 				22CEC3F81859514E00DC9913 /* XmppHelper */,
 				22E985BF185702E600032893 /* Message */,
+				22E5628518949F8100314E19 /* Login */,
+				22E5628418949F0B00314E19 /* Circle */,
 				22AA9AA218433A27000C3A7F /* Portal */,
 				22A7AB751887C07200DC35AA /* More */,
 				221C51AF180CCEC700ED8715 /* MCDataObject.h */,
 				221C51B0180CCEC700ED8715 /* MCDataObject.m */,
-				220874B81829CB6800CA1AA0 /* MCLoginHandler.h */,
-				220874B91829CB6800CA1AA0 /* MCLoginHandler.m */,
-				22FCB4E41814C1F700F2A0CB /* MCCircleDataHandler.h */,
-				22FCB4E51814C1F700F2A0CB /* MCCircleDataHandler.m */,
 				220874B21828796600CA1AA0 /* MCCircleOrgAndDeptCell.h */,
 				220874B31828796600CA1AA0 /* MCCircleOrgAndDeptCell.m */,
 				220874B51828DA2200CA1AA0 /* MCCircleMemberCell.h */,
@@ -1805,6 +1803,24 @@
 				22D7F638180BEE60007E5E22 /* RATreeView.m */,
 			);
 			path = RATreeView;
+			sourceTree = "<group>";
+		};
+		22E5628418949F0B00314E19 /* Circle */ = {
+			isa = PBXGroup;
+			children = (
+				22FCB4E41814C1F700F2A0CB /* MCCircleDataHandler.h */,
+				22FCB4E51814C1F700F2A0CB /* MCCircleDataHandler.m */,
+			);
+			name = Circle;
+			sourceTree = "<group>";
+		};
+		22E5628518949F8100314E19 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				220874B81829CB6800CA1AA0 /* MCLoginHandler.h */,
+				220874B91829CB6800CA1AA0 /* MCLoginHandler.m */,
+			);
+			name = Login;
 			sourceTree = "<group>";
 		};
 		22E985BD1857028F00032893 /* Message */ = {

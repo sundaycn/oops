@@ -28,11 +28,11 @@ static int totalPages;
         NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
         //判断服务器返回结果
         NSString *strRequestResult = [NSString stringWithFormat:@"%@",[dictResponse objectForKey:@"success"]];
-        DLog(@"\n 微门户列表请求结果:%@", [strRequestResult isEqualToString:@"1"] ? @"true" : @"false");
+        DLog(@"微门户列表请求结果:%@", [strRequestResult isEqualToString:@"1"] ? @"true" : @"false");
         BOOL requestResult = [strRequestResult isEqualToString:@"1"];
         if (requestResult) {
-            DLog(@"\n pageSize:%@", [[dictResponse objectForKey:@"message"] objectForKey:@"pageSize"]);
-            DLog(@"\n pageNo:%@", [[dictResponse objectForKey:@"message"] objectForKey:@"pageNo"]);
+//            DLog(@"\n pageSize:%@", [[dictResponse objectForKey:@"message"] objectForKey:@"pageSize"]);
+//            DLog(@"\n pageNo:%@", [[dictResponse objectForKey:@"message"] objectForKey:@"pageNo"]);
             NSArray *arrResult = [[dictResponse objectForKey:@"message"] objectForKey:@"result"];
             totalPages = [(NSNumber *)[[dictResponse objectForKey:@"message"] objectForKey:@"totalPages"] intValue];
             return arrResult;

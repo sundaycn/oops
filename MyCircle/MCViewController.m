@@ -14,6 +14,7 @@
 #import "MCOrgBL.h"
 #import "MCDeptBL.h"
 #import "MCBookBL.h"
+#import "MCCircleDataHandler.h"
 
 @interface MCViewController ()
 
@@ -173,7 +174,7 @@
     switch (loginResult) {
         case 0:
             //同步圈子数据
-            [self startSyncCircleByAccount:strAccount];
+            [MCCircleDataHandler updateContactsData:strAccount];
             //登陆成功，注册jpush alias
             [APService setAlias:strAccount callbackSelector:nil object:nil];
             //跳转到主页面
@@ -230,139 +231,6 @@
         self.datas = [NSMutableData new];
     }
 }
-
-//同步圈子数据
-- (void)startSyncCircleByAccount:(NSString *)strAccount
-{
-    MCOrgBL *orgBL = [[MCOrgBL alloc] init];
-    NSMutableArray *orgList = [orgBL findAll];
-    for (MCOrg *org in orgList) {
-        NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:@"http://117.21.209.104/EasyContact/Contact/contact!syncAjax.action?orgId=%@&tel=%@",org.id,strAccount]];
-        //        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-        //
-        //        //同步请求
-        //        NSError *error = nil;
-        //        NSData *response  = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
-        //        if (response == nil) {
-        //            DLog(@"同步请求发生错误\n %@", error);
-        //            //弹出警告窗
-        //            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"网络异常" message:@"请检查网络连接是否正常，并尝试重新登陆" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        //            //optional - add more buttons:
-        //            //[alert addButtonWithTitle:@"Yes"];
-        //            alert.tag = 1;
-        //            [alert show];
-        //
-        //            return;
-        //        }
-        
-        NSData *data = [NSData dataWithContentsOfURL:url];
-        //保存数据
-        NSDictionary *dictRoot = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        //        //判断本地保存的数据版本号与服务器返回是否一致，如不同则保存新的数据版本号并更新本地数据
-        //        NSString *strVersion = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"newestVersion"]];
-        //        NSUserDefaults *userDefaults = [[NSUserDefaults alloc] init];
-        //        if ([[userDefaults stringForKey:@"contactsVersion"] isEqualToString:strVersion]) {
-        //            DLog(@"contactsVersion is not changed");
-        //            [self showHUD:0];
-        //            return;
-        //        }
-        //        [userDefaults setObject:strVersion forKey:@"contactsVersion"];
-        //        //这里建议同步存储到磁盘中，但是不是必须的
-        //        [userDefaults synchronize];
-        
-        //判断是否清除该组织的所有人员和部门数据
-        NSString *strClearAll = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"clearLocaldataAll"]];
-        BOOL isClearAll = [strClearAll isEqualToString:@"1"];
-        if (isClearAll) {
-            //获取belongOrgId
-#warning 获取方式可以优化为截取字符串
-            NSString *belongOrgId = [NSString stringWithFormat:@"%@", [[[[dictRoot objectForKey:@"root"] objectForKey:@"book"] lastObject] objectForKey:@"belongOrgId"]];
-            //删除人员数据
-            MCBookBL *bookBL = [[MCBookBL alloc] init];
-            BOOL isDeletedAll = [bookBL removeByOrgId:belongOrgId];
-            if (isDeletedAll) {
-                DLog(@"%@ 的人员删除完毕", belongOrgId);
-            }
-            //删除部门数据
-            MCDeptBL *deptBL = [[MCDeptBL alloc] init];
-            isDeletedAll = [deptBL removeByOrgId:belongOrgId];
-            if (isDeletedAll) {
-                DLog(@"%@ 的部门删除完毕", belongOrgId);
-            }
-            
-        }
-        //更新人员数据
-//        static int i = 0;
-        NSArray *arrBook = [[dictRoot objectForKey:@"root"] objectForKey:@"book"];
-        for (NSDictionary *dict in arrBook) {
-            MCBook *book = [[MCBook alloc] init];
-            book.id = [NSString stringWithFormat:@"%@", [dict objectForKey:@"id"]];
-            //姓名
-            book.name = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"personName"]] WithKey:DESDECRYPTED_KEY];
-            //移动电话
-            book.mobilePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"mobilePhone"]] WithKey:DESDECRYPTED_KEY];
-#warning 其他移动电话号码接口没加密
-            //其他移动电话
-            book.deputyMobilePhone = [NSString stringWithFormat:@"%@", [dict objectForKey:@"deputyMobilePhone"]];
-            //办公电话
-            book.officePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"officePhone"]] WithKey:DESDECRYPTED_KEY];
-            //住宅电话
-            book.homePhone = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"addressPhone"]] WithKey:DESDECRYPTED_KEY];
-            //短号
-            book.mobileShort = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"mobileShort"]] WithKey:DESDECRYPTED_KEY];
-            //传真号码
-            book.faxNumber = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"faxNumber"]] WithKey:DESDECRYPTED_KEY];
-            //电子邮箱
-            book.email = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"email"]] WithKey:DESDECRYPTED_KEY];
-            //工作职位
-            book.position = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"position"]] WithKey:DESDECRYPTED_KEY];
-            book.sort = [dict objectForKey:@"sort"];
-            book.status = [NSString stringWithFormat:@"%@", [dict objectForKey:@"status"]];
-            book.syncFlag = [NSString stringWithFormat:@"%@", [dict objectForKey:@"syncFlag"]];
-            book.belongDepartmentId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongDepartmentId"]];
-            book.belongOrgId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongOrgId"]];
-//            book.searchId = [NSNumber numberWithInt:i];
-            
-            MCBookBL *bookBL = [[MCBookBL alloc] init];
-            BOOL isCreatedSuccessfully = [bookBL create:book];
-            if (!isCreatedSuccessfully) {
-#warning 提示用户数据更新不完整
-                DLog(@"插入book失败");
-            }
-            
-//            i++;
-        }
-        
-        MCBookBL *bookBL = [[MCBookBL alloc] init];
-        NSMutableArray *bookList = [bookBL findAll];
-        DLog(@"book amount:%d", bookList.count);
-        
-        //更新部门数据
-        NSArray *arrDept = [[dictRoot objectForKey:@"root"] objectForKey:@"department"];
-        for (NSDictionary *dict in arrDept) {
-            MCDept *dept = [[MCDept alloc] init];
-            dept.id = [NSString stringWithFormat:@"%@", [dict objectForKey:@"id"]];
-            dept.name = [MCCrypto DESDecrypt:[NSString stringWithFormat:@"%@", [dict objectForKey:@"name"]] WithKey:DESDECRYPTED_KEY];
-            dept.sort = [dict objectForKey:@"sort"];
-            dept.status = [NSString stringWithFormat:@"%@", [dict objectForKey:@"status"]];
-            dept.syncFlag = [NSString stringWithFormat:@"%@", [dict objectForKey:@"syncFlag"]];
-            dept.upDepartmentId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"upDepartmentId"]];
-            dept.belongOrgId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"belongOrgId"]];
-            
-            MCDeptBL *deptBL = [[MCDeptBL alloc] init];
-            BOOL isCreatedSuccessfully = [deptBL create:dept];
-            if (!isCreatedSuccessfully) {
-#warning 提示用户数据更新不完整
-                DLog(@"插入dept失败");
-            }
-        }
-        
-        MCDeptBL *deptBL = [[MCDeptBL alloc] init];
-        NSMutableArray *deptList = [deptBL findAll];
-        DLog(@"department amount:%d", deptList.count);
-        
-    }
-}
  
 #pragma mark- NSURLConnection 回调方法
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -370,7 +238,7 @@
 }
 
 
-- (void) connection:(NSURLConnection *)connection didFailWithError: (NSError *)error {
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     
     DLog(@"异步请求发生错误\n %@",[error localizedDescription]);
 }

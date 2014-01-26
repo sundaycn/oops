@@ -19,4 +19,7 @@
 
 + (NSMutableArray *)getNodesOfOrg:(NSString *)orgId upDepartmentId:(NSString *)upDeptId;
 
+//更新联系人数据
++ (void)updateContactsData:(NSString *)strAccount;
+
 @end

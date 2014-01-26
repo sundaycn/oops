@@ -97,7 +97,7 @@
     self.xmppHelper = [MCXmppHelper sharedInstance];
     NSString *strAccount = [[MCConfig sharedInstance] getAccount];
     NSString *strPassword = [[MCConfig sharedInstance] getPlainPassword];
-    NSString *isLogined = [self.xmppHelper loginByAccount:strAccount password:strPassword success:^{
+    [self.xmppHelper loginByAccount:strAccount password:strPassword success:^{
         //登陆成功
         DLog(@"login in xmpp server successfully");
         //更新最近一条消息和未读消息数
