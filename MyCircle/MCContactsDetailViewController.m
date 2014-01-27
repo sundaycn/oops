@@ -13,6 +13,7 @@
 #import "MCBookBL.h"
 #import "MCCrypto.h"
 #import "MCXmppHelper.h"
+#import "MCConfig.h"
 
 @interface MCContactsDetailViewController ()
 @property (copy, nonatomic) NSString *name;
@@ -362,7 +363,15 @@
 
 - (void)sendMessage
 {
-    [self performSegueWithIdentifier:@"sendMessage" sender:self];
+    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+    if (![self.mobilePhone isEqualToString:strAccount]) {
+        [self performSegueWithIdentifier:@"sendMessage" sender:self];
+    }
+    else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"不能给自己发送消息" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+    
 }
 
 - (void)backMessageListVC
