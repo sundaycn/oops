@@ -16,7 +16,7 @@
     NSURL *url = [NSURL URLWithString:[BASE_URL stringByAppendingString:@"TcmContactClientVersion/tcmcontactclientversion!checkInBySyncAjax.action"]];
     ASIFormDataRequest *versionRequest = [ASIFormDataRequest requestWithURL:url];
     [versionRequest addPostValue:@"002" forKey:@"clientType"];
-    [versionRequest addPostValue:[self versionBuild] forKey:@"versionCode"];
+    [versionRequest addPostValue:[self build] forKey:@"versionCode"];
     [versionRequest setTimeOutSeconds:10];
     [versionRequest startSynchronous];
     
@@ -50,7 +50,7 @@
     NSString *versionBuild = [NSString stringWithFormat: @"v%@", version];
     
     if (![version isEqualToString: build]) {
-        versionBuild = [NSString stringWithFormat: @"%@(%@)", versionBuild, build];
+        versionBuild = [NSString stringWithFormat: @"%@.%@", versionBuild, build];
     }
     
     return versionBuild;

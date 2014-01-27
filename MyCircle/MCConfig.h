@@ -27,5 +27,5 @@
 - (void)setLoginOff;
 
 //获取应用版本号
-- (NSString *)getAppVersion;
+//- (NSString *)getAppVersion;
 @end

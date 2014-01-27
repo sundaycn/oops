@@ -150,7 +150,10 @@
             HUD.customView = imageView;
             HUD.mode = MBProgressHUDModeCustomView;
             HUD.labelText = @"同步成功";
-            sleep(0.5);
+            //绑定并刷新圈子树数据
+            self.data = [MCCircleDataHandler getDataOfCircle];
+            [self.treeView reloadData];
+            [NSThread sleepForTimeInterval:0.3f];
             break;
         case 1:
             //失败
@@ -161,7 +164,7 @@
             HUD.customView = imageView;
             HUD.mode = MBProgressHUDModeCustomView;
             HUD.labelText = @"密码错误 同步失败";
-            sleep(0.5);
+            [NSThread sleepForTimeInterval:0.7f];
             break;
         case 2:
             //失败
@@ -172,7 +175,7 @@
             HUD.customView = imageView;
             HUD.mode = MBProgressHUDModeCustomView;
             HUD.labelText = @"同步失败";
-            sleep(0.5);
+            [NSThread sleepForTimeInterval:0.7f];
             break;
         default:
             break;
@@ -514,12 +517,8 @@
 #pragma mark- MBProgressHUDDelegate methods
 - (void)hudWasHidden:(MBProgressHUD *)hud {
 	// Remove HUD from screen when the HUD was hidded
-	[HUD removeFromSuperview];
+    [HUD removeFromSuperview];
 	HUD = nil;
-    
-    //绑定并刷新圈子树数据
-    self.data = [MCCircleDataHandler getDataOfCircle];
-    [self.treeView reloadData];
 }
 
 @end

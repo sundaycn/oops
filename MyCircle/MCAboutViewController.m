@@ -7,7 +7,7 @@
 //
 
 #import "MCAboutViewController.h"
-#import "MCConfig.h"
+#import "MCUtility.h"
 
 @interface MCAboutViewController ()
 
@@ -38,7 +38,7 @@
     UILabel *labelVersion = [[UILabel alloc] initWithFrame:CGRectMake(0, 165, 0, 0)];
     labelVersion.font = [UIFont systemFontOfSize:20];
     labelVersion.textColor = UIColorFromRGB(0x5a5a5a);
-    labelVersion.text = [[MCConfig sharedInstance] getAppVersion];
+    labelVersion.text = [MCUtility versionBuild];
     [labelVersion sizeToFit];
     CGRect newframe = labelVersion.frame;
     newframe.origin.x = (self.view.frame.size.width - labelVersion.frame.size.width) / 2;

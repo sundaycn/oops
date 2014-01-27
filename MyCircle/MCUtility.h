@@ -26,6 +26,8 @@
 
 + (NSString *)getFormatedTime:(NSDate *)date;
 
++ (NSString *)versionBuild;
+
 //+ (UIImage *)imageFromText:(int)count image:(UIImage *)image;
 
 @end

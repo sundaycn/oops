@@ -74,12 +74,13 @@ static MCConfig *sharedInstance = nil;
     [settings setObject:@"0" forKey:@"isLogined"];
 }
 
-//获取应用版本号
-- (NSString *)getAppVersion
-{
-    NSString *strAppVersion = [@"v" stringByAppendingString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-    
-    return strAppVersion;
-}
+////获取应用版本号
+//- (NSString *)getAppVersion
+//{
+//    NSString *strAppVersion = [@"v" stringByAppendingString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+//    NSString *strAppBuild = [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString *)kCFBundleVersionKey];
+//    
+//    return [[strAppVersion stringByAppendingString:@"."] stringByAppendingString:strAppBuild];
+//}
 
 @end
