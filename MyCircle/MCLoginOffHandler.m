@@ -19,16 +19,18 @@
 
 + (void)prepareForLoginOff
 {
-    //1.登陆状态改为未登录
+    //1.登出Xmpp服务器
+    [[MCXmppHelper sharedInstance] disconnect];
+    //2.登陆状态改为未登录
     [[MCConfig sharedInstance] setLoginOff];
-    //2.清除ContactsData
+    //3.清除ContactsData
     MCOrgBL *orgBL = [[MCOrgBL alloc] init];
     [orgBL removeAll];
     MCDeptBL *deptBL = [[MCDeptBL alloc] init];
     [deptBL removeAll];
     MCBookBL *bookBL = [[MCBookBL alloc] init];
     [bookBL removeAll];
-    //3.清除Messages,MessagesHistory
+    //4.清除Messages,MessagesHistory
     [[MCXmppHelper sharedInstance] removeAllMessages];
     [[MCChatSessionDAO sharedManager] deleteAllSession];
     [[MCChatHistoryDAO sharedManager] deleteAllHistory];

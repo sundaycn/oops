@@ -121,10 +121,10 @@
 - (void)resetMsgCount
 {
     NSInteger cnt = [[MCChatHistoryDAO sharedManager] fetchUnReadMsgCount];
-    if(cnt <= 0){
+    if(cnt <= 0) {
         UIViewController *tabBarVC = [self.viewControllers objectAtIndex:0];
         tabBarVC.tabBarItem.badgeValue = nil;
-    }else{
+    }else {
         UIViewController *tabBarVC = [self.viewControllers objectAtIndex:0];
         tabBarVC.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", cnt];
         

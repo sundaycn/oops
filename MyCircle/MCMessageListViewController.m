@@ -214,8 +214,6 @@
         [self performSegueWithIdentifier:@"showNotificationSession" sender:self];
     }
     else {
-        DLog(@"did select section:%d", indexPath.section);
-        DLog(@"did select row:%d", indexPath.row);
         [self performSegueWithIdentifier:@"showChatSession" sender:self];
     }
 }
