@@ -79,11 +79,11 @@
         self.labelName.font = [UIFont systemFontOfSize:17];
         [self.contentView addSubview:self.labelName];
         
-        self.labelTime = [[UILabel alloc] initWithFrame:CGRectMake(255, 8, 50, 12)];
+        self.labelTime = [[UILabel alloc] initWithFrame:CGRectMake(225, 15, 80, 13)];
         self.labelTime.backgroundColor = [UIColor clearColor];
         self.labelTime.textColor = UIColorFromRGB(0x8b8b8b);
         self.labelTime.textAlignment = NSTextAlignmentRight;
-        self.labelTime.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:11];
+        self.labelTime.font = [UIFont systemFontOfSize:13];
         [self.contentView addSubview:self.labelTime];
         
         self.imageViewIcon = [[UIImageView alloc] initWithFrame:CGRectMake(70, 37, 15, 15)];
@@ -91,9 +91,8 @@
         
         self.labelMessage = [[UILabel alloc] initWithFrame:CGRectMake(88, 35, 200, 20)];
         self.labelMessage.backgroundColor = [UIColor clearColor];
-        self.labelMessage.textColor = UIColorFromRGB(0x4847474);
-//        self.labelMessage.font = [UIFont fontWithName:@"STHeitiSC-Medium" size:10];
-        self.labelMessage.font = [UIFont systemFontOfSize:13];
+        self.labelMessage.textColor = UIColorFromRGB(0x484747);
+        self.labelMessage.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:self.labelMessage];        
     }
     return self;
