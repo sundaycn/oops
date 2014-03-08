@@ -183,6 +183,7 @@
         cell.imageViewIcon.image = [UIImage imageNamed:@"MessageIcon"];
         MCBook *book = [[[MCBookBL alloc] init] findbyMobilePhone:mobilePhone];
         cell.labelName.text = book.name;
+        DLog(@"msg.date:%@", msg.date);
         cell.labelTime.text = [MCUtility getmessageTime:msg.date];
         cell.labelMessage.text = msg.message;
 //        if (indexPath.row % 2 == 0) {
@@ -330,7 +331,7 @@
 //        MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
         MCMessageCell *cell = (MCMessageCell *)[self.tableView cellForRowAtIndexPath:self.indexPath];
         DLog(@"cell name:%@", cell.labelName.text);
-        self.chatSessionVC.sessionTittle = cell.labelName.text;
+        self.chatSessionVC.buddyName = cell.labelName.text;
         self.chatSessionVC.msgType = MSG_TYPE_NORMAL_CHAT;
         MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];
         xmppHelper.msgrev = self.chatSessionVC;

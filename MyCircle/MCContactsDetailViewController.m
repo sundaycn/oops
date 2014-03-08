@@ -295,6 +295,8 @@
                                                  action:@selector(backMessageListVC)];
         MCChatSessionViewController *chatSessionVC = segue.destinationViewController;
         chatSessionVC.jid = [self.mobilePhone stringByAppendingString:@"@127.0.0.1"];
+        chatSessionVC.buddyName = self.name;
+        chatSessionVC.msgType = MSG_TYPE_NORMAL_CHAT;
         MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];
         xmppHelper.msgrev = chatSessionVC;
     }

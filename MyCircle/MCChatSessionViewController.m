@@ -11,11 +11,17 @@
 #import "MCXmppHelper+Message.h"
 #import "MCChatHistoryDAO.h"
 #import "MCChatHistory.h"
+#import "MCBookBL.h"
 
 #define TEXTVIEW_INIT_HEIGHT 30
 
 @interface MCChatSessionViewController ()
-
+@property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) NSMutableArray *timestamps;
+@property (strong, nonatomic) NSMutableArray *subtitles;
+@property (strong, nonatomic) NSDictionary *avatars;
+@property (strong, nonatomic) NSMutableArray *bubbleMessageType;
+@property (strong, nonatomic) NSString *myName;
 @end
 
 @implementation MCChatSessionViewController
@@ -55,37 +61,43 @@
     //不显示底部bar
 //    self.hidesBottomBarWhenPushed = YES;
     //设置导航文字
-    self.navigationItem.title = self.sessionTittle;
-    //设置聊天文本输入视图样式
-    self.textInputBox = [[UITextView alloc] initWithFrame:CGRectMake(20, 7, 230, 30)];
-    self.textInputBox.layer.cornerRadius = 5;
-    [self.textInputBox.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.textInputBox.layer setBorderWidth:1.0];
-    self.textInputBox.clipsToBounds = YES;
-    self.textInputBox.scrollEnabled = NO;
-//    self.textInputBox.selectable = YES;
-    self.textInputBox.font = [UIFont systemFontOfSize:20];//[UIFont fontWithName:@"Helvetica" size:14];
-    self.textInputBox.delegate = self;
-    [self.toolbar addSubview:self.textInputBox];
-
+//    self.navigationItem.title = self.sessionTittle;
+    self.delegate = self;
+    self.dataSource = self;
+    [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
+    self.title = self.buddyName;
+//    self.messageInputView.textView.placeHolder = @"Your placeholder text";
+    [self setBackgroundColor:[UIColor whiteColor]];
+    
+    NSString *user = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] user];
+    MCBook *book = [[[MCBookBL alloc] init] findbyMobilePhone:user];
+    self.myName = book.name;
+    
+    self.messages = [[NSMutableArray alloc] init];
+    self.timestamps = [[NSMutableArray alloc] init];
+    self.subtitles = [[NSMutableArray alloc] init];
+    DLog(@"myName:%@",self.myName);
+    DLog(@"buddyName:%@", self.buddyName);
+    self.avatars = [[NSDictionary alloc] initWithObjectsAndKeys:
+                    [JSAvatarImageFactory avatarImageNamed:@"ContactsDefaultAvatar" croppedToCircle:YES], self.myName,
+                    [JSAvatarImageFactory avatarImageNamed:@"ContactsDefaultAvatar" croppedToCircle:YES], self.buddyName,
+                    nil];
+    self.bubbleMessageType = [[NSMutableArray alloc] init];
+    
+//    self.sender = @"Username of sender";
     
     //添加点击手势识别器
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTap:)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
     //只需要点击非文字输入区域就会响应
-    [self.bubbleTableView addGestureRecognizer:tapGestureRecognizer];
+    [self.tableView addGestureRecognizer:tapGestureRecognizer];
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     
     //导航
-    self.navigationItem.leftBarButtonItem.target = self;
-    self.navigationItem.leftBarButtonItem.action = @selector(backMessageList);
-    self.navigationItem.title = self.sessionTittle;
+//    self.navigationItem.leftBarButtonItem.target = self;
+//    self.navigationItem.leftBarButtonItem.action = @selector(backMessageList);
+//    self.navigationItem.title = self.sessionTittle;
 
-    //聊天会话视图
-    self.bubbleTableView.bubbleDataSource = self;
-    self.bubbleTableView.backgroundColor = [UIColor whiteColor];
-    self.bubbleData = [[NSMutableArray alloc] init];
-    
     //加载消息记录
     myJid = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] bare];
     timeOfFirstMessage = nil;
@@ -98,13 +110,13 @@
     [self.refreshControl addTarget:self
                             action:@selector(refreshBubbleTableView)
                   forControlEvents:UIControlEventValueChanged];
-    [self.bubbleTableView addSubview:self.refreshControl];
-    self.bubbleTableView.alwaysBounceVertical = YES;
-    [self.refreshControl beginRefreshing];
-    [self.refreshControl endRefreshing];
+    [self.tableView addSubview:self.refreshControl];
+    self.tableView.alwaysBounceVertical = YES;
+//    [self.refreshControl beginRefreshing];
+//    [self.refreshControl endRefreshing];
     
     //监听键盘
-    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    /*NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
     // Register notification when the keyboard will be show
     [defaultCenter addObserver:self
                       selector:@selector(keyboardWillShow:)
@@ -117,7 +129,7 @@
     [defaultCenter addObserver:self
                       selector:@selector(keyboardWillShow:)
                           name:UIKeyboardWillChangeFrameNotification
-                        object:nil];
+                        object:nil];*/
     /*[defaultCenter addObserver:self
                       selector:@selector(textIsChanging:)
                           name:UITextViewTextDidChangeNotification
@@ -149,17 +161,20 @@
     else {
         refreshControlVisable = YES;
     }
-    for (MCChatHistory *obj in arrRecentMessage)
-    {
-        NSBubbleData *data;
+    MCChatHistory *obj;
+
+    NSEnumerator *enumer = [arrRecentMessage reverseObjectEnumerator];
+    while (obj = [enumer nextObject]) {
+        [self.messages addObject:obj.message];
+        [self.timestamps addObject:obj.time];
         if ([obj.from isEqualToString:self.jid]) {
-            data = [NSBubbleData dataWithText:obj.message date:obj.time type:BubbleTypeSomeoneElse];
+            [self.bubbleMessageType addObject:@"incoming"];
+            [self.subtitles addObject:self.buddyName];
         }
-        else
-        {
-            data = [NSBubbleData dataWithText:obj.message date:obj.time type:BubbleTypeMine];
+        else {
+            [self.bubbleMessageType addObject:@"outgoing"];
+            [self.subtitles addObject:self.myName];
         }
-        [self.bubbleData addObject:data];
     }
     //保存已展示的第一条记录的时间，便于获取更多历史记录
     if (!timeOfFirstMessage) {
@@ -168,8 +183,9 @@
 
     [[MCChatHistoryDAO sharedManager] updateByJid:self.jid];
     [self resetUnreadBadge];
-    [self.bubbleTableView reloadData];
-    [self scrollTableToFoot:YES];
+//    [self.bubbleTableView reloadData];
+    [self.tableView reloadData];
+    [self scrollToBottomAnimated:YES];
 }
 
 - (void)resetUnreadBadge
@@ -184,18 +200,18 @@
     }
 }
 
-- (void)scrollTableToFoot:(BOOL)animated
-{
-    NSInteger s = [self.bubbleTableView numberOfSections];
-    if (s < 1) return;
-    NSInteger r = [self.bubbleTableView numberOfRowsInSection:s-1];
-    if (r < 1) return;
-    
-    NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
-    
-    [self.bubbleTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
-}
-
+//- (void)scrollTableToFoot:(BOOL)animated
+//{
+//    NSInteger s = [self.bubbleTableView numberOfSections];
+//    if (s < 1) return;
+//    NSInteger r = [self.bubbleTableView numberOfRowsInSection:s-1];
+//    if (r < 1) return;
+//    
+//    NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
+//    
+//    [self.bubbleTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+//}
+/*
 - (void)keyboardWillShow:(NSNotification*)notification
 {
     NSDictionary* info = [notification userInfo];
@@ -290,31 +306,160 @@
         }
         [textView scrollRectToVisible:CGRectMake(0,0,1,1) animated:NO];
     }
-}
+}*/
 
 - (void)refreshmsg:(MCMessage *)msg
 {
     if([msg.from isEqualToString:self.jid])
     {
-        NSBubbleData *data = [NSBubbleData dataWithText:msg.message date:msg.date type:BubbleTypeSomeoneElse];
-        [self.bubbleData addObject:data];
-        [self.bubbleTableView reloadData];
-        [self scrollTableToFoot:YES];
+        [self.messages addObject:msg.message];
+        [self.timestamps addObject:msg.date];
+        [self.bubbleMessageType addObject:@"incoming"];
+        [self.subtitles addObject:self.buddyName];
+        [self.tableView reloadData];
+        [self scrollToBottomAnimated:YES];
         [[MCChatHistoryDAO sharedManager] updateByJid:self.jid];
     }
 }
 
+#pragma mark - Table view data source
 
-#pragma mark - Bubble table view data source
-
-- (NSInteger)rowsForBubbleTable:(UIBubbleTableView *)tableView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.bubbleData count];
+    return self.messages.count;
 }
 
-- (NSBubbleData *)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row
+#pragma mark - Messages view delegate: REQUIRED
+- (void)didSendText:(NSString *)text
 {
-    return [self.bubbleData objectAtIndex:row];
+    MCMessage *message = [[MCMessage alloc] init];
+    message.from = myJid;
+    message.to = self.jid;
+    message.message = text;
+    message.date = [NSDate date];
+    [[MCXmppHelper sharedInstance] sendMessage:message];
+
+    [JSMessageSoundEffect playMessageSentSound];
+    
+    [self.bubbleMessageType addObject:@"outgoing"];
+    [self.messages addObject:text];
+    [self.timestamps addObject:message.date];
+    [self.subtitles addObject:self.myName];
+
+    [self finishSend];
+    [self scrollToBottomAnimated:YES];
+}
+
+- (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([[self.bubbleMessageType objectAtIndex:indexPath.row] isEqualToString:@"incoming"]) {
+        return JSBubbleMessageTypeIncoming;
+    }
+
+    return JSBubbleMessageTypeOutgoing;
+}
+
+- (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (type == JSBubbleMessageTypeIncoming) {
+        return [JSBubbleImageViewFactory bubbleImageViewForType:type
+                                                          color:[UIColor js_bubbleLightGrayColor]];
+    }
+    
+    return [JSBubbleImageViewFactory bubbleImageViewForType:type
+                                                      color:[UIColor js_bubbleBlueColor]];
+}
+
+- (JSMessagesViewTimestampPolicy)timestampPolicy
+{
+    return JSMessagesViewTimestampPolicyEveryThree;
+}
+
+- (JSMessagesViewAvatarPolicy)avatarPolicy
+{
+    return JSMessagesViewAvatarPolicyAll;
+}
+
+- (JSMessagesViewSubtitlePolicy)subtitlePolicy
+{
+    return JSMessagesViewSubtitlePolicyAll;
+}
+
+- (JSMessageInputViewStyle)inputViewStyle
+{
+    return JSMessageInputViewStyleFlat;
+//    return JSMessageInputViewStyleClassic;
+}
+
+#pragma mark - Messages view delegate: OPTIONAL
+
+//
+//  *** Implement to customize cell further
+//
+- (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    if([cell messageType] == JSBubbleMessageTypeOutgoing) {
+        cell.bubbleView.textView.textColor = [UIColor whiteColor];
+        
+        if([cell.bubbleView.textView respondsToSelector:@selector(linkTextAttributes)]) {
+            NSMutableDictionary *attrs = [cell.bubbleView.textView.linkTextAttributes mutableCopy];
+            [attrs setValue:[UIColor blueColor] forKey:NSForegroundColorAttributeName];
+            
+            cell.bubbleView.textView.linkTextAttributes = attrs;
+        }
+    }
+    
+    if(cell.timestampLabel) {
+        cell.timestampLabel.textColor = [UIColor lightGrayColor];
+        cell.timestampLabel.shadowOffset = CGSizeZero;
+    }
+    
+    if(cell.subtitleLabel) {
+        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
+    }
+}
+
+//  *** Required if using `JSMessagesViewTimestampPolicyCustom`
+//
+//  - (BOOL)hasTimestampForRowAtIndexPath:(NSIndexPath *)indexPath
+//
+
+//  *** Implement to use a custom send button
+//
+//  The button's frame is set automatically for you
+//
+//  - (UIButton *)sendButtonForInputView
+//
+
+//  *** Implement to prevent auto-scrolling when message is added
+//
+- (BOOL)shouldPreventScrollToBottomWhileUserScrolling
+{
+    return YES;
+}
+
+#pragma mark - Messages view data source: REQUIRED
+
+- (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.messages objectAtIndex:indexPath.row];
+}
+
+- (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.timestamps objectAtIndex:indexPath.row];
+}
+
+- (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *subtitle = [self.subtitles objectAtIndex:indexPath.row];
+    UIImage *image = [self.avatars objectForKey:subtitle];
+    return [[UIImageView alloc] initWithImage:image];
+}
+
+- (NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.subtitles objectAtIndex:indexPath.row];
 }
 
 - (void)refreshBubbleTableView
@@ -328,15 +473,16 @@
         }
         for (MCChatHistory *obj in arrEarlyMessage)
         {
-            NSBubbleData *data;
+            [self.messages insertObject:obj.message atIndex:0];
+            [self.timestamps insertObject:obj.time atIndex:0];
             if ([obj.from isEqualToString:self.jid]) {
-                data = [NSBubbleData dataWithText:obj.message date:obj.time type:BubbleTypeSomeoneElse];
+                [self.bubbleMessageType insertObject:@"incoming" atIndex:0];
+                [self.subtitles insertObject:self.buddyName atIndex:0];
             }
-            else
-            {
-                data = [NSBubbleData dataWithText:obj.message date:obj.time type:BubbleTypeMine];
+            else {
+                [self.bubbleMessageType insertObject:@"outgoing" atIndex:0];
+                [self.subtitles insertObject:self.myName atIndex:0];
             }
-            [self.bubbleData addObject:data];
         }
         //保存已展示的第一条记录的时间
         timeOfFirstMessage = [[arrEarlyMessage lastObject] time];
@@ -354,7 +500,7 @@
         self.refreshControl = nil;
         [self.refreshControl removeFromSuperview];
     }
-    [self.bubbleTableView reloadData];
+    [self.tableView reloadData];
 }
 /*
 #pragma mark - Navigation
@@ -383,9 +529,9 @@
 - (void)backgroundTap:(UITapGestureRecognizer *)sender
 {
     //关闭所有UITextField控件的键盘
-    [self.textInputBox resignFirstResponder];
+//    [self.textView resignFirstResponder];
 }
-
+/*
 - (IBAction)buttonSendMessage:(UIBarButtonItem *)sender
 {
     MCMessage *message = [[MCMessage alloc] init];
@@ -405,7 +551,7 @@
 - (IBAction)textFieldShoudReturn:(UITextField *)sender
 {
     [sender resignFirstResponder];
-}
+}*/
 
 //暂时没用到
 - (NSDate *)getLocalDate:(NSDate *)gmtDate
