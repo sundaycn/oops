@@ -79,7 +79,7 @@
 //传来的参数，若时间为今天，返回HH:MM
 //若时间在7天之内，返回星期几
 //若时间大于7天，则返回MM-dd 月-日
-+(NSString *)getmessageTime:(NSDate *)date{
++(NSString *)getMessageTime:(NSDate *)date{
     if([self minusNowDate:date] == 0){
         return [self getCurrentTimeFromString2:date];
     }

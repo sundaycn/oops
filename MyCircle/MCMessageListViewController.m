@@ -120,7 +120,7 @@
             NSData *dataMessage = [strJsonMessage dataUsingEncoding:NSUTF8StringEncoding];
             NSDictionary *dictMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingAllowFragments error:nil];
             if ([[dictMessage objectForKey:@"msgType"] isEqualToString:MSG_TYPE_COMPANY_NEWS]) {
-                cell1.labelTime.text = [MCUtility getmessageTime:msg.date];
+                cell1.labelTime.text = [MCUtility getMessageTime:msg.date];
                 cell1.labelMessage.text = [dictMessage objectForKey:@"msgTitle"];
             }
         }
@@ -150,7 +150,7 @@
             NSData *dataMessage = [strJsonMessage dataUsingEncoding:NSUTF8StringEncoding];
             NSDictionary *dictMessage = [NSJSONSerialization JSONObjectWithData:dataMessage options:NSJSONReadingAllowFragments error:nil];
             if ([[dictMessage objectForKey:@"msgType"] isEqualToString:MSG_TYPE_ORG_NEWS]) {
-                cell2.labelTime.text = [MCUtility getmessageTime:msg.date];
+                cell2.labelTime.text = [MCUtility getMessageTime:msg.date];
                 cell2.labelMessage.text = [dictMessage objectForKey:@"msgTitle"];
             }
         }
@@ -185,9 +185,9 @@
         cell.imageViewIcon.image = [UIImage imageNamed:@"MessageIcon"];
         MCBook *book = [[[MCBookBL alloc] init] findbyMobilePhone:mobilePhone];
         cell.labelName.text = book.name;
-        DLog(@"msg.date:%@", msg.date);
-        cell.labelTime.text = [MCUtility getmessageTime:msg.date];
-        DLog(@"cell.lableTime.text:%@", cell.labelTime.text);
+        DLog(@"MessageList msg.date:%@", msg.date);
+        cell.labelTime.text = [MCUtility getMessageTime:msg.date];
+        DLog(@"MessageList cell.lableTime.text:%@", cell.labelTime.text);
         cell.labelMessage.text = msg.message;
 //        if (indexPath.row % 2 == 0) {
 //            cell.backgroundColor = UIColorFromRGB(0xebebeb);
@@ -349,7 +349,7 @@
         if ([cell.labelName.text isEqualToString:@"企业动态"]) {
             self.notificationSessionVC.msgType = MSG_TYPE_COMPANY_NEWS;
         }
-        else if ([cell.labelName.text isEqualToString:@"组织公告"]) {
+        else if ([cell.labelName.text isEqualToString:@"通知公告"]) {
             self.notificationSessionVC.msgType = MSG_TYPE_ORG_NEWS;
         }
         MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];

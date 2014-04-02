@@ -19,7 +19,6 @@
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) NSDictionary *avatars;
 @property (strong, nonatomic) NSMutableArray *bubbleMessageType;
-@property (strong, nonatomic) NSString *myName;
 @end
 
 @implementation MCChatSessionViewController
@@ -35,8 +34,6 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -71,18 +68,15 @@
     NSString *user = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] user];
     MCBook *book = [[[MCBookBL alloc] init] findbyMobilePhone:user];
     self.sender = book.name;
-    self.myName = book.name;
     
     self.messages = [[NSMutableArray alloc] init];
-    DLog(@"myName:%@",self.myName);
+    DLog(@"myName:%@",self.sender);
     DLog(@"buddyName:%@", self.buddyName);
     self.avatars = [[NSDictionary alloc] initWithObjectsAndKeys:
                     [JSAvatarImageFactory avatarImageNamed:@"ContactsDefaultAvatar" croppedToCircle:YES], self.sender,
                     [JSAvatarImageFactory avatarImageNamed:@"ContactsDefaultAvatar" croppedToCircle:YES], self.buddyName,
                     nil];
     self.bubbleMessageType = [[NSMutableArray alloc] init];
-    
-//    self.sender = @"Username of sender";
     
     /*
     //添加点击手势识别器
@@ -145,14 +139,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)loadRecord
 {
-    //1.加载消息记录
-    //2.修改未读记录为已读
-    //3.重设计数器
+    //加载消息记录
     NSArray *arrRecentMessage = [[MCChatHistoryDAO sharedManager] findRecentMessageByType:MSG_TYPE_NORMAL_CHAT jid:self.jid myJid:myJid];
     if (arrRecentMessage.count < 10) {
         refreshControlVisable = NO;
@@ -171,7 +163,6 @@
         else {
             [self.messages addObject:[[JSMessage alloc] initWithText:obj.message sender:self.sender date:obj.time]];
             [self.bubbleMessageType addObject:@"outgoing"];
-//            [self.subtitles addObject:self.myName];
         }
     }
     //保存已展示的第一条记录的时间，便于获取更多历史记录
@@ -179,9 +170,10 @@
         timeOfFirstMessage = [[arrRecentMessage lastObject] time];
     }
 
+    //修改未读记录为已读
     [[MCChatHistoryDAO sharedManager] updateByJid:self.jid];
+    //重设计数器
     [self resetUnreadBadge];
-//    [self.bubbleTableView reloadData];
     [self.tableView reloadData];
     [self scrollToBottomAnimated:YES];
 }
@@ -198,17 +190,6 @@
     }
 }
 
-//- (void)scrollTableToFoot:(BOOL)animated
-//{
-//    NSInteger s = [self.bubbleTableView numberOfSections];
-//    if (s < 1) return;
-//    NSInteger r = [self.bubbleTableView numberOfRowsInSection:s-1];
-//    if (r < 1) return;
-//    
-//    NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
-//    
-//    [self.bubbleTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
-//}
 /*
 - (void)keyboardWillShow:(NSNotification*)notification
 {
@@ -415,14 +396,14 @@
 //
 - (BOOL)shouldPreventScrollToBottomWhileUserScrolling
 {
-    return YES;
+    return NO;
 }
 
 // *** Implemnt to enable/disable pan/tap todismiss keyboard
 //
 - (BOOL)allowsPanToDismissKeyboard
 {
-    return YES;
+    return NO;
 }
 
 #pragma mark - Messages view data source: REQUIRED
@@ -477,7 +458,7 @@
             }
             else {
                 [self.bubbleMessageType insertObject:@"outgoing" atIndex:0];
-                [self.messages insertObject:[[JSMessage alloc] initWithText:obj.message sender:self.myName date:obj.time] atIndex:0];
+                [self.messages insertObject:[[JSMessage alloc] initWithText:obj.message sender:self.sender date:obj.time] atIndex:0];
             }
         }
         //保存已展示的第一条记录的时间

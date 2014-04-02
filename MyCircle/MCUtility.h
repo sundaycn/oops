@@ -22,7 +22,7 @@
 
 + (int)minusNowDate:(NSDate *)date;
 
-+ (NSString *)getmessageTime:(NSDate *)date;
++ (NSString *)getMessageTime:(NSDate *)date;
 
 + (NSString *)getFormatedTime:(NSDate *)date;
 
