@@ -14,12 +14,9 @@
 #import "MCBookBL.h"
 #import <JSMessagesViewController/JSMessage.h>
 
-#define TEXTVIEW_INIT_HEIGHT 30
 
 @interface MCChatSessionViewController ()
 @property (strong, nonatomic) NSMutableArray *messages;
-@property (strong, nonatomic) NSMutableArray *timestamps;
-@property (strong, nonatomic) NSMutableArray *subtitles;
 @property (strong, nonatomic) NSDictionary *avatars;
 @property (strong, nonatomic) NSMutableArray *bubbleMessageType;
 @property (strong, nonatomic) NSString *myName;
@@ -77,8 +74,6 @@
     self.myName = book.name;
     
     self.messages = [[NSMutableArray alloc] init];
-//    self.timestamps = [[NSMutableArray alloc] init];
-//    self.subtitles = [[NSMutableArray alloc] init];
     DLog(@"myName:%@",self.myName);
     DLog(@"buddyName:%@", self.buddyName);
     self.avatars = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -89,12 +84,13 @@
     
 //    self.sender = @"Username of sender";
     
+    /*
     //添加点击手势识别器
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTap:)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
     //只需要点击非文字输入区域就会响应
     [self.tableView addGestureRecognizer:tapGestureRecognizer];
-    [tapGestureRecognizer setCancelsTouchesInView:NO];
+    [tapGestureRecognizer setCancelsTouchesInView:NO];*/
     
     //导航
 //    self.navigationItem.leftBarButtonItem.target = self;
@@ -314,10 +310,8 @@
 {
     if([msg.from isEqualToString:self.jid])
     {
-        [self.messages addObject:msg.message];
-        [self.timestamps addObject:msg.date];
         [self.bubbleMessageType addObject:@"incoming"];
-        [self.subtitles addObject:self.buddyName];
+        [self.messages addObject:[[JSMessage alloc] initWithText:msg.message sender:self.buddyName date:msg.date]];
         [self.tableView reloadData];
         [self scrollToBottomAnimated:YES];
         [[MCChatHistoryDAO sharedManager] updateByJid:self.jid];
@@ -339,15 +333,12 @@
     message.to = self.jid;
     message.message = text;
     message.date = [NSDate date];
+    DLog(@"didSendText message.date:%@", message.date);
     [[MCXmppHelper sharedInstance] sendMessage:message];
 
     [JSMessageSoundEffect playMessageSentSound];
     
     [self.bubbleMessageType addObject:@"outgoing"];
-//    [self.messages addObject:text];
-//    [self.timestamps addObject:message.date];
-//    [self.subtitles addObject:self.myName];
-    
     [self.messages addObject:[[JSMessage alloc] initWithText:text sender:self.sender date:message.date]];
 
     [self finishSend];
@@ -480,15 +471,13 @@
         }
         for (MCChatHistory *obj in arrEarlyMessage)
         {
-            [self.messages insertObject:obj.message atIndex:0];
-            [self.timestamps insertObject:obj.time atIndex:0];
             if ([obj.from isEqualToString:self.jid]) {
                 [self.bubbleMessageType insertObject:@"incoming" atIndex:0];
-                [self.subtitles insertObject:self.buddyName atIndex:0];
+                [self.messages insertObject:[[JSMessage alloc] initWithText:obj.message sender:self.buddyName date:obj.time] atIndex:0];
             }
             else {
                 [self.bubbleMessageType insertObject:@"outgoing" atIndex:0];
-                [self.subtitles insertObject:self.myName atIndex:0];
+                [self.messages insertObject:[[JSMessage alloc] initWithText:obj.message sender:self.myName date:obj.time] atIndex:0];
             }
         }
         //保存已展示的第一条记录的时间

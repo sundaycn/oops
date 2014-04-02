@@ -48,7 +48,7 @@
     self.navigationItem.title = @"消息";
     self.tableView.separatorColor = UIColorFromRGB(0xd5d5d5);
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    //SWTableViewCell Height Setting
+    //设置SWTableViewCell的单元格高度，修改为系统滑动删除按钮后可删除
     self.tableView.rowHeight = 60.0f;
 }
 
@@ -187,6 +187,7 @@
         cell.labelName.text = book.name;
         DLog(@"msg.date:%@", msg.date);
         cell.labelTime.text = [MCUtility getmessageTime:msg.date];
+        DLog(@"cell.lableTime.text:%@", cell.labelTime.text);
         cell.labelMessage.text = msg.message;
 //        if (indexPath.row % 2 == 0) {
 //            cell.backgroundColor = UIColorFromRGB(0xebebeb);
@@ -196,7 +197,7 @@
 //        }
         //添加滑动删除按钮
         NSMutableArray *rightUtilityButtons = [[NSMutableArray alloc] init];
-        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]                                                   title:@"Delete"];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]                                                   title:@"删除"];
         cell.rightUtilityButtons = rightUtilityButtons;
         cell.delegate = self;
         
@@ -207,7 +208,7 @@
 #pragma mark - TableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    return 60.0f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -224,10 +225,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 2) {
-        return 20;
+        return 20.0f;
     }
     else {
-        return 0;
+        return 0.0f;
     }
 }
 

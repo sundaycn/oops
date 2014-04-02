@@ -33,7 +33,7 @@ static const char* ObjectTagKey1 = "Messages";
     
     NSString *content = message.body;
     NSString *sendtime = [[message elementForName:@"time"] stringValue];
-    DLog(@"sendtime:%@", sendtime);
+    DLog(@"didReceiveMessage sendtime:%@", sendtime);
     NSString *from = message.from.bareJID.bare;
     if(content != nil) {
         //1.封装收到的消息
@@ -43,8 +43,8 @@ static const char* ObjectTagKey1 = "Messages";
         msg.to = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] bare];
         msg.isread = @"NO";
         if(sendtime != nil) {
-            msg.date = [MCUtility getCurrentTimeFromString:sendtime];
-            DLog(@"sendtime msg.date:%@",msg.date);
+            msg.date = [MCUtility getDateFromString:sendtime];
+            DLog(@"didReceiveMessage msg.date:%@",msg.date);
         }else {
             msg.date = [NSDate date];
         }

@@ -14,7 +14,7 @@
 
 + (NSString *)getCurrentTime;
 
-+ (NSDate *)getCurrentTimeFromString:(NSString *)datetime;
++ (NSDate *)getDateFromString:(NSString *)datetime;
 
 + (NSString *)getCurrentTimeFromString2:(NSDate *)datetime;
 

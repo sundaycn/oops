@@ -67,11 +67,11 @@
     return [dateFormatter stringFromDate:nowUTC];
 }
 
-//将字符串时间转换为Date类型。 格式:MMM dd, yyyy, h:mm:ss a
-+(NSDate *)getCurrentTimeFromString:(NSString *)datetime{
+//将字符串时间转换为Date类型。 格式:MM dd, yyyy, h:mm:ss a
++(NSDate *)getDateFromString:(NSString *)datetime{
     NSDateFormatter *inputFormatter = [[NSDateFormatter alloc] init];
     [inputFormatter setLocale:[NSLocale currentLocale]];
-    [inputFormatter setDateFormat:@"MMM dd, yyyy, h:mm:ss a"];
+    [inputFormatter setDateFormat:@"yyyy年MM月dd日 HH:mm:ss"];
     NSDate* inputDate = [inputFormatter dateFromString:datetime];
     return inputDate;
 }
@@ -80,7 +80,7 @@
 //若时间在7天之内，返回星期几
 //若时间大于7天，则返回MM-dd 月-日
 +(NSString *)getmessageTime:(NSDate *)date{
-    if([self minusNowDate:date]==0){
+    if([self minusNowDate:date] == 0){
         return [self getCurrentTimeFromString2:date];
     }
     else if([self minusNowDate:date]>0 && [self minusNowDate:date]<6 ){
