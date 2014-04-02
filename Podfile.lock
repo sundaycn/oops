@@ -17,43 +17,45 @@ PODS:
   - AFNetworking/Serialization (2.0.3)
   - AFNetworking/UIKit (2.0.3):
     - AFNetworking/NSURLConnection
-  - ASIHTTPRequest (1.8.1):
+  - ASIHTTPRequest (1.8.2):
     - ASIHTTPRequest/ASIWebPageRequest
     - ASIHTTPRequest/CloudFiles
+    - ASIHTTPRequest/Core
     - ASIHTTPRequest/S3
+  - ASIHTTPRequest/ASIWebPageRequest (1.8.2):
+    - ASIHTTPRequest/Core
+  - ASIHTTPRequest/CloudFiles (1.8.2):
+    - ASIHTTPRequest/Core
+  - ASIHTTPRequest/Core (1.8.2):
     - Reachability
-  - ASIHTTPRequest/ASIWebPageRequest (1.8.1):
-    - Reachability
-  - ASIHTTPRequest/CloudFiles (1.8.1):
-    - Reachability
-  - ASIHTTPRequest/S3 (1.8.1):
-    - Reachability
+  - ASIHTTPRequest/S3 (1.8.2):
+    - ASIHTTPRequest/Core
   - Cordova (3.2.0):
     - Cordova/Base
   - Cordova/Base (3.2.0)
-  - JSMessagesViewController (3.4.4):
+  - JSMessagesViewController (4.0.2):
     - JSQSystemSoundPlayer
   - JSQSystemSoundPlayer (1.4.0)
   - MBProgressHUD (0.8)
   - Reachability (3.1.1)
-  - SWTableViewCell (0.2.3)
+  - SWTableViewCell (0.2.6)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0.3)
   - ASIHTTPRequest (~> 1.8.1)
   - Cordova (~> 3.2.0)
-  - JSMessagesViewController (~> 3.4.4)
+  - JSMessagesViewController
   - MBProgressHUD (~> 0.8)
   - SWTableViewCell (~> 0.2.2)
 
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
-  ASIHTTPRequest: 162783e0cd71bdd3ff1ceed0cd5fa9505e0116a8
+  ASIHTTPRequest: 4bd3ed65bf8a726292c5fa79ea5c0a2e02c97241
   Cordova: 4ed878a7c7153a7b888f05e1f18c074343d0be41
-  JSMessagesViewController: 309de7324fbf48b7da924b002ef6017d5d2ce026
+  JSMessagesViewController: 901c4f7b805e0990705d92eee8069562ac85bf9b
   JSQSystemSoundPlayer: 28ccd01a92a0cebc6de6361e8499011b4cb6dab7
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   Reachability: be4883bb93f31e38266ae3365e5600a317aae735
-  SWTableViewCell: 270c3758a84547b1cad43d70b72203b3003ce27b
+  SWTableViewCell: 74edc239ccd5a8c6f68c8537d783ae7e68dca635
 
-COCOAPODS: 0.28.0
+COCOAPODS: 0.29.0

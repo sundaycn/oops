@@ -48,6 +48,8 @@
     self.navigationItem.title = @"消息";
     self.tableView.separatorColor = UIColorFromRGB(0xd5d5d5);
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    //SWTableViewCell Height Setting
+    self.tableView.rowHeight = 60.0f;
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,7 +79,7 @@
         return 1;
     }
     else if (section == 1) {
-        //通知通告
+        //通知公告
         return 1;
     }
     else {

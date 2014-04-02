@@ -12,6 +12,7 @@
 #import "MCChatHistoryDAO.h"
 #import "MCChatHistory.h"
 #import "MCBookBL.h"
+#import <JSMessagesViewController/JSMessage.h>
 
 #define TEXTVIEW_INIT_HEIGHT 30
 
@@ -64,22 +65,24 @@
 //    self.navigationItem.title = self.sessionTittle;
     self.delegate = self;
     self.dataSource = self;
+    [super viewDidLoad];
     [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
     self.title = self.buddyName;
-//    self.messageInputView.textView.placeHolder = @"Your placeholder text";
+//    self.messageInputView.textView.placeHolder = @"请输入消息";
     [self setBackgroundColor:[UIColor whiteColor]];
     
     NSString *user = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] user];
     MCBook *book = [[[MCBookBL alloc] init] findbyMobilePhone:user];
+    self.sender = book.name;
     self.myName = book.name;
     
     self.messages = [[NSMutableArray alloc] init];
-    self.timestamps = [[NSMutableArray alloc] init];
-    self.subtitles = [[NSMutableArray alloc] init];
+//    self.timestamps = [[NSMutableArray alloc] init];
+//    self.subtitles = [[NSMutableArray alloc] init];
     DLog(@"myName:%@",self.myName);
     DLog(@"buddyName:%@", self.buddyName);
     self.avatars = [[NSDictionary alloc] initWithObjectsAndKeys:
-                    [JSAvatarImageFactory avatarImageNamed:@"ContactsDefaultAvatar" croppedToCircle:YES], self.myName,
+                    [JSAvatarImageFactory avatarImageNamed:@"ContactsDefaultAvatar" croppedToCircle:YES], self.sender,
                     [JSAvatarImageFactory avatarImageNamed:@"ContactsDefaultAvatar" croppedToCircle:YES], self.buddyName,
                     nil];
     self.bubbleMessageType = [[NSMutableArray alloc] init];
@@ -165,15 +168,14 @@
 
     NSEnumerator *enumer = [arrRecentMessage reverseObjectEnumerator];
     while (obj = [enumer nextObject]) {
-        [self.messages addObject:obj.message];
-        [self.timestamps addObject:obj.time];
         if ([obj.from isEqualToString:self.jid]) {
+            [self.messages addObject:[[JSMessage alloc] initWithText:obj.message sender:self.buddyName date:obj.time]];
             [self.bubbleMessageType addObject:@"incoming"];
-            [self.subtitles addObject:self.buddyName];
         }
         else {
+            [self.messages addObject:[[JSMessage alloc] initWithText:obj.message sender:self.sender date:obj.time]];
             [self.bubbleMessageType addObject:@"outgoing"];
-            [self.subtitles addObject:self.myName];
+//            [self.subtitles addObject:self.myName];
         }
     }
     //保存已展示的第一条记录的时间，便于获取更多历史记录
@@ -330,7 +332,7 @@
 }
 
 #pragma mark - Messages view delegate: REQUIRED
-- (void)didSendText:(NSString *)text
+- (void)didSendText:(NSString *)text fromSender:(NSString *)sender onDate:(NSDate *)date
 {
     MCMessage *message = [[MCMessage alloc] init];
     message.from = myJid;
@@ -342,9 +344,11 @@
     [JSMessageSoundEffect playMessageSentSound];
     
     [self.bubbleMessageType addObject:@"outgoing"];
-    [self.messages addObject:text];
-    [self.timestamps addObject:message.date];
-    [self.subtitles addObject:self.myName];
+//    [self.messages addObject:text];
+//    [self.timestamps addObject:message.date];
+//    [self.subtitles addObject:self.myName];
+    
+    [self.messages addObject:[[JSMessage alloc] initWithText:text sender:self.sender date:message.date]];
 
     [self finishSend];
     [self scrollToBottomAnimated:YES];
@@ -370,25 +374,9 @@
                                                       color:[UIColor js_bubbleBlueColor]];
 }
 
-- (JSMessagesViewTimestampPolicy)timestampPolicy
-{
-    return JSMessagesViewTimestampPolicyEveryThree;
-}
-
-- (JSMessagesViewAvatarPolicy)avatarPolicy
-{
-    return JSMessagesViewAvatarPolicyAll;
-}
-
-- (JSMessagesViewSubtitlePolicy)subtitlePolicy
-{
-    return JSMessagesViewSubtitlePolicyAll;
-}
-
 - (JSMessageInputViewStyle)inputViewStyle
 {
     return JSMessageInputViewStyleFlat;
-//    return JSMessageInputViewStyleClassic;
 }
 
 #pragma mark - Messages view delegate: OPTIONAL
@@ -417,12 +405,13 @@
     if(cell.subtitleLabel) {
         cell.subtitleLabel.textColor = [UIColor lightGrayColor];
     }
+    
+#if TARGET_IPHONE_SIMULATOR
+    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
+#else
+    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeAll;
+#endif
 }
-
-//  *** Required if using `JSMessagesViewTimestampPolicyCustom`
-//
-//  - (BOOL)hasTimestampForRowAtIndexPath:(NSIndexPath *)indexPath
-//
 
 //  *** Implement to use a custom send button
 //
@@ -438,29 +427,47 @@
     return YES;
 }
 
-#pragma mark - Messages view data source: REQUIRED
+// *** Implemnt to enable/disable pan/tap todismiss keyboard
+//
+- (BOOL)allowsPanToDismissKeyboard
+{
+    return YES;
+}
 
-- (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - Messages view data source: REQUIRED
+- (JSMessage *)messageForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [self.messages objectAtIndex:indexPath.row];
 }
 
-- (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [self.timestamps objectAtIndex:indexPath.row];
-}
+//- (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return [self.messages objectAtIndex:indexPath.row];
+//}
+//
+//- (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return [self.timestamps objectAtIndex:indexPath.row];
+//}
 
-- (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath
+//- (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    NSString *subtitle = [self.subtitles objectAtIndex:indexPath.row];
+//    UIImage *image = [self.avatars objectForKey:subtitle];
+//    return [[UIImageView alloc] initWithImage:image];
+//}
+
+- (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath sender:(NSString *)sender
 {
-    NSString *subtitle = [self.subtitles objectAtIndex:indexPath.row];
-    UIImage *image = [self.avatars objectForKey:subtitle];
+    
+    UIImage *image = [self.avatars objectForKey:sender];
     return [[UIImageView alloc] initWithImage:image];
 }
 
-- (NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [self.subtitles objectAtIndex:indexPath.row];
-}
+//- (NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return [self.subtitles objectAtIndex:indexPath.row];
+//}
 
 - (void)refreshBubbleTableView
 {
