@@ -14,6 +14,10 @@
 
 //保存账号密码
 -(void)saveAccount:(NSString *)account password:(NSString *)password;
+//保存用户姓名
+-(void)saveUserName:(NSString *)userName;
+//获取用户姓名
+-(NSString *)getUserName;
 //获取账号
 -(NSString *)getAccount;
 //获取明文密码

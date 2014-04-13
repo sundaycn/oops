@@ -113,7 +113,7 @@
     keyboardVisible = YES;
 }
 
-- (void) keyboardWillHide: (NSNotification *)notification {
+- (void)keyboardWillHide: (NSNotification *)notification {
     NSDictionary *info = [notification userInfo];
     NSTimeInterval animationDuration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
 

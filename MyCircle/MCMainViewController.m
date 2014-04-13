@@ -15,12 +15,14 @@
 #import "MCChatSessionDAO.h"
 #import "MCChatSession.h"
 #import "MCChatHistoryDAO.h"
+#import "MCMyInfoHandler.h"
 //#import "MCBookBL.h"
     
 @interface MCMainViewController ()
 
 @property (nonatomic, strong) MCXmppHelper *xmppHelper;
 @property (nonatomic, strong) Reachability *reachability;
+@property (nonatomic, copy) NSString *strAccount;
 
 @end
 
@@ -51,6 +53,11 @@
     if (self.isFirstLogined) {
         [self loginInXmppServer];
     }
+    
+    //获取并保存用户信息
+    self.strAccount = [[MCConfig sharedInstance] getAccount];
+    NSString *cipherPwd = [[MCConfig sharedInstance] getCipherPassword];
+    [MCMyInfoHandler isGetMyInfoSuccessfully:self.strAccount password:cipherPwd];
     
     //监听应用程序从后台切换到前台的动作
     [defaultCenter addObserver:self
@@ -95,9 +102,9 @@
 {
     //登陆Xmpp服务器
     self.xmppHelper = [MCXmppHelper sharedInstance];
-    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+    
     NSString *strPassword = [[MCConfig sharedInstance] getPlainPassword];
-    [self.xmppHelper loginByAccount:strAccount password:strPassword success:^{
+    [self.xmppHelper loginByAccount:self.strAccount password:strPassword success:^{
         //登陆成功
         DLog(@"login in xmpp server successfully");
         //更新最近一条消息和未读消息数

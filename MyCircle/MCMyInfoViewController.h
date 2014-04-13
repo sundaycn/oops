@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MCMyInfoViewController : UITableViewController
+@interface MCMyInfoViewController : UITableViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @end

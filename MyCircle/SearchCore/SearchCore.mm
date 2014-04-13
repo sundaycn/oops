@@ -368,7 +368,8 @@ void Tree_AddData(SearchTree* tree, int aID, const u2char* aText,const u2char* a
     data->WordCodeArray = NULL;
 	
 	Text2SearchData( aText, data );
-	tree->SearchDataArray.Insert(&tree->SearchDataArray,(int)data,pos);
+//	tree->SearchDataArray.Insert(&tree->SearchDataArray,(int)data,pos);
+    tree->SearchDataArray.Insert(&tree->SearchDataArray,(int)data,pos);
 
 	//首字母预处理
 	AddToCachedHit(tree,data);
@@ -518,7 +519,8 @@ void LoadMultiPYinWords(const char* multiPYinPath)
 					cur = NULL;
 					}
 				else
-					iMultiPyCodeSorted.Insert(&iMultiPyCodeSorted,(int)cur,-index-1);
+//					iMultiPyCodeSorted.Insert(&iMultiPyCodeSorted,(int)cur,-index-1);
+                    iMultiPyCodeSorted.Insert(&iMultiPyCodeSorted,(int)cur,-index-1);
 				}
 			else if( isDigital10 && cur )				
 				{									
@@ -713,8 +715,8 @@ int FindIndexInMultiPYin(unsigned int key)
 		{
 		int mid = (low + high) >> 1;
 		midVal = (WordCode *)iMultiPyCodeSorted.GetValue(&iMultiPyCodeSorted,mid);
-		
-		if( midVal->Word < key )
+
+        if( midVal->Word < key )
 			low = mid + 1;
 		else if(  midVal->Word > key )
 			high = mid - 1;
@@ -782,7 +784,8 @@ void AddToCachedHitSingle(SearchTree* tree,SearchData *aData, Array* aCacheArray
 		{
 		// 不存在
 			//NSLog(@"pos %d",pos);
-		aCacheArray->Insert(aCacheArray,(int)aData, pos);
+//            aCacheArray->Insert(aCacheArray,(int)aData, pos);
+            aCacheArray->Insert(aCacheArray,(int)aData, pos);
 		}
 	return;
 }
@@ -863,6 +866,7 @@ void Tree_Search(SearchTree* tree, u2char* aText, Array* aSearchedArray,Array* a
             node->matchAllInWord = value & 1;
             node->iSortString = NULL;
 
+//            aNameMatchHits.Append(&aNameMatchHits, (int)dataToSearch);
             aNameMatchHits.Append(&aNameMatchHits, (int)dataToSearch);
             //NSLog(@"%d %d %d %d %d %d",aID,node->matchStart,node->matchEnd,node->pos,node->matchAllInPy,node->matchAllInWord);
         }
@@ -1197,10 +1201,11 @@ int IsHit(SearchTree* tree,SearchData* aData, SearchData* aSearchWordData,BOOL i
 			{
 			if( iIsLogTrace )
 				{
-				nextPos = (SearchPos*)malloc(SIZEOF_SearchPos);
-				nextPos->pos = pos->pos;
+                    nextPos = (SearchPos*)malloc(SIZEOF_SearchPos);
+                    nextPos->pos = pos->pos;
 
-				iMatchTrace->Append(iMatchTrace,(int)nextPos);
+//                    iMatchTrace->Append(iMatchTrace,(int)nextPos);
+                    iMatchTrace->Append(iMatchTrace,(int)nextPos);
 				}
 			
 			temp1 = pos->pos;
@@ -1456,8 +1461,9 @@ SearchPos* GetSearchPos(int index)
     SearchPos *ptr = NULL;
     if (index > searchPosMallocSize || searchPosMallocSize == 0) {
         searchPosMalloc = (SearchPos*)malloc(SIZEOF_SearchPos*KSearchPosMalloc);
+//        searchPosMallocArray.Append(&searchPosMallocArray,(int)searchPosMalloc);
         searchPosMallocArray.Append(&searchPosMallocArray,(int)searchPosMalloc);
-        searchPosMallocSize += KSearchPosMalloc;       
+        searchPosMallocSize += KSearchPosMalloc;
     }
     
     ptr = (SearchPos*)searchPosMallocArray.GetValue(&searchPosMallocArray,index/KSearchPosMalloc);

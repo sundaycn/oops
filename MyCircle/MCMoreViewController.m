@@ -10,11 +10,15 @@
 #import "MCSettingModel.h"
 #import "MCUtility.h"
 #import "MCLoginOffHandler.h"
+#import "MCMoreAccountCell.h"
+#import "MCConfig.h"
+#import "MCMyInfoDAO.h"
 
 @interface MCMoreViewController ()
-@property(strong, nonatomic) NSMutableDictionary *dictSettingsInSection;
-@property(strong, nonatomic) NSArray *arrSettings;
-@property(strong, nonatomic) NSString *strNewVersionUrl;
+@property (strong, nonatomic) NSMutableDictionary *dictSettingsInSection;
+@property (strong, nonatomic) NSArray *arrSettings;
+@property (strong, nonatomic) NSString *strNewVersionUrl;
+@property (strong, nonatomic) MCMyInfo *myInfo;
 @end
 
 @implementation MCMoreViewController
@@ -42,18 +46,23 @@
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.tableView.scrollEnabled = NO;
     
+    //获取用户姓名
+    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+    self.myInfo = [[MCMyInfoDAO sharedManager] findByAccount:strAccount];
+    
     //配置数据源
     self.dictSettingsInSection = [[NSMutableDictionary alloc] initWithCapacity:3];
     NSArray *first = [[NSArray alloc] initWithObjects:
-                      [[MCSettingModel alloc] initWithTitle: @"个人资料" image:@"AccountIcon" tag:1 title2:nil],
+                      [[MCSettingModel alloc] initWithTitle:self.myInfo.userName image:@"ContactsDefaultAvatar" tag:1 title2:@"微管理账号："],
                       nil];
     NSArray *second = [[NSArray alloc] initWithObjects:
-                       [[MCSettingModel alloc] initWithTitle:@"应用中心" image:@"AppCenterIcon" tag:2 title2:nil],
-                       [[MCSettingModel alloc] initWithTitle:@"检查更新" image:@"CheckAndUpdateIcon" tag:3 title2:nil],
-                       [[MCSettingModel alloc] initWithTitle:@"关于我圈圈" image:@"AboutIcon" tag:4 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"微管理" image:@"AppCenterIcon" tag:3 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"搜周边" image:@"CheckAndUpdateIcon" tag:4 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"检查更新" image:@"CheckAndUpdateIcon" tag:5 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"关于我圈圈" image:@"AboutIcon" tag:6 title2:nil],
                        nil];
     NSArray *third = [[NSArray alloc] initWithObjects:
-                      [[MCSettingModel alloc] initWithTitle:nil image:@"" tag:5 title2:nil],
+                      [[MCSettingModel alloc] initWithTitle:nil image:@"" tag:7 title2:nil],
                       nil];
     [self.dictSettingsInSection setObject:first forKey:@"firstSection"];
     [self.dictSettingsInSection setObject:second forKey:@"secondSection"];
@@ -68,7 +77,6 @@
 }
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -85,33 +93,51 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"MoreCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    
     // Configure the cell...
     NSString *sectionKey = [self.arrSettings objectAtIndex:indexPath.section];
     NSArray *arrData = [self.dictSettingsInSection objectForKey:sectionKey];
     MCSettingModel *model = [arrData objectAtIndex:indexPath.row];
-    if (model.tag == 5) {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.contentView.backgroundColor = UIColorFromRGB(0xd5d5d5);
-        UIButton *buttonLogOff = [[UIButton alloc] initWithFrame:CGRectMake(15, 2, 290, 40)];
-        [buttonLogOff setBackgroundImage:[UIImage imageNamed:@"LogOffButtonNormalImage"] forState:UIControlStateNormal];
-        [buttonLogOff setBackgroundImage:[UIImage imageNamed:@"LogOffButtonSelectedImage"] forState:UIControlStateHighlighted];
-        [buttonLogOff addTarget:self action:@selector(loginOff) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:buttonLogOff];
+    if (model.tag == 1) {
+        static NSString *CellIdentifier = @"MoreAccountCell";
+        MCMoreAccountCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (!cell) {
+            cell = [[MCMoreAccountCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        
+        cell.labelName.text = model.title;
+        cell.labelDetail.text = model.title2;
+        cell.imageViewAvatar.image = [UIImage imageWithData:self.myInfo.avatarImage];
+        
+        return cell;
     }
     else {
-        cell.imageView.image = [UIImage imageNamed:model.image];
-        cell.textLabel.text = model.title;
+        static NSString *CellIdentifier = @"MoreCell";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        
+        if (model.tag == 7) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.contentView.backgroundColor = UIColorFromRGB(0xd5d5d5);
+            UIButton *buttonLogOff = [[UIButton alloc] initWithFrame:CGRectMake(15, 2, 290, 40)];
+            [buttonLogOff setBackgroundImage:[UIImage imageNamed:@"LogOffButtonNormalImage"] forState:UIControlStateNormal];
+            [buttonLogOff setBackgroundImage:[UIImage imageNamed:@"LogOffButtonSelectedImage"] forState:UIControlStateHighlighted];
+            [buttonLogOff addTarget:self action:@selector(loginOff) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:buttonLogOff];
+        }
+        else {
+            cell.imageView.image = [UIImage imageNamed:model.image];
+            cell.textLabel.text = model.title;
+        }
+        
+        return cell;
     }
-    cell.tag = model.tag;
     
-    return cell;
+//    cell.tag = model.tag;
+    
 //    if (indexPath.section == 0) {
 //        if (indexPath.row == 0) {
 //            //
@@ -146,6 +172,17 @@
     return 15;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            return 60;
+        }
+    }
+    
+    return 44;
+}
+
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 //{
 //    UIView *view = [[UIView alloc] init];
@@ -163,10 +200,10 @@
         case 1:
             [self performSegueWithIdentifier:@"showMyInfo" sender:self];
             break;
-        case 3:
+        case 5:
             [self checkAndUpdateVersion];
             break;
-        case 4:
+        case 6:
             [self performSegueWithIdentifier:@"showAbout" sender:self];
             break;
         default:

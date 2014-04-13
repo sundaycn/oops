@@ -50,6 +50,11 @@
 		2258D100187CE6F40047EB72 /* MCNotificationSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2258D0FF187CE6F40047EB72 /* MCNotificationSessionViewController.m */; };
 		225B1817188BB57900832573 /* MCSettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 225B1816188BB57900832573 /* MCSettingModel.m */; };
 		225B181A188BC59B00832573 /* MCMyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 225B1819188BC59B00832573 /* MCMyInfoViewController.m */; };
+		225D76DA18F408660024F7F3 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225D76D918F408660024F7F3 /* MobileCoreServices.framework */; };
+		229A6CAF18EE528D00F5C643 /* MCMyInfoHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A6CAE18EE528D00F5C643 /* MCMyInfoHandler.m */; };
+		229A6CB318EE993100F5C643 /* MCMyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A6CB218EE993100F5C643 /* MCMyInfo.m */; };
+		229A6CB618EE99A100F5C643 /* MCMyInfoManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A6CB518EE99A100F5C643 /* MCMyInfoManagedObject.m */; };
+		229A6CB918EE99CD00F5C643 /* MCMyInfoDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A6CB818EE99CD00F5C643 /* MCMyInfoDAO.m */; };
 		229DF0D618710ABE00739C3A /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D518710ABE00739C3A /* libPushSDK.a */; };
 		229DF0D818710AF400739C3A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D718710AF400739C3A /* CoreTelephony.framework */; };
 		229DF0DA18710B2000739C3A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 229DF0D918710B2000739C3A /* CoreFoundation.framework */; };
@@ -60,6 +65,7 @@
 		22A7AB781887C09000DC35AA /* MCMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A7AB771887C09000DC35AA /* MCMoreCell.m */; };
 		22AA9AA618433AF2000C3A7F /* MCPortalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AA9AA518433AF2000C3A7F /* MCPortalViewController.m */; };
 		22AA9AA918433DA3000C3A7F /* MCPortalDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AA9AA818433DA3000C3A7F /* MCPortalDataHandler.m */; };
+		22AD58E518ED63840045BD5E /* MCMoreAccountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AD58E418ED63840045BD5E /* MCMoreAccountCell.m */; };
 		22B669D317FAAA240015A269 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D217FAAA240015A269 /* Foundation.framework */; };
 		22B669D517FAAA240015A269 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D417FAAA240015A269 /* CoreGraphics.framework */; };
 		22B669D717FAAA240015A269 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D617FAAA240015A269 /* UIKit.framework */; };
@@ -74,6 +80,7 @@
 		22B669FC17FAAA240015A269 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 22B669FA17FAAA240015A269 /* InfoPlist.strings */; };
 		22B669FE17FAAA240015A269 /* MyCircleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B669FD17FAAA240015A269 /* MyCircleTests.m */; };
 		22BEAFF718683386000C35E2 /* MCMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22BEAFF618683386000C35E2 /* MCMainViewController.m */; };
+		22C6441E18F390A200E91718 /* MCMyInfoNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C6441D18F390A200E91718 /* MCMyInfoNameViewController.m */; };
 		22CEC2281859467400DC9913 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 22CEC2191859467400DC9913 /* DDAbstractDatabaseLogger.m */; };
 		22CEC2291859467400DC9913 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 22CEC21B1859467400DC9913 /* DDASLLogger.m */; };
 		22CEC22A1859467400DC9913 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 22CEC21D1859467400DC9913 /* DDFileLogger.m */; };
@@ -224,6 +231,7 @@
 		22F86DC718112F48000CCB50 /* MCDeptBL.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DC618112F48000CCB50 /* MCDeptBL.m */; };
 		22F86DCA18112F53000CCB50 /* MCOrgBL.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DC918112F53000CCB50 /* MCOrgBL.m */; };
 		22FCB4E61814C1F700F2A0CB /* MCCircleDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FCB4E51814C1F700F2A0CB /* MCCircleDataHandler.m */; };
+		22FE3ECF18F5303D00C527BD /* MCMyInfoAvatarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FE3ECE18F5303D00C527BD /* MCMyInfoAvatarCell.m */; };
 		22FF53DA1883732A002F9447 /* MCNotifationContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FF53D91883732A002F9447 /* MCNotifationContentViewController.m */; };
 		DB16393397DB4D17A69D07D6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4320CC666B854B42AEA2DCEF /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -322,6 +330,15 @@
 		225B1816188BB57900832573 /* MCSettingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSettingModel.m; sourceTree = "<group>"; };
 		225B1818188BC59B00832573 /* MCMyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoViewController.h; sourceTree = "<group>"; };
 		225B1819188BC59B00832573 /* MCMyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoViewController.m; sourceTree = "<group>"; };
+		225D76D918F408660024F7F3 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		229A6CAD18EE528D00F5C643 /* MCMyInfoHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoHandler.h; sourceTree = "<group>"; };
+		229A6CAE18EE528D00F5C643 /* MCMyInfoHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoHandler.m; sourceTree = "<group>"; };
+		229A6CB118EE993100F5C643 /* MCMyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfo.h; sourceTree = "<group>"; };
+		229A6CB218EE993100F5C643 /* MCMyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfo.m; sourceTree = "<group>"; };
+		229A6CB418EE99A100F5C643 /* MCMyInfoManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoManagedObject.h; sourceTree = "<group>"; };
+		229A6CB518EE99A100F5C643 /* MCMyInfoManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoManagedObject.m; sourceTree = "<group>"; };
+		229A6CB718EE99CD00F5C643 /* MCMyInfoDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoDAO.h; sourceTree = "<group>"; };
+		229A6CB818EE99CD00F5C643 /* MCMyInfoDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoDAO.m; sourceTree = "<group>"; };
 		229DF0D418710ABE00739C3A /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
 		229DF0D518710ABE00739C3A /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
 		229DF0D718710AF400739C3A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -337,6 +354,8 @@
 		22AA9AA518433AF2000C3A7F /* MCPortalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPortalViewController.m; sourceTree = "<group>"; };
 		22AA9AA718433DA3000C3A7F /* MCPortalDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPortalDataHandler.h; sourceTree = "<group>"; };
 		22AA9AA818433DA3000C3A7F /* MCPortalDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPortalDataHandler.m; sourceTree = "<group>"; };
+		22AD58E318ED63840045BD5E /* MCMoreAccountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMoreAccountCell.h; sourceTree = "<group>"; };
+		22AD58E418ED63840045BD5E /* MCMoreAccountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMoreAccountCell.m; sourceTree = "<group>"; };
 		22B669CF17FAAA240015A269 /* MyCircle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCircle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22B669D217FAAA240015A269 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		22B669D417FAAA240015A269 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -356,6 +375,8 @@
 		22B669FD17FAAA240015A269 /* MyCircleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyCircleTests.m; sourceTree = "<group>"; };
 		22BEAFF518683386000C35E2 /* MCMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMainViewController.h; sourceTree = "<group>"; };
 		22BEAFF618683386000C35E2 /* MCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMainViewController.m; sourceTree = "<group>"; };
+		22C6441C18F390A200E91718 /* MCMyInfoNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoNameViewController.h; sourceTree = "<group>"; };
+		22C6441D18F390A200E91718 /* MCMyInfoNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoNameViewController.m; sourceTree = "<group>"; };
 		22CEC2181859467400DC9913 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
 		22CEC2191859467400DC9913 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
 		22CEC21A1859467400DC9913 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
@@ -667,6 +688,8 @@
 		22F86DC918112F53000CCB50 /* MCOrgBL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCOrgBL.m; sourceTree = "<group>"; };
 		22FCB4E41814C1F700F2A0CB /* MCCircleDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCircleDataHandler.h; sourceTree = "<group>"; };
 		22FCB4E51814C1F700F2A0CB /* MCCircleDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCircleDataHandler.m; sourceTree = "<group>"; };
+		22FE3ECD18F5303D00C527BD /* MCMyInfoAvatarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoAvatarCell.h; sourceTree = "<group>"; };
+		22FE3ECE18F5303D00C527BD /* MCMyInfoAvatarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoAvatarCell.m; sourceTree = "<group>"; };
 		22FF53D81883732A002F9447 /* MCNotifationContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNotifationContentViewController.h; sourceTree = "<group>"; };
 		22FF53D91883732A002F9447 /* MCNotifationContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCNotifationContentViewController.m; sourceTree = "<group>"; };
 		2EC788B6F9144C69B40E4A16 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -678,6 +701,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				225D76DA18F408660024F7F3 /* MobileCoreServices.framework in Frameworks */,
 				229DF0DB18710B3300739C3A /* SystemConfiguration.framework in Frameworks */,
 				229DF0DA18710B2000739C3A /* CoreFoundation.framework in Frameworks */,
 				229DF0D818710AF400739C3A /* CoreTelephony.framework in Frameworks */,
@@ -807,6 +831,7 @@
 			children = (
 				2203A587180E7BA000742830 /* MCCoreDataDAO.h */,
 				2203A588180E7BA000742830 /* MCCoreDataDAO.m */,
+				229A6CB018EE98F900F5C643 /* MyInfo */,
 				2255FD171859B15300A01BA1 /* Message */,
 				2255FD0A1859AC4100A01BA1 /* ChatHistory */,
 				2255FD081859AC2700A01BA1 /* ChatSession */,
@@ -892,6 +917,19 @@
 			name = DBHelper;
 			sourceTree = "<group>";
 		};
+		229A6CB018EE98F900F5C643 /* MyInfo */ = {
+			isa = PBXGroup;
+			children = (
+				229A6CB118EE993100F5C643 /* MCMyInfo.h */,
+				229A6CB218EE993100F5C643 /* MCMyInfo.m */,
+				229A6CB418EE99A100F5C643 /* MCMyInfoManagedObject.h */,
+				229A6CB518EE99A100F5C643 /* MCMyInfoManagedObject.m */,
+				229A6CB718EE99CD00F5C643 /* MCMyInfoDAO.h */,
+				229A6CB818EE99CD00F5C643 /* MCMyInfoDAO.m */,
+			);
+			name = MyInfo;
+			sourceTree = "<group>";
+		};
 		229DF0D318710A9800739C3A /* JPush */ = {
 			isa = PBXGroup;
 			children = (
@@ -906,10 +944,16 @@
 			children = (
 				22A7AB761887C09000DC35AA /* MCMoreCell.h */,
 				22A7AB771887C09000DC35AA /* MCMoreCell.m */,
+				22AD58E318ED63840045BD5E /* MCMoreAccountCell.h */,
+				22AD58E418ED63840045BD5E /* MCMoreAccountCell.m */,
 				225B1815188BB57900832573 /* MCSettingModel.h */,
 				225B1816188BB57900832573 /* MCSettingModel.m */,
 				22E562891894EE6F00314E19 /* MCLoginOffHandler.h */,
 				22E5628A1894EE6F00314E19 /* MCLoginOffHandler.m */,
+				229A6CAD18EE528D00F5C643 /* MCMyInfoHandler.h */,
+				229A6CAE18EE528D00F5C643 /* MCMyInfoHandler.m */,
+				22FE3ECD18F5303D00C527BD /* MCMyInfoAvatarCell.h */,
+				22FE3ECE18F5303D00C527BD /* MCMyInfoAvatarCell.m */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -961,6 +1005,7 @@
 		22B669D117FAAA240015A269 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				225D76D918F408660024F7F3 /* MobileCoreServices.framework */,
 				229DF0D918710B2000739C3A /* CoreFoundation.framework */,
 				229DF0D718710AF400739C3A /* CoreTelephony.framework */,
 				221C1465186D122C0017C307 /* AudioToolbox.framework */,
@@ -1887,6 +1932,8 @@
 				22A7AB721887BFA100DC35AA /* MCMoreViewController.m */,
 				225B1818188BC59B00832573 /* MCMyInfoViewController.h */,
 				225B1819188BC59B00832573 /* MCMyInfoViewController.m */,
+				22C6441C18F390A200E91718 /* MCMyInfoNameViewController.h */,
+				22C6441D18F390A200E91718 /* MCMyInfoNameViewController.m */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -1938,7 +1985,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MC;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				TargetAttributes = {
 					22B669CE17FAAA240015A269 = {
 						SystemCapabilities = {
@@ -2049,10 +2096,12 @@
 				22CEC3AB18594B3D00DC9913 /* XMPPIQ+JabberRPCResonse.m in Sources */,
 				22CEC3E918594B3E00DC9913 /* XMPPAutoTime.m in Sources */,
 				22A1E4C71813B10400A1FA06 /* MCContactsDetailViewController.m in Sources */,
+				229A6CAF18EE528D00F5C643 /* MCMyInfoHandler.m in Sources */,
 				22CEC2B218594AD700DC9913 /* XMPPParser.m in Sources */,
 				22CEC2AE18594AD700DC9913 /* XMPPIQ.m in Sources */,
 				221C51B5180CCFFE00ED8715 /* MCCircleViewController.m in Sources */,
 				22CEC2291859467400DC9913 /* DDASLLogger.m in Sources */,
+				22AD58E518ED63840045BD5E /* MCMoreAccountCell.m in Sources */,
 				22CEC3EA18594B3E00DC9913 /* XMPPTime.m in Sources */,
 				22CEC2B518594AD700DC9913 /* DDList.m in Sources */,
 				22CEC3E418594B3E00DC9913 /* XMPPPresence+XEP_0172.m in Sources */,
@@ -2072,6 +2121,7 @@
 				22CEC2B818594AD700DC9913 /* XMPPIDTracker.m in Sources */,
 				22CEC3BE18594B3D00DC9913 /* XMPPvCard.xcdatamodeld in Sources */,
 				22CEC3C118594B3D00DC9913 /* XMPPvCardCoreDataStorageObject.m in Sources */,
+				229A6CB918EE99CD00F5C643 /* MCMyInfoDAO.m in Sources */,
 				22CEC2AB18594AD700DC9913 /* NSNumber+XMPP.m in Sources */,
 				2254A082184D89EC00DC103F /* MCPortalCell.m in Sources */,
 				22F86DC118112114000CCB50 /* MCDept.m in Sources */,
@@ -2135,6 +2185,7 @@
 				22CEC2B918594AD700DC9913 /* XMPPSRVResolver.m in Sources */,
 				22CEC3B418594B3D00DC9913 /* XMPPRoomHybrid.xcdatamodeld in Sources */,
 				22CEC3AC18594B3D00DC9913 /* XMPPJabberRPCModule.m in Sources */,
+				22C6441E18F390A200E91718 /* MCMyInfoNameViewController.m in Sources */,
 				22F86DBE18111FE4000CCB50 /* MCOrgDAO.m in Sources */,
 				22CEC3D218594B3D00DC9913 /* NSDate+XMPPDateTimeProfiles.m in Sources */,
 				22CEC25D18594A5400DC9913 /* DDXMLElement.m in Sources */,
@@ -2155,7 +2206,9 @@
 				22CEC3A618594B3D00DC9913 /* XMPPRosterMemoryStorage.m in Sources */,
 				22CEC3EC18594B3E00DC9913 /* XEP_0223.m in Sources */,
 				22D7F641180BEE60007E5E22 /* RATreeView+UIScrollView.m in Sources */,
+				229A6CB618EE99A100F5C643 /* MCMyInfoManagedObject.m in Sources */,
 				22CEC3B818594B3D00DC9913 /* XMPPRoomMemoryStorage.m in Sources */,
+				229A6CB318EE993100F5C643 /* MCMyInfo.m in Sources */,
 				22CEC22E1859467400DC9913 /* DispatchQueueLogFormatter.m in Sources */,
 				22CEC3B118594B3D00DC9913 /* XMPPRoomCoreDataStorage.m in Sources */,
 				22CEC22A1859467400DC9913 /* DDFileLogger.m in Sources */,
@@ -2166,6 +2219,7 @@
 				22F86DC718112F48000CCB50 /* MCDeptBL.m in Sources */,
 				22E985CB1857E9FF00032893 /* MCMessageListViewController.m in Sources */,
 				22CEC3A418594B3D00DC9913 /* XMPPUserCoreDataStorageObject.m in Sources */,
+				22FE3ECF18F5303D00C527BD /* MCMyInfoAvatarCell.m in Sources */,
 				22CEC3B718594B3D00DC9913 /* XMPPRoomOccupantHybridMemoryStorageObject.m in Sources */,
 				22E5628B1894EE6F00314E19 /* MCLoginOffHandler.m in Sources */,
 				2203A599180E803200742830 /* MCCoreData.xcdatamodeld in Sources */,
@@ -2283,7 +2337,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2313,10 +2367,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -2324,7 +2379,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2406,7 +2461,9 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/BusinessLogicLayer/JPush\"";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2464,6 +2521,7 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/BusinessLogicLayer/JPush\"";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2472,7 +2530,6 @@
 		22B66A0517FAAA240015A269 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MyCircle.app/MyCircle";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -2495,7 +2552,6 @@
 		22B66A0617FAAA240015A269 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MyCircle.app/MyCircle";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

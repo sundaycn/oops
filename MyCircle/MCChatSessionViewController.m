@@ -13,6 +13,7 @@
 #import "MCChatHistory.h"
 #import "MCBookBL.h"
 #import <JSMessagesViewController/JSMessage.h>
+#import "MCConfig.h"
 
 
 @interface MCChatSessionViewController ()
@@ -64,13 +65,10 @@
     self.title = self.buddyName;
 //    self.messageInputView.textView.placeHolder = @"请输入消息";
     [self setBackgroundColor:[UIColor whiteColor]];
-    
-    NSString *user = [[[[MCXmppHelper sharedInstance] xmppStream] myJID] user];
-    MCBook *book = [[[MCBookBL alloc] init] findbyMobilePhone:user];
-    self.sender = book.name;
+    self.sender = [[MCConfig sharedInstance] getUserName];
     
     self.messages = [[NSMutableArray alloc] init];
-    DLog(@"myName:%@",self.sender);
+    DLog(@"userName:%@",self.sender);
     DLog(@"buddyName:%@", self.buddyName);
     self.avatars = [[NSDictionary alloc] initWithObjectsAndKeys:
                     [JSAvatarImageFactory avatarImageNamed:@"ContactsDefaultAvatar" croppedToCircle:YES], self.sender,

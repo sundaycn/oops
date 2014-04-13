@@ -129,6 +129,11 @@
         [orgBL updateVersionByOrgId:strOrgId version:remoteContactsVersion];
         
     }
+    
+    //保存用户姓名
+    MCBook *book = [bookBL findbyMobilePhone:strAccount];
+    [[MCConfig sharedInstance]saveUserName:book.name];
+    
     //初始化联系人搜索库
     [bookBL updateSearchId];
     [MCContactsSearchLibrary initContactsSearchLibrary];

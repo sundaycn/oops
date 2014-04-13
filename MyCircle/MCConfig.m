@@ -34,6 +34,24 @@ static MCConfig *sharedInstance = nil;
     [settings setObject:@"1" forKey:@"isLogined"];
     [settings synchronize];
 }
+
+//保存用户姓名
+-(void)saveUserName:(NSString *)userName
+{
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    [settings removeObjectForKey:@"userName"];
+    [settings setObject:userName forKey:@"userName"];
+    [settings synchronize];
+}
+
+//获取用户姓名
+-(NSString *)getUserName
+{
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    
+    return [settings objectForKey:@"userName"];
+}
+
 //获取账号
 -(NSString *)getAccount
 {
