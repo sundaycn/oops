@@ -64,7 +64,7 @@
 //-----------------------------------------------------------------
 #define ServiceName @"com.jxtii.MyCircle"
 
-#define BASE_URL @"http://www.woquanquan.com/EasyContact/"
+#define BASE_URL @"http://www.3weike.com/EasyContact/"
 #define IMAGE_SWITCH @"&needDownload=false&autoContentType=true"
 
 //-----------------------------------------------------------------

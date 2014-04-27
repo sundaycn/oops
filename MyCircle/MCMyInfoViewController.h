@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MCMyInfoModifyDelegate.h"
 
-@interface MCMyInfoViewController : UITableViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface MCMyInfoViewController : UITableViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIActionSheetDelegate, MCMyInfoModifyDelegate>
+
 
 @end

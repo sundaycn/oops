@@ -45,7 +45,7 @@
             myInfo.userName = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"userName"];
             myInfo.userName = myInfo.userName ? myInfo.userName : @"未设置";
             myInfo.gender = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"gender"];
-            myInfo.gender = [myInfo.gender isEqualToString:@"M"] ? @"男" : @"女";
+            myInfo.gender = [myInfo.gender isEqualToString:@"F"] ? @"女" : @"男";
 //            myInfo.photo = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"photo"];
             myInfo.provinceId = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"provinceId"];
             myInfo.provinceId = myInfo.provinceId ? myInfo.provinceId : @"未设置";
@@ -100,5 +100,19 @@
         NSData *response  = [request responseData];
         [[MCMyInfoDAO sharedManager] insertAvatar:response byAccount:strAccount];
     }
+    /*
+    NSURL *url = [NSURL URLWithString:[BASE_URL stringByAppendingString:@"Contact/contact!changeUserAttachInfoAjax.action"]];
+    __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request setCompletionBlock:^{
+        // Use when fetching text data
+        NSString *responseString = [request responseString];
+        
+        // Use when fetching binary data
+        NSData *responseData = [request responseData];
+    }];
+    [request setFailedBlock:^{
+        NSError *error = [request error];
+    }];
+    [request startAsynchronous];*/
 }
 @end

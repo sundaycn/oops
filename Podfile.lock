@@ -33,7 +33,8 @@ PODS:
   - Cordova (3.2.0):
     - Cordova/Base
   - Cordova/Base (3.2.0)
-  - JSMessagesViewController (4.0.2):
+  - EAIntroView (2.4.0)
+  - JSMessagesViewController (4.0.3):
     - JSQSystemSoundPlayer
   - JSQSystemSoundPlayer (1.4.0)
   - MBProgressHUD (0.8)
@@ -44,6 +45,7 @@ DEPENDENCIES:
   - AFNetworking (~> 2.0.3)
   - ASIHTTPRequest (~> 1.8.1)
   - Cordova (~> 3.2.0)
+  - EAIntroView
   - JSMessagesViewController (~> 4.0.2)
   - MBProgressHUD (~> 0.8)
   - SWTableViewCell (~> 0.2.2)
@@ -52,10 +54,11 @@ SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
   ASIHTTPRequest: 0b05282cf3c422c3474eff98c5bb8c1192b91b86
   Cordova: 4ed878a7c7153a7b888f05e1f18c074343d0be41
-  JSMessagesViewController: 901c4f7b805e0990705d92eee8069562ac85bf9b
+  EAIntroView: 0d386ae6ebdc84cba58af7c0eb1044bff2f61bd2
+  JSMessagesViewController: aa0f3f34f70c39ec0a6ded219636b8bd945f5fe2
   JSQSystemSoundPlayer: 28ccd01a92a0cebc6de6361e8499011b4cb6dab7
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   Reachability: be4883bb93f31e38266ae3365e5600a317aae735
   SWTableViewCell: cb58ca308c311391844c44aede3dc6b3a636d37b
 
-COCOAPODS: 0.31.1
+COCOAPODS: 0.32.1

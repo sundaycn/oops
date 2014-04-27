@@ -7,8 +7,12 @@
 //
 
 #import "MCMyInfoNameViewController.h"
+#import <ASIHTTPRequest/ASIFormDataRequest.h>
+#import "MCConfig.h"
+#import "MCMyInfoDAO.h"
 
 @interface MCMyInfoNameViewController ()
+@property (nonatomic, strong) UITextField *textName;
 @end
 
 @implementation MCMyInfoNameViewController
@@ -30,22 +34,22 @@
     self.view.backgroundColor = UIColorFromRGB(0xd5d5d5);
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 40)];
     paddingView.backgroundColor = [UIColor whiteColor];
-    UITextField *textName = [[UITextField alloc] initWithFrame:CGRectMake(0, 79, 320, 40)];
-    textName.borderStyle = UITextBorderStyleNone;
-    textName.backgroundColor = [UIColor whiteColor];
-    textName.leftView = paddingView;
-    textName.leftViewMode = UITextFieldViewModeAlways;
-    textName.textColor = [UIColor blackColor];
-    textName.font = [UIFont systemFontOfSize:17.0f];
-    textName.textAlignment = NSTextAlignmentLeft;
-    textName.clearButtonMode = UITextFieldViewModeAlways;
-    textName.keyboardType = UIKeyboardTypeDefault;
-    textName.returnKeyType = UIReturnKeyDone;
-    textName.text = self.strName;
-    textName.delegate = self;
-    [textName becomeFirstResponder];
+    self.textName = [[UITextField alloc] initWithFrame:CGRectMake(0, 79, 320, 40)];
+    self.textName.borderStyle = UITextBorderStyleNone;
+    self.textName.backgroundColor = [UIColor whiteColor];
+    self.textName.leftView = paddingView;
+    self.textName.leftViewMode = UITextFieldViewModeAlways;
+    self.textName.textColor = [UIColor blackColor];
+    self.textName.font = [UIFont systemFontOfSize:17.0f];
+    self.textName.textAlignment = NSTextAlignmentLeft;
+    self.textName.clearButtonMode = UITextFieldViewModeAlways;
+    self.textName.keyboardType = UIKeyboardTypeDefault;
+    self.textName.returnKeyType = UIReturnKeyDone;
+    self.textName.text = self.strName;
+    self.textName.delegate = self;
+    [self.textName becomeFirstResponder];
     
-    [self.view addSubview:textName];
+    [self.view addSubview:self.textName];
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,8 +82,54 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    [self postData];
     [self.navigationController popViewControllerAnimated:YES];
     return YES;
+}
+
+//提交修改值
+- (void)postData
+{
+    //没修改不提交
+    if ([self.strName isEqualToString:self.textName.text]) {
+        return;
+    }
+    
+    //获取账号和密码
+    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+    NSString *strPassword = [[MCConfig sharedInstance] getCipherPassword];
+    DLog(@"password:%@", strPassword);
+    NSString *strInfo = [[@"{\"userName\":\"" stringByAppendingString:self.textName.text] stringByAppendingString:@"\"}"];
+    DLog(@"info:%@", strInfo);
+    
+    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!changeUserAttachInfoAjax.action"]];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
+    [request addPostValue:strAccount forKey:@"tel"];
+    [request addPostValue:strPassword forKey:@"password"];
+    [request addPostValue:strInfo forKey:@"info"];
+    //同步请求
+    [request startSynchronous];
+    
+    NSError *error = [request error];
+    if (!error) {
+        NSData *response  = [request responseData];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
+        //判断服务器返回结果
+        NSString *strResult = [NSString stringWithFormat:@"%@",[[dictResponse objectForKey:@"root"] objectForKey:@"result"]];
+        BOOL isOK = [strResult isEqualToString:@"1"];
+        if (isOK) {
+            DLog(@"个人资料－姓名修改成功");
+            //保存到本地
+            MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:strAccount];
+            myInfo.userName = self.textName.text;
+            [[MCMyInfoDAO sharedManager] insert:myInfo];
+            [self.myInfoModifyDelegate updateValueOfCell:self.textName.text index:1];
+        }
+        else {
+            DLog(@"个人资料－姓名修改失败");
+        }
+    }
+
 }
 
 @end

@@ -92,7 +92,7 @@
         self.labelMessage = [[UILabel alloc] initWithFrame:CGRectMake(88, 35, 200, 20)];
         self.labelMessage.backgroundColor = [UIColor clearColor];
         self.labelMessage.textColor = UIColorFromRGB(0x484747);
-        self.labelMessage.font = [UIFont systemFontOfSize:15];
+        self.labelMessage.font = [UIFont systemFontOfSize:14];
         [self.contentView addSubview:self.labelMessage];        
     }
     return self;

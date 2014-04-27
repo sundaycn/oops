@@ -13,6 +13,8 @@
 #import "DDLog.h"
 #import "DDTTYLogger.h"
 #endif
+#import "MCViewController.h"
+//#import "MCGuidPageViewController.h"
 
 @implementation MCAppDelegate
 
@@ -36,17 +38,30 @@
                                                    UIRemoteNotificationTypeSound |
                                                    UIRemoteNotificationTypeAlert)];
     [APService setupWithOption:launchOptions];
-    if ([[MCConfig sharedInstance] isLogined]) {
-        //用户已登陆
-        UIViewController *mainVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
-        self.window.rootViewController = mainVC;
-        NSString *strAccount = [[MCConfig sharedInstance] getAccount];
-        [APService setAlias:strAccount callbackSelector:nil object:nil];
+    
+    //判断是否第一次启动
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"launched"]) {
+        //第一次启动显示用户指引视图
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"launched"];
+//        MCGuidPageViewController *guidPageVC = [[MCGuidPageViewController alloc] init];
+//        self.window.rootViewController = guidPageVC;
+    }
+    else {
+        if ([[MCConfig sharedInstance] isLogined]) {
+            //用户已登陆
+            UIViewController *mainVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
+            self.window.rootViewController = mainVC;
+            NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+            [APService setAlias:strAccount callbackSelector:nil object:nil];
+        }
+        else {
+            UIViewController *loginVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+            self.window.rootViewController = loginVC;
+        }
     }
 
     //清除主屏幕上icon右上角的badge数字
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    
 
     return YES;
 }
