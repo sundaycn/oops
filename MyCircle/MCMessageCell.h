@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <SWTableViewCell/SWTableViewCell.h>
 
-@interface MCMessageCell : SWTableViewCell
+@interface MCMessageCell : UITableViewCell
 
 @property (strong, nonatomic) UILabel *labelName;
 @property (strong, nonatomic) UILabel *labelMessage;

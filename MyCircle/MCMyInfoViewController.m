@@ -216,7 +216,7 @@
             [self takePhoto];
         }
         else if (buttonIndex == 1) {
-            //        [self sendSMS];
+            [self pickPhotoFromAlbum];
         }
     }
     else if (actionSheet == self.actionSheetForGender)
@@ -225,7 +225,7 @@
     }
     
     //刷新tableView显示最新数据
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
 }
 
 - (void)showActionSheetForAvatar
@@ -273,6 +273,13 @@
                                               otherButtonTitles:nil];
         [alert show];
     }
+}
+
+- (void)pickPhotoFromAlbum
+{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 - (void)showActionSheetForGender
@@ -453,18 +460,6 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)openGenderPicker
-{
-    UIPickerView *pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 352, 320, 216)];
-    pickerView.delegate = self;
-    pickerView.dataSource = self;
-    
-    self.arrGender = [[NSArray alloc] initWithObjects:@"男", @"女", nil];
-    //显示选中框
-    pickerView.showsSelectionIndicator = YES;
-    [self.view addSubview:pickerView];
 }
 
 #pragma mark - UIPickerView Data Source

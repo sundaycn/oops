@@ -5,8 +5,8 @@ pod 'ASIHTTPRequest', '~> 1.8.1'
 pod 'MBProgressHUD', '~> 0.8'
 pod 'Cordova', '~> 3.2.0'
 pod 'JSMessagesViewController', '~> 4.0.2'
-pod 'SWTableViewCell', '~> 0.2.2'
 pod 'EAIntroView', '~> 2.4.0'
+pod 'PEPhotoCropEditor', '~> 1.3.1'
 #pod 'XMPPFramework', '~> 3.6.3'
 # Remove 64-bit build architecture from Pods targets
 post_install do |installer|

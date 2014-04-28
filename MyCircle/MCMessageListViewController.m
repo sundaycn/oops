@@ -48,8 +48,6 @@
     self.navigationItem.title = @"消息";
     self.tableView.separatorColor = UIColorFromRGB(0xd5d5d5);
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    //设置SWTableViewCell的单元格高度，修改为系统滑动删除按钮后可删除
-    self.tableView.rowHeight = 60.0f;
 }
 
 - (void)didReceiveMemoryWarning
@@ -105,12 +103,10 @@
         MCMessageCell *cell1 = [tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
         if (cell1 == nil) {
             cell1 = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier1];
-            cell1.containingTableView = tableView;
         }
         
         cell1.imageViewAvatar.image = [UIImage imageNamed:@"CompanyNewsLogo"];
         cell1.imageViewIcon.image = [UIImage imageNamed:@"NotificationIcon"];
-//        cell1.backgroundColor = UIColorFromRGB(0xebebeb);
         cell1.labelName.text = @"企业动态";
         MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:MSG_KEY_COMPANY_NEWS];
         if (msg) {
@@ -135,12 +131,10 @@
         MCMessageCell *cell2 = [tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
         if (cell2 == nil) {
             cell2 = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier2];
-            cell2.containingTableView = tableView;
         }
         
         cell2.imageViewAvatar.image = [UIImage imageNamed:@"NotificationLogo"];
         cell2.imageViewIcon.image = [UIImage imageNamed:@"NotificationIcon"];
-//        cell2.backgroundColor = UIColorFromRGB(0xf5f5f5);
         cell2.labelName.text = @"通知公告";
         MCMessage *msg = [[[MCXmppHelper sharedInstance] Messages] objectForKey:MSG_KEY_ORG_NEWS];
         if (msg) {
@@ -165,7 +159,6 @@
         MCMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
             cell = [[MCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-            cell.containingTableView = tableView;
         }
         
         // Configure the cell...
@@ -189,17 +182,6 @@
         cell.labelTime.text = [MCUtility getMessageTime:msg.date];
         DLog(@"MessageList cell.lableTime.text:%@", cell.labelTime.text);
         cell.labelMessage.text = msg.message;
-//        if (indexPath.row % 2 == 0) {
-//            cell.backgroundColor = UIColorFromRGB(0xebebeb);
-//        }
-//        else {
-//            cell.backgroundColor = UIColorFromRGB(0xf5f5f5);
-//        }
-        //添加滑动删除按钮
-        NSMutableArray *rightUtilityButtons = [[NSMutableArray alloc] init];
-        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]                                                   title:@"删除"];
-        cell.rightUtilityButtons = rightUtilityButtons;
-        cell.delegate = self;
         
         return cell;
     }
@@ -255,24 +237,23 @@
         return nil;
     }
 }
-#pragma mark - SWTableViewDelegate
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
-{
-    if (index == 0) {
-        //按下删除按钮
-        NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
-        [self removeChatSession:cellIndexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:@[cellIndexPath]
-                              withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
 
+//从会话列表删除会话
 - (void)removeChatSession:(NSUInteger)index
 {
     NSString *key = [self.keys objectAtIndex:index];
     [self.keys removeObjectAtIndex:index];
     [[MCXmppHelper sharedInstance] removeLastMessage:key];
     [[MCXmppHelper sharedInstance] removeLastMessageFromDB:key];
+}
+
+//滑动Cell时调用此函数
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.section == 2)
+        return  UITableViewCellEditingStyleDelete;
+    else
+        return  UITableViewCellEditingStyleNone;
 }
 
 /*
@@ -284,19 +265,18 @@
 }
 */
 
-/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        [self removeChatSession:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+//    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+//        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+//    }   
 }
-*/
 
 /*
 // Override to support rearranging the table view.

@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <SWTableViewCell/SWTableViewCell.h>
 
-@interface MCMessageListViewController : UITableViewController<SWTableViewCellDelegate>
+@interface MCMessageListViewController : UITableViewController
 
 @end

@@ -57,9 +57,7 @@
         
         [self setSelectionStyle:UITableViewCellSelectionStyleNone];
          */
-        //设置单元格高度
-        [self setCellHeight:60.0f];
-        //
+
         self.imageViewAvatar = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 50, 50)];
         self.imageViewAvatar.image = [UIImage imageNamed:@"DefaultAvatar"];
         //圆角设置
