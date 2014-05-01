@@ -9,6 +9,7 @@
 #import "MCMyInfoViewController.h"
 #import "MCMyInfoNameViewController.h"
 #import "MCConfig.h"
+#import "MCCrypto.h"
 #import "MCMyInfoDAO.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "MCMyInfoAvatarCell.h"
@@ -235,7 +236,7 @@
                                   delegate:self
                                   cancelButtonTitle:@"取消"
                                   destructiveButtonTitle:nil
-                                  otherButtonTitles:@"拍照", @"从手机相册选择", nil];
+                                  otherButtonTitles:@"拍照", @"从相册选择", nil];
     self.actionSheetForAvatar.actionSheetStyle = UIActionSheetStyleAutomatic;
     [self.actionSheetForAvatar showInView:self.view];
 }
@@ -279,6 +280,7 @@
 {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate = self;
     [self presentViewController:picker animated:YES completion:nil];
 }
 
@@ -392,7 +394,6 @@
     
     //密码
     NSString *strPassword = [[MCConfig sharedInstance] getCipherPassword];
-    DLog(@"password:%@", strPassword);
     NSString *strInfo = [[@"{\"birthday\":\"" stringByAppendingString:selectedBirthday] stringByAppendingString:@"\"}"];
     NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!changeUserAttachInfoAjax.action"]];
     DLog(@"info:%@", strInfo);
@@ -427,26 +428,156 @@
     }
 }
 
-#pragma mark - UIImagePickerController Delegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    DLog(@"Media Info: %@", info);
-    NSString *mediaType = [info valueForKey:UIImagePickerControllerMediaType];
+//打开图片编辑器
+- (void)openEditor:(id)sender image:(UIImage *)image
+{
+    PECropViewController *photoCropVC = [[PECropViewController alloc] init];
+    photoCropVC.delegate = self;
+    photoCropVC.image = image;
     
+//    UIImage *image = self.pickedPhoto.image;
+//    CGFloat width = image.size.width;
+//    CGFloat height = image.size.height;
+//    CGFloat length = MIN(width, height);
+//    photoCropVC.imageCropRect = CGRectMake((width - length) / 2,
+//                                          (height - length) / 2,
+//                                          length,
+//                                          length);
+    // Get rid of the Constrain button in the bottom toolbar
+    photoCropVC.toolbarHidden = YES;
+    
+    // Some images should be restricted to a square aspect ratio
+    photoCropVC.keepingCropAspectRatio = YES;
+    photoCropVC.cropAspectRatio = 1.0;
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:photoCropVC];
+    
+//    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+//    navigationController.modalPresentationStyle = UIModalPresentationFullScreen;
+//    navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+
+    [self presentViewController:navigationController animated:YES completion:NULL];
+}
+
+//压缩头像图片
+//- (UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize
+//{
+//    UIGraphicsBeginImageContext(CGSizeMake(image.size.width*scaleSize,image.size.height*scaleSize));
+//    [image drawInRect:CGRectMake(0, 0, image.size.width * scaleSize, image.size.height *scaleSize)];
+//    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return scaledImage;
+//}
+- (UIImage *)scaleImage:(UIImage *)image
+{
+    UIGraphicsBeginImageContext(CGSizeMake(320,320));
+    [image drawInRect:CGRectMake(0, 0, 320, 320)];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
+
+//更新服务端和客户端头像
+- (void)updateAvatar:(UIImage *)imageAvatar
+{
+    //图片压缩，因为原图都是很大的，不必要传原图
+    //    UIImage *scaledImage = [self scaleImage:croppedImage toScale:0.2];
+    UIImage *scaledImage = [self scaleImage:imageAvatar];
+    
+    //以下这两步都是比较耗时的操作，最好开一个HUD提示用户，这样体验会好些，不至于阻塞界面
+    NSData *dataAvatar = UIImageJPEGRepresentation(scaledImage, 0.8);
+    //    if (UIImagePNGRepresentation(scaledImage) == nil) {
+    //        //将图片转换为JPG格式的二进制数据
+    //        data = UIImageJPEGRepresentation(scaledImage, 1);
+    //    } else {
+    //        //将图片转换为PNG格式的二进制数据
+    //        DLog(@"-----------------png------------------");
+    //        data = UIImagePNGRepresentation(scaledImage);
+    //        DLog(@"------------png save done-------------");
+    //    }
+
+    NSString *strPassword = [[MCConfig sharedInstance] getCipherPassword];
+    //生成头像图片文件名
+    NSString *strFileName = [[MCCrypto DESEncrypt:self.strAccount WithKey:DESENCRYPTED_KEY] stringByAppendingString:@".jpg"];
+    //对头像图片进行编码
+    NSString *strImage = [dataAvatar base64EncodedStringWithOptions:0];
+    
+    //准备上传
+    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!uploadPhotoAjax.action"]];
+    DLog(@"url:%@", strURL);
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
+    [request addPostValue:self.strAccount forKey:@"tel"];
+    [request addPostValue:strPassword forKey:@"password"];
+    [request addPostValue:strFileName forKey:@"fileName"];
+    [request addPostValue:strImage forKey:@"image"];
+//    [request setUploadProgressDelegate:progressIndicator];
+//    [request setShowAccurateProgress:YES];
+    //同步请求
+    [request startSynchronous];
+    
+    NSError *error = [request error];
+    if (!error) {
+        NSData *response  = [request responseData];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
+        //判断服务器返回结果
+        NSString *strResult = [NSString stringWithFormat:@"%@",[[dictResponse objectForKey:@"root"] objectForKey:@"result"]];
+        BOOL isOK = [strResult isEqualToString:@"1"];
+        if (isOK) {
+            DLog(@"个人资料－头像修改成功");
+            //保存到本地
+            MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:self.strAccount];
+            myInfo.avatarImage = dataAvatar;
+            [[MCMyInfoDAO sharedManager] insert:myInfo];
+            //更新tableview的数据源
+            self.myInfo.avatarImage = dataAvatar;
+            [self.tableView reloadData];
+        }
+        else {
+            DLog(@"个人资料－头像修改失败");
+        }
+    }
+}
+
+#pragma mark - PECropViewController Delegate
+- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage
+{
+    [controller dismissViewControllerAnimated:YES completion:NULL];
+    
+    //更新头像
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+	[self.view addSubview:HUD];
+    [HUD showAnimated:YES whileExecutingBlock:^{
+		[self updateAvatar:croppedImage];
+	} completionBlock:^{
+		[HUD removeFromSuperview];
+        HUD = nil;
+	}];
+}
+
+- (void)cropViewControllerDidCancel:(PECropViewController *)controller
+{
+    [controller dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark - UIImagePickerController Delegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+//    DLog(@"Media Info: %@", info);
+    NSString *mediaType = [info valueForKey:UIImagePickerControllerMediaType];
+    UIImage *photoTaken = [info objectForKey:@"UIImagePickerControllerOriginalImage"];;
     if([mediaType isEqualToString:(NSString*)kUTTypeImage]) {
-        UIImage *photoTaken = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-        
-        //Save Photo to library only if it wasnt already saved i.e. its just been taken
+        //把刚拍摄的照片保存到相册
         if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
             UIImageWriteToSavedPhotosAlbum(photoTaken, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
         }
     }
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:^{[self openEditor:nil image:photoTaken];}];
 }
 
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
     UIAlertView *alert;
-    //NSLog(@"Image:%@", image);
     if (error) {
         alert = [[UIAlertView alloc] initWithTitle:@"错误!"
                                            message:[error localizedDescription]
@@ -458,7 +589,8 @@
     
 }
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -500,6 +632,5 @@
     self.arrDetail[index] = newValue;
     [self.tableView reloadData];
 }
-
 
 @end
