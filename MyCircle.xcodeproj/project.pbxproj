@@ -25,6 +25,8 @@
 		221C51B1180CCEC700ED8715 /* MCDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B0180CCEC700ED8715 /* MCDataObject.m */; };
 		221C51B5180CCFFE00ED8715 /* MCCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B4180CCFFE00ED8715 /* MCCircleViewController.m */; };
 		221C51B8180CD7F800ED8715 /* MCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 221C51B7180CD7F800ED8715 /* MCAppDelegate.m */; };
+		2228A291191340680081C9A6 /* myInfoProvince.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2228A290191340680081C9A6 /* myInfoProvince.plist */; };
+		2228A293191340790081C9A6 /* myInfoCity.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2228A292191340790081C9A6 /* myInfoCity.plist */; };
 		222CFC48184432B50037E24D /* www in Resources */ = {isa = PBXBuildFile; fileRef = 222CFC47184432B50037E24D /* www */; };
 		2254A077184B63D500DC103F /* MCContensViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2254A076184B63D500DC103F /* MCContensViewController.m */; };
 		2254A079184B650600DC103F /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2254A078184B650600DC103F /* config.xml */; };
@@ -287,6 +289,8 @@
 		221C51B4180CCFFE00ED8715 /* MCCircleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCircleViewController.m; sourceTree = "<group>"; };
 		221C51B6180CD7F800ED8715 /* MCAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAppDelegate.h; sourceTree = "<group>"; };
 		221C51B7180CD7F800ED8715 /* MCAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAppDelegate.m; sourceTree = "<group>"; };
+		2228A290191340680081C9A6 /* myInfoProvince.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = myInfoProvince.plist; sourceTree = "<group>"; };
+		2228A292191340790081C9A6 /* myInfoCity.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = myInfoCity.plist; sourceTree = "<group>"; };
 		222CFC47184432B50037E24D /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		2254A075184B63D500DC103F /* MCContensViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContensViewController.h; sourceTree = "<group>"; };
 		2254A076184B63D500DC103F /* MCContensViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContensViewController.m; sourceTree = "<group>"; };
@@ -1077,6 +1081,8 @@
 				22B669E017FAAA240015A269 /* MyCircle-Prefix.pch */,
 				229DF0DC18710CAE00739C3A /* PushConfig.plist */,
 				22F8AB32190D2364008527AB /* IconMicroManagerCollection.plist */,
+				2228A290191340680081C9A6 /* myInfoProvince.plist */,
+				2228A292191340790081C9A6 /* myInfoCity.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2062,11 +2068,13 @@
 				229DF0DD18710CAE00739C3A /* PushConfig.plist in Resources */,
 				2255E7E3183365FA00BAD0ED /* multipy_unicode.dat in Resources */,
 				22F8AB33190D2364008527AB /* IconMicroManagerCollection.plist in Resources */,
+				2228A293191340790081C9A6 /* myInfoCity.plist in Resources */,
 				22B669EB17FAAA240015A269 /* Images.xcassets in Resources */,
 				22B669DD17FAAA240015A269 /* InfoPlist.strings in Resources */,
 				2254A079184B650600DC103F /* config.xml in Resources */,
 				222CFC48184432B50037E24D /* www in Resources */,
 				22CEC22F1859467400DC9913 /* README.txt in Resources */,
+				2228A291191340680081C9A6 /* myInfoProvince.plist in Resources */,
 				22B669E617FAAA240015A269 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

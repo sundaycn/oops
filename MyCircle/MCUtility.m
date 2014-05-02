@@ -185,4 +185,16 @@
 //    return watermarkedImage;
 //}
 
+//获取top vc
++ (UIViewController*)getTopViewController
+{
+    UIViewController *topViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topViewController.presentedViewController) {
+        topViewController = topViewController.presentedViewController;
+    }
+    
+    return topViewController;
+}
+
 @end

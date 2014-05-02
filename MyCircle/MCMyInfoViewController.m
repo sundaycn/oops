@@ -8,6 +8,7 @@
 
 #import "MCMyInfoViewController.h"
 #import "MCMyInfoNameViewController.h"
+#import "MCUtility.h"
 #import "MCConfig.h"
 #import "MCCrypto.h"
 #import "MCMyInfoDAO.h"
@@ -451,6 +452,8 @@
     photoCropVC.cropAspectRatio = 1.0;
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:photoCropVC];
+//    navigationController.navigationBar.translucent = NO;
+//    navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     
 //    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
 //    navigationController.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -534,6 +537,16 @@
         }
         else {
             DLog(@"个人资料－头像修改失败");
+            //更新HUD状态
+            __block UIImageView *imageViewHUD;
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                UIImage *image = [UIImage imageNamed:@"HUDFailureImage"];
+                imageViewHUD = [[UIImageView alloc] initWithImage:image];
+            });
+            HUD.customView = imageViewHUD;
+            HUD.mode = MBProgressHUDModeCustomView;
+            HUD.labelText = @"保存失败";
+            [NSThread sleepForTimeInterval:2.0f];
         }
     }
 }
@@ -541,16 +554,18 @@
 #pragma mark - PECropViewController Delegate
 - (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage
 {
-    [controller dismissViewControllerAnimated:YES completion:NULL];
+    UIViewController *topVC = [MCUtility getTopViewController];
     
     //更新头像
-    HUD = [[MBProgressHUD alloc] initWithView:self.view];
-	[self.view addSubview:HUD];
+    HUD = [[MBProgressHUD alloc] initWithView:topVC.view];
+    HUD.labelText = @"正在保存...";
+	[topVC.view addSubview:HUD];
     [HUD showAnimated:YES whileExecutingBlock:^{
 		[self updateAvatar:croppedImage];
 	} completionBlock:^{
-		[HUD removeFromSuperview];
+        [HUD removeFromSuperview];
         HUD = nil;
+        [controller dismissViewControllerAnimated:YES completion:NULL];
 	}];
 }
 

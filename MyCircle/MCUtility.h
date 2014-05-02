@@ -30,4 +30,7 @@
 
 //+ (UIImage *)imageFromText:(int)count image:(UIImage *)image;
 
+//获取top vc
++ (UIViewController*)getTopViewController;
+
 @end
