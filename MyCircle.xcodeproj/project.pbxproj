@@ -29,6 +29,8 @@
 		2228A29A19137C7F0081C9A6 /* MCProvinceDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A29919137C7F0081C9A6 /* MCProvinceDAO.m */; };
 		2228A29D19137C890081C9A6 /* MCCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A29C19137C890081C9A6 /* MCCity.m */; };
 		2228A2A019137C910081C9A6 /* MCCityDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A29F19137C910081C9A6 /* MCCityDAO.m */; };
+		2228A2A31913912F0081C9A6 /* MCMyInfoProvinceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A2A21913912F0081C9A6 /* MCMyInfoProvinceViewController.m */; };
+		2228A2A6191391400081C9A6 /* MCMyInfoCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */; };
 		222CFC48184432B50037E24D /* www in Resources */ = {isa = PBXBuildFile; fileRef = 222CFC47184432B50037E24D /* www */; };
 		2254A077184B63D500DC103F /* MCContensViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2254A076184B63D500DC103F /* MCContensViewController.m */; };
 		2254A079184B650600DC103F /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2254A078184B650600DC103F /* config.xml */; };
@@ -299,6 +301,10 @@
 		2228A29C19137C890081C9A6 /* MCCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCity.m; sourceTree = "<group>"; };
 		2228A29E19137C910081C9A6 /* MCCityDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCityDAO.h; sourceTree = "<group>"; };
 		2228A29F19137C910081C9A6 /* MCCityDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCCityDAO.m; sourceTree = "<group>"; };
+		2228A2A11913912F0081C9A6 /* MCMyInfoProvinceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoProvinceViewController.h; sourceTree = "<group>"; };
+		2228A2A21913912F0081C9A6 /* MCMyInfoProvinceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoProvinceViewController.m; sourceTree = "<group>"; };
+		2228A2A4191391400081C9A6 /* MCMyInfoCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoCityViewController.h; sourceTree = "<group>"; };
+		2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoCityViewController.m; sourceTree = "<group>"; };
 		222CFC47184432B50037E24D /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		2254A075184B63D500DC103F /* MCContensViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContensViewController.h; sourceTree = "<group>"; };
 		2254A076184B63D500DC103F /* MCContensViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContensViewController.m; sourceTree = "<group>"; };
@@ -1991,6 +1997,10 @@
 				225B1819188BC59B00832573 /* MCMyInfoViewController.m */,
 				22C6441C18F390A200E91718 /* MCMyInfoNameViewController.h */,
 				22C6441D18F390A200E91718 /* MCMyInfoNameViewController.m */,
+				2228A2A11913912F0081C9A6 /* MCMyInfoProvinceViewController.h */,
+				2228A2A21913912F0081C9A6 /* MCMyInfoProvinceViewController.m */,
+				2228A2A4191391400081C9A6 /* MCMyInfoCityViewController.h */,
+				2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */,
 				2271CD6F1907C1F500E97B61 /* MCMyInfoOtherPhoneViewController.h */,
 				2271CD701907C1F500E97B61 /* MCMyInfoOtherPhoneViewController.m */,
 				2271CD721907C3D600E97B61 /* MCMyInfoEmailViewController.h */,
@@ -2174,6 +2184,7 @@
 				22CEC2AD18594AD700DC9913 /* XMPPElement.m in Sources */,
 				22CEC2BA18594AD700DC9913 /* XMPPStringPrep.m in Sources */,
 				22CEC3E218594B3E00DC9913 /* XMPPvCardAvatarModule.m in Sources */,
+				2228A2A31913912F0081C9A6 /* MCMyInfoProvinceViewController.m in Sources */,
 				2203A59C180E850600742830 /* MCBookManagedObject.m in Sources */,
 				22CEC3E518594B3E00DC9913 /* XMPPMessage+XEP_0184.m in Sources */,
 				22CEC3DF18594B3D00DC9913 /* XMPPMessageArchiving_Message_CoreDataObject.m in Sources */,
@@ -2339,6 +2350,7 @@
 				2255FD131859B02700A01BA1 /* MCChatHistoryManagedObject.m in Sources */,
 				2203A58C180E7C8300742830 /* MCBookDAO.m in Sources */,
 				22CEC2B318594AD700DC9913 /* XMPPPresence.m in Sources */,
+				2228A2A6191391400081C9A6 /* MCMyInfoCityViewController.m in Sources */,
 				22D7F63A180BEE60007E5E22 /* RATreeNodeCollectionController.m in Sources */,
 				22CEC3D418594B3D00DC9913 /* XMPPMessage+XEP_0085.m in Sources */,
 				22CEC25C18594A5400DC9913 /* DDXMLDocument.m in Sources */,
