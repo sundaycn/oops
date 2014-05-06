@@ -85,6 +85,9 @@
     [self.treeView reloadData];
     [self.view addSubview:treeView];
     
+    //初始化联系人搜索库
+    [MCContactsSearchLibrary initContactsSearchLibrary];
+    
     //检测网络连接
 //    Reachability *r= [Reachability reachabilityWithHostName:@"www.baidu.com"];
 //    switch([r currentReachabilityStatus])
