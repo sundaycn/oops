@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "人事档案_54.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "iphone_rsda.png"
+      "filename" : "人事档案.png"
     }
   ],
   "info" : {

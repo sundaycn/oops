@@ -225,6 +225,7 @@
             break;
         case 4:
 //            [self performSegueWithIdentifier:@"showSearchNearby" sender:self];
+            [self searchNearbyAlert];
             break;
         case 5:
             [self checkAndUpdateVersion];
@@ -250,6 +251,14 @@
         MCMyInfoViewController *myInfoVC = [segue destinationViewController];
         myInfoVC.avatarDelegate = self;
     }
+}
+
+//搜周边开发中提示
+- (void)searchNearbyAlert
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"开发中..." message:@"该功能尚在开发，敬请期待" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    alert.tag = 3;
+    [alert show];
 }
 
 //检查更新

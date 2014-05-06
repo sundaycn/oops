@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "公文管理_54.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "iphone_gwgl.png"
+      "filename" : "公文管理.png"
     }
   ],
   "info" : {

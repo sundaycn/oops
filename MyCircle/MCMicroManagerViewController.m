@@ -78,6 +78,7 @@
     MCMicroManagerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MicroMangerCell" forIndexPath:indexPath];
     NSDictionary *dictIcon = [self.arrIconMicroMianager objectAtIndex:(indexPath.section*3 + indexPath.row)];
     cell.imageView.image = [UIImage imageNamed:[dictIcon objectForKey:@"icon"]];
+    cell.labelName.text = [dictIcon objectForKey:@"name"];
     
     return cell;
 }
@@ -86,6 +87,15 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     DLog(@"select MicroManager Item:%@", [[self.arrIconMicroMianager objectAtIndex:(indexPath.section*3 + indexPath.row)] objectForKey:@"name"]);
+    [self developingAlert];
+}
+
+//微管理开发中提示
+- (void)developingAlert
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"开发中..." message:@"该功能尚在开发，敬请期待" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    alert.tag = 1;
+    [alert show];
 }
 
 @end
