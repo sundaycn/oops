@@ -8,9 +8,11 @@
 
 #import "MCMyInfoProvinceViewController.h"
 #import <ASIHTTPRequest/ASIFormDataRequest.h>
+#import "MCProvinceDAO.h"
+#import "MCMyInfoCityViewController.h"
 
 @interface MCMyInfoProvinceViewController ()
-
+@property (nonatomic, strong) NSArray *arrProvince;
 @end
 
 @implementation MCMyInfoProvinceViewController
@@ -33,6 +35,13 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.arrProvince = [[MCProvinceDAO sharedManager] findAll];
+    if (self.arrProvince.count == 0) {
+        //第一次初始化地区－省数据
+        DLog(@"第一次初始化地区－省数据");
+        [self getProvinceData];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,28 +54,35 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [self.arrProvince count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
+    static NSString *CellIdentifier = @"ProvinceCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+
     // Configure the cell...
+    cell.textLabel.text = [(MCProvince *)self.arrProvince[indexPath.row] name];
     
     return cell;
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"showCity" sender:self];
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -106,7 +122,6 @@
 }
 */
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -114,29 +129,56 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"showCity"]) {
+        MCMyInfoCityViewController *cityVC = [segue destinationViewController];
+        cityVC.pid = [(MCProvince *)self.arrProvince[[self.tableView indexPathForSelectedRow].row] pid];
+        cityVC.pName = [(MCProvince *)self.arrProvince[[self.tableView indexPathForSelectedRow].row] name];
+    }
 }
-*/
 
-//从服务器获取省数据
+//第一次启动应用时从服务器获取省数据
 - (void)getProvinceData
 {
-    NSURL *url = [NSURL URLWithString:@"http://allseeing-i.com"];
-    __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-//    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!changeUserAttachInfoAjax.action"]];
-//    __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
-//    [request addPostValue:self.strAccount forKey:@"tel"];
-//    [request addPostValue:strPassword forKey:@"password"];
-//    [request addPostValue:strInfo forKey:@"info"];
+    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!queryProvinceAjax.action"]];
+    __weak ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
     [request setCompletionBlock:^{
-        // Use when fetching text data
-        NSString *responseString = [request responseString];
-        
         // Use when fetching binary data
         NSData *responseData = [request responseData];
+        
+        // Use when fetching text data
+//        NSString *strResponse = [request responseString];
+        //把province的值由字符串格式转为json数组格式
+        NSString *strJsonResult = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\"[" withString:@"["];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"]\"" withString:@"]"];
+//        DLog(@"服务器返回省数据:\n%@", strJsonResult);
+        
+        //重新封装json数据
+        NSData *dataResponse = [strJsonResult dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:dataResponse options:NSJSONReadingAllowFragments error:nil];
+        NSArray *arrRoot = [[dictResponse objectForKey:@"root"] objectForKey:@"info"];
+        for (NSDictionary *dictItem in arrRoot) {
+
+            MCProvince *province = [[MCProvince alloc] init];
+            province.existsChild = [dictItem objectForKey:@"existChild"];
+            province.pid = [dictItem objectForKey:@"id"];
+            province.name = [dictItem objectForKey:@"name"];
+            
+            [[MCProvinceDAO sharedManager] create:province];
+        }
+
+        self.arrProvince = [[MCProvinceDAO sharedManager] findAll];
+        [self.tableView reloadData];
     }];
     [request setFailedBlock:^{
         NSError *error = [request error];
+        NSString *strDetail = [error.localizedDescription stringByAppendingString:@"\n 请返回重新尝试"];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"获取省数据失败" message:strDetail delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
     }];
+    
+    //异步获取数据
     [request startAsynchronous];
 }
 

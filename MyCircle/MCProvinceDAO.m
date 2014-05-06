@@ -38,7 +38,7 @@ static MCProvinceDAO *sharedManager = nil;
 	BOOL dbexits = [fileManager fileExistsAtPath:writableDBPath];
 	if (!dbexits) {
 		NSString *defaultDBPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"MyInfoRegionProvince.plist"];
-		
+
 		NSError *error;
 		BOOL success = [fileManager copyItemAtPath:defaultDBPath toPath:writableDBPath error:&error];
 		if (!success) {
@@ -53,7 +53,7 @@ static MCProvinceDAO *sharedManager = nil;
     NSString *path = [self applicationDocumentsDirectoryFile];
     NSMutableArray *array = [[NSMutableArray alloc] initWithContentsOfFile:path];
     
-    NSDictionary* dict = [NSDictionary
+    NSDictionary *dict = [NSDictionary
                           dictionaryWithObjects:@[model.pid, model.name, model.existsChild]
                           forKeys:@[@"pid", @"name", @"existsChild"]];
     
@@ -118,9 +118,9 @@ static MCProvinceDAO *sharedManager = nil;
     
     NSMutableArray *listData = [[NSMutableArray alloc] init];
     
-    NSMutableArray *array = [[NSMutableArray alloc] initWithContentsOfFile:path];
+    NSArray *array = [[NSArray alloc] initWithContentsOfFile:path];
     
-    for (NSDictionary* dict in array) {
+    for (NSDictionary *dict in array) {
         
         MCProvince *province = [[MCProvince alloc] init];
         province.pid = [dict objectForKey:@"pid"];
@@ -130,18 +130,19 @@ static MCProvinceDAO *sharedManager = nil;
         [listData addObject:province];
         
     }
+    
     return [listData copy];
 }
 
 //按照主键查询省份数据方法
-- (MCProvince *)findById:(MCProvince *)model
+- (MCProvince *)findById:(NSString *)pid
 {
     NSString *path = [self applicationDocumentsDirectoryFile];
     NSMutableArray *array = [[NSMutableArray alloc] initWithContentsOfFile:path];
     
     for (NSDictionary* dict in array) {
         
-        if ([[dict objectForKey:@"pid"] isEqualToString:model.pid]) {
+        if ([[dict objectForKey:@"pid"] isEqualToString:pid]) {
             MCProvince *province = [[MCProvince alloc] init];
             province.pid = [dict objectForKey:@"pid"];
             province.name = [dict objectForKey:@"name"];

@@ -65,7 +65,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void) viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     //注册键盘出现通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector (keyboardWillShow:)
 												 name: UIKeyboardDidShowNotification object:nil];
@@ -82,7 +82,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 }
 
-- (void) viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     //解除键盘出现通知
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name: UIKeyboardDidShowNotification object:nil];

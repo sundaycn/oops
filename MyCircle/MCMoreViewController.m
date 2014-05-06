@@ -13,8 +13,12 @@
 #import "MCMoreAccountCell.h"
 #import "MCConfig.h"
 #import "MCMyInfoDAO.h"
+#import "MCMyInfoViewController.h"
 
 @interface MCMoreViewController ()
+{
+    NSString *strAccount;
+}
 @property (strong, nonatomic) NSMutableDictionary *dictSettingsInSection;
 @property (strong, nonatomic) NSArray *arrSettings;
 @property (strong, nonatomic) NSString *strNewVersionUrl;
@@ -47,7 +51,7 @@
     self.tableView.scrollEnabled = NO;
     
     //获取用户姓名
-    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+    strAccount = [[MCConfig sharedInstance] getAccount];
     self.myInfo = [[MCMyInfoDAO sharedManager] findByAccount:strAccount];
     
     //配置数据源
@@ -68,6 +72,14 @@
     [self.dictSettingsInSection setObject:second forKey:@"secondSection"];
     [self.dictSettingsInSection setObject:third forKey:@"thirdSection"];
     self.arrSettings = [[NSArray alloc] initWithObjects:@"firstSection",@"secondSection",@"thirdSection",nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
 }
 
 - (void)didReceiveMemoryWarning
@@ -105,9 +117,17 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         
+        NSData *dataAvatar = self.myInfo.avatarImage;
+        
         cell.labelName.text = model.title;
         cell.labelDetail.text = model.title2;
-        cell.imageViewAvatar.image = [UIImage imageWithData:self.myInfo.avatarImage];
+        if (dataAvatar) {
+            cell.imageViewAvatar.image = [UIImage imageWithData:dataAvatar];
+        }
+        else {
+            cell.imageViewAvatar.image = [UIImage imageNamed:model.image];
+        }
+        
         
         return cell;
     }
@@ -219,13 +239,6 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"showAbout"]) {
-        //
-    }
-}
-/*
 #pragma mark - Navigation
 
 // In a story board-based application, you will often want to do a little preparation before navigation
@@ -233,8 +246,11 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"showMyInfo"]) {
+        MCMyInfoViewController *myInfoVC = [segue destinationViewController];
+        myInfoVC.avatarDelegate = self;
+    }
 }
-*/
 
 //检查更新
 - (void)checkAndUpdateVersion
@@ -273,6 +289,13 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"itms-services://?action=download-manifest&url=" stringByAppendingString:self.strNewVersionUrl]]];
         }
     }
+}
+
+#pragma mark MCAvatar Delegate
+- (void)updateAvatar:(NSData *)dataAvatar
+{
+    self.myInfo.avatarImage = dataAvatar;
+    [self.tableView reloadData];
 }
 
 @end

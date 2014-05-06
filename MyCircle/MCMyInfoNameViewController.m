@@ -122,7 +122,7 @@
             //保存到本地
             MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:strAccount];
             myInfo.userName = self.textName.text;
-            [[MCMyInfoDAO sharedManager] insert:myInfo];
+            [[MCMyInfoDAO sharedManager] modify:myInfo];
             [self.myInfoModifyDelegate updateValueOfCell:self.textName.text index:1];
         }
         else {

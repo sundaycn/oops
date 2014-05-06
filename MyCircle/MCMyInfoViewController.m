@@ -17,12 +17,13 @@
 #import <ASIHTTPRequest/ASIFormDataRequest.h>
 #import "MCMyInfoOtherPhoneViewController.h"
 #import "MCMyInfoEmailViewController.h"
+#import "MCProvinceDAO.h"
+#import "MCCityDAO.h"
 
 @interface MCMyInfoViewController ()
 @property (nonatomic, strong) NSString *strAccount;
 @property (strong, nonatomic) NSArray *arrItem;
 @property (strong, nonatomic) NSMutableArray *arrDetail;
-@property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) MCMyInfo *myInfo;
 @property (nonatomic, strong) NSArray *arrGender;
 @property (nonatomic, strong) UIActionSheet *actionSheetForAvatar;
@@ -59,12 +60,26 @@
     self.tableView.scrollEnabled = NO;
     self.tableView.opaque = NO;
 
-    //获取用户姓名
+    //提取用户个人资料
     self.strAccount = [[MCConfig sharedInstance] getAccount];
     self.myInfo = [[MCMyInfoDAO sharedManager] findByAccount:self.strAccount];
+    NSString *region;
+    if (![self.myInfo.provinceId isEqualToString:@"未设置"]) {
+        NSString *provinceName = [[[MCProvinceDAO sharedManager] findById:self.myInfo.provinceId] name];
+        region = provinceName;
+        if (![self.myInfo.cityId isEqualToString:@"未设置"]) {
+            region = [region stringByAppendingString:@" "];
+            NSString *cityName = [[[MCCityDAO sharedManager] findById:self.myInfo.cityId pid:self.myInfo.provinceId] name];
+            region = [region stringByAppendingString:cityName];
+        }
+    }
+    else {
+        region = @"未设置";
+    }
+    
     //配置数据源
     self.arrItem = [[NSArray alloc] initWithObjects:@"头像", @"名字", @"性别", @"生日", @"地区", @"手机号码", @"其他电话", @"电子邮箱", nil];
-    self.arrDetail = [[NSMutableArray alloc] initWithObjects:@"Avatar", self.myInfo.userName, self.myInfo.gender, self.myInfo.birthdayString, self.myInfo.provinceId, self.myInfo.mobile, self.myInfo.phone, self.myInfo.email, nil];
+    self.arrDetail = [[NSMutableArray alloc] initWithObjects:@"Avatar", self.myInfo.userName, self.myInfo.gender, self.myInfo.birthdayString, region, self.myInfo.mobile, self.myInfo.phone, self.myInfo.email, nil];
     [self.tableView reloadData];
 }
 
@@ -152,7 +167,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.indexPath = indexPath;
     switch (indexPath.row) {
         case 0:
             //拍摄头像或从相册中选择头像
@@ -168,6 +182,7 @@
             [self showDatePickerForBirthday];
             break;
         case 4:
+            [self performSegueWithIdentifier:@"showProvince" sender:self];
             break;
         case 5:
             break;
@@ -190,22 +205,23 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     if ([[segue identifier] isEqualToString:@"showName"]) {
         MCMyInfoNameViewController *nameViewController = [segue destinationViewController];
         nameViewController.myInfoModifyDelegate = self;
-        UITableViewCell *selectedCell = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPath];
+        UITableViewCell *selectedCell = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         nameViewController.strName = selectedCell.detailTextLabel.text;
     }
     else if ([[segue identifier] isEqualToString:@"showOtherPhone"]) {
         MCMyInfoOtherPhoneViewController *otherPhoneViewController = [segue destinationViewController];
         otherPhoneViewController.myInfoModifyDelegate = self;
-        UITableViewCell *selectedCell = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPath];
+        UITableViewCell *selectedCell = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         otherPhoneViewController.strOtherPhone = selectedCell.detailTextLabel.text;
     }
     else if ([[segue identifier] isEqualToString:@"showEmail"]) {
         MCMyInfoEmailViewController *emailViewController = [segue destinationViewController];
         emailViewController.myInfoModifyDelegate = self;
-        UITableViewCell *selectedCell = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPath];
+        UITableViewCell *selectedCell = (UITableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         emailViewController.strEmail = selectedCell.detailTextLabel.text;
     }
 }
@@ -328,7 +344,7 @@
             //保存到本地
             MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:self.strAccount];
             myInfo.gender = selectedGender;
-            [[MCMyInfoDAO sharedManager] insert:myInfo];
+            [[MCMyInfoDAO sharedManager] modify:myInfo];
             //更新tableview的数据源
             self.arrDetail[2] = selectedGender;
             [self.tableView reloadData];
@@ -418,7 +434,7 @@
             //保存到本地
             MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:self.strAccount];
             myInfo.birthdayString = selectedBirthday;
-            [[MCMyInfoDAO sharedManager] insert:myInfo];
+            [[MCMyInfoDAO sharedManager] modify:myInfo];
             //更新tableview的数据源
             self.arrDetail[3] = selectedBirthday;
             [self.tableView reloadData];
@@ -530,10 +546,11 @@
             //保存到本地
             MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:self.strAccount];
             myInfo.avatarImage = dataAvatar;
-            [[MCMyInfoDAO sharedManager] insert:myInfo];
+            [[MCMyInfoDAO sharedManager] modify:myInfo];
             //更新tableview的数据源
             self.myInfo.avatarImage = dataAvatar;
             [self.tableView reloadData];
+            [self.avatarDelegate updateAvatar:dataAvatar];
         }
         else {
             DLog(@"个人资料－头像修改失败");

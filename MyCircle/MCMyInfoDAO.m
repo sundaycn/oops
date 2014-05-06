@@ -68,6 +68,63 @@ static MCMyInfoDAO *sharedManager = nil;
     return 0;
 }
 
+//更新个人资料
+- (int)modify:(MCMyInfo *)model
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCMyInfo" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", model.id];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    if ([listData count] > 0) {
+        MCMyInfoManagedObject *myInfo = [listData lastObject];
+        myInfo.address = myInfo.address;
+        myInfo.birthday = model.birthday;
+        myInfo.birthdayString = model.birthdayString;
+        myInfo.cityId = model.cityId;
+        myInfo.countyId = model.countyId;
+        myInfo.createDate = model.createDate;
+        myInfo.createDateString = model.createDateString;
+        myInfo.createId = model.createId;
+        myInfo.email = model.email;
+        myInfo.gender = model.gender;
+        myInfo.homepage = model.homepage;
+        myInfo.id = model.id;
+        myInfo.microBlog = model.microBlog;
+        myInfo.mobile = model.mobile;
+        myInfo.modifyDate = model.modifyDate;
+        myInfo.modifyDateString = model.modifyDateString;
+        myInfo.modifyId = model.modifyId;
+        myInfo.openfireAcct = model.openfireAcct;
+        myInfo.phone = model.phone;
+        myInfo.photo = model.photo;
+        myInfo.postNo = model.postNo;
+        myInfo.provinceId = model.provinceId;
+        myInfo.qqNo = model.qqNo;
+        myInfo.signature = model.signature;
+        myInfo.trade = model.trade;
+        myInfo.userConcerns = model.userConcerns;
+        myInfo.userName = model.userName;
+        myInfo.weChatNo = model.weChatNo;
+        myInfo.avatarImage = model.avatarImage;
+        
+        NSError *savingError = nil;
+        if ([self.managedObjectContext save:&savingError]){
+            DLog(@"修改个人资料成功");
+        } else {
+            DLog(@"修改个人资料失败");
+            return -1;
+        }
+    }
+    
+    return 0;
+}
+
 //插入头像照片
 - (int)insertAvatar:(NSData *)avatarImage byAccount:(NSString *)strAccount
 {

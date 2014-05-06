@@ -31,6 +31,6 @@
 - (NSArray *)findAll;
 
 //按照主键查询省份数据方法
-- (MCProvince *)findById:(MCProvince *)model;
+- (MCProvince *)findById:(NSString *)pid;
 
 @end

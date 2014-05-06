@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MCAvatarDelegate.h"
 
-@interface MCMoreViewController : UITableViewController<UIAlertViewDelegate>
+@interface MCMoreViewController : UITableViewController<UIAlertViewDelegate, MCAvatarDelegate>
 
 @end

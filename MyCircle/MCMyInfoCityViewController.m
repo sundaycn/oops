@@ -7,9 +7,14 @@
 //
 
 #import "MCMyInfoCityViewController.h"
+#import <ASIHTTPRequest/ASIFormDataRequest.h>
+#import "MCCityDAO.h"
+#import "MCMyInfoDAO.h"
+#import "MCConfig.h"
+#import "MCMyInfoViewController.h"
 
 @interface MCMyInfoCityViewController ()
-
+@property (nonatomic, strong) NSArray *arrCity;
 @end
 
 @implementation MCMyInfoCityViewController
@@ -32,6 +37,13 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.arrCity = [[MCCityDAO sharedManager] findByPid:self.pid];
+    if (self.arrCity.count == 0) {
+        //第一次初始化地区－市数据
+        DLog(@"第一次初始化地区－市数据");
+        [self getCityData];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,28 +56,43 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [self.arrCity count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"CityCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     
     // Configure the cell...
-    
+    cell.textLabel.text = [self.arrCity[indexPath.row] objectForKey:@"name"];
+
     return cell;
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MCMyInfoViewController *myInfoVC = [self.navigationController.viewControllers objectAtIndex:1];
+    int ret = [self postData:[self.arrCity[indexPath.row] objectForKey:@"id"]];
+    if (ret == 0) {
+        self.myInfoModifyDelegate = myInfoVC;
+        NSString *regionName = [[self.pName stringByAppendingString:@" "] stringByAppendingString:[self.arrCity[indexPath.row] objectForKey:@"name"]];
+        [self.myInfoModifyDelegate updateValueOfCell:regionName index:4];
+    }
+    
+    [self.navigationController popToViewController:myInfoVC animated:YES];
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -115,5 +142,136 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+//提交修改值
+- (int)postData:(NSString *)cid
+{
+    //没修改不提交
+//    if ([self.strName isEqualToString:self.textName.text]) {
+//        return;
+//    }
+    
+    BOOL provinceModified = NO;
+    BOOL cityModified = NO;
+    
+    //获取账号和密码
+    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+    NSString *strPassword = [[MCConfig sharedInstance] getCipherPassword];
+    DLog(@"password:%@", strPassword);
+    
+    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!changeUserAttachInfoAjax.action"]];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
+    //修改省
+    NSString *strInfo = [[@"{\"provinceId\":\"" stringByAppendingString:self.pid] stringByAppendingString:@"\"}"];
+//    DLog(@"info:%@", strInfo);
+    [request addPostValue:strAccount forKey:@"tel"];
+    [request addPostValue:strPassword forKey:@"password"];
+    [request addPostValue:strInfo forKey:@"info"];
+    //同步请求
+    [request startSynchronous];
+    
+    NSError *error = [request error];
+    if (!error) {
+        NSData *response  = [request responseData];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
+        //判断服务器返回结果
+        NSString *strResult = [NSString stringWithFormat:@"%@",[[dictResponse objectForKey:@"root"] objectForKey:@"result"]];
+        BOOL isOK = [strResult isEqualToString:@"1"];
+        if (isOK) {
+            DLog(@"个人资料－省份修改成功");
+            //保存到本地
+            MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:strAccount];
+            myInfo.provinceId = self.pid;
+            [[MCMyInfoDAO sharedManager] modify:myInfo];
+            provinceModified = YES;
+        }
+        else {
+            DLog(@"个人资料－省份修改失败");
+        }
+    }
+    
+    //修改城市
+    strInfo = [[@"{\"cityId\":\"" stringByAppendingString:cid] stringByAppendingString:@"\"}"];
+//    DLog(@"info:%@", strInfo);
+    [request addPostValue:strAccount forKey:@"tel"];
+    [request addPostValue:strPassword forKey:@"password"];
+    [request addPostValue:strInfo forKey:@"info"];
+    //同步请求
+    [request startSynchronous];
+    
+    error = [request error];
+    if (!error) {
+        NSData *response  = [request responseData];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
+        //判断服务器返回结果
+        NSString *strResult = [NSString stringWithFormat:@"%@",[[dictResponse objectForKey:@"root"] objectForKey:@"result"]];
+        BOOL isOK = [strResult isEqualToString:@"1"];
+        if (isOK) {
+            DLog(@"个人资料－城市修改成功");
+            //保存到本地
+            MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:strAccount];
+            myInfo.cityId = cid;
+            [[MCMyInfoDAO sharedManager] modify:myInfo];
+            cityModified = YES;
+        }
+        else {
+            DLog(@"个人资料－城市修改失败");
+        }
+    }
+    
+    //省市修改成功
+    if (provinceModified && cityModified) {
+        return 0;
+    }
+    
+    return 1;
+}
+
+//第一次启动应用时从服务器获取市数据
+- (void)getCityData
+{
+    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!queryCityAjax.action"]];
+    __weak ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
+    [request addPostValue:self.pid forKey:@"provinceId"];
+    [request setCompletionBlock:^{
+        // Use when fetching binary data
+        NSData *responseData = [request responseData];
+        
+        //把province的值由字符串格式转为json数组格式
+        NSString *strJsonResult = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\"[" withString:@"["];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"]\"" withString:@"]"];
+        //        DLog(@"服务器返回省数据:\n%@", strJsonResult);
+        
+        //重新封装json数据
+        NSData *dataResponse = [strJsonResult dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:dataResponse options:NSJSONReadingAllowFragments error:nil];
+        NSArray *arrRoot = [[dictResponse objectForKey:@"root"] objectForKey:@"info"];
+        /*for (NSDictionary *dictItem in arrRoot) {
+            
+            MCCity *city = [[MCCity alloc] init];
+            city.existsChild = [dictItem objectForKey:@"existChild"];
+            city.cid = [dictItem objectForKey:@"id"];
+            city.name = [dictItem objectForKey:@"name"];
+            
+            [[MCCityDAO sharedManager] create:city];
+        }*/
+        [[MCCityDAO sharedManager] create:arrRoot pid:self.pid];
+
+        
+        self.arrCity = [[MCCityDAO sharedManager] findByPid:self.pid];
+        [self.tableView reloadData];
+    }];
+    [request setFailedBlock:^{
+        NSError *error = [request error];
+        NSString *strDetail = [error.localizedDescription stringByAppendingString:@"\n 请返回重新尝试"];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"获取市数据失败" message:strDetail delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+    }];
+    
+    //异步获取数据
+    [request startAsynchronous];
+}
 
 @end

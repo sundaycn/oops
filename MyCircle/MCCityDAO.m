@@ -48,17 +48,13 @@ static MCCityDAO *sharedManager = nil;
 }
 
 //插入市方法
-- (int)create:(MCCity *)model
+- (int)create:(NSArray *)arrCity pid:(NSString *)pid
 {
     NSString *path = [self applicationDocumentsDirectoryFile];
-    NSMutableArray *array = [[NSMutableArray alloc] initWithContentsOfFile:path];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
     
-    NSDictionary* dict = [NSDictionary
-                          dictionaryWithObjects:@[model.cid, model.name, model.existsChild]
-                          forKeys:@[@"cid", @"name", @"existsChild"]];
-    
-    [array addObject:dict];
-    [array writeToFile:path atomically:YES];
+    [dict setValue:arrCity forKeyPath:pid];
+    [dict writeToFile:path atomically:YES];
     
     return 0;
 }
@@ -134,17 +130,28 @@ static MCCityDAO *sharedManager = nil;
     return [listData copy];
 }
 
-//按照主键查询市数据方法
-- (MCCity *)findById:(MCCity *)model
+//按照所属省id查询市数据方法
+- (NSArray *)findByPid:(NSString *)pid
 {
     NSString *path = [self applicationDocumentsDirectoryFile];
-    NSMutableArray *array = [[NSMutableArray alloc] initWithContentsOfFile:path];
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSArray *array = [dict objectForKey:pid];
+
+    return array;
+}
+
+//按照主键查询市数据方法
+- (MCCity *)findById:(NSString *)cid pid:(NSString *)pid
+{
+    NSString *path = [self applicationDocumentsDirectoryFile];
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSArray *array = [dict objectForKey:pid];
     
     for (NSDictionary *dict in array) {
         
-        if ([[dict objectForKey:@"cid"] isEqualToString:model.cid]) {
+        if ([[dict objectForKey:@"id"] isEqualToString:cid]) {
             MCCity *city = [[MCCity alloc] init];
-            city.cid = [dict objectForKey:@"cid"];
+            city.cid = [dict objectForKey:@"id"];
             city.name = [dict objectForKey:@"name"];
             city.existsChild = [dict objectForKey:@"existsChild"];
             

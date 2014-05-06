@@ -14,6 +14,8 @@
 + (MCMyInfoDAO *)sharedManager;
 //插入个人资料
 - (int)insert:(MCMyInfo *)model;
+//更新个人资料
+- (int)modify:(MCMyInfo *)model;
 //插入头像照片
 - (int)insertAvatar:(NSData *)avatarImage byAccount:(NSString *)strAccount;
 //删除个人资料

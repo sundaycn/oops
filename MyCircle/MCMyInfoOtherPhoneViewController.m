@@ -123,7 +123,7 @@
             //保存到本地
             MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:strAccount];
             myInfo.phone = self.textOtherPhone.text;
-            [[MCMyInfoDAO sharedManager] insert:myInfo];
+            [[MCMyInfoDAO sharedManager] modify:myInfo];
             [self.myInfoModifyDelegate updateValueOfCell:self.textOtherPhone.text index:6];
         }
         else {
