@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface MCMyInfoHandler : NSObject
-+ (NSInteger)isGetMyInfoSuccessfully:(NSString *)strAccount password:(NSString *)cipherPwd;
++ (void)isGetMyInfoSuccessfully:(NSString *)strAccount password:(NSString *)cipherPwd;
 @end

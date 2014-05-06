@@ -12,18 +12,16 @@
 #import "MCCrypto.h"
 
 @implementation MCMyInfoHandler
-+ (NSInteger)isGetMyInfoSuccessfully:(NSString *)strAccount password:(NSString *)cipherPwd
++ (void)isGetMyInfoSuccessfully:(NSString *)strAccount password:(NSString *)cipherPwd
 {
     NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!findUserAttachInfoAjax.action"]];
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
+    __weak ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
     [request addPostValue:strAccount forKey:@"tel"];
     [request addPostValue:cipherPwd forKey:@"password"];
-    //同步请求
-    [request startSynchronous];
     
-    NSError *error = [request error];
-    if (!error) {
-        NSData *response  = [request responseData];
+    [request setCompletionBlock:^{
+        // Use when fetching binary data
+        NSData *response = [request responseData];
         //把info的值由字符串格式转为json数组格式
         NSString *strJsonResult = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
         strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\"{" withString:@"{"];
@@ -46,7 +44,7 @@
             myInfo.userName = myInfo.userName ? myInfo.userName : @"未设置";
             myInfo.gender = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"gender"];
             myInfo.gender = [myInfo.gender isEqualToString:@"F"] ? @"女" : @"男";
-//            myInfo.photo = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"photo"];
+            //            myInfo.photo = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"photo"];
             myInfo.provinceId = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"provinceId"];
             myInfo.provinceId = myInfo.provinceId ? myInfo.provinceId : @"未设置";
             myInfo.cityId = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"cityId"];
@@ -54,9 +52,9 @@
             myInfo.countyId = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"countyId"];
             myInfo.countyId = myInfo.countyId ? myInfo.countyId : @"未设置";
             myInfo.mobile = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"mobile"];
-//            myInfo.address = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"address"];
+            //            myInfo.address = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"address"];
             myInfo.id = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"id"];
-//            myInfo.postNo = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"postNo"];
+            //            myInfo.postNo = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"postNo"];
             myInfo.phone = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"phone"];
             myInfo.phone = myInfo.phone ? myInfo.phone : @"未设置";
             myInfo.birthdayString = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"birthdayString"];
@@ -64,21 +62,22 @@
             myInfo.email = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"email"];
             myInfo.email = myInfo.email ? myInfo.email : @"未设置";
             [[MCMyInfoDAO sharedManager] insert:myInfo];
-
+            
             DLog(@"个人资料获取成功");
             [MCMyInfoHandler downloadAvatar:myInfo.photo account:strAccount];
             DLog(@"个人头像保存成功");
-            return 0;
         }
         else {
             DLog(@"个人资料获取失败");
-            return 1;
         }
-    }
-    else {
+    }];
+    [request setFailedBlock:^{
+        NSError *error = [request error];
         DLog(@"个人资料获取请求发生错误\n %@", error);
-        return 2;
-    }
+    }];
+    
+    //异步请求
+    [request startAsynchronous];
 }
 
 + (void)downloadAvatar:(NSString *)url account:(NSString *)strAccount
