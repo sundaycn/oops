@@ -65,6 +65,7 @@
     self.myInfo = [[MCMyInfoDAO sharedManager] findByAccount:self.strAccount];
     NSString *region;
     if (![self.myInfo.provinceId isEqualToString:@"未设置"]) {
+        DLog(@"11111");
         NSString *provinceName = [[[MCProvinceDAO sharedManager] findById:self.myInfo.provinceId] name];
         region = provinceName;
         if (![self.myInfo.cityId isEqualToString:@"未设置"]) {
@@ -74,12 +75,16 @@
         }
     }
     else {
+        DLog(@"22222");
         region = @"未设置";
     }
+    
+    DLog(@"region:%@", region);
     
     //配置数据源
     self.arrItem = [[NSArray alloc] initWithObjects:@"头像", @"名字", @"性别", @"生日", @"地区", @"手机号码", @"其他电话", @"电子邮箱", nil];
     self.arrDetail = [[NSMutableArray alloc] initWithObjects:@"Avatar", self.myInfo.userName, self.myInfo.gender, self.myInfo.birthdayString, region, self.myInfo.mobile, self.myInfo.phone, self.myInfo.email, nil];
+    DLog(@"arrDetail:%@", self.arrDetail);
     [self.tableView reloadData];
 }
 
