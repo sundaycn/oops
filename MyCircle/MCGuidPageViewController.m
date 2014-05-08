@@ -27,34 +27,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     EAIntroPage *page1 = [EAIntroPage page];
-//    page1.title = @"Hello world";
-    //    page1.desc = sampleDescription1;
-    page1.bgImage = [UIImage imageNamed:@"ImageGuidPage1"];
-    page1.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title1"]];
+    page1.bgImage = [UIImage imageNamed:ASSET_BY_SCREEN_HEIGHT(@"ImageGuidPage1")];
+    page1.showTitleView = NO;
     
     EAIntroPage *page2 = [EAIntroPage page];
-//    page2.title = @"This is page 2";
-    //    page2.desc = sampleDescription2;
-    page2.bgImage = [UIImage imageNamed:@"ImageGuidPage2"];
-    page2.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title2"]];
+    page2.bgImage = [UIImage imageNamed:ASSET_BY_SCREEN_HEIGHT(@"ImageGuidPage2")];
+    page2.showTitleView = NO;
     
     EAIntroPage *page3 = [EAIntroPage page];
-//    page3.title = @"This is page 3";
-    //    page3.desc = sampleDescription3;
-    page3.bgImage = [UIImage imageNamed:@"ImageGuidPage3"];
-    page3.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title3"]];
+    page3.bgImage = [UIImage imageNamed:ASSET_BY_SCREEN_HEIGHT(@"ImageGuidPage3")];
+    page3.showTitleView = NO;
     
     EAIntroPage *page4 = [EAIntroPage page];
-//    page4.title = @"This is page 4";
-    //    page4.desc = sampleDescription4;
-    page4.bgImage = [UIImage imageNamed:@"ImageGuidPage4"];
-    page4.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title4"]];
+    page4.bgImage = [UIImage imageNamed:ASSET_BY_SCREEN_HEIGHT(@"ImageGuidPage4")];
+    page4.showTitleView = NO;
     
     EAIntroPage *page5 = [EAIntroPage page];
-//    page5.title = @"This is page5";
-    //    page4.desc = sampleDescription4;
-    page5.bgImage = [UIImage imageNamed:@"ImageGuidPage5"];
-    page5.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"title5"]];
+    page5.bgImage = [UIImage imageNamed:ASSET_BY_SCREEN_HEIGHT(@"ImageGuidPage5")];
+    page5.showTitleView = NO;
     
     EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1,page2,page3,page4,page5]];
     [intro setDelegate:self];
@@ -81,7 +71,6 @@
 
 #pragma mark - EAIntro Delegate
 - (void)introDidFinish:(EAIntroView *)introView {
-    DLog(@"introDidFinish callback");
     [self performSegueWithIdentifier:@"showLogin" sender:self];
 }
 

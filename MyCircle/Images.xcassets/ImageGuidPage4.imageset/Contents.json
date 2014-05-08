@@ -2,13 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "欢迎页面004.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "欢迎页面4.png"
+      "filename" : "欢迎页面004.png"
     }
   ],
   "info" : {
