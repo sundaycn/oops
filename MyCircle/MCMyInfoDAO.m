@@ -32,7 +32,9 @@ static MCMyInfoDAO *sharedManager = nil;
     myInfo.birthday = model.birthday;
     myInfo.birthdayString = model.birthdayString;
     myInfo.cityId = model.cityId;
+    myInfo.cityName = model.cityName;
     myInfo.countyId = model.countyId;
+    myInfo.countyName = model.countyName;
     myInfo.createDate = model.createDate;
     myInfo.createDateString = model.createDateString;
     myInfo.createId = model.createId;
@@ -50,6 +52,7 @@ static MCMyInfoDAO *sharedManager = nil;
     myInfo.photo = model.photo;
     myInfo.postNo = model.postNo;
     myInfo.provinceId = model.provinceId;
+    myInfo.provinceName = model.provinceName;
     myInfo.qqNo = model.qqNo;
     myInfo.signature = model.signature;
     myInfo.trade = model.trade;
@@ -68,7 +71,7 @@ static MCMyInfoDAO *sharedManager = nil;
     return 0;
 }
 
-//更新个人资料
+//修改个人资料
 - (int)modify:(MCMyInfo *)model
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
@@ -76,7 +79,7 @@ static MCMyInfoDAO *sharedManager = nil;
                                               entityForName:@"MCMyInfo" inManagedObjectContext:cxt];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id = %@", model.id];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"mobile = %@", model.mobile];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -87,7 +90,9 @@ static MCMyInfoDAO *sharedManager = nil;
         myInfo.birthday = model.birthday;
         myInfo.birthdayString = model.birthdayString;
         myInfo.cityId = model.cityId;
+        myInfo.cityName = model.cityName;
         myInfo.countyId = model.countyId;
+        myInfo.countyName = model.countyName;
         myInfo.createDate = model.createDate;
         myInfo.createDateString = model.createDateString;
         myInfo.createId = model.createId;
@@ -105,6 +110,7 @@ static MCMyInfoDAO *sharedManager = nil;
         myInfo.photo = model.photo;
         myInfo.postNo = model.postNo;
         myInfo.provinceId = model.provinceId;
+        myInfo.provinceName = model.provinceName;
         myInfo.qqNo = model.qqNo;
         myInfo.signature = model.signature;
         myInfo.trade = model.trade;
@@ -199,7 +205,9 @@ static MCMyInfoDAO *sharedManager = nil;
         myInfo.birthday = model.birthday;
         myInfo.birthdayString = model.birthdayString;
         myInfo.cityId = model.cityId;
+        myInfo.cityName = model.cityName;
         myInfo.countyId = model.countyId;
+        myInfo.countyName = model.countyName;
         myInfo.createDate = model.createDate;
         myInfo.createDateString = model.createDateString;
         myInfo.createId = model.createId;
@@ -217,6 +225,7 @@ static MCMyInfoDAO *sharedManager = nil;
         myInfo.photo = model.photo;
         myInfo.postNo = model.postNo;
         myInfo.provinceId = model.provinceId;
+        myInfo.provinceName = model.provinceName;
         myInfo.qqNo = model.qqNo;
         myInfo.signature = model.signature;
         myInfo.trade = model.trade;

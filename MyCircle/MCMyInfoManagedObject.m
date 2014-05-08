@@ -13,7 +13,9 @@
 @dynamic birthday;
 @dynamic birthdayString;
 @dynamic cityId;
+@dynamic cityName;
 @dynamic countyId;
+@dynamic countyName;
 @dynamic createDate;
 @dynamic createDateString;
 @dynamic createId;
@@ -31,6 +33,7 @@
 @dynamic photo;
 @dynamic postNo;
 @dynamic provinceId;
+@dynamic provinceName;
 @dynamic qqNo;
 @dynamic signature;
 @dynamic trade;

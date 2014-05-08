@@ -24,6 +24,7 @@ static MCCityDAO *sharedManager = nil;
 
 - (NSString *)applicationDocumentsDirectoryFile
 {
+    //document path
     NSString *documentDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *path = [documentDirectory stringByAppendingPathComponent:@"MyInfoRegionCity.plist"];
     

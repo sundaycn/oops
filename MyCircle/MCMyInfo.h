@@ -13,7 +13,9 @@
 @property (nonatomic, assign) NSInteger birthday;
 @property (nonatomic, strong) NSString *birthdayString;
 @property (nonatomic, strong) NSString *cityId;
+@property (nonatomic, strong) NSString *cityName;
 @property (nonatomic, strong) NSString *countyId;
+@property (nonatomic, strong) NSString *countyName;
 @property (nonatomic, assign) NSInteger createDate;
 @property (nonatomic, strong) NSString *createDateString;
 @property (nonatomic, strong) NSString *createId;
@@ -31,6 +33,7 @@
 @property (nonatomic, strong) NSString *photo;
 @property (nonatomic, strong) NSString *postNo;
 @property (nonatomic, strong) NSString *provinceId;
+@property (nonatomic, strong) NSString *provinceName;
 @property (nonatomic, strong) NSString *qqNo;
 @property (nonatomic, strong) NSString *signature;
 @property (nonatomic, strong) NSString *trade;

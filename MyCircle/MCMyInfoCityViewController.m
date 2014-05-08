@@ -8,7 +8,7 @@
 
 #import "MCMyInfoCityViewController.h"
 #import <ASIHTTPRequest/ASIFormDataRequest.h>
-#import "MCCityDAO.h"
+//#import "MCCityDAO.h"
 #import "MCMyInfoDAO.h"
 #import "MCConfig.h"
 #import "MCMyInfoViewController.h"
@@ -38,12 +38,15 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.arrCity = [[MCCityDAO sharedManager] findByPid:self.pid];
+    /*self.arrCity = [[MCCityDAO sharedManager] findByPid:self.pid];
     if (self.arrCity.count == 0) {
         //第一次初始化地区－市数据
         DLog(@"第一次初始化地区－市数据");
         [self getCityData];
-    }
+    }*/
+    
+    NSString *strCityPlistPath = [[NSBundle mainBundle] pathForResource:@"MyInfoRegionCity" ofType:@"plist"];
+    self.arrCity = [[[NSDictionary alloc] initWithContentsOfFile:strCityPlistPath] objectForKey:self.pid];
 }
 
 - (void)didReceiveMemoryWarning
@@ -84,7 +87,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MCMyInfoViewController *myInfoVC = [self.navigationController.viewControllers objectAtIndex:1];
-    int ret = [self postData:[self.arrCity[indexPath.row] objectForKey:@"id"]];
+    int ret = [self postData:[self.arrCity[indexPath.row] objectForKey:@"id"] name:[self.arrCity[indexPath.row] objectForKey:@"name"]];
     if (ret == 0) {
         self.myInfoModifyDelegate = myInfoVC;
         NSString *regionName = [[self.pName stringByAppendingString:@" "] stringByAppendingString:[self.arrCity[indexPath.row] objectForKey:@"name"]];
@@ -144,7 +147,7 @@
 */
 
 //提交修改值
-- (int)postData:(NSString *)cid
+- (int)postData:(NSString *)cid name:(NSString *)name
 {
     //没修改不提交
 //    if ([self.strName isEqualToString:self.textName.text]) {
@@ -157,22 +160,20 @@
     //获取账号和密码
     NSString *strAccount = [[MCConfig sharedInstance] getAccount];
     NSString *strPassword = [[MCConfig sharedInstance] getCipherPassword];
-    DLog(@"password:%@", strPassword);
     
     NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!changeUserAttachInfoAjax.action"]];
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
+    ASIFormDataRequest *requestProvince = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
     //修改省
     NSString *strInfo = [[@"{\"provinceId\":\"" stringByAppendingString:self.pid] stringByAppendingString:@"\"}"];
-//    DLog(@"info:%@", strInfo);
-    [request addPostValue:strAccount forKey:@"tel"];
-    [request addPostValue:strPassword forKey:@"password"];
-    [request addPostValue:strInfo forKey:@"info"];
+    [requestProvince addPostValue:strAccount forKey:@"tel"];
+    [requestProvince addPostValue:strPassword forKey:@"password"];
+    [requestProvince addPostValue:strInfo forKey:@"info"];
     //同步请求
-    [request startSynchronous];
+    [requestProvince startSynchronous];
     
-    NSError *error = [request error];
+    NSError *error = [requestProvince error];
     if (!error) {
-        NSData *response  = [request responseData];
+        NSData *response  = [requestProvince responseData];
         NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
         //判断服务器返回结果
         NSString *strResult = [NSString stringWithFormat:@"%@",[[dictResponse objectForKey:@"root"] objectForKey:@"result"]];
@@ -182,6 +183,7 @@
             //保存到本地
             MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:strAccount];
             myInfo.provinceId = self.pid;
+            myInfo.provinceName = self.pName;
             [[MCMyInfoDAO sharedManager] modify:myInfo];
             provinceModified = YES;
         }
@@ -191,17 +193,17 @@
     }
     
     //修改城市
+    ASIFormDataRequest *requestCity = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
     strInfo = [[@"{\"cityId\":\"" stringByAppendingString:cid] stringByAppendingString:@"\"}"];
-//    DLog(@"info:%@", strInfo);
-    [request addPostValue:strAccount forKey:@"tel"];
-    [request addPostValue:strPassword forKey:@"password"];
-    [request addPostValue:strInfo forKey:@"info"];
+    [requestCity addPostValue:strAccount forKey:@"tel"];
+    [requestCity addPostValue:strPassword forKey:@"password"];
+    [requestCity addPostValue:strInfo forKey:@"info"];
     //同步请求
-    [request startSynchronous];
+    [requestCity startSynchronous];
     
-    error = [request error];
+    error = [requestCity error];
     if (!error) {
-        NSData *response  = [request responseData];
+        NSData *response  = [requestCity responseData];
         NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingAllowFragments error:nil];
         //判断服务器返回结果
         NSString *strResult = [NSString stringWithFormat:@"%@",[[dictResponse objectForKey:@"root"] objectForKey:@"result"]];
@@ -211,6 +213,7 @@
             //保存到本地
             MCMyInfo *myInfo = [[MCMyInfoDAO sharedManager] findByAccount:strAccount];
             myInfo.cityId = cid;
+            myInfo.cityName = name;
             [[MCMyInfoDAO sharedManager] modify:myInfo];
             cityModified = YES;
         }
@@ -227,6 +230,7 @@
     return 1;
 }
 
+/*
 //第一次启动应用时从服务器获取市数据
 - (void)getCityData
 {
@@ -248,17 +252,7 @@
         NSData *dataResponse = [strJsonResult dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:dataResponse options:NSJSONReadingAllowFragments error:nil];
         NSArray *arrRoot = [[dictResponse objectForKey:@"root"] objectForKey:@"info"];
-        /*for (NSDictionary *dictItem in arrRoot) {
-            
-            MCCity *city = [[MCCity alloc] init];
-            city.existsChild = [dictItem objectForKey:@"existChild"];
-            city.cid = [dictItem objectForKey:@"id"];
-            city.name = [dictItem objectForKey:@"name"];
-            
-            [[MCCityDAO sharedManager] create:city];
-        }*/
         [[MCCityDAO sharedManager] create:arrRoot pid:self.pid];
-
         
         self.arrCity = [[MCCityDAO sharedManager] findByPid:self.pid];
         [self.tableView reloadData];
@@ -272,6 +266,6 @@
     
     //异步获取数据
     [request startAsynchronous];
-}
+}*/
 
 @end

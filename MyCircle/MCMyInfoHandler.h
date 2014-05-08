@@ -10,4 +10,9 @@
 
 @interface MCMyInfoHandler : NSObject
 + (void)isGetMyInfoSuccessfully:(NSString *)strAccount password:(NSString *)cipherPwd;
+/*
+//提取地区－省名称
++ (NSString *)getProvinceNameById:(NSString *)pid;
+//提取地区－市名称
++ (NSString *)getCityNameById:(NSString *)cid pid:(NSString *)pid;*/
 @end

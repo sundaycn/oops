@@ -8,7 +8,7 @@
 
 #import "MCMyInfoProvinceViewController.h"
 #import <ASIHTTPRequest/ASIFormDataRequest.h>
-#import "MCProvinceDAO.h"
+//#import "MCProvinceDAO.h"
 #import "MCMyInfoCityViewController.h"
 
 @interface MCMyInfoProvinceViewController ()
@@ -36,12 +36,15 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.arrProvince = [[MCProvinceDAO sharedManager] findAll];
-    if (self.arrProvince.count == 0) {
-        //第一次初始化地区－省数据
-        DLog(@"第一次初始化地区－省数据");
-        [self getProvinceData];
-    }
+//    self.arrProvince = [[MCProvinceDAO sharedManager] findAll];
+//    if (self.arrProvince.count == 0) {
+//        //第一次初始化地区－省数据
+//        DLog(@"第一次初始化地区－省数据");
+//        [self getProvinceData];
+//    }
+    
+    NSString *strProvincePlistPath = [[NSBundle mainBundle] pathForResource:@"MyInfoRegionProvince" ofType:@"plist"];
+    self.arrProvince = [[NSArray alloc] initWithContentsOfFile:strProvincePlistPath];
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,7 +77,7 @@
     }
 
     // Configure the cell...
-    cell.textLabel.text = [(MCProvince *)self.arrProvince[indexPath.row] name];
+    cell.textLabel.text = [self.arrProvince[indexPath.row] objectForKey:@"name"];
     
     return cell;
 }
@@ -131,11 +134,12 @@
     // Pass the selected object to the new view controller.
     if ([[segue identifier] isEqualToString:@"showCity"]) {
         MCMyInfoCityViewController *cityVC = [segue destinationViewController];
-        cityVC.pid = [(MCProvince *)self.arrProvince[[self.tableView indexPathForSelectedRow].row] pid];
-        cityVC.pName = [(MCProvince *)self.arrProvince[[self.tableView indexPathForSelectedRow].row] name];
+        cityVC.pid = [self.arrProvince[[self.tableView indexPathForSelectedRow].row] objectForKey:@"pid"];
+        cityVC.pName = [self.arrProvince[[self.tableView indexPathForSelectedRow].row] objectForKey:@"name"];
     }
 }
 
+/*
 //第一次启动应用时从服务器获取省数据
 - (void)getProvinceData
 {
@@ -165,6 +169,8 @@
             province.pid = [dictItem objectForKey:@"id"];
             province.name = [dictItem objectForKey:@"name"];
             
+            DLog(@"province name :%@", province.name);
+            
             [[MCProvinceDAO sharedManager] create:province];
         }
 
@@ -180,6 +186,6 @@
     
     //异步获取数据
     [request startAsynchronous];
-}
+}*/
 
 @end

@@ -9,6 +9,8 @@
 #import "MCMyInfoHandler.h"
 #import <ASIHTTPRequest/ASIFormDataRequest.h>
 #import "MCMyInfoDAO.h"
+#import "MCProvinceDAO.h"
+#import "MCCityDAO.h"
 #import "MCCrypto.h"
 
 @implementation MCMyInfoHandler
@@ -47,11 +49,18 @@
             //            myInfo.photo = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"photo"];
             myInfo.provinceId = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"provinceId"];
             myInfo.provinceId = myInfo.provinceId ? myInfo.provinceId : @"未设置";
+            myInfo.provinceName = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"provinceName"];
+            myInfo.provinceName = myInfo.provinceName ? myInfo.provinceName : @"未设置";
             myInfo.cityId = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"cityId"];
             myInfo.cityId = myInfo.cityId ? myInfo.cityId : @"未设置";
+            myInfo.cityName = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"cityName"];
+            myInfo.cityName = myInfo.cityName ? myInfo.cityName : @"未设置";
             myInfo.countyId = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"countyId"];
             myInfo.countyId = myInfo.countyId ? myInfo.countyId : @"未设置";
+            myInfo.countyName = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"countyName"];
+            myInfo.countyName = myInfo.countyName ? myInfo.countyName : @"未设置";
             myInfo.mobile = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"mobile"];
+            myInfo.mobile = myInfo.mobile ? myInfo.mobile : strAccount;
             //            myInfo.address = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"address"];
             myInfo.id = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"id"];
             //            myInfo.postNo = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"postNo"];
@@ -99,19 +108,195 @@
         NSData *response  = [request responseData];
         [[MCMyInfoDAO sharedManager] insertAvatar:response byAccount:strAccount];
     }
-    /*
-    NSURL *url = [NSURL URLWithString:[BASE_URL stringByAppendingString:@"Contact/contact!changeUserAttachInfoAjax.action"]];
-    __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+}
+
+/*
+//提取地区－省名称
++ (NSString *)getProvinceNameById:(NSString *)pid
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MyInfoRegionProvince" ofType:@"plist"];
+    NSArray *arrProvince = [[NSArray alloc] initWithContentsOfFile:path];
+    for (NSDictionary *obj in arrProvince) {
+        if ([[obj objectForKey:@"pid"] isEqualToString:pid]) {
+            return [obj objectForKey:@"name"];
+        }
+    }
+    
+    return nil;
+}
+
+//提取地区－市名称
++ (NSString *)getCityNameById:(NSString *)cid pid:(NSString *)pid
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"MyInfoRegionCity" ofType:@"plist"];
+    NSDictionary *dictCity = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSArray *arrCity = [dictCity objectForKey:@"pid"];
+    for (NSDictionary *obj in arrCity) {
+        if ([[obj objectForKey:@"id"] isEqualToString:cid]) {
+            return [obj objectForKey:@"name"];
+        }
+    }
+    
+    return nil;
+}*/
+
+/*
+//第一次启动应用并登陆时获取地区数据
++ (void)downloadRegion
+{
+    [self getProvinceDataBySync];
+    NSArray *arrProvince = [[MCProvinceDAO sharedManager] findAll];
+    for (MCProvince *object in arrProvince) {
+        [self getCityDataBySync:object.pid];
+    }
+}
+
+//从服务器获取省数据
++ (void)getProvinceDataByAsync
+{
+    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!queryProvinceAjax.action"]];
+    __weak ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
     [request setCompletionBlock:^{
-        // Use when fetching text data
-        NSString *responseString = [request responseString];
-        
         // Use when fetching binary data
         NSData *responseData = [request responseData];
+        
+        // Use when fetching text data
+        //        NSString *strResponse = [request responseString];
+        //把province的值由字符串格式转为json数组格式
+        NSString *strJsonResult = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\"[" withString:@"["];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"]\"" withString:@"]"];
+        //        DLog(@"服务器返回省数据:\n%@", strJsonResult);
+        
+        //重新封装json数据
+        NSData *dataResponse = [strJsonResult dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:dataResponse options:NSJSONReadingAllowFragments error:nil];
+        NSArray *arrRoot = [[dictResponse objectForKey:@"root"] objectForKey:@"info"];
+        for (NSDictionary *dictItem in arrRoot) {
+            
+            MCProvince *province = [[MCProvince alloc] init];
+            province.existsChild = [dictItem objectForKey:@"existChild"];
+            province.pid = [dictItem objectForKey:@"id"];
+            province.name = [dictItem objectForKey:@"name"];
+            
+            [[MCProvinceDAO sharedManager] create:province];
+        }
     }];
     [request setFailedBlock:^{
         NSError *error = [request error];
+        NSString *strDetail = [error.localizedDescription stringByAppendingString:@"\n 请返回重新尝试"];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"获取省数据失败" message:strDetail delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
     }];
-    [request startAsynchronous];*/
+    
+    //异步获取数据
+    [request startAsynchronous];
 }
+
+//从服务器获取省数据
++ (void)getProvinceDataBySync
+{
+    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!queryProvinceAjax.action"]];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:strURL]];
+    
+    //同步获取数据
+    [request startSynchronous];
+    
+    NSError *error = [request error];
+    if (!error) {
+        // Use when fetching binary data
+        NSData *responseData = [request responseData];
+        
+        // Use when fetching text data
+        //        NSString *strResponse = [request responseString];
+        //把province的值由字符串格式转为json数组格式
+        NSString *strJsonResult = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\"[" withString:@"["];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"]\"" withString:@"]"];
+        DLog(@"---------------------服务器返回省数据:\n%@", strJsonResult);
+        
+        //重新封装json数据
+        NSData *dataResponse = [strJsonResult dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:dataResponse options:NSJSONReadingAllowFragments error:nil];
+        NSArray *arrRoot = [[dictResponse objectForKey:@"root"] objectForKey:@"info"];
+        for (NSDictionary *dictItem in arrRoot) {
+            
+            MCProvince *province = [[MCProvince alloc] init];
+            province.existsChild = [dictItem objectForKey:@"existChild"];
+            province.pid = [dictItem objectForKey:@"id"];
+            province.name = [dictItem objectForKey:@"name"];
+            
+            [[MCProvinceDAO sharedManager] create:province];
+        }
+    }
+}
+
+//从服务器获取市数据
++ (void)getCityDataByAsync:(NSString *)pid
+{
+    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!queryCityAjax.action"]];
+    __weak ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
+    [request addPostValue:pid forKey:@"provinceId"];
+    [request setCompletionBlock:^{
+        // Use when fetching binary data
+        NSData *responseData = [request responseData];
+        
+        //把province的值由字符串格式转为json数组格式
+        NSString *strJsonResult = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\"[" withString:@"["];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"]\"" withString:@"]"];
+        //        DLog(@"服务器返回省数据:\n%@", strJsonResult);
+        
+        //重新封装json数据
+        NSData *dataResponse = [strJsonResult dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:dataResponse options:NSJSONReadingAllowFragments error:nil];
+        NSArray *arrRoot = [[dictResponse objectForKey:@"root"] objectForKey:@"info"];
+
+        [[MCCityDAO sharedManager] create:arrRoot pid:pid];
+    }];
+    [request setFailedBlock:^{
+        NSError *error = [request error];
+        NSString *strDetail = [error.localizedDescription stringByAppendingString:@"\n 请返回重新尝试"];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"获取市数据失败" message:strDetail delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alertView show];
+    }];
+    
+    //异步获取数据
+    [request startAsynchronous];
+}
+
+//从服务器获取市数据
++ (void)getCityDataBySync:(NSString *)pid
+{
+    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!queryCityAjax.action"]];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
+    [request addPostValue:pid forKey:@"provinceId"];
+    
+    //同步获取数据
+    [request startSynchronous];
+    
+    NSError *error = [request error];
+    if (!error) {
+        // Use when fetching binary data
+        NSData *responseData = [request responseData];
+        
+        //把province的值由字符串格式转为json数组格式
+        NSString *strJsonResult = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\"[" withString:@"["];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
+        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"]\"" withString:@"]"];
+        
+        DLog(@"---------------------服务器返回市数据:\n%@", strJsonResult);
+
+        //重新封装json数据
+        NSData *dataResponse = [strJsonResult dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:dataResponse options:NSJSONReadingAllowFragments error:nil];
+        NSArray *arrRoot = [[dictResponse objectForKey:@"root"] objectForKey:@"info"];
+
+        [[MCCityDAO sharedManager] create:arrRoot pid:pid];
+    }
+}*/
 @end

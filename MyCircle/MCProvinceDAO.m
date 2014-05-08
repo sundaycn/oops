@@ -24,9 +24,10 @@ static MCProvinceDAO *sharedManager = nil;
 
 - (NSString *)applicationDocumentsDirectoryFile
 {
+    //documnet path
     NSString *documentDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *path = [documentDirectory stringByAppendingPathComponent:@"MyInfoRegionProvince.plist"];
-    
+
 	return path;
 }
 

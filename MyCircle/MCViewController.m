@@ -175,6 +175,7 @@
         case 0:
             //同步圈子数据
             [MCCircleDataHandler updateContactsData:strAccount];
+            
             //登陆成功，注册jpush alias
             [APService setAlias:strAccount callbackSelector:nil object:nil];
             //跳转到主页面
@@ -242,7 +243,7 @@
     
     DLog(@"异步请求发生错误\n %@",[error localizedDescription]);
 }
-- (void) connectionDidFinishLoading: (NSURLConnection*) connection {
+- (void)connectionDidFinishLoading: (NSURLConnection*) connection {
     NSDictionary *dictRoot = [NSJSONSerialization JSONObjectWithData:self.datas options:NSJSONReadingAllowFragments error:nil];
     NSString *strResult = [NSString stringWithFormat:@"%@", [[dictRoot objectForKey:@"root"] objectForKey:@"result"]];
     BOOL isSuccessful = [strResult isEqualToString:@"1"];

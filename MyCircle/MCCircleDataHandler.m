@@ -74,7 +74,7 @@
     [bookBL removeStaffNotInOrgIdSet:arrOrgId];
     MCDeptBL *deptBL = [[MCDeptBL alloc] init];
     [deptBL removeDeptNotInOrgIdSet:arrOrgId];
-    
+#warning data might be nil, need to handle error
     //更新联系人数据
     for (NSString *strOrgId in arrOrgId) {
         NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:[BASE_URL stringByAppendingString:@"Contact/contact!syncAjax.action?orgId=%@&tel=%@"], strOrgId, strAccount]];
