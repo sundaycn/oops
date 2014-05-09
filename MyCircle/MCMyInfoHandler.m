@@ -8,6 +8,7 @@
 
 #import "MCMyInfoHandler.h"
 #import <ASIHTTPRequest/ASIFormDataRequest.h>
+#import <AFNetworking/AFHTTPRequestOperation.h>
 #import "MCMyInfoDAO.h"
 #import "MCProvinceDAO.h"
 #import "MCCityDAO.h"
@@ -17,13 +18,12 @@
 + (void)isGetMyInfoSuccessfully:(NSString *)strAccount password:(NSString *)cipherPwd
 {
     NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!findUserAttachInfoAjax.action"]];
-    __weak ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
-    [request addPostValue:strAccount forKey:@"tel"];
-    [request addPostValue:cipherPwd forKey:@"password"];
-    
-    [request setCompletionBlock:^{
-        // Use when fetching binary data
-        NSData *response = [request responseData];
+    NSString *parameters = [[[@"?tel=" stringByAppendingString:strAccount] stringByAppendingString:@"&password="] stringByAppendingString:cipherPwd];
+    strURL = [strURL stringByAppendingString:parameters];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:strURL]];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSData *response = responseObject;
         //把info的值由字符串格式转为json数组格式
         NSString *strJsonResult = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
         strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\"{" withString:@"{"];
@@ -79,14 +79,11 @@
         else {
             DLog(@"个人资料获取失败");
         }
-    }];
-    [request setFailedBlock:^{
-        NSError *error = [request error];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         DLog(@"个人资料获取请求发生错误\n %@", error);
     }];
     
-    //异步请求
-    [request startAsynchronous];
+    [operation start];
 }
 
 + (void)downloadAvatar:(NSString *)url account:(NSString *)strAccount

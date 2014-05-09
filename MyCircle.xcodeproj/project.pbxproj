@@ -698,7 +698,6 @@
 		22E985B51856FCDE00032893 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		22E985B71856FCEE00032893 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		22E985B91856FDF400032893 /* Pods */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pods; sourceTree = "<group>"; };
-		22E985BB1856FE2100032893 /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = Pods/XMPPFramework/Vendor/libidn/libidn.a; sourceTree = "<group>"; };
 		22E985C01857030F00032893 /* MCMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMessageCell.h; sourceTree = "<group>"; };
 		22E985C11857030F00032893 /* MCMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMessageCell.m; sourceTree = "<group>"; };
 		22E985C91857E9FF00032893 /* MCMessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMessageListViewController.h; sourceTree = "<group>"; };
@@ -1082,7 +1081,6 @@
 				22CEC3F418594C8100DC9913 /* CoreLocation.framework */,
 				22CEC26618594A9100DC9913 /* libidn.a */,
 				22CEC234185946D000DC9913 /* CFNetwork.framework */,
-				22E985BB1856FE2100032893 /* libidn.a */,
 				22E985B91856FDF400032893 /* Pods */,
 				22E985B71856FCEE00032893 /* libxml2.dylib */,
 				22E985B51856FCDE00032893 /* libresolv.dylib */,
