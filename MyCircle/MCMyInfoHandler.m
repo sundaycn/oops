@@ -7,7 +7,7 @@
 //
 
 #import "MCMyInfoHandler.h"
-#import <ASIHTTPRequest/ASIFormDataRequest.h>
+#import <ASIHTTPRequest/ASIHTTPRequest.h>
 #import <AFNetworking/AFHTTPRequestOperationManager.h>
 #import "MCMyInfoDAO.h"
 //#import "MCProvinceDAO.h"

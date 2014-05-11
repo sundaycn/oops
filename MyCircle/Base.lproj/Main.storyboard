@@ -494,7 +494,66 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zSO-GI-aft" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3418" y="1693"/>
+            <point key="canvasLocation" x="3944" y="1693"/>
+        </scene>
+        <!--Web Browser View Controller-->
+        <scene sceneID="QlD-KR-fGF">
+            <objects>
+                <viewController id="U5L-yi-4Bh" customClass="MCWebBrowserViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lU3-To-LRD"/>
+                        <viewControllerLayoutGuide type="bottom" id="5Ce-4f-HhE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QPz-vE-9Ac">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ScH-Qy-che">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem systemItem="rewind" id="jwc-en-ZB0">
+                            <connections>
+                                <action selector="goBack" destination="ScH-Qy-che" id="eiJ-MZ-jgo"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="ZFQ-Vc-SNX"/>
+                        <barButtonItem systemItem="fastForward" id="3n7-Es-Yhv">
+                            <connections>
+                                <action selector="goForward" destination="ScH-Qy-che" id="co5-Zu-W1f"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="2c2-9w-V5v"/>
+                        <barButtonItem systemItem="stop" id="BYv-2U-9qR">
+                            <connections>
+                                <action selector="stopLoading" destination="ScH-Qy-che" id="3ko-xU-N5i"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="aTT-ut-Bfl"/>
+                        <barButtonItem systemItem="refresh" id="B0H-lR-Ncs">
+                            <connections>
+                                <action selector="reload" destination="ScH-Qy-che" id="rTB-3D-PPf"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="G4J-Vn-MAu"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <connections>
+                        <outlet property="back" destination="jwc-en-ZB0" id="R1V-9i-bPB"/>
+                        <outlet property="forward" destination="3n7-Es-Yhv" id="c0z-aG-3p1"/>
+                        <outlet property="refresh" destination="B0H-lR-Ncs" id="7db-QC-YIJ"/>
+                        <outlet property="stop" destination="BYv-2U-9qR" id="l1U-ZD-4L1"/>
+                        <outlet property="webView" destination="ScH-Qy-che" id="duq-K2-SVr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qMq-1f-EbM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2605" y="2317"/>
         </scene>
         <!--My Info Name View Controller-->
         <scene sceneID="bCz-JV-A4F">
@@ -546,10 +605,13 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="f4k-RR-LdD"/>
+                    <connections>
+                        <segue destination="U5L-yi-4Bh" kind="push" identifier="showWebBrowser" id="y4d-nj-DPF"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VPZ-5x-iYy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2820" y="1693"/>
+            <point key="canvasLocation" x="3346" y="1693"/>
         </scene>
         <!--About View Controller-->
         <scene sceneID="9el-Ed-uU6">
@@ -568,7 +630,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFL-Vq-R4z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2820" y="2573"/>
+            <point key="canvasLocation" x="3346" y="2573"/>
         </scene>
         <!--My Info Email View Controller-->
         <scene sceneID="LRO-Tm-A2q">
@@ -587,7 +649,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SeM-XF-86J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3418" y="2573"/>
+            <point key="canvasLocation" x="3944" y="2573"/>
         </scene>
         <!--Navigation Controller - 更多-->
         <scene sceneID="GnN-7L-eZo">
@@ -597,6 +659,10 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="h4D-N7-JPQ">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="f3e-SB-puY">
+                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="ySq-Bu-vsj" kind="relationship" relationship="rootViewController" id="VGp-Mm-hGk"/>
                     </connections>

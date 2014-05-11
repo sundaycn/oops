@@ -61,6 +61,7 @@
 		2271CD711907C1F500E97B61 /* MCMyInfoOtherPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2271CD701907C1F500E97B61 /* MCMyInfoOtherPhoneViewController.m */; };
 		2271CD741907C3D600E97B61 /* MCMyInfoEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2271CD731907C3D600E97B61 /* MCMyInfoEmailViewController.m */; };
 		227EC6211908B9440058F5A7 /* MCGuidPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 227EC6201908B9440058F5A7 /* MCGuidPageViewController.m */; };
+		22942385191F8864009793DA /* MCWebBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22942384191F8864009793DA /* MCWebBrowserViewController.m */; };
 		229A6CAF18EE528D00F5C643 /* MCMyInfoHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A6CAE18EE528D00F5C643 /* MCMyInfoHandler.m */; };
 		229A6CB318EE993100F5C643 /* MCMyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A6CB218EE993100F5C643 /* MCMyInfo.m */; };
 		229A6CB618EE99A100F5C643 /* MCMyInfoManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A6CB518EE99A100F5C643 /* MCMyInfoManagedObject.m */; };
@@ -364,6 +365,8 @@
 		2271CD731907C3D600E97B61 /* MCMyInfoEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoEmailViewController.m; sourceTree = "<group>"; };
 		227EC61F1908B9440058F5A7 /* MCGuidPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGuidPageViewController.h; sourceTree = "<group>"; };
 		227EC6201908B9440058F5A7 /* MCGuidPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCGuidPageViewController.m; sourceTree = "<group>"; };
+		22942383191F8864009793DA /* MCWebBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWebBrowserViewController.h; sourceTree = "<group>"; };
+		22942384191F8864009793DA /* MCWebBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCWebBrowserViewController.m; sourceTree = "<group>"; };
 		229A6CAD18EE528D00F5C643 /* MCMyInfoHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoHandler.h; sourceTree = "<group>"; };
 		229A6CAE18EE528D00F5C643 /* MCMyInfoHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoHandler.m; sourceTree = "<group>"; };
 		229A6CB118EE993100F5C643 /* MCMyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfo.h; sourceTree = "<group>"; };
@@ -2013,6 +2016,8 @@
 				2271CD731907C3D600E97B61 /* MCMyInfoEmailViewController.m */,
 				22F8AB39190D286D008527AB /* MCMicroManagerViewController.h */,
 				22F8AB3A190D286D008527AB /* MCMicroManagerViewController.m */,
+				22942383191F8864009793DA /* MCWebBrowserViewController.h */,
+				22942384191F8864009793DA /* MCWebBrowserViewController.m */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -2179,6 +2184,7 @@
 				22CEC3E918594B3E00DC9913 /* XMPPAutoTime.m in Sources */,
 				22A1E4C71813B10400A1FA06 /* MCContactsDetailViewController.m in Sources */,
 				229A6CAF18EE528D00F5C643 /* MCMyInfoHandler.m in Sources */,
+				22942385191F8864009793DA /* MCWebBrowserViewController.m in Sources */,
 				22CEC2B218594AD700DC9913 /* XMPPParser.m in Sources */,
 				22CEC2AE18594AD700DC9913 /* XMPPIQ.m in Sources */,
 				221C51B5180CCFFE00ED8715 /* MCCircleViewController.m in Sources */,

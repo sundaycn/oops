@@ -151,7 +151,6 @@
 {
 //    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
 //    self.bookId = cell.bookId;
-    DLog(@"did selected");
     if (tableView == self.searchDisplayController.searchResultsTableView)
     {
         self.id = [[searchResults objectAtIndex:indexPath.row] objectForKey:@"id"];

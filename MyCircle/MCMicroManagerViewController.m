@@ -87,7 +87,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     DLog(@"select MicroManager Item:%@", [[self.arrIconMicroMianager objectAtIndex:(indexPath.section*3 + indexPath.row)] objectForKey:@"name"]);
-    [self developingAlert];
+    [self performSegueWithIdentifier:@"showWebBrowser" sender:self];
+//    [self developingAlert];
 }
 
 //微管理开发中提示
