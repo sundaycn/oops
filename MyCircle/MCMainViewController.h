@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MCMessageCountDelegate.h"
 
-@interface MCMainViewController : UITabBarController <MCMessageCountDelegate>
+@interface MCMainViewController : UITabBarController <MCMessageCountDelegate, UIAlertViewDelegate>
 
 @property (assign, nonatomic) BOOL isFirstLogined;
 

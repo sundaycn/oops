@@ -16,6 +16,7 @@
 #import "MCChatSession.h"
 #import "MCChatHistoryDAO.h"
 #import "MCMyInfoHandler.h"
+#import "MCUtility.h"
 //#import "MCBookBL.h"
     
 @interface MCMainViewController ()
@@ -23,6 +24,7 @@
 @property (nonatomic, strong) MCXmppHelper *xmppHelper;
 @property (nonatomic, strong) Reachability *reachability;
 @property (nonatomic, copy) NSString *strAccount;
+@property (nonatomic, copy) NSString *strNewVersionUrl;
 
 @end
 
@@ -57,7 +59,7 @@
     //获取并保存用户信息
     self.strAccount = [[MCConfig sharedInstance] getAccount];
     NSString *cipherPwd = [[MCConfig sharedInstance] getCipherPassword];
-    [MCMyInfoHandler isGetMyInfoSuccessfully:self.strAccount password:cipherPwd];
+    [[MCMyInfoHandler sharedInstance] getMyInfo:self.strAccount password:cipherPwd];
     
     //监听应用程序从后台切换到前台的动作
     [defaultCenter addObserver:self
@@ -70,6 +72,11 @@
                       selector:@selector(loginOffXmppServer)
                           name:UIApplicationWillResignActiveNotification
                         object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self checkAndUpdateVersion];
 }
 
 - (void)didReceiveMemoryWarning
@@ -164,6 +171,30 @@
     }else{
         UIViewController *tabBarVC = [self.viewControllers objectAtIndex:0];
         tabBarVC.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d", cnt];
+    }
+}
+
+//检查更新
+- (void)checkAndUpdateVersion
+{
+    self.strNewVersionUrl = [MCUtility checkAndUpdateVersion];
+    DLog(@"新版本下载地址:%@", self.strNewVersionUrl);
+    if (self.strNewVersionUrl) {
+        //pop alert dialog
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"检测到新版本" message:@"如需下载更新请点击确定按钮" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil];
+        //optional - add more buttons:
+        [alert addButtonWithTitle:@"确定"];
+        alert.tag = 1;
+        [alert show];
+    }
+}
+
+#pragma mark- UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 1) {
+        if (buttonIndex == 1) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"itms-services://?action=download-manifest&url=" stringByAppendingString:self.strNewVersionUrl]]];
+        }
     }
 }
 

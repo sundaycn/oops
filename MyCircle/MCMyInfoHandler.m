@@ -8,103 +8,184 @@
 
 #import "MCMyInfoHandler.h"
 #import <ASIHTTPRequest/ASIFormDataRequest.h>
-#import <AFNetworking/AFHTTPRequestOperation.h>
+#import <AFNetworking/AFHTTPRequestOperationManager.h>
 #import "MCMyInfoDAO.h"
-#import "MCProvinceDAO.h"
-#import "MCCityDAO.h"
+//#import "MCProvinceDAO.h"
+//#import "MCCityDAO.h"
 #import "MCCrypto.h"
 
 @implementation MCMyInfoHandler
-+ (void)isGetMyInfoSuccessfully:(NSString *)strAccount password:(NSString *)cipherPwd
+
+static MCMyInfoHandler *sharedInstance = nil;
++ (MCMyInfoHandler *)sharedInstance
+{
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedInstance = [[self alloc] init];
+    });
+    
+    return sharedInstance;
+}
+
+- (void)getMyInfo:(NSString *)strAccount password:(NSString *)cipherPwd
 {
     NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"Contact/contact!findUserAttachInfoAjax.action"]];
-    NSString *parameters = [[[@"?tel=" stringByAppendingString:strAccount] stringByAppendingString:@"&password="] stringByAppendingString:cipherPwd];
-    strURL = [strURL stringByAppendingString:parameters];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:strURL]];
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSData *response = responseObject;
-        //把info的值由字符串格式转为json数组格式
-        NSString *strJsonResult = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\"{" withString:@"{"];
-        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"\\\"" withString:@"\""];
-        strJsonResult = [strJsonResult stringByReplacingOccurrencesOfString:@"}\"" withString:@"}"];
-        DLog(@"服务器返回:\n%@", strJsonResult);
-        
-        //重新封装json数据
-        NSData *dataResponse = [strJsonResult dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *dictResponse = [NSJSONSerialization JSONObjectWithData:dataResponse options:NSJSONReadingAllowFragments error:nil];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    NSDictionary *parameters = @{@"tel":strAccount, @"password":cipherPwd};
+    [manager POST:strURL parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DLog(@"服务器返回个人资料如下:\n%@", responseObject);
         //判断服务器返回结果
-        NSString *strResult = [NSString stringWithFormat:@"%@",[[dictResponse objectForKey:@"root"] objectForKey:@"result"]];
+        NSString *strResult = [NSString stringWithFormat:@"%@",[[responseObject objectForKey:@"root"] objectForKey:@"result"]];
         BOOL isSuccessful = [strResult isEqualToString:@"1"];
         if (isSuccessful) {
-            //清除信息
-            [[MCMyInfoDAO sharedManager] removeAll];
-            //保存信息
-            MCMyInfo *myInfo = [[MCMyInfo alloc] init];
-            myInfo.userName = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"userName"];
-            myInfo.userName = myInfo.userName ? myInfo.userName : @"未设置";
-            myInfo.gender = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"gender"];
-            myInfo.gender = [myInfo.gender isEqualToString:@"F"] ? @"女" : @"男";
-            //            myInfo.photo = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"photo"];
-            myInfo.provinceId = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"provinceId"];
-            myInfo.provinceId = myInfo.provinceId ? myInfo.provinceId : @"未设置";
-            myInfo.provinceName = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"provinceName"];
-            myInfo.provinceName = myInfo.provinceName ? myInfo.provinceName : @"未设置";
-            myInfo.cityId = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"cityId"];
-            myInfo.cityId = myInfo.cityId ? myInfo.cityId : @"未设置";
-            myInfo.cityName = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"cityName"];
-            myInfo.cityName = myInfo.cityName ? myInfo.cityName : @"未设置";
-            myInfo.countyId = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"countyId"];
-            myInfo.countyId = myInfo.countyId ? myInfo.countyId : @"未设置";
-            myInfo.countyName = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"countyName"];
-            myInfo.countyName = myInfo.countyName ? myInfo.countyName : @"未设置";
-            myInfo.mobile = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"mobile"];
-            myInfo.mobile = myInfo.mobile ? myInfo.mobile : strAccount;
-            //            myInfo.address = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"address"];
-            myInfo.id = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"id"];
-            //            myInfo.postNo = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"postNo"];
-            myInfo.phone = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"phone"];
-            myInfo.phone = myInfo.phone ? myInfo.phone : @"未设置";
-            myInfo.birthdayString = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"birthdayString"];
-            myInfo.birthdayString = myInfo.birthdayString ? myInfo.birthdayString : @"未设置";
-            myInfo.email = [[[dictResponse objectForKey:@"root"] objectForKey:@"info"] objectForKey:@"email"];
-            myInfo.email = myInfo.email ? myInfo.email : @"未设置";
-            [[MCMyInfoDAO sharedManager] insert:myInfo];
-            
-            DLog(@"个人资料获取成功");
-            [MCMyInfoHandler downloadAvatar:myInfo.photo account:strAccount];
-            DLog(@"个人头像保存成功");
+            //把info的值由字符串格式转为json数组格式
+            NSString *strInfo = [[responseObject objectForKey:@"root"] objectForKey:@"info"];
+
+            //重新封装json数据
+            NSData *dataInfo = [strInfo dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *dictInfo = [NSJSONSerialization JSONObjectWithData:dataInfo options:NSJSONReadingAllowFragments error:nil];
+
+            MCMyInfo *localMyInfo = [[MCMyInfoDAO sharedManager] findByAccount:strAccount];
+            if (!localMyInfo) {
+                //清除信息
+                [[MCMyInfoDAO sharedManager] removeAll];
+                MCMyInfo *myInfo = [[MCMyInfo alloc] init];
+                
+                //新增
+                NSString *photo = [dictInfo objectForKey:@"photo"];
+                //id
+                myInfo.id = [dictInfo objectForKey:@"id"];
+                //用户名称
+                myInfo.userName = [dictInfo objectForKey:@"userName"];
+                myInfo.userName = myInfo.userName ? myInfo.userName : @"未设置";
+                //性别
+                myInfo.gender = [dictInfo objectForKey:@"gender"];
+                myInfo.gender = [myInfo.gender isEqualToString:@"F"] ? @"女" : @"男";
+                //生日
+                myInfo.birthdayString = [dictInfo objectForKey:@"birthdayString"];
+                myInfo.birthdayString = myInfo.birthdayString ? myInfo.birthdayString : @"未设置";
+                //头像文件下载路径
+                myInfo.photo = photo;
+                //省份id
+                myInfo.provinceId = [dictInfo objectForKey:@"provinceId"];
+                myInfo.provinceId = myInfo.provinceId ? myInfo.provinceId : @"未设置";
+                //省份名称
+                myInfo.provinceName = [dictInfo objectForKey:@"provinceName"];
+                myInfo.provinceName = myInfo.provinceName ? myInfo.provinceName : @"未设置";
+                //城市id
+                myInfo.cityId = [dictInfo objectForKey:@"cityId"];
+                myInfo.cityId = myInfo.cityId ? myInfo.cityId : @"未设置";
+                //城市名称
+                myInfo.cityName = [dictInfo objectForKey:@"cityName"];
+                myInfo.cityName = myInfo.cityName ? myInfo.cityName : @"未设置";
+                //县区id
+                //            myInfo.countyId = [dictInfo objectForKey:@"countyId"];
+                //            myInfo.countyId = myInfo.countyId ? myInfo.countyId : @"未设置";
+                //县区名称
+                //            myInfo.countyName = [dictInfo objectForKey:@"countyName"];
+                //            myInfo.countyName = myInfo.countyName ? myInfo.countyName : @"未设置";
+                //手机号码，不可修改
+                myInfo.mobile = [dictInfo objectForKey:@"mobile"];
+                myInfo.mobile = myInfo.mobile ? myInfo.mobile : strAccount;
+                //地址
+                //            myInfo.address = [dictInfo objectForKey:@"address"];
+                //邮编
+                //            myInfo.postNo = [dictInfo objectForKey:@"postNo"];
+                //其他电话号码
+                myInfo.phone = [dictInfo objectForKey:@"phone"];
+                myInfo.phone = myInfo.phone ? myInfo.phone : @"未设置";
+                //电子邮件
+                myInfo.email = [dictInfo objectForKey:@"email"];
+                myInfo.email = myInfo.email ? myInfo.email : @"未设置";
+                
+                //头像数据
+                myInfo.avatarImage = photo ? [self downloadAvatar:photo] : nil;
+                
+                [[MCMyInfoDAO sharedManager] insert:myInfo];
+                DLog(@"创建个人资料成功");
+            }
+            else {
+                //更新
+                NSString *photo = [dictInfo objectForKey:@"photo"];
+                if (photo && ![localMyInfo.photo isEqualToString:photo]) {
+                    DLog(@"-----------更新头像------------");
+                    //头像文件下载路径
+                    localMyInfo.photo = photo;
+                    localMyInfo.avatarImage = [self downloadAvatar:photo];
+                }
+                
+                //id
+                localMyInfo.id = [dictInfo objectForKey:@"id"];
+                //用户名称
+                localMyInfo.userName = [dictInfo objectForKey:@"userName"];
+                localMyInfo.userName = localMyInfo.userName ? localMyInfo.userName : @"未设置";
+                //性别
+                localMyInfo.gender = [dictInfo objectForKey:@"gender"];
+                localMyInfo.gender = [localMyInfo.gender isEqualToString:@"F"] ? @"女" : @"男";
+                //生日
+                localMyInfo.birthdayString = [dictInfo objectForKey:@"birthdayString"];
+                localMyInfo.birthdayString = localMyInfo.birthdayString ? localMyInfo.birthdayString : @"未设置";
+                
+                //省份id
+                localMyInfo.provinceId = [dictInfo objectForKey:@"provinceId"];
+                localMyInfo.provinceId = localMyInfo.provinceId ? localMyInfo.provinceId : @"未设置";
+                //省份名称
+                localMyInfo.provinceName = [dictInfo objectForKey:@"provinceName"];
+                localMyInfo.provinceName = localMyInfo.provinceName ? localMyInfo.provinceName : @"未设置";
+                //城市id
+                localMyInfo.cityId = [dictInfo objectForKey:@"cityId"];
+                localMyInfo.cityId = localMyInfo.cityId ? localMyInfo.cityId : @"未设置";
+                //城市名称
+                localMyInfo.cityName = [dictInfo objectForKey:@"cityName"];
+                localMyInfo.cityName = localMyInfo.cityName ? localMyInfo.cityName : @"未设置";
+                //县区id
+                //            myInfo.countyId = [dictInfo objectForKey:@"countyId"];
+                //            myInfo.countyId = myInfo.countyId ? myInfo.countyId : @"未设置";
+                //县区名称
+                //            myInfo.countyName = [dictInfo objectForKey:@"countyName"];
+                //            myInfo.countyName = myInfo.countyName ? myInfo.countyName : @"未设置";
+                //手机号码，不可修改
+                localMyInfo.mobile = [dictInfo objectForKey:@"mobile"];
+                localMyInfo.mobile = localMyInfo.mobile ? localMyInfo.mobile : strAccount;
+                //地址
+                //            myInfo.address = [dictInfo objectForKey:@"address"];
+                //邮编
+                //            myInfo.postNo = [dictInfo objectForKey:@"postNo"];
+                //其他电话号码
+                localMyInfo.phone = [dictInfo objectForKey:@"phone"];
+                localMyInfo.phone = localMyInfo.phone ? localMyInfo.phone : @"未设置";
+                //电子邮件
+                localMyInfo.email = [dictInfo objectForKey:@"email"];
+                localMyInfo.email = localMyInfo.email ? localMyInfo.email : @"未设置";
+                
+                [[MCMyInfoDAO sharedManager] modify:localMyInfo];
+                DLog(@"更新个人资料成功");
+            }
         }
         else {
             DLog(@"个人资料获取失败");
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         DLog(@"个人资料获取请求发生错误\n %@", error);
+
     }];
-    
-    [operation start];
 }
 
-+ (void)downloadAvatar:(NSString *)url account:(NSString *)strAccount
+- (NSData *)downloadAvatar:(NSString *)strURL
 {
-    //头像图片文件名编码
-    NSString *strEncodedImageFileName = [MCCrypto DESEncrypt:strAccount WithKey:DESENCRYPTED_KEY];
-    //拼装图片文件路径
-    NSString *strImageFilePath = [[@"ContactManage/TcmContactUserAttachInfo/" stringByAppendingString:strEncodedImageFileName] stringByAppendingString:@".jpg"];
-    
-    NSString *strURL = [[NSString alloc] initWithString:[BASE_URL stringByAppendingString:@"TsysFilesInfo/tsysfilesinfo!downloadByPath.action"]];
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:strURL]];
-    [request addPostValue:@"true" forKey:@"pathNoNeedOrgId"];
-    [request addPostValue:strImageFilePath forKey:@"path"];
+    strURL = [strURL stringByReplacingOccurrencesOfString:@".jpg" withString:@"_mini.jpg"];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:strURL]];
     //同步请求
     [request startSynchronous];
     
     NSError *error = [request error];
     if (!error) {
         NSData *response  = [request responseData];
-        [[MCMyInfoDAO sharedManager] insertAvatar:response byAccount:strAccount];
+        return response;
     }
+    
+    return nil;
 }
 
 /*

@@ -59,6 +59,7 @@ static MCMyInfoDAO *sharedManager = nil;
     myInfo.userConcerns = model.userConcerns;
     myInfo.userName = model.userName;
     myInfo.weChatNo = model.weChatNo;
+    myInfo.avatarImage = model.avatarImage;
     
     NSError *savingError = nil;
     if ([self.managedObjectContext save:&savingError]){
@@ -121,9 +122,9 @@ static MCMyInfoDAO *sharedManager = nil;
         
         NSError *savingError = nil;
         if ([self.managedObjectContext save:&savingError]){
-            DLog(@"修改个人资料成功");
+            DLog(@"修改数据成功");
         } else {
-            DLog(@"修改个人资料失败");
+            DLog(@"修改数据失败");
             return -1;
         }
     }
