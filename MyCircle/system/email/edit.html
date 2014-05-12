@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>编辑邮件</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/jquery.autosize.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	userId = isAPP ? window.APP.getUserId() : "", // 获得登录账户的用户id
+	pageUrl = window.location.href.toString(),
+	data = {
+		"emailId": app.getParam(pageUrl, "emailId") || $.selectbox.getItem("email_emailId") || "",
+		"flag": app.getParam(pageUrl, "flag") || $.selectbox.getItem("email_flag") || ""
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+if (isAPP && !window.APP.isSupportPramas()) {
+	app.setData(window.APP.getParams());
+}
+	
+function load () {
+	var $targets_email_toId = $.selectbox.getJsonList("email_toId"),
+		$targets_email_copyToId = $.selectbox.getJsonList("email_copyToId"),
+		$targets_email_secretToId = $.selectbox.getJsonList("email_secretToId"),
+		setSer = function (seletors, $targets, target) {
+			var html = '';
+			if ($($targets).size() > 0) {
+				$($targets).each(function () {
+					html += '<i class="ser" data-target="'+ target +'" data-obj=\''+ JSON.stringify(this) +'\'>'+ this.label +'<em class="ico">×</em></i>';
+				});
+
+				$(seletors).append(html);
+			}
+		};
+	
+	//console.log(JSON.stringify($targets_email_toId).replaceAll('"', '%22'))
+	$("#toId").val(JSON.stringify($targets_email_toId));
+	setSer("#selectboxToId", $targets_email_toId, "email_toId");
+	
+	$("#copyToId").val(JSON.stringify($targets_email_copyToId));
+	setSer("#selectboxCopyToId", $targets_email_copyToId, "email_copyToId");
+	
+	$("#secretToId").val(JSON.stringify($targets_email_secretToId));
+	setSer("#selectboxSecretToId", $targets_email_secretToId, "email_secretToId");
+	
+	$("#emailTitle").val($.selectbox.getItem("email_emailTitle"));
+	$("#content").val($.selectbox.getItem("email_content"));
+	
+	$(".selectbox .ser").click(function () {
+		var target = $(this).data("target"),
+			checkObj = $(this).data("obj");
+
+		if ($(this).hasClass("del")) {
+			$.selectbox.remove(target, checkObj);
+			$(this).remove();
+		} else {
+			$(this).addClass("del");
+		}
+	});
+}
+
+function show () {
+	app.loadData(app.basePath + "TemailBody/temailbody!viewEmailAjax.action", data, function (rs) {
+		setResult(rs, function (rs) {
+			if (rs.success) {
+				var toId = [], copyToId = [], secretToId = [];
+				
+				if (rs.message.toId && rs.message.toId != "") {
+					toId = JSON.parse(rs.message.toId.replaceAll('\"', '"'));
+				}
+				if (rs.message.copyToId && rs.message.copyToId != "") {
+					copyToId = JSON.parse(rs.message.copyToId.replaceAll('\"', '"'));
+				}
+				if (rs.message.secretToId && rs.message.secretToId != "") {
+					secretToId = JSON.parse(rs.message.secretToId.replaceAll('\"', '"'));
+				}
+				
+				if (data.flag == "reply") {
+					$.selectbox.setItem("email_emailTitle", "Re:" + rs.message.emailTitle);
+					if ($.selectbox.getItem("email_toId") == null) {
+						var id = "",
+							label = rs.message.fromName,
+							text = rs.message.fromId,
+							extra = "";
+							
+						if (rs.message.fromId.indexOf("@") >= 0) {
+							id = "1_"+ rs.message.fromId;
+							extra = "1";
+						} else {
+							id = rs.message.fromId;
+							extra = "2";
+						}
+						
+						$.selectbox.add("email_toId", {
+							id: id,
+							label: label,
+							text: text,
+							extra: extra
+						});
+					}
+					
+				} else if (data.flag == "replyall" || data.flag == "edit") {
+					//console.log(userId)
+					$.selectbox.setItem("email_emailTitle", "Re:" + rs.message.emailTitle);
+					
+					if ($.selectbox.getItem("email_toId") == null) {
+						var id = "",
+							label = rs.message.fromName,
+							text = rs.message.fromId,
+							extra = "";
+							
+						if (rs.message.fromId.indexOf("@") >= 0) {
+							id = "1_"+ rs.message.fromId;
+							extra = "1";
+						} else {
+							id = rs.message.fromId;
+							extra = "2";
+						}
+						
+						$.selectbox.add("email_toId", {
+							id: id,
+							label: label,
+							text: text,
+							extra: extra
+						});
+						
+						$(toId).each(function () {
+							if (this.text != userId) {
+								$.selectbox.add("email_toId", this);
+							}
+						});
+					}
+					if ($.selectbox.getItem("email_copyToId") == null) {
+						$(copyToId).each(function () {
+							if (this.text != userId) {
+								$.selectbox.add("email_copyToId", this);
+							}
+						});
+					}
+					if ($.selectbox.getItem("email_secretToId") == null) {
+						$(secretToId).each(function () {
+							if (this.text != userId) {
+								$.selectbox.add("email_secretToId", this);
+							}
+						});
+					}
+					
+					
+				} else if (data.flag == "forward") {
+					$.selectbox.setItem("email_emailTitle", "Fw:" + rs.message.emailTitle);
+				}
+				
+				// 转发回复等把附件附带过去 
+				if (data.flag == "reply" 
+					|| data.flag == "replyall" 
+					|| data.flag == "forward" 
+					|| data.flag == "edit" ) {
+					
+					$("#sendType").val("02");
+					$("#oldEmailId").val(rs.message.id);
+					$("#isAttach").val(rs.message.isAttachment);
+				} else {
+					$("#sendType").val("01");
+					$("#isAttach").val("N");
+				}
+				
+				// 转发、回复隐藏密送人
+				if (data.flag == "reply" 
+					|| data.flag == "replyall") {
+					$("#msrList").hide();
+				} else {
+					$("#msrList").show();
+				}
+				
+				var myContent = $.selectbox.getItem("email_content") ? $.selectbox.getItem("email_content") : "",
+					content = rs.message.content || "";
+				console.log(myContent);
+				//myContent == "null" ? "" : myContent;
+				$.selectbox.setItem("email_content", myContent + "\r\n\r\n\r\n<p>---------------------<p>\r\n"+ content);
+
+				load();
+			}
+		});
+	});
+}
+
+function doSubmit () {
+	if (app.formValidateEmpty()) {
+		return false;
+	}
+	
+	app.loadData(app.basePath + "TemailBody/temailbody!saveAjax.action", {
+		"sendType": $("#sendType").val(),
+		"oldEmailId": $("#oldEmailId").val(),
+		"temailBody.toId": $("#toId").val(),
+		"temailBody.copyToId": $("#copyToId").val(),
+		"temailBody.secretToId": $("#secretToId").val(),
+		"temailBody.emailTitle": $("#emailTitle").val(),
+		"temailBody.content": $("#content").val(),
+		"temailBody.important": "01",
+		"temailBody.isAttachment": $("#isAttach").val(),
+		"webConfigId": ""
+	}, function (rs) {
+		setResult(rs, function (rs) {
+			if (rs.success) {
+				$.selectbox.clearGroup("email_");
+				alert("保存成功");
+				if (isAPP) {
+					//window.APP.finish(true);
+					window.APP.quit();
+				}
+			}
+		});
+	});
+	
+	return false;
+}
+
+$(function () {
+	$(".eoa-form textarea").focus(function () {
+		if ($(this).val() == "输入邮件内容。。。") {
+			$(this).val("");
+		}
+	}).bind("keydown keyup",function(){
+	   $(this).autosize();
+	}).autosize();
+	
+	// 添加必填标识
+	//$(".required").append('<span class="icon icon-star">*</span>');
+	// 添加弹出框选择标识
+	$(".select, .picker").append('<span class="icon icon-triangle"></span>');
+	if (data.emailId == "") {
+		load();
+	} else {
+		$.selectbox.setItem("email_emailId", data.emailId);
+		$.selectbox.setItem("email_flag", data.flag);
+		show();
+	}
+	
+	$(".save").click(doSubmit);
+	$(".add").click(function () {
+		$.selectbox.setItem("email_emailTitle", $("#emailTitle").val());
+		$.selectbox.setItem("email_content", $("#content").val());
+	});
+});
+</script>
+</head>
+<body id="email">
+<div id="pageindex" class="theme-default">
+	<div class="eoa-form">
+		<input type="hidden" id="sendType" class="value" value="" />
+		<input type="hidden" id="isAttach" class="value" value="" />
+		<input type="hidden" id="oldEmailId" class="value" value="" />
+		<ul>
+			<li>
+				<span class="label">收件人：</span>
+				<span class="input selectbox required" id="selectboxToId">
+					<input type="hidden" id="toId" class="value" value="" />
+					<a href="../tree/list.html?cleartop=true&from=email$edit&selectboxid=email_toId" class="ico add">+</a>
+				</span>
+			</li>
+			<li>
+				<span class="label">抄送人：</span>
+				<span class="input selectbox" id="selectboxCopyToId">
+					<input type="hidden" id="copyToId" class="value" value="" />
+					<a href="../tree/list.html?cleartop=true&from=email$edit&selectboxid=email_copyToId" class="ico add">+</a>
+				</span>
+			</li>
+			<li style="display:none" id="msrList">
+				<span class="label">密送人：</span>
+				<span class="input selectbox" id="selectboxSecretToId">
+					<input type="hidden" id="secretToId" class="value" value="" />
+					<a href="../tree/list.html?cleartop=true&from=email$edit&selectboxid=email_secretToId" class="ico add">+</a>
+				</span>
+			</li>
+			<li>
+				<span class="label">主题：</span>
+				<span class="input text required">
+					<input type="text" id="emailTitle" class="txt" value="" />
+				</span>
+			</li>
+			<li data-label="邮件内容">
+				<span class="input textarea required" >
+					<textarea id="content" style="min-height:300px;">输入邮件内容。。。</textarea>
+				</span>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="data-bar" style="text-align:center;">
+		<span class="btn btn-border save" style="float:none;display:inline-block">保存并发送</span>
+		<span class="arr">></span>
+	</div>
+</div>
+</body>
+</html>

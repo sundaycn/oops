@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>任务协同</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+$(function () {
+	var W = $(window).width();
+	if (W > 640) {
+		W = 660;
+	}
+	$("img").width(W - 40).show();
+	$("img").load(function () {
+		$(this).width(W - 40).show();
+	});
+});
+</script>
+</head>
+<body id="guide">
+<div id="pageindex" class="theme-default">
+	<div class="function-intro">
+		<div class="hd">
+			<h2>任务协同</h2>
+		</div>
+		<div class="bd">
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对组织内员工的工作情况进行了解和督促。定期对员工的工作任务进行梳理统计。主要功能有日志填写，日志分享，任务下达，任务统计等。通过撰写工作日志记录工作进度，积累工作经验，促进员工成长，分享功能使个人知识转化为企业财富。<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#359ff5">•</font> 新增我的日志操作<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#359ff5">•</font> 最新分享操作<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#359ff5">•</font> 最新评论操作<br/></p>
+		</div>
+		<div class="ft">
+			<img src="../images/img_daily.png" style="display:none"/>
+		</div>
+	</div>
+</div>
+</body>
+</html>

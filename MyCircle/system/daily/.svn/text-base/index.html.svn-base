@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>工作日志</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/jquery.autosize.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"diaType": app.getParam(pageUrl, "diaType") || "",
+		"page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
+		"page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
+		"page.order": "desc",
+		"page.orderBy": "diaDate"
+	};
+	
+function load() {
+	if (isAPP) {
+		window.APP.showLoading();
+	}
+	app.loadData(app.basePath + "TdiaryWorkInfo/tdiaryworkinfo!listAjax.action", data, function (rs) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			showDailyIndex(rs);
+		}
+	});
+	
+	return false;
+}
+
+$(function () {
+	$("textarea").bind("keydown keyup",function(){
+	   $(this).autosize();
+	}).autosize();
+	
+	$(".btn-add").click(function () {
+		if ($(this).hasClass("clicked")) {
+			$(this).removeClass("clicked")
+			$(".form").slideUp(10);
+		} else {
+			$(this).addClass("clicked");
+			$(".form").slideDown(100);
+		}
+	});
+	
+	$(".form .btn").click(function () {
+		var title, content = $("#diaryContent").val();
+		if (content != "") {
+			title = userName +" " + (new Date().format("yyyy-MM-dd")) + " 日志"
+			if (isAPP) {
+				window.APP.showMask("正在保存...");
+			}
+			app.loadData(app.basePath + "TdiaryWorkInfo/tdiaryworkinfo!diarySaveAjax.action", {
+				"diaryTitle": title,
+				"diaryContent": content,
+				"diaType": $("#diaType").val()
+			}, function (rs) {
+				if (isAPP) {
+					window.APP.hideMask();
+				}
+				if (!rs.success && rs.errorCode == "001") {
+					if (isAPP) {
+						window.APP.login();
+					} else {
+						alert(rs.message);
+					}
+				} else {
+					window.location.reload();
+				}
+			});
+		} else {
+			alert("日志内容不能为空。");
+		}
+	});
+	
+	load();
+	$(".page .next").click(load);
+});
+</script>
+</head>
+<body id="daily">
+<div id="pageindex" class="theme-default">
+	<ul class="form pdlr">
+		<input type="hidden" id="userName" value="" />
+		<input type="hidden" id="diaType" value="" />
+		<li><textarea id="diaryContent" placeholder="新增一条日志"></textarea></li>
+		<li><a href="javascript:void(0)" class="btn">保&nbsp;&nbsp;&nbsp;&nbsp;存</a></li>
+	</ul>
+	<ul class="list pdlr">
+		<li class="hd">
+			<div class="side">今天</div>
+			<div class="content-wrap">
+				<div class="content">
+					<a href="javascript:void(0)" class="btn btn-add">
+						<span class="txt">写日志</span>
+						<span class="ico"></span>
+					</a>
+					<a href="share.html" class="btn btn-share" style="margin-right:0;">
+						<span class="txt">最新分享</span>
+						<span class="ico"></span>
+					</a>
+				</div>
+			</div>
+		</li>
+	</ul>
+	
+	<div class="page pdlr">
+		<a href="javascript:void(0)" class="next">查看更多</a>
+	</div>
+</div>
+</body>
+</html>

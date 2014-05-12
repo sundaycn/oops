@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>送审</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/jquery.autosize.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"nodeId": app.getParam(pageUrl, "nodeId") || "",
+		"businessCode": app.getParam(pageUrl, "businessCode") || "",
+		"businessId": app.getParam(pageUrl, "businessId") || ""
+	},
+	processData = {},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+if (isAPP && !window.APP.isSupportPramas()) {
+	app.setData(window.APP.getParams());
+}
+	
+function loadOption () {
+	app.loadData(app.basePath + "TsysAttrSpec/tsysattrspec!getStaticAttrAjax.action?attrCode=D_FLOW_NODE_VIEW&dynamic=true", {
+		sqlParams: data.nodeId
+	}, function (rs) {
+		setResult(rs, function (rs) {
+			//console.log(rs)
+			var html = "", optionId = "",
+				method = "";
+			if ($(rs).size() > 0) {
+				$(rs).each(function () {
+					html += '<option value="'+ this.attrValue +'">'+ this.attrValueName +'</option>';
+				});
+				method = "TsysAttrSpec/tsysattrspec!getStaticAttrAjax.action?attrCode=D_FLOW_NODE_NEXT&dynamic=true";
+				$("#processOption").append(html).change(function () {
+					//console.log($(this).val());
+					data["optionId"] = $(this).val();
+					loadNode(method, data.nodeId, $(this).val());
+				});
+				
+				if ($(rs).size() == 1) {
+					var $option = $("#processOption option").eq(1);
+					
+					$option.attr("selected", true);
+					optionId = $option.val()
+					
+					loadNode(method, data.nodeId, optionId);
+				}
+			} else {
+				$(".form-option").remove();
+				optionId = "-1";
+				method = "TsysAttrSpec/tsysattrspec!getStaticAttrAjax.action?attrCode=D_FLOW_NODE_NEXT_ALL&dynamic=true";
+				loadNode(method, data.nodeId, optionId);
+			}
+		});
+	});
+}
+
+function loadNode (method, nodeId, optionId) {
+	//console.log("method="+optionId)
+	$(".form-node select option").not(":first").remove();
+	$("#acctIds").val("");
+	if (optionId == "") {
+		$(".form-node, .form-users").hide();
+	} else {
+		processData.actionView = optionId;
+		app.loadData(app.basePath + method, {
+			sqlParams: (optionId == "-1" ? nodeId : (nodeId +","+ optionId))
+		}, function (rs) {
+			setResult(rs, function (rs) {
+				var html = "";
+				$(rs).each(function () {
+					html += '<option value="'+ this.attrValue +'">'+ this.attrValueName +'</option>';
+				});
+				
+				$(".form-node").show();
+				$("#processNode").append(html).change(function () {
+					//console.log($(this).val());
+					data["nextNodeId"] = $(this).val();
+					loadUsers($(this).val(), data.businessId);
+				});
+				
+				if ($(rs).size() == 1) {
+					var $option = $("#processNode option").eq(1);
+					
+					$option.attr("selected", true);
+					loadUsers($option.val(), data.businessId);
+				}
+			});
+		});
+	}
+}
+
+function loadUsers (nextNodeId, businessId) {
+	$("#acctIds").val("");
+	if (nextNodeId == "") {
+		$(".form-users").hide();
+	} else {
+		processData.nextNodeId = nextNodeId;
+		app.loadData(app.basePath + "TflowCirRecord/tflowcirrecord!getActionPersonAjax.action", {
+			nextNodeId: nextNodeId,
+			businessId: businessId,
+			notStart: false
+		}, function (rs) {
+			setResult(rs, function (rs) {
+				//console.log(rs)
+				var html = '<input type="hidden" id="acctIds" value=""/>';
+				if (rs.message.permisType == "01") {
+					$(rs.message.list).each(function () {
+						html += '<span class="checkbox" data-id="'+ this.id +'" >'+
+									'<span class="check"></span>'+
+									'<span class="str">'+ this.postName +'</span>'+
+								'</span>';
+					});
+				}
+				
+				if (rs.message.permisType == "02") {
+					$(rs.message.list).each(function () {
+						html += '<span class="checkbox" data-id="'+ this.id +'" >'+
+									'<span class="check"></span>'+
+									'<span class="str">'+ this.roleName +'</span>'+
+								'</span>';
+					});
+				}
+				
+				if (rs.message.permisType == "03") {
+					$(rs.message.list).each(function () {
+						html += '<span class="checkbox" data-id="'+ this.id +'" >'+
+									'<span class="check"></span>'+
+									'<span class="str">'+ this.userName +'</span>'+
+								'</span>';
+					});
+				}
+				
+				// 处理人为空，表单不验证
+				if ($(rs.message.list).size() <= 0) {
+					$(".form-users .processUsers").removeClass("required");
+				}
+				
+				$(".form-users").show();
+				$(".processUsers").html(html);
+				$(".processUsers .checkbox").unbind().click(function () {
+					if ($(this).hasClass("checked")) {
+						$(this).removeClass("checked");
+					} else {
+						$(this).addClass("checked");
+					}
+					
+					$("#acctIds").val(function () {
+						var accids = "", $checked = $(".checkbox.checked");
+						$checked.each(function (i) {
+							console.log(i)
+							console.log($checked.size())
+							if ((i + 1) == $checked.size()) {
+								accids += $(this).data("id");
+							} else {
+								accids += $(this).data("id") + ",";
+							}
+						});
+						
+						return accids;
+					});
+				});
+				
+				if (rs.message.nextNode.isExpirationRemind == "Y") {
+					$(".ExpirationRemindTime, .ExpirationRemindWays").show();
+					
+					var unit = "02", unitstr = "天"
+					if (rs.message.nextNode.expirationUnit == "01") {
+						unit = "01";
+						unitstr = "小时";
+					} else if (rs.message.nextNode.expirationUnit == "02") {
+						unit = "02";
+						unitstr = "天";
+					} else if (rs.message.nextNode.expirationUnit == "03") {
+						unit = "03";
+						unitstr = "月";
+					}
+					$(".ExpirationRemindTime input").attr("placeholder", unitstr).data("unitcode", unit);
+					$(".ExpirationRemindWays .checkbox").click(function () {
+						if ($(this).hasClass("checked")) {
+							$(this).removeClass("checked")
+						} else {
+							$(this).addClass("checked")
+						}
+						
+						$("#remindWays").val(function () {
+							var values = "";
+							$(".ExpirationRemindWays .checkbox").each(function () {
+								if ($(this).hasClass("checked")) {
+									values += "Y" + ",";
+								} else {
+									values += "N" + ",";
+								}
+							});
+							
+							return values;
+						});
+					});
+				} else {
+					//console.log($(".ExpirationRemindTime, .ExpirationRemindWays"))
+					$(".ExpirationRemindTime .input, .ExpirationRemindWays .input").removeClass("required");
+					$(".ExpirationRemindTime, .ExpirationRemindWays").remove();
+				}
+			});
+		});
+	}
+}
+
+function doSubmit () {
+	if (app.formValidateEmpty()) {
+		return false;
+	}
+	if ($("#acctIds").val() != "") {
+		processData.acctIds = $("#acctIds").val().toString().split(",");
+	}
+	processData.remark = $("#remark").val();
+	if (processData.actionView == "-1") {
+		processData.actionView = "";
+	}
+	if ($(".ExpirationRemindWays").size() > 0) {
+		processData["tflowCirRecord.isExpirationSms"] = $("#remindWays").val().split(",")[0];
+		processData["tflowCirRecord.isExpirationMess"] = $("#remindWays").val().split(",")[1];
+		processData["tflowCirRecord.expirationNum"] = $("#remindTime").val();
+		processData["tflowCirRecord.expirationUnit"] = $("#remindTime").data("unitcode");
+	}
+	console.log(processData)
+	app.loadData(app.basePath + "TflowInstance/tflowinstance!processAjax.action", processData, function (rs) {
+		setResult(rs, function (rs) {
+			if (rs.success) {
+				alert("保存成功");
+				if (isAPP) {
+					window.APP.finish(true);
+				}
+			} else {
+				alert(rs.message);
+			}
+		});
+	});
+	
+	return false;
+}
+
+$(function () {
+	$(".eoa-form textarea").focus(function () {
+		if ($(this).val() == "请输入请假理由。。。") {
+			$(this).val("");
+		}
+	}).bind("keydown keyup",function(){
+	   $(this).autosize();
+	}).autosize();
+	// 添加弹出框选择标识
+	$(".select, .picker").append('<span class="icon icon-triangle"></span>');
+
+	if (data.nodeId != "") {
+		processData = {
+			"businessId": data.businessId,
+			"curNodeId": data.nodeId,
+			"actionView": "",
+			"nextNodeId": "",
+			"acctIds":[],
+			"remark":"",
+			"tflowCirRecord.isToSms": "N",
+			"tflowCirRecord.isToMess": "N",
+			"tflowCirRecord.isExpirationSms":"N",
+			"tflowCirRecord.isExpirationMess": "N",
+			"tflowCirRecord.expirationNum": "",
+			"tflowCirRecord.expirationUnit": ""
+		}
+		loadOption();
+	}
+	$(".btn").click(doSubmit);
+});
+</script>
+</head>
+<body id="attend">
+<div id="pageindex" class="theme-default">
+	<div class="eoa-form">
+		<ul>
+			<li class="form-option">
+				<span class="label">处理意见：</span>
+				<span class="input select required">
+					<select id="processOption">
+						<option value="">请选择</option>
+					</select>
+				</span>
+			</li>
+			<li class="form-node" style="display:none">
+				<span class="label">流转节点：</span>
+				<span class="input select required">
+					<select id="processNode">
+						<option value="">请选择</option>
+					</select>
+				</span>
+			</li>
+			<li class="form-users" style="display:none">
+				<span class="label">流转人员：</span>
+				<span class="input processUsers required"></span>
+			</li>
+			<li class="ExpirationRemindWays" style="display:none" >
+				<span class="label">过期提醒：</span>
+				<span class="input required">
+					<input type="hidden" id="remindWays" value="">
+					<span class="checkbox" data-id="isExpirationSms">
+						<span class="check"></span>
+						<span class="str">短信提醒</span>
+					</span>
+					<span class="checkbox" data-id="isExpirationMess">
+						<span class="check"></span>
+						<span class="str">消息提醒</span>
+					</span>
+				</span>
+			</li>
+			<li class="ExpirationRemindTime" style="display:none">
+				<span class="label">过期时间：</span>
+				<span class="input number required">
+					<input type="number" id="remindTime" class="txt" placeholder="天" value="" />
+				</span>
+			</li>
+			<li>
+				<span class="label">备注：</span>
+				<span class="input processSuggess">
+					<textarea id="remark"></textarea>
+				</span>
+			</li>
+		</ul>
+		
+		<p><a href="javascript:void(0)" class="btn">立即提交</a></p>
+	</div>
+</div>
+</body>
+</html>

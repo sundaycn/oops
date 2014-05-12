@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>外出登记</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/jquery.autosize.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"filter_GED_workday": app.getParam(pageUrl, "filter_GED_workday") || "",
+		"filter_LED_workday": app.getParam(pageUrl, "filter_LED_workday") || "",
+		"page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
+		"page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+function doSubmit () {
+	if (app.formValidateEmpty()) {
+		return false;
+	}
+	if (isAPP) {
+		window.APP.showMask("正在保存...");
+	}
+	app.loadData(app.basePath + "TattendanceOut/tattendanceout!saveObjAjax.action", {
+		outdate: $("#outDate .value").val(),
+		startdate: $("#startTime .value").val(),
+		enddate: $("#endtTime .value").val(),
+		content:$("#content").val()
+	}, function (rs) {
+		setResult(rs, function (rs) {
+			if (isAPP) {
+				window.APP.hideMask();
+			}
+			if (rs.success) {
+				doProcess("TattendanceOut/tattendanceout", rs.message.business_code, rs.message.id);
+			} else {
+				alert(rs.message);
+			}
+		});
+	});
+	
+	return false;
+}
+
+$(function () {
+	$(".eoa-form textarea").focus(function () {
+		if ($(this).val() == "请输入外出理由。。。") {
+			$(this).val("");
+		}
+	}).bind("keydown keyup",function(){
+	   $(this).autosize();
+	}).autosize();
+	// 添加必填标识
+	//$(".required").append('<span class="icon icon-star">*</span>');
+	// 添加弹出框选择标识
+	$(".select, .picker").append('<span class="icon icon-triangle"></span>');
+	$(".btn").click(doSubmit);
+});
+</script>
+</head>
+<body id="attend">
+<div id="pageindex" class="theme-default">
+	<div class="eoa-form">
+		<ul>
+			<li class="">
+				<span class="label">外出日期：</span>
+				<span class="input picker required">
+					<span class="datepicker" id="outDate" onclick="window.APP.getDate('#outDate')">
+						<span class="txt">请选择日期</span>
+						<input type="hidden" class="value" value="" />
+					</span>
+				</span>
+			</li>
+			<li>
+				<span class="label">开始时间：</span>
+				<span class="input picker required">
+					<span class="timepicker" id="startTime" onclick="window.APP.getTime('#startTime')">
+						<span class="txt">请选择时间</span>
+						<input type="hidden" class="value" value="" />
+					</span>
+				</span>
+			</li>
+			<li>
+				<span class="label">结束时间：</span>
+				<span class="input picker required">
+					<span class="timepicker" id="endtTime" onclick="window.APP.getTime('#endtTime')">
+						<span class="txt">请选择时间</span>
+						<input type="hidden" class="value" value="" />
+					</span>
+				</span>
+			</li>
+			<li>
+				<span class="label">外出事由：</span>
+				<span class="input textarea required">
+					<textarea id="content" ></textarea>
+				</span>
+			</li>
+		</ul>
+		
+		<p><a href="javascript:void(0)" class="btn">保存并送审</a></p>
+	</div>
+</div>
+</body>
+</html>

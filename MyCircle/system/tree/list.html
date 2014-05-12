@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>选择人员</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/json2.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"id": app.getParam(pageUrl, "treeId") || "-1",
+		"pName": app.getParam(pageUrl, "pName") || "",
+		"from": app.getParam(pageUrl, "from") || "",
+		"selectboxid": app.getParam(pageUrl, "selectboxid") || ""
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+if (isAPP && !window.APP.isSupportPramas()) {
+	app.setData(window.APP.getParams());
+}
+	
+function load () {
+	data.treeType = 1;
+	data.type = 1;
+	app.loadData(app.basePath + "TemailContact/temailorgcontact-ajax!asyncAjax.action", data, function (rs) {
+		setResult(rs, setTreeList);
+	});
+}
+
+$(function () {
+	if (data.pName != "") {
+		$("title").html(data.pName);
+	}
+	load();
+	$(".treeselector").attr("href", "selected.html?cleartop=true&selectboxid=" + data.selectboxid + "&from="+ data.from);
+});
+</script>
+</head>
+<body id="tree">
+<div id="pageindex" class="theme-default">
+	<div class="eoa-data-list">
+		<ul>
+			<!--<li class="edit folder">
+				<a href="javascript:void(0)" class="t"> 
+					<h3>技术部<span class="important"></span><span class="attach"></span></h3>
+				</a>
+				<span class="ico">></span>
+			</li>
+			<li class="edit">
+				<a href="javascript:void(0)" class="t"> 
+					<h3>高斯伟<span class="important"></span><span class="attach"></span></h3>
+					<P>18942231503</p>
+				</a>
+				<span class="check"></span>
+			</li>
+			<li class="edit">
+				<a href="javascript:void(0)" class="t"> 
+					<h3>高斯伟<span class="important"></span><span class="attach"></span></h3>
+					<P>18907088764</p>
+				</a>
+				<span class="check"></span>
+			</li>
+			--->
+		</ul>
+	</div>
+	<div class="data-bar" style="text-align:center;">
+		<a href="javascript:void(0)" class="btn btn-border treeselector" style="float:none;display:inline-block">查看并确定已选(<span class="s-num">0</span>)</a>
+		<span class="arr">></span>
+	</div>
+</div>
+</body>
+</html>

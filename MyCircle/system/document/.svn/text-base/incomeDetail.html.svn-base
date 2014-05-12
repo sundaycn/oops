@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>收文详情</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript" src="../scripts/json2.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"do":app.getParam(pageUrl, "do"),
+		"status": app.getParam(pageUrl, "status"),
+		"id": app.getParam(pageUrl, "id")
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+
+if (isAPP && !window.APP.isSupportPramas()) {
+	app.setData(window.APP.getParams());
+}
+	
+function load () {
+	app.loadData(app.basePath + "TdocIncoming/tdocincoming!viewAjax.action", data, function (rs) {
+		setResult(rs, setIncomeDetail);
+	});
+}
+
+$(function () {
+	load();
+	if (data.do == "true") {
+		$(".ft.eoa-form").show();
+	} else {
+		$(".info-mini").hide();
+		$(".info-more").show();
+	}
+	$(".info-mini").click(function () {
+		$(this).hide();
+		$(".info-more").show();
+	});
+	$(".bd iframe").css({
+		"marginLeft":10,
+		"width":$("#pageindex").width() - 20,
+		"height":$(window).height() - $(".hd").height() - 80
+	});
+});
+</script>
+</head>
+<body id="document">
+<div id="pageindex" class="theme-default">
+	<div class="detail">
+		<div class="hd">
+			<h2></h2>
+			<ul class="info-mini">
+				<li>
+					<span class="from"></span>
+				</li>
+				<li class="box">
+					<span class="label">主办协办：</span>
+					<span class="sw"></span>
+				</li>
+				<span class="arr">展开 ∨</span>
+			</ul>
+			<ul class="info-more"  style="display:none;">
+				<li>
+					<span class="label">来文单位：</span>
+					<span class="txt lwdw"></span>
+				</li>
+				<li>
+					<span class="label">来文文号：</span>
+					<span class="txt lwwh"></span>
+				</li>
+				<li>
+					<span class="label">机密程度：</span>
+					<span class="txt jmcd"></span>
+				</li>
+				<li>
+					<span class="label">时间性：</span>
+					<span class="txt sjx"></span>
+				</li>
+				<li>
+					<span class="label">来文时间：</span>
+					<span class="txt lwsj"></span>
+				</li>
+				<li>
+					<span class="label">收文编号：</span>
+					<span class="txt swbh"></span>
+				</li>
+				<li>
+					<span class="label">主办部门：</span>
+					<span class="txt zbbm"></span>
+				</li>
+				<li>
+					<span class="label">协办部门：</span>
+					<span class="txt xbbm"></span>
+				</li>
+				<li>
+					<span class="label">封发时间：</span>
+					<span class="txt ffsj"></span>
+				</li>
+				<li>
+					<span class="label">印制份数：</span>
+					<span class="txt yzfs"></span>
+				</li>
+				
+				<li>
+					<span class="label">登记人：</span>
+					<span class="txt djr"></span>
+				</li>
+				<li>
+					<span class="label">登记时间：</span>
+					<span class="txt djsj"></span>
+				</li>
+			</ul>
+		</div>
+		<div class="bd">
+			<ul class="content">
+				<li class="main">
+					<span class="label">公文正文：</span>
+					<span class="txt" ><a href="javascript:void(0)"></a></span>
+				</li>
+				<li id="attachment">
+					<span class="label">公文附件：</span>
+					<span class="txt" >
+						<ol></ol>
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class="ft eoa-form" style="display:none">
+			<p><a href="javascript:void(0)" class="btn">流转处理</a></p>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,284 @@
+*{ margin:0; padding:0;font-size:14px;-webkit-tap-highlight-color: rgba(0,0,0,0.1);}
+*:focus {outline: none;}
+a{text-decoration:none;color:#000;}
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video,p{margin:0;padding:0;border:0;outline:0;font-size:100%;font-weight:normal;vertical-align:baseline;background:transparent;-webkit-text-size-adjust:none;}
+body{line-height:1;}
+nav ul{list-style:none;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6{font-style:normal;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent;}
+ins{background-color:#ff9;color:#000;text-decoration:none;}
+mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold;}
+del{text-decoration:line-through;}
+abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help;}
+table{border-collapse:collapse;border-spacing:0;}
+hr{display:block;height:1px;border:0;border-top:1px solid#cccccc;margin:1em 0;padding:0;}
+textarea {font-size:14px;color:#666;}
+@font-face {
+	font-family: digits;
+	src: url('file:///android_asset/fonts/digits3.ttf');
+}
+@font-face {
+	font-family: thinfont;
+	src: url('file:///android_asset/fonts/thinfont.ttf');
+}
+@font-face {
+	font-family: simsun;
+	src: url('file:///android_asset/fonts/simsun.ttc');
+}
+html, body {
+	width:100%;
+	min-height:100%;
+	font-family:Helvetica, STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Tohoma, Arial;
+}
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+footer {
+	display:none;
+	position:absolute;
+	left:10px;
+	right:10px;
+	bottom:5px;
+	font-size:10px;
+	color:#999;
+	text-align:center;
+}
+.fl{
+	float:left;
+}
+.clear{
+	clear:both;
+	display:block;
+	height:0;
+	line-height:0;
+	font-size:0;
+}
+.pdlr {
+	padding:0 10px;
+}
+.page {
+	display:none;
+	margin:10px 0;
+}
+.page .next {
+	display:block;
+	line-height:35px;
+	text-align:center;
+	background:#f4f4f4;
+}
+.page .next:hover {
+	background:#e4e4e4;
+}
+
+.function {
+	padding-bottom:20px;
+}
+.function ul {
+	margin:10px 0;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 0px rgba(213,213,213,1);
+}
+.function ul li {
+	position:relative;
+	background:#fff;
+	box-shadow:0 1px 1px rgba(213,213,213,0.5) inset;
+}
+
+.function ul li  .link {
+	display:block;
+	padding-left:55px;
+	font-size:16px;
+	height:50px;
+	line-height:50px;
+	color:#2f2f2f;
+	background-size:30px 30px;
+	background-repeat:no-repeat;
+	background-position:15px center;
+}
+.function ul li .arr,
+.function ul li .add {
+	position:absolute;
+	display:block;
+	width:40px;
+	height:50px;
+	line-height:50px;
+	top:0px;
+	right:0px;
+	text-align:center;
+	font-size:30px;
+	color:#787979;
+}
+.function ul li .add {
+	font-family:thinfont;
+}
+.function ul li .arr {
+	font-size:22px;
+	font-weight:bold;
+	background:url(../images/icon_arr.png) no-repeat center;
+}
+.function .approve-list li {
+	display:none;
+}
+.function .daily .link {
+	background-image:url(../images/app_icon_daily.png);
+}
+.function .email .link{
+	background-image:url(../images/app_icon_mail.png);
+}
+.function .attend .link{
+	background-image:url(../images/app_icon_attend.png);
+}
+.function .task .link{
+	background-image:url(../images/app_icon_task.png);
+}
+.function .notice .link{
+	background-image:url(../images/app_icon_notice.png);
+}
+.function .document .link{
+	background-image:url(../images/app_icon_document.png);
+}
+
+
+
+#pageindex {
+	background:#fff;
+	position: relative;
+	max-width:640px;
+	min-height:100%;
+	margin:0 auto;
+	padding:15px 0;
+	padding-bottom:5px;
+	background-size:110% 100%;
+}
+
+#guide {}
+#guide #pageindex {
+	padding:0;
+}
+#guide .weiguanli .hd{
+	position:relative;
+	padding-top:20px;
+	background:#2c87d6;
+	text-align:center;
+}
+#guide .weiguanli .line {
+	position:absolute;
+	left:0;
+	right:0;
+	bottom:0;
+	display:block;
+	height:8px;
+	background:url(../images/icon_rline.png) repeat-x left bottom;
+}
+#guide .weiguanli .bd{
+	padding:20px 10px;
+	line-height:25px;
+	font-size:16px;
+	color:#707070;
+}
+#guide .weiguanli .bd .btn {
+	display:-webkit-box;
+	margin-top:10px;
+}
+#guide .weiguanli .bd .btn > a {
+	display:block;
+	-webkit-box-flex:1;
+	-moz-box-flex:1;
+	background:#e73d3d;
+	color:#fff;
+	font-size:16px;
+	font-weight:800;
+	text-align:center;
+	margin-left:10px;
+	padding:3px 0;
+}
+#guide .weiguanli .bd .btn .btn-demo {
+	background:#2e7fd8;
+}
+#guide .weiguanli .bd .btn .btn-contact {
+	background:#3f9142;
+}
+#guide .function-intro {
+	padding:0px 10px;
+}
+#guide .function-intro .hd {
+	margin:20px 0;
+}
+#guide .function-intro  h2{
+	background:#359ff5;
+	display:inline;
+	padding:5px 20px;
+	color:#fff;
+	font-size:800;
+	border-radius:3px;
+}
+#guide .function-intro .bd {
+	line-height:25px;
+	font-size:16px;
+	color:#707070;
+}
+#guide .function-intro  .ft{
+	text-align:center;
+}
+#guide .function-intro img {
+	margin:20px 0;
+}
+#guide  .contact-list  {
+	padding:10px 0;
+}
+#guide  .contact-list  li {
+	display:-webkit-box;
+	margin-bottom:15px;
+	box-shadow:0 -1px 0px rgba(213,213,213,0.5) inset;
+	padding-bottom:15px;
+	padding-left:10px;
+	padding-right:10px;
+}
+#guide  .contact-list  li  > span,
+#guide  .contact-list  li  > div,
+#guide  .contact-list  li  > a {
+	display:block;
+	-webkit-box-flex:1;
+	-moz-box-flex:1;
+}
+#guide  .contact-list  li .sort {
+	margin-top:15px;
+	width:20px;
+	max-width:20px;
+	min-width:20px;
+	height:20px;
+	line-height:20px;
+	font-weight:bold;
+	border-radius:10px;
+	background:#d0d0d0;
+	color:#909090;
+	text-align:center;
+	font-size:14px;
+}
+#guide  .contact-list  li .wrap {
+	padding:0 10px;
+}
+#guide  .contact-list  li .txt {
+	font-size:18px;
+	line-height:28px;
+	font-weight:600;
+	color:#595959;
+}
+#guide  .contact-list  li .desc {
+	font-size:14px;
+	color:#838383;
+}
+#guide  .contact-list li .icon {
+	width:40px;
+	max-width:40px;
+	min-width:40px;
+	height:40px;
+	background:url(../images/datail_phone.png) no-repeat;
+	background-size:40px 40px;
+}

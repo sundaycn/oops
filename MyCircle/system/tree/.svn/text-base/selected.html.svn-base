@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>已选择人员</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"selectboxid": app.getParam(pageUrl, "selectboxid") || "",
+		"from": app.getParam(pageUrl, "from") || ""
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+if (isAPP && !window.APP.isSupportPramas()) {
+	app.setData(window.APP.getParams());
+}
+	
+function load () {
+	var html = "", $targets = $.selectbox.getJsonList(data.selectboxid);
+	if ($($targets).size() > 0) {
+		$($targets).each(function () {
+			html += '<li class="edit">'+
+						'<a href="javascript:void(0)" class="t"> '+
+							'<h3>'+ this.label +'</h3>'+
+							'<P>'+ (this.belongName || "") +'</p>'+
+						'</a>'+
+						'<span class="ico delete" data-text="'+ this.text +'">×</span>'+
+					'</li>';
+		});
+	} else {
+		html = '<li class="nulldata"><p>没有选择任何人。</p></li>'
+	}
+	
+	$(".eoa-data-list > ul").append(html);
+	$(".eoa-data-list > ul .delete").unbind().click(function () {
+		$.selectbox.remove(data.selectboxid, {
+			text: $(this).data("text")
+		});
+		window.location.reload();
+	});
+	$(".s-num").html($.selectbox.getTotal(data.selectboxid));
+}
+
+$(function () {
+	load();
+	
+	if (data.from != "") {
+		var page = data.from.split("$").join("/");
+		//console.log(page)
+		$(".treeselector").attr("href", "../"+ page +".html?cleartop=true");
+	}
+	
+});
+</script>
+</head>
+<body id="tree">
+<div id="pageindex" class="theme-default">
+	<div class="eoa-data-list">
+		<ul></ul>
+	</div>
+	<div class="data-bar" style="text-align:center;">
+		<a href="javascript:void(0)" class="btn btn-border treeselector" style="float:none;display:inline-block">确定已选(<span class="s-num">0</span>)</a>
+		<span class="arr">></span>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>评论日志</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/jquery.cookie.js"></script>
+<script type="text/javascript" src="../scripts/jquery.autosize.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",        // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	from = app.getParam(pageUrl, "from") || "",
+	option = app.getParam(pageUrl, "option") || "",
+	data = {
+		"diaryId": app.getParam(pageUrl, "diaryId") || "",
+		"from": app.getParam(pageUrl, "from") || "",
+		"option": app.getParam(pageUrl, "option") || ""
+	};
+	
+if (isAPP && !window.APP.isSupportPramas()) {
+	app.setData(window.APP.getParams());
+	from = data.from;
+	option = data.option;
+}
+	
+function load() {
+	if (from == "share" && !option) {
+		$(".form").show(0);
+	}
+	if (isAPP) {
+		window.APP.showLoading();
+	}
+	app.loadData(app.basePath + "TdiaryWorkInfo/tdiaryworkinfo!commentListAjax.action", data, function (rs) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			showDailyComment(rs);
+		}
+	});
+	
+	return false;
+}
+
+$(function () {
+	$("textarea").bind("keydown keyup",function(){
+	   $(this).autosize();
+	}).autosize();
+	
+	$(".form .btn").click(function () {
+		var content = $("#commentContent").val(), isReply = $("#commentContent").hasClass("reply");
+		if (content != "") {
+			if (isAPP) {
+				window.APP.showMask("正在保存...");
+			}
+			if (isReply) {  // 回复日志
+				app.loadData(app.basePath + "TdiaryComment/tdiarycomment!commentReplySaveAjax.action", {
+					"commentId": $("#commentId").val(),
+					"commentReplyContent": content
+				}, function (rs) {
+					if (isAPP) {
+						window.APP.hideMask();
+					}
+					if (!rs.success && rs.errorCode == "001") {
+						if (isAPP) {
+							window.APP.login();
+						} else {
+							alert(rs.message);
+						}
+					} else {
+						window.location.reload();
+					}
+				});
+			} else {  // 评论日志
+				app.loadData(app.basePath + "TdiaryComment/tdiarycomment!commentSaveAjax.action", {
+					"diaryId": $("#diaryId").val(),
+					"commentContent": content,
+					"isSendSms": "N",
+					"isSendMess": "Y"
+				}, function (rs) {
+					if (isAPP) {
+						window.APP.hideMask();
+					}
+					if (!rs.success && rs.errorCode == "001") {
+						if (isAPP) {
+							window.APP.login();
+						} else {
+							alert(rs.message);
+						}
+					} else {
+						window.location.reload();
+					}
+				});
+			}
+		} else {
+			alert("评论内容不能为空。");
+		}
+	});
+	
+	load();
+	$(".page .next").click(load);
+});
+</script>
+</head>
+<body id="daily">
+<div id="pageindex" class="theme-default">
+	<ul class="list pdlr" style="margin-bottom:15px;">
+		<li>
+			<div class="content-wrap"></div>
+		</li>
+	</ul>
+	<ul class="form pdlr" >
+		<input type="hidden" id="userName" value="" />
+		<input type="hidden" id="diaType" value="" />
+		<input type="hidden" id="diaryId" value="" />
+		<input type="hidden" id="commentId" value="" />
+		<li><textarea id="commentContent" placeholder="输入评论文字"></textarea></li>
+		<li><a href="javascript:void(0)" class="btn">保&nbsp;&nbsp;&nbsp;&nbsp;存</a></li>
+	</ul>
+	<div class="comment-list">
+		<div class="hd">
+			<h2>最新评论</h2>
+		</div>
+		<div class="bd pdlr">
+			<ul></ul>
+		</div>
+	</div>
+	<div class="page pdlr">
+		<a href="javascript:void(0)" class="next">更多评论</a>
+	</div>
+</div>
+</body>
+</html>

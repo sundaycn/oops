@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>任务协同</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
+		"page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+function load () {
+	app.loadData(app.basePath + "TtaskCooperative/ttaskcooperative!taskListAjax.action", data, function (rs) {
+		setResult(rs, setTaskList);
+	});
+}
+
+function loadDetail ($target, id) {
+	if (isAPP)  window.APP.showMask("加载详细内容...");
+	app.loadData(app.basePath + "TtaskCooperative/ttaskcooperative!viewAjax.action", {
+		id: id
+	}, function (rs) {
+		setResult(rs, function () {
+			if (isAPP) window.APP.hideMask();
+			var html = "",
+				attachHtml = "";
+			if (rs.success) {
+				$(rs.message.fileList).each(function () {
+					var filesizestr = "0KB";
+					if (this.fileSize > 0 && this.fileSize < (1000 * 1000)) {
+						filesizestr = (this.fileSize / 1000).toFixed(2) +"KB";
+					} else {
+						filesizestr = (this.fileSize / (1000 * 1000)).toFixed(2) +"M";
+					}
+					attachHtml += '<li><span>'+ this.fileName +'('+ filesizestr +')</span><span class="download" data-id="'+ this.id +'" data-name="'+ this.fileName +'">下载</span></li>'
+				});
+				
+				html = '<div class="hd">'+
+							'<h4 style="font-size:14px;">'+ rs.message.ttaskCooperative.taskTitle +'</h4>'+
+						'</div>'+
+						'<div class="bd">'+
+							'<p>'+ (rs.message.ttaskCooperative.summary || "") +'</p>'+
+						'</div>'+
+						'<div class="ft" style="display:'+ (rs.message.ttaskCooperative.isAttach == 1 ? "block" : "none") +'">'+
+							'<i>附件：</i>'+
+							'<ul class="attach">'+ attachHtml +'</ul>'+
+						'</div>';
+						
+				$target.html(html).slideDown(100);
+						
+				$(".attach .download").click(function () {
+					var filePath = app.basePath +"TsysFilesInfo/tsysfilesinfo!download.action?id="+ $(this).data("id"),
+						fileName = $(this).data("name");
+						
+					if (window.APP && window.APP.download) {
+						window.APP.download(filePath, fileName);
+					} else {
+						alert("不支持APP");
+					}
+					
+					return false;
+				});
+			}
+		});
+	});
+}
+
+$(function () {
+	load();
+	$(".page .next").click(load);
+	$(".eoa-data-list .add").click(function () {
+		$.selectbox.clearGroup("task_");
+	});
+});
+</script>
+</head>
+<body id="task">
+<div id="pageindex" class="theme-default">
+	<div class="eoa-data-list">
+		<ul>
+			<li class="add">
+				<a href="edit.html" class="t add">发起一个任务</a>
+				<span class="ico">></span>
+			</li>
+			<!---
+			<li>
+				<a href="javascript:void(0)" class="t"> 
+					<h3>请党员同志来扫雪</h3>
+					<P><i class="date">前天</i>，汤圣军[默认账号] 发起</p>
+				</a>
+				<span class="arr">+</span>
+				<span class="bubble red">处理</span>
+				<div class="detail">
+					<span class="arrow"></span>
+					<div class="hd">
+						<h4 style="font-size:14px;">请党员同志来扫雪</h4>
+					</div>
+					<div class="bd">
+						<p>2月18日起我市普降大雪。今天早上整个城市变得银装素裹，景色优美，但却给群众的出行带来了不便。为确保靖安村委会内道路安全畅通和居民出行顺利，靖安村党支部特别提前上班，组织党员同志对该村辖区内主要干道进行扫雪。</p>
+					</div>
+					<div class="ft">
+						<i>附件：</i>
+						<ul class="attach">
+							<li><span>woquanquan_v3_beta2.1.apk</span><span class="download">下载</span></li>
+							<li><span>2014-03值班安排.xls</span><span class="download">下载</span></li>
+						</ul>
+					</div>
+				</div>
+				
+			</li>
+			<li>
+				<a href="javascript:void(0)" class="t"> 
+					<h3>请党员同志来扫雪111<span class="attach"></span></h3>
+					<P><i class="date">2013-01-09</i>，超级管理员[admin] 发起</p>
+				</a>
+				<span class="arr">+</span>
+				<span class="bubble red">处理</span>
+				<div class="detail"></div>
+			</li>
+			-->
+		</ul>
+	</div>
+	<div class="page">
+		<a href="javascript:void(0)" class="next">查看更多</a>
+	</div>
+</div>
+</body>
+</html>

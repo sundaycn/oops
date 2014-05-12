@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>任务流转</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/jquery.autosize.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	userId = isAPP ? window.APP.getUserId() : "", // 获得登录账户的用户id
+	pageUrl = window.location.href.toString(),
+	data = {
+		"taskId": app.getParam(pageUrl, "taskId"),
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+if (isAPP && !window.APP.isSupportPramas()) {
+	app.setData(window.APP.getParams());
+}
+
+
+function doSubmit () {
+	if (app.formValidateEmpty()) {
+		return false;
+	}
+	var acceptUserIds = "", acceptUsers = "", selectors = JSON.parse($("#acceptUser").val());
+	$(selectors).each(function () {
+		console.log(this)
+		acceptUserIds += this.text +",";
+		acceptUsers += this.label +",";
+	});
+	
+	app.loadData(app.basePath + "TtaskCooperative/ttaskcooperative!doAjax.action", {
+		"taskId": $.selectbox.getItem("task_taskId"),
+		"approveLog": $("#content").val(),
+		"acceptUserIds": acceptUserIds,
+		"acceptUsers": acceptUsers
+	}, function (rs) {
+		setResult(rs, function (rs) {
+			if (rs.success) {
+				$.selectbox.clearGroup("task_");
+				alert("保存成功");
+				if (isAPP) {
+					window.APP.finish(true);
+				}
+			}
+		});
+	});
+	
+	return false;
+}
+
+function load () {
+	var $targets_task_acceptUser = $.selectbox.getJsonList("task_acceptUser"),
+		setSer = function (seletors, $targets, target) {
+			var html = '';
+			if ($($targets).size() > 0) {
+				$($targets).each(function () {
+					html += '<i class="ser" data-target="'+ target +'" data-obj=\''+ JSON.stringify(this) +'\'>'+ this.label +'<em class="ico">×</em></i>';
+				});
+
+				$(seletors).append(html);
+			}
+		};
+	console.log($targets_task_acceptUser)
+	if ($($targets_task_acceptUser).size() > 0) {
+		$("#acceptUser").val(JSON.stringify($targets_task_acceptUser));
+		setSer("#selectboxAcceptUser", $targets_task_acceptUser, "task_acceptUser");
+		$(".selectbox .ser").click(function () {
+			var target = $(this).data("target"),
+				checkObj = $(this).data("obj");
+
+			if ($(this).hasClass("del")) {
+				$.selectbox.remove(target, checkObj);
+				$(this).remove();
+			} else {
+				$(this).addClass("del");
+			}
+		});
+	}
+	
+	if ($.selectbox.getItem("task_content") != null) {
+		$("#content").val($.selectbox.getItem("task_content"));
+	}
+}
+
+$(function () {
+	$(".eoa-form textarea").focus(function () {
+		if ($(this).val() == "输入任务内容。。。") {
+			$(this).val("");
+		}
+	}).bind("keydown keyup",function(){
+	   $(this).autosize();
+	}).autosize();
+	
+	load();
+	$(".selectbox .add").click(function () {
+		$.selectbox.setItem("task_content", $("#content").val());
+		$.selectbox.setItem("task_taskId", data.taskId);
+	});
+	$(".btn").click(doSubmit);
+});
+</script>
+</head>
+<body id="task">
+<div id="pageindex" class="theme-default">
+	<div class="eoa-form">
+		<ul>
+			<li>
+				<span class="label">处理意见：</span>
+				<span class="input textarea required">
+					<textarea id="content"></textarea>
+				</span>
+			</li>
+			<li>
+				<span class="label">接收人：</span>
+				<span class="input selectbox required" id="selectboxAcceptUser">
+					<input type="hidden" id="acceptUser" class="value" value="" />
+					<a href="../tree/list.html?cleartop=true&from=task$process&selectboxid=task_acceptUser" class="ico add">+</a>
+				</span>
+			</li>
+		</ul>
+		<br/>
+		<p><a href="javascript:void(0)" class="btn">保存</a></p>
+	</div>
+</div>
+</body>
+</html>

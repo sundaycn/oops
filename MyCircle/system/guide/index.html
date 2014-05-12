@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>微管理介绍</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
+		"page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+$(function () {
+	$(".btn-demo").click(function () {
+		if (isAPP) {
+			window.APP.showMask("正在添加演示账户...");
+			var index = window.APP.addDemoAccount();
+			if (index && index != "") {
+				window.APP.hideMask();
+				alert("您已成功添加演示账号，用户名为：体验用户"+ index + "，密码为：123。演示账号只能使用一次，将在下次开启时自动失效，如需继续体验，请重新添加体验账号或联系我们购买正式版。");
+				window.APP.finish(true);
+			}
+		} else {
+			alert("不支持APP，请使用移动设备访问");
+		}
+	});
+	
+	var W = $(window).width();
+	if (W > 640) {
+		W = 660;
+	}
+	$(".hd img").width(W - 40).show();
+});
+</script>
+</head>
+<body id="guide">
+<div id="pageindex" class="theme-default">
+	<div class="weiguanli">
+		<div class="hd">
+			<img src="../images/img_weiguanli.png" id="img_weiguanli"/>
+			<span class="line"></span>
+		</div>
+		<div class="bd">
+			<h2><img src="../images/img_weiguanli_title.png" width="110"/></h2>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从办公协作、人力提升、经营管理、企业文化、决策分析等多方面帮助企业采用信息化的手段进行高效一体化的管理。管理功能涵盖：办公自动化系统、客户关系管理系统、库存管理系统、人事管理系统、项目管理系统、销售管理系统等多种解决方案。同时将新一代办公模式——移动办公完美结合，实现随时随地办公，轻轻松松管理。
+			</p>
+			<div class="btn">
+				<a href="http://3weike.com/EasyContact/web/mobile/guide/function.html" class="btn btn-more" style="margin-left:0;">了解更多</a>
+				<a href="javascript:void(0)" class="btn btn-demo">我要体验</a>
+				<a href="http://3weike.com/EasyContact/web/mobile/guide/contact.html" class="btn btn-contact">联系方式</a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

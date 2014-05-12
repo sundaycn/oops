@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>考勤异常</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"isRadius": app.getParam(pageUrl, "isRadius") || false,
+		"wz": app.getParam(pageUrl, "wz") || "",
+		"aOrder": app.getParam(pageUrl, "aOrder") || "",
+		"ms": ""
+	};
+	
+if (isAPP && !window.APP.isSupportPramas()) {
+	app.setData(window.APP.getParams());
+}
+
+$(function () {
+	$(".exception .btn").click(function () {
+		var ms = $("#ms").val();
+		if (ms == "") {
+			alert("原因内容不能为空");
+		} else {
+			saveAttend(data.isRadius, data.wz, data.aOrder, ms)
+		}
+		return false;
+	});
+});
+</script>
+</head>
+<body id="attend">
+<div id="pageindex" class="theme-default">
+	<div class="exception">
+		<div class="hd"><h2>请输入考勤异常的原因</h2></div>
+		<div class="bd">
+			<textarea id="ms" placeholder="请输入。。。"></textarea>
+			<a href="javascript:void(0)" class="btn">立即保存</a>
+		</div>
+	</div>
+	<div class="exception-help">
+		<div class="hd"><h2>注：</h2></div>
+		<div class="bd">
+			<p>请如实输入你未能正常考勤的原因，你提交的信息将作为审批是否为正常考勤的重要依据之一，请认真填写。</p>
+		</div>
+	</div>
+</div>
+</body>
+</html>

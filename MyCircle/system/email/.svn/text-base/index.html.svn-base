@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>收件箱</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
+		"page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+function load () {
+	app.loadData(app.basePath + "TemailBody/temailbody!inboxAjax.action", data, function (rs) {
+		setResult(rs, setInbox);
+	});
+}
+
+$(function () {
+	load();
+	$(".page .next").click(load);
+	
+	$(".eoa-data-list a.add").click(function () {
+		$.selectbox.clearGroup("email_");
+	});
+});
+</script>
+</head>
+<body id="email">
+<div id="pageindex" class="theme-default">
+	<div class="eoa-data-list">
+		<ul>
+			<li class="add">
+				<a href="edit.html" class="t add">写邮件</a>
+				<span class="ico">></span>
+			</li>
+			<!--
+			<li class="edit">
+				<a href="javascript:void(0)" class="t"> 
+					<h3>刘娜<span class="important"></span><span class="attach"></span></h3>
+					<P>我是邮件标题我是邮件标题我是邮件标题我</p>
+				</a>
+				<span class="read-status">•</span>
+				<span class="date">2011-11-20</span>
+				<span class="check"></span>
+			</li>
+			<li class="edit">
+				<a href="javascript:void(0)" class="t"> 
+					<h3>高斯伟<span class="important"></span><span class="attach"></span></h3>
+					<P>我是邮件标题我是邮件标题我是邮件标题我</p>
+				</a>
+				<span class="date">2011-11-20</span>
+				<span class="check"></span>
+			</li>
+			--->
+		</ul>
+	</div>
+	<div class="data-bar">
+		<span class="btn edit" style="display:block;"></span>
+		<span class="btn btn-border selectall"></span>
+		<span class="btn btn-border cancel">取消编辑</span>
+		<span class="btn btn-border readed">设为已读(<span class="s-num">0</span>)</span>
+		<span class="btn menu" style="display:block;"></span>
+		<span class="btn recycle" data-type="01"></span>
+	</div>
+	<div class="page">
+		<a href="javascript:void(0)" class="next">查看更多</a>
+	</div>
+</div>
+</body>
+</html>

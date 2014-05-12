@@ -31,6 +31,7 @@
 		2228A2A31913912F0081C9A6 /* MCMyInfoProvinceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A2A21913912F0081C9A6 /* MCMyInfoProvinceViewController.m */; };
 		2228A2A6191391400081C9A6 /* MCMyInfoCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */; };
 		222CFC48184432B50037E24D /* www in Resources */ = {isa = PBXBuildFile; fileRef = 222CFC47184432B50037E24D /* www */; };
+		223BBBFE1920770D00761BE7 /* system in Resources */ = {isa = PBXBuildFile; fileRef = 223BBBFD1920770D00761BE7 /* system */; };
 		224ECDFF191B2CC100214D5D /* MyInfoRegionProvince.plist in Resources */ = {isa = PBXBuildFile; fileRef = 224ECDFD191B2CC100214D5D /* MyInfoRegionProvince.plist */; };
 		224ECE00191B2CC100214D5D /* MyInfoRegionCity.plist in Resources */ = {isa = PBXBuildFile; fileRef = 224ECDFE191B2CC100214D5D /* MyInfoRegionCity.plist */; };
 		224ECE04191B7B3100214D5D /* MCCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 224ECE02191B7B3100214D5D /* MCCoreData.xcdatamodeld */; };
@@ -309,6 +310,7 @@
 		2228A2A4191391400081C9A6 /* MCMyInfoCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoCityViewController.h; sourceTree = "<group>"; };
 		2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoCityViewController.m; sourceTree = "<group>"; };
 		222CFC47184432B50037E24D /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		223BBBFD1920770D00761BE7 /* system */ = {isa = PBXFileReference; lastKnownFileType = folder; path = system; sourceTree = "<group>"; };
 		224ECDFD191B2CC100214D5D /* MyInfoRegionProvince.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyInfoRegionProvince.plist; sourceTree = "<group>"; };
 		224ECDFE191B2CC100214D5D /* MyInfoRegionCity.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyInfoRegionCity.plist; sourceTree = "<group>"; };
 		224ECE03191B7B3100214D5D /* MCCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MCCoreData.xcdatamodel; sourceTree = "<group>"; };
@@ -791,6 +793,8 @@
 				22E985C31857055300032893 /* Circle */,
 				22AA9AA318433AB8000C3A7F /* Portal */,
 				22E985C51857058A00032893 /* More */,
+				223BBBFF1920777400761BE7 /* MyInfo */,
+				223BBBFC192076B900761BE7 /* Manager */,
 				22B669E417FAAA240015A269 /* Main.storyboard */,
 				224ECE02191B7B3100214D5D /* MCCoreData.xcdatamodeld */,
 				221C51B6180CD7F800ED8715 /* MCAppDelegate.h */,
@@ -898,6 +902,37 @@
 				2228A29F19137C910081C9A6 /* MCCityDAO.m */,
 			);
 			name = Region;
+			sourceTree = "<group>";
+		};
+		223BBBFC192076B900761BE7 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				223BBBFD1920770D00761BE7 /* system */,
+				22F8AB39190D286D008527AB /* MCMicroManagerViewController.h */,
+				22F8AB3A190D286D008527AB /* MCMicroManagerViewController.m */,
+				22942383191F8864009793DA /* MCWebBrowserViewController.h */,
+				22942384191F8864009793DA /* MCWebBrowserViewController.m */,
+			);
+			name = Manager;
+			sourceTree = "<group>";
+		};
+		223BBBFF1920777400761BE7 /* MyInfo */ = {
+			isa = PBXGroup;
+			children = (
+				225B1818188BC59B00832573 /* MCMyInfoViewController.h */,
+				225B1819188BC59B00832573 /* MCMyInfoViewController.m */,
+				22C6441C18F390A200E91718 /* MCMyInfoNameViewController.h */,
+				22C6441D18F390A200E91718 /* MCMyInfoNameViewController.m */,
+				2228A2A11913912F0081C9A6 /* MCMyInfoProvinceViewController.h */,
+				2228A2A21913912F0081C9A6 /* MCMyInfoProvinceViewController.m */,
+				2228A2A4191391400081C9A6 /* MCMyInfoCityViewController.h */,
+				2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */,
+				2271CD6F1907C1F500E97B61 /* MCMyInfoOtherPhoneViewController.h */,
+				2271CD701907C1F500E97B61 /* MCMyInfoOtherPhoneViewController.m */,
+				2271CD721907C3D600E97B61 /* MCMyInfoEmailViewController.h */,
+				2271CD731907C3D600E97B61 /* MCMyInfoEmailViewController.m */,
+			);
+			name = MyInfo;
 			sourceTree = "<group>";
 		};
 		2255E7DA183365FA00BAD0ED /* SearchCore */ = {
@@ -2002,22 +2037,6 @@
 				22D11D721821EBDF00515856 /* MCAboutViewController.m */,
 				22A7AB711887BFA100DC35AA /* MCMoreViewController.h */,
 				22A7AB721887BFA100DC35AA /* MCMoreViewController.m */,
-				225B1818188BC59B00832573 /* MCMyInfoViewController.h */,
-				225B1819188BC59B00832573 /* MCMyInfoViewController.m */,
-				22C6441C18F390A200E91718 /* MCMyInfoNameViewController.h */,
-				22C6441D18F390A200E91718 /* MCMyInfoNameViewController.m */,
-				2228A2A11913912F0081C9A6 /* MCMyInfoProvinceViewController.h */,
-				2228A2A21913912F0081C9A6 /* MCMyInfoProvinceViewController.m */,
-				2228A2A4191391400081C9A6 /* MCMyInfoCityViewController.h */,
-				2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */,
-				2271CD6F1907C1F500E97B61 /* MCMyInfoOtherPhoneViewController.h */,
-				2271CD701907C1F500E97B61 /* MCMyInfoOtherPhoneViewController.m */,
-				2271CD721907C3D600E97B61 /* MCMyInfoEmailViewController.h */,
-				2271CD731907C3D600E97B61 /* MCMyInfoEmailViewController.m */,
-				22F8AB39190D286D008527AB /* MCMicroManagerViewController.h */,
-				22F8AB3A190D286D008527AB /* MCMicroManagerViewController.m */,
-				22942383191F8864009793DA /* MCWebBrowserViewController.h */,
-				22942384191F8864009793DA /* MCWebBrowserViewController.m */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -2111,6 +2130,7 @@
 				229DF0DD18710CAE00739C3A /* PushConfig.plist in Resources */,
 				2255E7E3183365FA00BAD0ED /* multipy_unicode.dat in Resources */,
 				22F8AB33190D2364008527AB /* IconMicroManagerCollection.plist in Resources */,
+				223BBBFE1920770D00761BE7 /* system in Resources */,
 				22B669EB17FAAA240015A269 /* Images.xcassets in Resources */,
 				22B669DD17FAAA240015A269 /* InfoPlist.strings in Resources */,
 				2254A079184B650600DC103F /* config.xml in Resources */,

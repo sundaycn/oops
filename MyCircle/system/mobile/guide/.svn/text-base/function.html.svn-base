@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>微管理功能介绍</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+$(function () {
+	var W = $(window).width();
+	if (W > 640) {
+		W = 660;
+	}
+	$("#img_weiguanli").width(W - 40).show();
+	$("#img_weiguanli").load(function () {
+		$(this).width(W - 40).show();
+	});
+});
+</script>
+</head>
+<body id="guide">
+<div id="pageindex" class="theme-default">
+	<div class="weiguanli">
+		<div class="hd">
+			<img src="../images/img_sanweike.png" width="80" id="img_weiguanli" style="display:none"/>
+			<span class="line"></span>
+		</div>
+		<div class="bd function" style="padding:10px 0;padding-top:0;">
+			<ul>
+				<li class="daily" style="box-shadow:none"><a href="function-daily.html" class="link" >工作日志<span class="arr"></span></a></li>
+				<li class="email"><a href="function-email.html" class="link">我的邮箱<span class="arr"></span></a></li>
+				<li class="attend"><a href="function-attend.html" class="link">我的考勤<span class="arr"></span></a></li>
+				<li class="task"><a href="function-task.html" class="link">任务协同<span class="arr"></span></a></li>
+				<li class="notice"><a href="function-notice.html" class="link">通知公告<span class="arr"></span></a></li>
+				<li class="document"><a href="function-document.html" class="link">公文管理<span class="arr"></span></a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+</body>
+</html>

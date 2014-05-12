@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>邮箱管理</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"diaType": app.getParam(pageUrl, "diaType") || "",
+		"page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
+		"page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
+		"page.order": "desc",
+		"page.orderBy": "diaDate"
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+
+$(function () {
+	$(".email-add a.link").click(function () {
+		$.selectbox.clearGroup("email_");
+	});
+});
+</script>
+</head>
+<body id="email" style="background:#F5F5F5">
+<div id="pageindex" class="theme-default" style="background:#F5F5F5">
+	<div class="function">
+		<ul>
+			<li class="email-add">
+				<a href="edit.html" class="link">写邮件<span class="arr">></span></a>
+			</li>
+		</ul>
+		<ul>
+			<li class="email-inbox">
+				<a href="index.html" class="link">收件箱<span class="arr">></span></a>
+			</li>
+			<li class="email-outbox">
+				<a href="outbox.html" class="link">发件箱<span class="arr">></span></a>
+			</li>
+		</ul>
+		<ul>
+			<li class="email-draft">
+				<a href="draft.html" class="link">草稿箱<span class="arr">></span></a>
+			</li>
+			<li class="email-recycle">
+				<a href="recycle.html" class="link">回收站<span class="arr">></span></a>
+			</li>
+		</ul>
+	</div>
+	
+</div>
+</body>
+</html>

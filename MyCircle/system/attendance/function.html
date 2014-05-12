@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>考勤管理</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"diaType": app.getParam(pageUrl, "diaType") || "",
+		"page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
+		"page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
+		"page.order": "desc",
+		"page.orderBy": "diaDate"
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+function initApproveList () {
+	if (isAPP) {
+		var functionjson, 
+			functionstr = window.APP.getMyWidget("T_ATTENDANCE");
+		
+		if (functionstr != "") {
+			functionjson = JSON.parse(functionstr);
+			$(".approve-list li").each(function () {
+				var $self = $(this), code = $(this).data("code");
+				$(functionjson).each(function () {
+					if (this.appCode == code) {
+						$self.show();
+					}
+				});
+			});
+		}
+	}
+}
+
+$(function () {
+	initApproveList ();
+	//console.log(window.APP.getMyWidget("T_ATTENDANCE"))
+});
+</script>
+</head>
+<body id="attend" style="background:#F5F5F5">
+<div id="pageindex" class="theme-default" style="background:#F5F5F5">
+	<div class="function">
+		<ul>
+			<li class="attend-record">
+				<a href="myattend.html" class="link">我的考勤记录<span class="arr">></span></a>
+			</li>
+		</ul>
+		<ul>
+			<li class="apply-leave">
+				<a href="myleave.html" class="link">我的请假</a>
+				<a href="addleave.html" class="add">+</a>
+			</li>
+			<li class="apply-away">
+				<a href="myaway.html" class="link">我的出差</a>
+				<a href="addaway.html" class="add">+</a>
+			</li>
+		</ul>
+		<ul>
+			<li class="apply-over">
+				<a href="myover.html" class="link">我的加班</a>
+				<a href="addover.html" class="add">+</a>
+			</li>
+			<li class="apply-out">
+				<a href="myout.html" class="link">我的外出</a>
+				<a href="addout.html" class="add">+</a>
+			</li>
+		</ul>
+		<ul class="approve-list">
+			<li class="approve-attend" data-code="tattendance!todoList"><a href="#" class="link">考勤审批<span class="arr">></span></a></li>
+			<li class="approve-leave" data-code="tattendanceleave!todoList"><a href="approveleave.html" class="link">请假审批<span class="arr">></span></a></li>
+			<li class="approve-away" data-code="tattendancetrip!todoList"><a href="approveaway.html" class="link">出差审批<span class="arr">></span></a></li>
+			<li class="approve-over" data-code="tattendanceovertime!todoList"><a href="approveover.html" class="link">加班审批<span class="arr">></span></a></li>
+			<li class="approve-out" data-code="tattendanceout!todoList"><a href="approveout.html" class="link">外出审批<span class="arr">></span></a></li>
+		</ul>
+	</div>
+	
+</div>
+</body>
+</html>

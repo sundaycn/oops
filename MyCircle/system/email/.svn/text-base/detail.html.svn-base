@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>邮件详情</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript" src="../scripts/json2.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"emailId": app.getParam(pageUrl, "emailId")
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+
+if (isAPP && !window.APP.isSupportPramas()) {
+	app.setData(window.APP.getParams());
+}
+	
+function load () {
+	app.loadData(app.basePath + "TemailBody/temailbody!viewEmailAjax.action", data, function (rs) {
+		setResult(rs, setMailDetail);
+	});
+}
+
+$(function () {
+	load();
+	$(".info-mini").click(function () {
+		$(this).hide();
+		$(".info-more").show();
+	});
+	$(".bd iframe").css({
+		"marginLeft":10,
+		"width":$("#pageindex").width() - 20,
+		"height":$(window).height() - $(".hd").height() - 80
+	});
+});
+</script>
+</head>
+<body id="email">
+<div id="pageindex" class="theme-default">
+	<div class="detail">
+		<div class="hd">
+			<h2></h2>
+			<ul class="info-mini">
+				<li>
+					<span class="from"></span>
+					<span class="tips">
+						<span class="important" style="display:none"></span>
+						<span class="attach" style="display:none"></span>
+						<span class="date"></span>
+					</span>
+				</li>
+				<li class="box">
+					<span class="label">发送至：</span>
+					<span class="txt"></span>
+				</li>
+				<span class="arr">展开 ∨</span>
+			</ul>
+			<ul class="info-more" style="display:none;">
+				<li>
+					<span class="label">发件人：</span>
+					<span class="txt from"></span>
+				</li>
+				<li>
+					<span class="label">收件人：</span>
+					<span class="txt toId"></span>
+				</li>
+				<li>
+					<span class="label">抄送人：</span>
+					<span class="txt copyToId"></span>
+				</li>
+				<li style="display:none">
+					<span class="label">密送人：</span>
+					<span class="txt secretToId"></span>
+				</li>
+				<li>
+					<span class="label">时&nbsp;&nbsp;&nbsp;间：</span>
+					<span class="txt date"></span>
+				</li>
+				<li id="attachment">
+					<span class="label">附&nbsp;&nbsp;&nbsp;件：</span>
+					<span class="txt" >
+						<ol></ol>
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class="bd">
+			<iframe src="" name="content" id="content" ></iframe>
+		</div>
+	</div>
+	<div class="data-bar">
+		<a href="edit.html" class="btn btn-border reply" style="display:block;">回复</a>
+		<a href="edit.html" class="btn btn-border replyAll" style="display:block;">回复全部</a>
+		<a href="edit.html" class="btn btn-border forward" style="display:block;">转发</a>
+		<span class="btn recycle" style="display:block;"></span>
+	</div>
+	<div class="page">
+		<a href="javascript:void(0)" class="next">查看更多</a>
+	</div>
+</div>
+</body>
+</html>

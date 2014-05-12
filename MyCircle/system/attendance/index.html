@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,target-densitydpi=high-dpi,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>我的考勤</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"diaType": app.getParam(pageUrl, "diaType") || "",
+		"page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
+		"page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
+		"page.order": "desc",
+		"page.orderBy": "diaDate"
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+
+$(function () {
+	app.loadData(app.basePath + "TattendanceRecord/tattendancerecord!getNowtimeAjax.action", data, function (rs) {
+		setResult(rs, setAttendTime);
+	});
+});
+</script>
+</head>
+<body id="attend">
+<div id="pageindex" class="theme-default">
+	<div class="clock-wrap">
+		<div class="clock">
+			<div class="clock-panel">
+				<div class="clock-week">
+					<span>一</span>
+					<span>二</span>
+					<span>三</span>
+					<span>四</span>
+					<span>五</span>
+					<span>六</span>
+					<span>日</span>
+				</div>
+				<div class="time"></div>
+			</div>
+			<a href="function.html" class="more"></a>
+		</div>
+	</div>
+	<div class="attend-list">
+		<ul></ul>
+	</div>
+	<div class="help" style="display:none">
+		<div class="hd"><h2>使用帮助</h2></div>
+		<div class="bd">
+			<ul>
+				<li>1. 页面头部时间为考勤系统时间，以此为准。</li>
+				<li>2. 点击圆形定位图标，可重新定位。</li>
+				<li>3. 开启手机GPS定位准确度会相应提高。</li>
+				<li>4. 圆形图标边缘进度为上班时间进度。</li>
+				<li>5. 当圆形进度为绿色时，表示已到下班时间。</li>
+			</ul>
+		</div>
+	</div>
+</div>
+</body>
+</html>

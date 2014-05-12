@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="format-detection" content="address=no;">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>联系方式</title>
+<link rel="stylesheet" type="text/css" href="../css/global.css"/>
+<script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../scripts/app.js"></script>
+<script type="text/javascript">
+var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
+	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
+	pageUrl = window.location.href.toString(),
+	data = {
+		"page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
+		"page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
+	},
+	setResult = function (rs, handler) {
+		if (isAPP) {
+			window.APP.hideLoading();
+		}
+		if (!rs.success && rs.errorCode == "001") {
+			if (isAPP) {
+				window.APP.login();
+			} else {
+				alert(rs.message);
+			}
+		} else {
+			if (typeof handler == "function") {
+				handler(rs);
+			}
+		}
+	};
+	
+$(function () {
+	$(".btn-demo").click(function () {
+		if (isAPP) {
+			window.APP.showMask("正在添加演示账户...");
+			var index = window.APP.addDemoAccount();
+			if (index && index != "") {
+				window.APP.hideMask();
+				alert("您已成功添加演示账号，用户名为：体验用户"+ index + "，密码为：123。为避免演示系统数据错乱，演示账号将在下次开启时自动失效，如需继续体验，请重新添加体验账号或联系我们购买正式版。");
+				window.APP.finish(true);
+			}
+		} else {
+			alert("不支持APP，请使用移动设备访问");
+		}
+	});
+	
+	var W = $(window).width();
+	if (W > 640) {
+		W = 660;
+	}
+	$(".hd img").width(W - 40).show();
+});
+</script>
+</head>
+<body id="guide">
+<div id="pageindex" class="theme-default">
+	<ul class="contact-list">
+		<li>
+			<span class="sort">1</span>
+			<div class="wrap">
+				<div class="txt">江西南昌</div>
+				<div class="desc">罗经理 18970879838</div>
+			</div>
+			<a class="icon" href="tel:18970879838"></a>
+		</li>
+		<li>
+			<span class="sort">2</span>
+			<div class="wrap">
+				<div class="txt">江西南昌</div>
+				<div class="desc">刘经理 18179115002</div>
+			</div>
+			<a class="icon" href="tel:18179115002"></a>
+		</li>
+	</ul>
+</div>
+</body>
+</html>
