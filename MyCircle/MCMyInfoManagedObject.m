@@ -2,14 +2,17 @@
 //  MCMyInfoManagedObject.m
 //  MyCircle
 //
-//  Created by Samuel on 4/4/14.
+//  Created by Samuel on 5/13/14.
 //
 //
 
 #import "MCMyInfoManagedObject.h"
 
+
 @implementation MCMyInfoManagedObject
+
 @dynamic address;
+@dynamic avatarImage;
 @dynamic birthday;
 @dynamic birthdayString;
 @dynamic cityId;
@@ -40,5 +43,5 @@
 @dynamic userConcerns;
 @dynamic userName;
 @dynamic weChatNo;
-@dynamic avatarImage;
+
 @end

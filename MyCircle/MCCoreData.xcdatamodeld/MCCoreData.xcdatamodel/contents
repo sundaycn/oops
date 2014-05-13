@@ -40,7 +40,7 @@
         <attribute name="syncFlag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="upDepartmentId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="MCMyInfo" syncable="YES">
+    <entity name="MCMyInfo" representedClassName="MCMyInfoManagedObject" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="avatarImage" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="birthday" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
