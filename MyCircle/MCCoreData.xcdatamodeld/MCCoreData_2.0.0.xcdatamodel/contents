@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C1021" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="MCBook" representedClassName="MCBookManagedObject" syncable="YES">
+        <attribute name="belongDepartmentId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="belongOrgId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="deputyMobilePhone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="faxNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="homePhone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mobilePhone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mobileShort" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="officePhone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="position" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="searchId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="sort" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="syncFlag" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MCChatHistory" representedClassName="MCChatHistoryManagedObject" syncable="YES">
+        <attribute name="from" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isread" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="to" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MCChatSession" representedClassName="MCChatSessionManagedObject" syncable="YES">
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastmsg" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="MCDept" representedClassName="MCDeptManagedObject" syncable="YES">
+        <attribute name="belongOrgId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sort" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="syncFlag" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="upDepartmentId" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MCMicroManagerAccount" representedClassName="MCMicroManagerAccount" syncable="YES">
+        <attribute name="acctId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="acctName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="belongOrgId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orgName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MCMicroManagerConfig" representedClassName="MCMicroManagerConfigMO" syncable="YES">
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="defaultShow" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="iconImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pagePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sort" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="upCode" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MCMyInfo" representedClassName="MCMyInfoManagedObject" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="avatarImage" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="birthday" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="birthdayString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cityId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cityName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countyId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="countyName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createDate" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="createDateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="homepage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="microBlog" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mobile" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="modifyDate" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modifyDateString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="modifyId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="openfireAcct" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="postNo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="provinceId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="provinceName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="qqNo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="signature" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="trade" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userConcerns" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="weChatNo" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="MCOrg" representedClassName="MCOrgManagedObject" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="version" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="MCBook" positionX="-18" positionY="-405" width="128" height="285"/>
+        <element name="MCChatHistory" positionX="-20" positionY="-36" width="128" height="135"/>
+        <element name="MCChatSession" positionX="-236" positionY="-36" width="128" height="90"/>
+        <element name="MCDept" positionX="-236" positionY="-405" width="128" height="150"/>
+        <element name="MCMicroManagerConfig" positionX="-234" positionY="108" width="128" height="165"/>
+        <element name="MCMyInfo" positionX="-434" positionY="-234" width="128" height="523"/>
+        <element name="MCOrg" positionX="-432" positionY="-405" width="128" height="90"/>
+        <element name="MCMicroManagerAccount" positionX="-225" positionY="-252" width="128" height="165"/>
+    </elements>
+</model>

@@ -51,6 +51,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+//切换微管理账号
+- (IBAction)switchMMAccount:(id)sender {
+    //
+}
+
+
 /*
 #pragma mark - Navigation
 
@@ -98,5 +104,4 @@
     alert.tag = 1;
     [alert show];
 }
-
 @end

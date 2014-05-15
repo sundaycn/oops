@@ -496,6 +496,34 @@
             </objects>
             <point key="canvasLocation" x="3944" y="1693"/>
         </scene>
+        <!--Micro Manager AccountVC-->
+        <scene sceneID="PMr-H8-Oy6">
+            <objects>
+                <tableViewController id="NmS-Ug-VKO" customClass="MCMicroManagerAccountVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Wzh-ps-JZG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="UaI-1n-QpW">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UaI-1n-QpW" id="JOo-c1-5Pa">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="NmS-Ug-VKO" id="zvb-xI-4oN"/>
+                            <outlet property="delegate" destination="NmS-Ug-VKO" id="9VO-f4-1Op"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vbh-sH-xbJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2391" y="1623"/>
+        </scene>
         <!--Web Browser View Controller-->
         <scene sceneID="QlD-KR-fGF">
             <objects>
@@ -604,7 +632,14 @@
                             <outlet property="delegate" destination="ipd-wm-wHN" id="Lol-Zq-BPK"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="f4k-RR-LdD"/>
+                    <navigationItem key="navigationItem" id="f4k-RR-LdD">
+                        <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="MFs-ou-Yh0">
+                            <connections>
+                                <action selector="switchMMAccount:" destination="ipd-wm-wHN" id="m0t-cR-CjR"/>
+                                <segue destination="NmS-Ug-VKO" kind="modal" identifier="showMMAccount" id="rOH-Hh-5xe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="U5L-yi-4Bh" kind="push" identifier="showWebBrowser" id="y4d-nj-DPF"/>
                     </connections>

@@ -10,13 +10,13 @@
 
 @interface MCMyInfo : NSObject
 @property (nonatomic, strong) NSString *address;
-@property (nonatomic, strong) NSNumber *birthday;
+@property (nonatomic, assign) int64_t birthday;
 @property (nonatomic, strong) NSString *birthdayString;
 @property (nonatomic, strong) NSString *cityId;
 @property (nonatomic, strong) NSString *cityName;
 @property (nonatomic, strong) NSString *countyId;
 @property (nonatomic, strong) NSString *countyName;
-@property (nonatomic, strong) NSNumber *createDate;
+@property (nonatomic, assign) int64_t createDate;
 @property (nonatomic, strong) NSString *createDateString;
 @property (nonatomic, strong) NSString *createId;
 @property (nonatomic, strong) NSString *email;
@@ -25,7 +25,7 @@
 @property (nonatomic, strong) NSString *id;
 @property (nonatomic, strong) NSString *microBlog;
 @property (nonatomic, strong) NSString *mobile;
-@property (nonatomic, strong) NSNumber *modifyDate;
+@property (nonatomic, assign) int64_t modifyDate;
 @property (nonatomic, strong) NSString *modifyDateString;
 @property (nonatomic, strong) NSString *modifyId;
 @property (nonatomic, strong) NSString *openfireAcct;

@@ -61,10 +61,6 @@
     NSString *cipherPwd = [[MCConfig sharedInstance] getCipherPassword];
     [[MCMyInfoHandler sharedInstance] getMyInfo:self.strAccount password:cipherPwd];
     
-    //documnet path
-    NSString *documentDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-    DLog(@"document path:%@", documentDirectory);
-
     
     //监听应用程序从后台切换到前台的动作
     [defaultCenter addObserver:self

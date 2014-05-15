@@ -14,13 +14,13 @@
 
 @property (nonatomic, retain) NSString * address;
 @property (nonatomic, retain) NSData * avatarImage;
-@property (nonatomic, retain) NSNumber * birthday;
+@property (nonatomic, assign) int64_t birthday;
 @property (nonatomic, retain) NSString * birthdayString;
 @property (nonatomic, retain) NSString * cityId;
 @property (nonatomic, retain) NSString * cityName;
 @property (nonatomic, retain) NSString * countyId;
 @property (nonatomic, retain) NSString * countyName;
-@property (nonatomic, retain) NSNumber * createDate;
+@property (nonatomic, assign) int64_t createDate;
 @property (nonatomic, retain) NSString * createDateString;
 @property (nonatomic, retain) NSString * createId;
 @property (nonatomic, retain) NSString * email;
@@ -29,7 +29,7 @@
 @property (nonatomic, retain) NSString * id;
 @property (nonatomic, retain) NSString * microBlog;
 @property (nonatomic, retain) NSString * mobile;
-@property (nonatomic, retain) NSNumber * modifyDate;
+@property (nonatomic, assign) int64_t modifyDate;
 @property (nonatomic, retain) NSString * modifyDateString;
 @property (nonatomic, retain) NSString * modifyId;
 @property (nonatomic, retain) NSString * openfireAcct;

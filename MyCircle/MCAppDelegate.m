@@ -14,7 +14,6 @@
 #import "DDTTYLogger.h"
 #endif
 #import "MCViewController.h"
-//#import "MCGuidPageViewController.h"
 
 @implementation MCAppDelegate
 
@@ -43,8 +42,6 @@
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"launched"]) {
         //第一次启动显示用户指引视图
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"launched"];
-//        MCGuidPageViewController *guidPageVC = [[MCGuidPageViewController alloc] init];
-//        self.window.rootViewController = guidPageVC;
     }
     else {
         if ([[MCConfig sharedInstance] isLogined]) {

@@ -28,7 +28,7 @@ static MCMyInfoDAO *sharedManager = nil;
 {
     NSManagedObjectContext *cxt = [self managedObjectContext];
     MCMyInfoManagedObject *myInfo = [NSEntityDescription insertNewObjectForEntityForName:@"MCMyInfo" inManagedObjectContext:cxt];
-    myInfo.address = myInfo.address;
+    myInfo.address = model.address;
     myInfo.birthday = model.birthday;
     myInfo.birthdayString = model.birthdayString;
     myInfo.cityId = model.cityId;
@@ -87,7 +87,7 @@ static MCMyInfoDAO *sharedManager = nil;
     NSArray *listData = [cxt executeFetchRequest:request error:&error];
     if ([listData count] > 0) {
         MCMyInfoManagedObject *myInfo = [listData lastObject];
-        myInfo.address = myInfo.address;
+        myInfo.address = model.address;
         myInfo.birthday = model.birthday;
         myInfo.birthdayString = model.birthdayString;
         myInfo.cityId = model.cityId;
@@ -202,7 +202,7 @@ static MCMyInfoDAO *sharedManager = nil;
         MCMyInfoManagedObject *model = [listData lastObject];
         
         MCMyInfo *myInfo = [[MCMyInfo alloc] init];
-        myInfo.address = myInfo.address;
+        myInfo.address = model.address;
         myInfo.birthday = model.birthday;
         myInfo.birthdayString = model.birthdayString;
         myInfo.cityId = model.cityId;

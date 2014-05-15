@@ -7,6 +7,7 @@
 //
 
 #import "MCGuidPageViewController.h"
+#import "MCMicroManagerConfigHandler.h"
 
 @interface MCGuidPageViewController ()
 @end
@@ -71,6 +72,9 @@
 
 #pragma mark - EAIntro Delegate
 - (void)introDidFinish:(EAIntroView *)introView {
+    //从plist导入微管理功能模块配置
+    [[MCMicroManagerConfigHandler sharedInstance] initConfig];
+    //跳转到登录页
     [self performSegueWithIdentifier:@"showLogin" sender:self];
 }
 
