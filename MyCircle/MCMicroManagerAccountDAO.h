@@ -17,6 +17,8 @@
 - (int)update:(MCMicroManagerAccount *)model;
 //删除当前用户的所有微管理账号
 - (int)deleteAll;
+//查询当前用户的默认微管理账号
+- (MCMicroManagerAccount *)queryDefaultAccount;
 //查询当前用户的微管理账号
 - (NSArray *)queryAll;
 @end

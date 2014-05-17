@@ -109,6 +109,37 @@ static MCMicroManagerAccountDAO *sharedManager = nil;
     return 0;
 }
 
+//查询当前用户的默认微管理账号
+- (MCMicroManagerAccount *)queryDefaultAccount
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCMicroManagerAccount" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"acctName = %@", @"默认帐号"];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    if ([listData count] > 0) {
+        MCMicroManagerAccountMO *mo = [listData lastObject];
+        MCMicroManagerAccount *microManagerAccount = [[MCMicroManagerAccount alloc] init];
+        microManagerAccount.userId = mo.userId;
+        microManagerAccount.userCode = mo.userCode;
+        microManagerAccount.userName = mo.userName;
+        microManagerAccount.gender = mo.gender;
+        microManagerAccount.acctId = mo.acctId;
+        microManagerAccount.acctName = mo.acctName;
+        microManagerAccount.belongOrgId = mo.belongOrgId;
+        microManagerAccount.orgName = mo.orgName;
+        
+        return microManagerAccount;
+    }
+    return nil;
+}
+
+
 //查询当前用户的微管理账号
 - (NSArray *)queryAll
 {

@@ -139,4 +139,66 @@ static MCMicroManagerConfigDAO *sharedManager = nil;
     }
     return nil;
 }
+
+//查询微管理功能模块配置
+- (NSArray *)queryByWidgetCodes:(NSArray *)arrWidgetCodes
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCMicroManagerConfig" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(code IN %@)", arrWidgetCodes];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    NSMutableArray *resListData = [[NSMutableArray alloc] init];
+    
+    for (MCMicroManagerConfigMO *mo in listData) {
+        
+        MCMicroManagerConfig *microManagerConfig = [[MCMicroManagerConfig alloc] init];
+        microManagerConfig.code = mo.code;
+        microManagerConfig.name = mo.name;
+        microManagerConfig.iconImage = mo.iconImage;
+        microManagerConfig.pagePath = mo.pagePath;
+        microManagerConfig.sort = mo.sort;
+        microManagerConfig.upCode = mo.upCode;
+        microManagerConfig.type = mo.type;
+        microManagerConfig.defaultShow = mo.defaultShow;
+        
+        [resListData addObject:microManagerConfig];
+    }
+    return [resListData copy];
+}
+
+//查询所有微管理功能模块配置
+- (NSArray *)queryAll
+{
+    NSManagedObjectContext *cxt = [self managedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"MCMicroManagerConfig" inManagedObjectContext:cxt];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:entityDescription];
+    
+    NSError *error = nil;
+    NSArray *listData = [cxt executeFetchRequest:request error:&error];
+    NSMutableArray *resListData = [[NSMutableArray alloc] init];
+    
+    for (MCMicroManagerConfigMO *mo in listData) {
+        
+        MCMicroManagerConfig *microManagerConfig = [[MCMicroManagerConfig alloc] init];
+        microManagerConfig.code = mo.code;
+        microManagerConfig.name = mo.name;
+        microManagerConfig.iconImage = mo.iconImage;
+        microManagerConfig.pagePath = mo.pagePath;
+        microManagerConfig.sort = mo.sort;
+        microManagerConfig.upCode = mo.upCode;
+        microManagerConfig.type = mo.type;
+        microManagerConfig.defaultShow = mo.defaultShow;
+        
+        [resListData addObject:microManagerConfig];
+    }
+    return [resListData copy];
+}
 @end

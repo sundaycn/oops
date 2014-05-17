@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MCMicroManagerDelegate.h"
 
-@interface MCMicroManagerViewController : UICollectionViewController
+@interface MCMicroManagerViewController : UICollectionViewController <MCMicroManagerDelegate>
 
 @end

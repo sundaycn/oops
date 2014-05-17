@@ -26,7 +26,7 @@
 		<key>name</key>
 		<string>我的邮箱</string>
 		<key>iconImage</key>
-		<string></string>
+		<string>IconMMgrsw</string>
 		<key>pagePath</key>
 		<string>system/email/index.html</string>
 		<key>sort</key>
@@ -170,7 +170,7 @@
 		<key>name</key>
 		<string>通知公告</string>
 		<key>iconImage</key>
-		<string></string>
+		<string>IconMMgrsw</string>
 		<key>pagePath</key>
 		<string>system/notice/index.html</string>
 		<key>sort</key>
@@ -206,7 +206,7 @@
 		<key>name</key>
 		<string>更多应用</string>
 		<key>iconImage</key>
-		<string></string>
+		<string>IconMMgrsw</string>
 		<key>pagePath</key>
 		<string>http://117.21.209.104:80/EasyContact/web/mobile/guide/function.html</string>
 		<key>sort</key>

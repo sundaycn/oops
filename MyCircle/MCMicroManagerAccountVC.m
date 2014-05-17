@@ -38,7 +38,7 @@
     //获取用户
     NSString *strAccount = [[MCConfig sharedInstance] getAccount];
     //下载当前用户所有微管理账号
-    [[MCMicroManagerConfigHandler sharedInstance] getCodeByMMAccount:strAccount];
+    [[MCMicroManagerConfigHandler sharedInstance] getMMAccountByAccount:strAccount];
 }
 
 - (void)didReceiveMemoryWarning

@@ -32,6 +32,9 @@
 		2228A2A6191391400081C9A6 /* MCMyInfoCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */; };
 		222CFC48184432B50037E24D /* www in Resources */ = {isa = PBXBuildFile; fileRef = 222CFC47184432B50037E24D /* www */; };
 		223BBBFE1920770D00761BE7 /* system in Resources */ = {isa = PBXBuildFile; fileRef = 223BBBFD1920770D00761BE7 /* system */; };
+		224500B519259BBE00644744 /* MCMicroManagerMO.m in Sources */ = {isa = PBXBuildFile; fileRef = 224500B419259BBE00644744 /* MCMicroManagerMO.m */; };
+		224500B819259C5200644744 /* MCMicroManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 224500B719259C5200644744 /* MCMicroManager.m */; };
+		224500BB19259C6800644744 /* MCMicroManagerDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 224500BA19259C6800644744 /* MCMicroManagerDAO.m */; };
 		224ECDFF191B2CC100214D5D /* MyInfoRegionProvince.plist in Resources */ = {isa = PBXBuildFile; fileRef = 224ECDFD191B2CC100214D5D /* MyInfoRegionProvince.plist */; };
 		224ECE00191B2CC100214D5D /* MyInfoRegionCity.plist in Resources */ = {isa = PBXBuildFile; fileRef = 224ECDFE191B2CC100214D5D /* MyInfoRegionCity.plist */; };
 		2254A077184B63D500DC103F /* MCContensViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2254A076184B63D500DC103F /* MCContensViewController.m */; };
@@ -244,7 +247,6 @@
 		22F86DC41811211D000CCB50 /* MCOrg.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DC31811211D000CCB50 /* MCOrg.m */; };
 		22F86DC718112F48000CCB50 /* MCDeptBL.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DC618112F48000CCB50 /* MCDeptBL.m */; };
 		22F86DCA18112F53000CCB50 /* MCOrgBL.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DC918112F53000CCB50 /* MCOrgBL.m */; };
-		22F8AB33190D2364008527AB /* IconMicroManagerCollection.plist in Resources */ = {isa = PBXBuildFile; fileRef = 22F8AB32190D2364008527AB /* IconMicroManagerCollection.plist */; };
 		22F8AB38190D270C008527AB /* MCMicroManagerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8AB37190D270C008527AB /* MCMicroManagerCell.m */; };
 		22F8AB3B190D286D008527AB /* MCMicroManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8AB3A190D286D008527AB /* MCMicroManagerViewController.m */; };
 		22FAFA0219244ECF0079CB1E /* MCMicroManagerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FAFA0119244ECF0079CB1E /* MCMicroManagerConfig.m */; };
@@ -320,6 +322,12 @@
 		2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoCityViewController.m; sourceTree = "<group>"; };
 		222CFC47184432B50037E24D /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		223BBBFD1920770D00761BE7 /* system */ = {isa = PBXFileReference; lastKnownFileType = folder; path = system; sourceTree = "<group>"; };
+		224500B319259BBE00644744 /* MCMicroManagerMO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMicroManagerMO.h; sourceTree = "<group>"; };
+		224500B419259BBE00644744 /* MCMicroManagerMO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMicroManagerMO.m; sourceTree = "<group>"; };
+		224500B619259C5200644744 /* MCMicroManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMicroManager.h; sourceTree = "<group>"; };
+		224500B719259C5200644744 /* MCMicroManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMicroManager.m; sourceTree = "<group>"; };
+		224500B919259C6800644744 /* MCMicroManagerDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMicroManagerDAO.h; sourceTree = "<group>"; };
+		224500BA19259C6800644744 /* MCMicroManagerDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMicroManagerDAO.m; sourceTree = "<group>"; };
 		224ECDFD191B2CC100214D5D /* MyInfoRegionProvince.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyInfoRegionProvince.plist; sourceTree = "<group>"; };
 		224ECDFE191B2CC100214D5D /* MyInfoRegionCity.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyInfoRegionCity.plist; sourceTree = "<group>"; };
 		2254A075184B63D500DC103F /* MCContensViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContensViewController.h; sourceTree = "<group>"; };
@@ -422,6 +430,7 @@
 		22B669F917FAAA240015A269 /* MyCircleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MyCircleTests-Info.plist"; sourceTree = "<group>"; };
 		22B669FB17FAAA240015A269 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		22B669FD17FAAA240015A269 /* MyCircleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyCircleTests.m; sourceTree = "<group>"; };
+		22BDCB891925F02E000674BE /* MCMicroManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCMicroManagerDelegate.h; sourceTree = "<group>"; };
 		22BEAFF518683386000C35E2 /* MCMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMainViewController.h; sourceTree = "<group>"; };
 		22BEAFF618683386000C35E2 /* MCMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMainViewController.m; sourceTree = "<group>"; };
 		22C6441C18F390A200E91718 /* MCMyInfoNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoNameViewController.h; sourceTree = "<group>"; };
@@ -737,7 +746,6 @@
 		22F86DC618112F48000CCB50 /* MCDeptBL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCDeptBL.m; sourceTree = "<group>"; };
 		22F86DC818112F53000CCB50 /* MCOrgBL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOrgBL.h; sourceTree = "<group>"; };
 		22F86DC918112F53000CCB50 /* MCOrgBL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCOrgBL.m; sourceTree = "<group>"; };
-		22F8AB32190D2364008527AB /* IconMicroManagerCollection.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = IconMicroManagerCollection.plist; sourceTree = "<group>"; };
 		22F8AB36190D270B008527AB /* MCMicroManagerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMicroManagerCell.h; sourceTree = "<group>"; };
 		22F8AB37190D270C008527AB /* MCMicroManagerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMicroManagerCell.m; sourceTree = "<group>"; };
 		22F8AB39190D286D008527AB /* MCMicroManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMicroManagerViewController.h; sourceTree = "<group>"; };
@@ -1053,6 +1061,12 @@
 		2288273619231509008E68EA /* MicroManager */ = {
 			isa = PBXGroup;
 			children = (
+				224500B319259BBE00644744 /* MCMicroManagerMO.h */,
+				224500B419259BBE00644744 /* MCMicroManagerMO.m */,
+				224500B619259C5200644744 /* MCMicroManager.h */,
+				224500B719259C5200644744 /* MCMicroManager.m */,
+				224500B919259C6800644744 /* MCMicroManagerDAO.h */,
+				224500BA19259C6800644744 /* MCMicroManagerDAO.m */,
 				22FAFA111924BFB80079CB1E /* MCMicroManagerAccountMO.h */,
 				22FAFA121924BFB80079CB1E /* MCMicroManagerAccountMO.m */,
 				22FAFA141924C05F0079CB1E /* MCMicroManagerAccount.h */,
@@ -1198,7 +1212,6 @@
 				229DF0DC18710CAE00739C3A /* PushConfig.plist */,
 				224ECDFD191B2CC100214D5D /* MyInfoRegionProvince.plist */,
 				224ECDFE191B2CC100214D5D /* MyInfoRegionCity.plist */,
-				22F8AB32190D2364008527AB /* IconMicroManagerCollection.plist */,
 				22D8F6641920C831006D01BC /* MicroManagerConfig.plist */,
 			);
 			name = "Supporting Files";
@@ -2093,6 +2106,7 @@
 				22F8AB37190D270C008527AB /* MCMicroManagerCell.m */,
 				22FAFA0719246DD20079CB1E /* MCMicroManagerConfigHandler.h */,
 				22FAFA0819246DD20079CB1E /* MCMicroManagerConfigHandler.m */,
+				22BDCB891925F02E000674BE /* MCMicroManagerDelegate.h */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -2197,7 +2211,6 @@
 			files = (
 				229DF0DD18710CAE00739C3A /* PushConfig.plist in Resources */,
 				2255E7E3183365FA00BAD0ED /* multipy_unicode.dat in Resources */,
-				22F8AB33190D2364008527AB /* IconMicroManagerCollection.plist in Resources */,
 				223BBBFE1920770D00761BE7 /* system in Resources */,
 				22B669EB17FAAA240015A269 /* Images.xcassets in Resources */,
 				22B669DD17FAAA240015A269 /* InfoPlist.strings in Resources */,
@@ -2328,6 +2341,7 @@
 				22CEC3A118594B3D00DC9913 /* XMPPResourceCoreDataStorageObject.m in Sources */,
 				22CEC3A918594B3D00DC9913 /* XMPPSystemInputActivityMonitor.m in Sources */,
 				22FAFA131924BFB80079CB1E /* MCMicroManagerAccountMO.m in Sources */,
+				224500BB19259C6800644744 /* MCMicroManagerDAO.m in Sources */,
 				2255FD1A1859B16400A01BA1 /* MCMessage.m in Sources */,
 				22CEC2B418594AD700DC9913 /* XMPPStream.m in Sources */,
 				22A7AB781887C09000DC35AA /* MCMoreCell.m in Sources */,
@@ -2444,6 +2458,7 @@
 				22B669E917FAAA240015A269 /* MCViewController.m in Sources */,
 				22F86DC41811211D000CCB50 /* MCOrg.m in Sources */,
 				22CEC39C18594B3D00DC9913 /* XMPPCoreDataStorage.m in Sources */,
+				224500B819259C5200644744 /* MCMicroManager.m in Sources */,
 				22CEC3BB18594B3D00DC9913 /* XMPPMessage+XEP0045.m in Sources */,
 				22FAFA0D1924B4E80079CB1E /* MCMicroManagerAccountVC.m in Sources */,
 				22CEC2A618594AD700DC9913 /* XMPPDeprecatedPlainAuthentication.m in Sources */,
@@ -2463,6 +2478,7 @@
 				22CEC2B318594AD700DC9913 /* XMPPPresence.m in Sources */,
 				2228A2A6191391400081C9A6 /* MCMyInfoCityViewController.m in Sources */,
 				22D7F63A180BEE60007E5E22 /* RATreeNodeCollectionController.m in Sources */,
+				224500B519259BBE00644744 /* MCMicroManagerMO.m in Sources */,
 				22CEC3D418594B3D00DC9913 /* XMPPMessage+XEP_0085.m in Sources */,
 				22CEC25C18594A5400DC9913 /* DDXMLDocument.m in Sources */,
 				2255FD0718599F0D00A01BA1 /* MCXmppHelper+Message.m in Sources */,

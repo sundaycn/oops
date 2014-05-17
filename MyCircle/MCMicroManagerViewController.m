@@ -8,9 +8,14 @@
 
 #import "MCMicroManagerViewController.h"
 #import "MCMicroManagerCell.h"
+#import "MCMicroManagerAccountDAO.h"
+#import "MCMicroManagerDAO.h"
+#import "MCMicroManagerConfigDAO.h"
+#import "MCMicroManagerConfigHandler.h"
+#import "MCConfig.h"
 
 @interface MCMicroManagerViewController ()
-@property (nonatomic ,strong) NSArray *arrIconMicroMianager;
+@property (nonatomic ,strong) NSMutableArray *arrMicroManagerMenu;
 @end
 
 @implementation MCMicroManagerViewController
@@ -29,10 +34,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"微管理";
-    NSBundle *bundle  = [NSBundle mainBundle];
-    NSString *strIconMicroManagerPlistPath = [bundle pathForResource:@"IconMicroManagerCollection" ofType:@"plist"];
-    self.arrIconMicroMianager = [[NSArray alloc] initWithContentsOfFile:strIconMicroManagerPlistPath];
     
+    //如果默认账号为空，从服务器下载账号信息
+    MCMicroManagerAccount *mmAccount = [[MCMicroManagerAccountDAO sharedManager] queryDefaultAccount];
+    [MCMicroManagerConfigHandler sharedInstance].delegate = self;
+    if (!mmAccount) {
+        //异步下载
+        NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+        [[MCMicroManagerConfigHandler sharedInstance] getMMAccountByAccount:strAccount];
+    }
+    else {
+        DLog(@"微管理默认账号:%@", mmAccount.acctId);
+        //获取当前账号所有功能模块
+        [[MCMicroManagerDAO sharedManager] deleteAll];
+        [[MCMicroManagerConfigHandler sharedInstance] getCodeByUserCode:mmAccount.userCode acctId:mmAccount.acctId];
+
+    }
+    
+    self.arrMicroManagerMenu = [[NSMutableArray alloc] init];
     [self.collectionView registerClass:[MCMicroManagerCell class] forCellWithReuseIdentifier:@"MicroMangerCell"];
     
     //global layout
@@ -71,20 +90,25 @@
 #pragma mark - UICollectionView Data Source
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return ceil([self.arrIconMicroMianager count] / 3.0);
+    return ceil([self.arrMicroManagerMenu count] / 3.0);
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return section == ceil([self.arrIconMicroMianager count] / 3.0) - 1 ? [self.arrIconMicroMianager count] % 3 : 3;
+    if (self.arrMicroManagerMenu.count == 0) {
+        return 0;
+    }
+    else {
+        return section == ceil([self.arrMicroManagerMenu count] / 3.0) - 1 ? ([self.arrMicroManagerMenu count] % 3 == 0 ? 3 : [self.arrMicroManagerMenu count] % 3) : 3;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     MCMicroManagerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MicroMangerCell" forIndexPath:indexPath];
-    NSDictionary *dictIcon = [self.arrIconMicroMianager objectAtIndex:(indexPath.section*3 + indexPath.row)];
-    cell.imageView.image = [UIImage imageNamed:[dictIcon objectForKey:@"icon"]];
-    cell.labelName.text = [dictIcon objectForKey:@"name"];
+    MCMicroManagerConfig *mmConfig = [self.arrMicroManagerMenu objectAtIndex:(indexPath.section*3 + indexPath.row)];
+    cell.imageView.image = [UIImage imageNamed:mmConfig.iconImage];
+    cell.labelName.text = mmConfig.name;
     
     return cell;
 }
@@ -92,7 +116,7 @@
 #pragma mark - UICollectionView Delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DLog(@"select MicroManager Item:%@", [[self.arrIconMicroMianager objectAtIndex:(indexPath.section*3 + indexPath.row)] objectForKey:@"name"]);
+    DLog(@"select MicroManager Item:%@", [[self.arrMicroManagerMenu objectAtIndex:(indexPath.section*3 + indexPath.row)] objectForKey:@"name"]);
     [self performSegueWithIdentifier:@"showWebBrowser" sender:self];
 //    [self developingAlert];
 }
@@ -103,5 +127,29 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"开发中..." message:@"该功能尚在开发，敬请期待" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
     alert.tag = 1;
     [alert show];
+}
+
+#pragma mark - MCMicroManager Delegate
+- (void)didFinishGetMicroManagerAccount:(MCMicroManagerAccount *)mmAccount
+{
+    //获取当前账号所有功能模块
+    DLog(@"--------didFinsishGetMMAccount-----------");
+    [[MCMicroManagerDAO sharedManager] deleteAll];
+    [[MCMicroManagerConfigHandler sharedInstance] getCodeByUserCode:mmAccount.userCode acctId:mmAccount.acctId];
+}
+
+- (void)didFinishGetMicroManagerWidget
+{
+    //组装数据源
+    DLog(@"--------didFinsishGetMMWidget-----------");
+    NSArray *arrWidgetCodes = [[MCMicroManagerDAO sharedManager] queryAllCodes];
+    NSArray *arrWidgetConfig = [[MCMicroManagerConfigDAO sharedManager] queryByWidgetCodes:arrWidgetCodes];
+    for (MCMicroManagerConfig *obj in arrWidgetConfig) {
+        if ([obj.upCode isEqualToString:@"-1"]) {
+            [self.arrMicroManagerMenu addObject:obj];
+        }
+    }
+    DLog(@"微管理菜单数量%d", [self.arrMicroManagerMenu count]);
+    [self.collectionView reloadData];
 }
 @end

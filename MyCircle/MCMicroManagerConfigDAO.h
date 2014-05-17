@@ -19,4 +19,8 @@
 - (int)deleteAll;
 //查询微管理功能模块配置
 - (MCMicroManagerConfig *)queryByCode:(NSString *)strCode;
+//查询微管理功能模块配置
+- (NSArray *)queryByWidgetCodes:(NSArray *)arrWidgetCodes;
+//查询所有微管理功能模块配置
+- (NSArray *)queryAll;
 @end

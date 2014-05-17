@@ -40,7 +40,21 @@
         <attribute name="syncFlag" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="upDepartmentId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="MCMicroManagerAccount" representedClassName="MCMicroManagerAccount" syncable="YES">
+    <entity name="MCMicroManager" representedClassName="MCMicroManagerMO" syncable="YES">
+        <attribute name="belongAccountId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="belongAccountName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="belongPhone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="belongUserCode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="belongUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="belongUserName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="defaultShow" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="isTodo" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="loginIfNeed" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="sort" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="todoAmount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="MCMicroManagerAccount" representedClassName="MCMicroManagerAccountMO" syncable="YES">
         <attribute name="acctId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="acctName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="belongOrgId" optional="YES" attributeType="String" syncable="YES"/>
@@ -104,9 +118,10 @@
         <element name="MCChatHistory" positionX="-20" positionY="-36" width="128" height="135"/>
         <element name="MCChatSession" positionX="-236" positionY="-36" width="128" height="90"/>
         <element name="MCDept" positionX="-236" positionY="-405" width="128" height="150"/>
+        <element name="MCMicroManagerAccount" positionX="-225" positionY="-252" width="128" height="163"/>
         <element name="MCMicroManagerConfig" positionX="-234" positionY="108" width="128" height="165"/>
         <element name="MCMyInfo" positionX="-434" positionY="-234" width="128" height="523"/>
         <element name="MCOrg" positionX="-432" positionY="-405" width="128" height="90"/>
-        <element name="MCMicroManagerAccount" positionX="-225" positionY="-252" width="128" height="165"/>
+        <element name="MCMicroManager" positionX="-225" positionY="-252" width="128" height="223"/>
     </elements>
 </model>
