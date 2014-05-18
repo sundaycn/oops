@@ -13,6 +13,7 @@
 #import "MCMicroManagerConfigDAO.h"
 #import "MCMicroManagerConfigHandler.h"
 #import "MCConfig.h"
+#import "MCWebBrowserViewController.h"
 
 @interface MCMicroManagerViewController ()
 @property (nonatomic ,strong) NSMutableArray *arrMicroManagerMenu;
@@ -34,6 +35,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"微管理";
+    self.navigationController.toolbarHidden = YES;
     
     //如果默认账号为空，从服务器下载账号信息
     MCMicroManagerAccount *mmAccount = [[MCMicroManagerAccountDAO sharedManager] queryDefaultAccount];
@@ -75,8 +77,6 @@
     //
 }
 
-
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -84,8 +84,16 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"showWebBrowser"]) {
+//        [[MCMicroManagerConfigHandler sharedInstance] loginByUserCode:@"sundi" password:@"79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4"];
+        
+
+        NSIndexPath *indexPath = [[self.collectionView indexPathsForSelectedItems] lastObject];
+        MCMicroManagerConfig *mmConfig = [self.arrMicroManagerMenu objectAtIndex:(indexPath.section*3) + indexPath.row];
+        MCWebBrowserViewController *webBrowserVC = [segue destinationViewController];
+        webBrowserVC.strHtmlPath = mmConfig.pagePath;
+    }
 }
-*/
 
 #pragma mark - UICollectionView Data Source
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -116,9 +124,7 @@
 #pragma mark - UICollectionView Delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DLog(@"select MicroManager Item:%@", [[self.arrMicroManagerMenu objectAtIndex:(indexPath.section*3 + indexPath.row)] objectForKey:@"name"]);
     [self performSegueWithIdentifier:@"showWebBrowser" sender:self];
-//    [self developingAlert];
 }
 
 //微管理开发中提示

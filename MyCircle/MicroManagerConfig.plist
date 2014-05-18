@@ -10,7 +10,7 @@
 		<key>iconImage</key>
 		<string>IconMMgrsw</string>
 		<key>pagePath</key>
-		<string>system/daily/index.html</string>
+		<string>system/daily/index</string>
 		<key>sort</key>
 		<integer>0</integer>
 		<key>upCode</key>
@@ -28,7 +28,7 @@
 		<key>iconImage</key>
 		<string>IconMMgrsw</string>
 		<key>pagePath</key>
-		<string>system/email/index.html</string>
+		<string>system/email/index</string>
 		<key>sort</key>
 		<integer>1</integer>
 		<key>upCode</key>
@@ -46,7 +46,7 @@
 		<key>iconImage</key>
 		<string>IconMMkqgl</string>
 		<key>pagePath</key>
-		<string>system/attendance/index.html</string>
+		<string>system/attendance/index</string>
 		<key>sort</key>
 		<integer>2</integer>
 		<key>upCode</key>
@@ -64,7 +64,7 @@
 		<key>iconImage</key>
 		<string>IconMMkqgl</string>
 		<key>pagePath</key>
-		<string>system/attendance/index.html</string>
+		<string>system/attendance/index</string>
 		<key>sort</key>
 		<integer>2</integer>
 		<key>upCode</key>
@@ -82,7 +82,7 @@
 		<key>iconImage</key>
 		<string>IconMMkqgl</string>
 		<key>pagePath</key>
-		<string>system/attendance/index.html</string>
+		<string>system/attendance/index</string>
 		<key>sort</key>
 		<integer>2</integer>
 		<key>upCode</key>
@@ -100,7 +100,7 @@
 		<key>iconImage</key>
 		<string>IconMMkqgl</string>
 		<key>pagePath</key>
-		<string>system/attendance/index.html</string>
+		<string>system/attendance/index</string>
 		<key>sort</key>
 		<integer>2</integer>
 		<key>upCode</key>
@@ -118,7 +118,7 @@
 		<key>iconImage</key>
 		<string>IconMMkqgl</string>
 		<key>pagePath</key>
-		<string>system/attendance/index.html</string>
+		<string>system/attendance/index</string>
 		<key>sort</key>
 		<integer>2</integer>
 		<key>upCode</key>
@@ -136,7 +136,7 @@
 		<key>iconImage</key>
 		<string>IconMMkqgl</string>
 		<key>pagePath</key>
-		<string>system/attendance/index.html</string>
+		<string>system/attendance/index</string>
 		<key>sort</key>
 		<integer>2</integer>
 		<key>upCode</key>
@@ -154,7 +154,7 @@
 		<key>iconImage</key>
 		<string>IconMMrwxt</string>
 		<key>pagePath</key>
-		<string>system/task/index.html</string>
+		<string>system/task/index</string>
 		<key>sort</key>
 		<integer>3</integer>
 		<key>upCode</key>
@@ -172,7 +172,7 @@
 		<key>iconImage</key>
 		<string>IconMMgrsw</string>
 		<key>pagePath</key>
-		<string>system/notice/index.html</string>
+		<string>system/notice/index</string>
 		<key>sort</key>
 		<integer>4</integer>
 		<key>upCode</key>
@@ -190,7 +190,7 @@
 		<key>iconImage</key>
 		<string>IconMMgwgl</string>
 		<key>pagePath</key>
-		<string>system/document/index.html</string>
+		<string>system/document/index</string>
 		<key>sort</key>
 		<integer>5</integer>
 		<key>upCode</key>

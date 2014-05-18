@@ -19,4 +19,6 @@
 - (void)getMMAccountByAccount:(NSString *)strAccount;
 //下载微管理当前账号所有功能模块代码
 - (void)getCodeByUserCode:(NSString *)userCode acctId:(NSString *)acctId;
+//登录
+- (void)loginByUserCode:(NSString *)userCode password:(NSString *)userPwd;
 @end

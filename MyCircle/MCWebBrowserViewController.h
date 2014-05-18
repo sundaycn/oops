@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MCWebBrowserViewController : UIViewController <UIWebViewDelegate>
-
+@property (nonatomic, strong) NSString *strHtmlPath;
 @end
