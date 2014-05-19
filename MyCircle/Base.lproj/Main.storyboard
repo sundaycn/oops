@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ZEb-Sh-TED">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ZEb-Sh-TED">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -537,7 +537,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ScH-Qy-che">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
@@ -574,9 +574,9 @@
                     <connections>
                         <outlet property="back" destination="jwc-en-ZB0" id="R1V-9i-bPB"/>
                         <outlet property="forward" destination="3n7-Es-Yhv" id="c0z-aG-3p1"/>
+                        <outlet property="myWebView" destination="ScH-Qy-che" id="kti-5i-bUx"/>
                         <outlet property="refresh" destination="B0H-lR-Ncs" id="7db-QC-YIJ"/>
                         <outlet property="stop" destination="BYv-2U-9qR" id="l1U-ZD-4L1"/>
-                        <outlet property="webView" destination="ScH-Qy-che" id="duq-K2-SVr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qMq-1f-EbM" userLabel="First Responder" sceneMemberID="firstResponder"/>

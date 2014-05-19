@@ -30,6 +30,8 @@
 		2228A2A019137C910081C9A6 /* MCCityDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A29F19137C910081C9A6 /* MCCityDAO.m */; };
 		2228A2A31913912F0081C9A6 /* MCMyInfoProvinceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A2A21913912F0081C9A6 /* MCMyInfoProvinceViewController.m */; };
 		2228A2A6191391400081C9A6 /* MCMyInfoCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */; };
+		2229AC5B192A10B3009DA496 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 2229AC5A192A10B3009DA496 /* test.html */; };
+		2229AC5E192A122F009DA496 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 2229AC5D192A122F009DA496 /* NSString+URLEncoding.m */; };
 		222CFC48184432B50037E24D /* www in Resources */ = {isa = PBXBuildFile; fileRef = 222CFC47184432B50037E24D /* www */; };
 		223BBBFE1920770D00761BE7 /* system in Resources */ = {isa = PBXBuildFile; fileRef = 223BBBFD1920770D00761BE7 /* system */; };
 		224500B519259BBE00644744 /* MCMicroManagerMO.m in Sources */ = {isa = PBXBuildFile; fileRef = 224500B419259BBE00644744 /* MCMicroManagerMO.m */; };
@@ -320,6 +322,9 @@
 		2228A2A21913912F0081C9A6 /* MCMyInfoProvinceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoProvinceViewController.m; sourceTree = "<group>"; };
 		2228A2A4191391400081C9A6 /* MCMyInfoCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoCityViewController.h; sourceTree = "<group>"; };
 		2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoCityViewController.m; sourceTree = "<group>"; };
+		2229AC5A192A10B3009DA496 /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
+		2229AC5C192A122F009DA496 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
+		2229AC5D192A122F009DA496 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
 		222CFC47184432B50037E24D /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		223BBBFD1920770D00761BE7 /* system */ = {isa = PBXFileReference; lastKnownFileType = folder; path = system; sourceTree = "<group>"; };
 		224500B319259BBE00644744 /* MCMicroManagerMO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMicroManagerMO.h; sourceTree = "<group>"; };
@@ -944,6 +949,7 @@
 		223BBBFC192076B900761BE7 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				2229AC5A192A10B3009DA496 /* test.html */,
 				223BBBFD1920770D00761BE7 /* system */,
 				22F8AB39190D286D008527AB /* MCMicroManagerViewController.h */,
 				22F8AB3A190D286D008527AB /* MCMicroManagerViewController.m */,
@@ -951,6 +957,8 @@
 				22FAFA0C1924B4E80079CB1E /* MCMicroManagerAccountVC.m */,
 				22942383191F8864009793DA /* MCWebBrowserViewController.h */,
 				22942384191F8864009793DA /* MCWebBrowserViewController.m */,
+				2229AC5C192A122F009DA496 /* NSString+URLEncoding.h */,
+				2229AC5D192A122F009DA496 /* NSString+URLEncoding.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -2220,6 +2228,7 @@
 				224ECDFF191B2CC100214D5D /* MyInfoRegionProvince.plist in Resources */,
 				222CFC48184432B50037E24D /* www in Resources */,
 				22CEC22F1859467400DC9913 /* README.txt in Resources */,
+				2229AC5B192A10B3009DA496 /* test.html in Resources */,
 				22B669E617FAAA240015A269 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2321,6 +2330,7 @@
 				22A7AB731887BFA100DC35AA /* MCMoreViewController.m in Sources */,
 				22CEC3DE18594B3D00DC9913 /* XMPPMessageArchiving_Contact_CoreDataObject.m in Sources */,
 				22D7F63E180BEE60007E5E22 /* RATreeView+Private.m in Sources */,
+				2229AC5E192A122F009DA496 /* NSString+URLEncoding.m in Sources */,
 				22D7F640180BEE60007E5E22 /* RATreeView+TableViewDelegate.m in Sources */,
 				22CEC22C1859467400DC9913 /* DDTTYLogger.m in Sources */,
 				22560CB5185E93B7002478B5 /* MCChatHistory.m in Sources */,

@@ -7,15 +7,10 @@
 //
 
 #import "MCWebBrowserViewController.h"
+#import "NSString+URLEncoding.h"
 
 @interface MCWebBrowserViewController ()
-@property (weak, nonatomic) IBOutlet UIWebView *webView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *back;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *forward;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *stop;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *refresh;
 
-- (void)loadRequestFromString:(NSString*)strURL;
 @end
 
 @implementation MCWebBrowserViewController
@@ -34,9 +29,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.toolbarHidden = NO;
-    self.webView.delegate = self;
+    self.myWebView.delegate = self;
+
 //    [self loadRequestFromString:@"http://qq.com"];
-    NSString *strUrl = @"http://117.21.209.104/EasyOA/easy-login!dologinAjax.action?user.userCode=sundi&user.loginPwd=79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4";
+    /*NSString *strUrl = @"http://117.21.209.104/EasyOA/easy-login!dologinAjax.action?user.userCode=sundi&user.loginPwd=79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:strUrl]
                                                            cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                        timeoutInterval:60.0];
@@ -53,7 +49,7 @@
     }
     else {
         DLog(@"success");
-    }
+    }*/
     
 //    NSHTTPCookieStorage *cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 //    [cookies setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
@@ -80,16 +76,15 @@
     // have just used the 'all' array, but this shows you how to get the cookies back from the singleton.
 //    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://3weike.com"]];
     NSArray *availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-    DLog(@"availableCookies array:%@", availableCookies);
+//    DLog(@"availableCookies array:%@", availableCookies);
     NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
-    DLog(@"headers:\n%@", headers);
+//    DLog(@"headers:\n%@", headers);
     
     // we are just recycling the original request
     NSString *strPath = [[NSBundle mainBundle] pathForResource:self.strHtmlPath ofType:@"html"];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL fileURLWithPath:strPath]];
     [urlRequest setAllHTTPHeaderFields:headers];
-    [self.webView loadRequest:urlRequest];
-
+//    [self.myWebView loadRequest:urlRequest];
     
 //    NSString *strPath = [[NSBundle mainBundle] pathForResource:self.strHtmlPath ofType:@"html"];
 //    DLog(@"strPath:%@", strPath);
@@ -109,7 +104,7 @@
 //    NSLog(@"The server saw:\n%@", [[NSString alloc] initWithData:data encoding: NSASCIIStringEncoding]);
 //    NSArray *cooks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:request.URL];
 //    [self addCookies:all forRequest:request];
-//    [self loadRequestFromHtml:self.strHtmlPath];
+    [self loadRequestFromHtml:self.strHtmlPath];
 }
 
 - (void)didReceiveMemoryWarning
@@ -156,15 +151,16 @@
 - (void)loadRequestFromString:(NSString *)strURL
 {
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:strURL]];
-    [self.webView loadRequest:urlRequest];
+    [self.myWebView loadRequest:urlRequest];
 }
 
 - (void)loadRequestFromHtml:(NSString *)strFilePath
 {
     DLog(@"html file path:%@", strFilePath);
-    NSString *strPath = [[NSBundle mainBundle] pathForResource:strFilePath ofType:@"html"];
+//    NSString *strPath = [[NSBundle mainBundle] pathForResource:strFilePath ofType:@"html"];
+    NSString *strPath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"html"];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:strPath]];
-    [self.webView loadRequest:urlRequest];
+    [self.myWebView loadRequest:urlRequest];
 }
 
 - (void)loadRequestFromLocal
@@ -177,7 +173,7 @@
     
     NSData *dataHtml = [[NSData alloc] initWithContentsOfFile:strHtmlPath];
     if (!error) {
-        [self.webView loadData:dataHtml MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:bundleUrl];
+        [self.myWebView loadData:dataHtml MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:bundleUrl];
     }
 }
 
@@ -250,9 +246,55 @@
 #pragma mark - UIWebView Delegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    DLog(@"%@", [webView stringByEvaluatingJavaScriptFromString:@"documnet.body.innerHTML"]);
+    DLog(@"============did finish load============");
+//    [webView stringByEvaluatingJavaScriptFromString:@"helloWorld('从iOS对象中调用JS Ok.')"];
 }
 
-- (IBAction)back:(id)sender {
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    DLog(@"error:%@", [error localizedDescription]);
 }
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+//    if (inType == UIWebViewNavigationTypeLinkClicked) {
+//        [[UIApplication sharedApplication] openURL:[inRequest URL]];
+//        return NO;
+//    }
+//    DLog(@"%@",request);
+    NSString *actionType = request.URL.host;
+    NSString *scheme = request.URL.scheme;
+    NSString *fragment = [request.URL.fragment URLDecodedString];
+    NSData *responseData = [fragment dataUsingEncoding:NSUTF8StringEncoding];
+    
+    if ( [scheme isEqualToString:@"gap"] ) {
+        if ([actionType isEqualToString:@"XXXClass.XXXmethod"]) {
+            
+            NSError* error;
+            NSDictionary* json = [NSJSONSerialization
+                                  JSONObjectWithData:responseData
+                                  options:NSJSONReadingAllowFragments
+                                  error:&error];
+            
+            NSLog(@"title: %@ , message: %@",[json objectForKey:@"title"], [json objectForKey:@"message"] );
+            
+        }
+    }
+
+    return YES;
+}
+
+- (void)webView:(UIWebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(CGRect *)frame {
+    
+    
+    UIAlertView* customAlert = [[UIAlertView alloc] initWithTitle:@"我是JS Alert"
+                                                          message:message
+                                                         delegate:nil
+                                                cancelButtonTitle:@"确定"
+                                                otherButtonTitles:nil];
+    
+    [customAlert show];
+}
+//- (IBAction)back:(id)sender {
+//}
 @end
