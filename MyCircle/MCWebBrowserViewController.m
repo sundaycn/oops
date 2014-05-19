@@ -32,7 +32,7 @@
     self.myWebView.delegate = self;
 
 //    [self loadRequestFromString:@"http://qq.com"];
-    /*NSString *strUrl = @"http://117.21.209.104/EasyOA/easy-login!dologinAjax.action?user.userCode=sundi&user.loginPwd=79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4";
+    NSString *strUrl = @"http://117.21.209.104/EasyOA/easy-login!dologinAjax.action?user.userCode=sundi&user.loginPwd=79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:strUrl]
                                                            cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                        timeoutInterval:60.0];
@@ -49,7 +49,7 @@
     }
     else {
         DLog(@"success");
-    }*/
+    }
     
 //    NSHTTPCookieStorage *cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 //    [cookies setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
@@ -84,7 +84,7 @@
     NSString *strPath = [[NSBundle mainBundle] pathForResource:self.strHtmlPath ofType:@"html"];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL fileURLWithPath:strPath]];
     [urlRequest setAllHTTPHeaderFields:headers];
-//    [self.myWebView loadRequest:urlRequest];
+    [self.myWebView loadRequest:urlRequest];
     
 //    NSString *strPath = [[NSBundle mainBundle] pathForResource:self.strHtmlPath ofType:@"html"];
 //    DLog(@"strPath:%@", strPath);
@@ -104,7 +104,7 @@
 //    NSLog(@"The server saw:\n%@", [[NSString alloc] initWithData:data encoding: NSASCIIStringEncoding]);
 //    NSArray *cooks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:request.URL];
 //    [self addCookies:all forRequest:request];
-    [self loadRequestFromHtml:self.strHtmlPath];
+//    [self loadRequestFromHtml:self.strHtmlPath];
 }
 
 - (void)didReceiveMemoryWarning

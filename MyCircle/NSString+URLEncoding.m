@@ -20,7 +20,7 @@
 
 - (NSString *)URLEncodedString
 {
-    NSString *result = (NSString *)
+    NSString *result = (__bridge NSString *)
     CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
                                             (CFStringRef)self,
                                             NULL,
@@ -31,7 +31,7 @@
 
 - (NSString*)URLDecodedString
 {
-    NSString *result = (NSString *)
+    NSString *result = (__bridge NSString *)
     CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault,
                                                             (CFStringRef)self,
                                                             CFSTR(""),
