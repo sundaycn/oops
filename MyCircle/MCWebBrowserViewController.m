@@ -20,7 +20,7 @@
 @end
 
 @interface MCWebBrowserViewController () <TSWebViewDelegate, JS_MCWebBrowserViewController>
-@property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) UIWebView *webView;
 @end
 
 @implementation MCWebBrowserViewController
@@ -38,8 +38,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64)];
     self.webView.delegate = self;
-    [self loadRequestFromHtml:self.strHtmlPath];
+    if (!self.loadFromURL) {
+        [self loadRequestFromHtml:self.strHtmlPath];
+    }
+    else {
+        DLog(@"===========load from url==============");
+        DLog(@"self.url:%@", self.strHtmlPath);
+        [self loadRequestFromString:self.strHtmlPath];
+    }
+    
+    [self.view addSubview:self.webView];
     /*NSString *strUrl = @"http://117.21.209.104/EasyOA/easy-login!dologinAjax.action?user.userCode=sundi&user.loginPwd=79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:strUrl]
                                                            cachePolicy:NSURLRequestReloadIgnoringCacheData
@@ -151,17 +161,16 @@
 
 - (void)loadRequestFromString:(NSString *)strURL
 {
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:strURL]];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL fileURLWithPath:strURL]];
     [self.webView loadRequest:urlRequest];
 }
 
 - (void)loadRequestFromHtml:(NSString *)strFilePath
 {
-//    DLog(@"html file path:%@", strFilePath);
     NSArray *availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
 //    DLog(@"availableCookies array:%@", availableCookies);
     NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
-    DLog(@"request headers with cookies:\n%@", headers);
+    DLog(@"=1=request headers with cookies:\n%@", headers);
     
     // we are just recycling the original request
     NSString *strPath = [[NSBundle mainBundle] pathForResource:strFilePath ofType:@"html"];
@@ -272,19 +281,17 @@
     NSString *strUrl = request.URL.absoluteString;
     NSRange index = [strUrl rangeOfString:@"index.html"];
     if (index.location != NSNotFound) {
+        DLog(@"not intercept");
         return YES;
     }
     else {
-        UIViewController *newVC = [[UIViewController alloc] init];
-        //        DLog(@"view fram size height:%f", self.view.frame.size.height);
-        UIWebView *newWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 568)];
-        [newWebView loadRequest:[NSURLRequest requestWithURL:request.URL]];
-        [newVC.view addSubview:newWebView];
-        [self.navigationController pushViewController:newVC animated:NO];
+        DLog(@"intercept");
+        MCWebBrowserViewController *newWebBrowserVC = [[MCWebBrowserViewController alloc] init];
+        newWebBrowserVC.loadFromURL = YES;
+        newWebBrowserVC.strHtmlPath = request.URL.absoluteString;
+        [self.navigationController pushViewController:newWebBrowserVC animated:NO];
         return NO;
     }
-    
-    return YES;
 }
 /*
 - (void)webView:(UIWebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(CGRect *)frame {

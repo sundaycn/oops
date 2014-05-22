@@ -90,6 +90,7 @@
         NSIndexPath *indexPath = [[self.collectionView indexPathsForSelectedItems] lastObject];
         MCMicroManagerConfig *mmConfig = [self.arrMicroManagerMenu objectAtIndex:(indexPath.section*3) + indexPath.row];
         MCWebBrowserViewController *webBrowserVC = [segue destinationViewController];
+        webBrowserVC.loadFromURL = NO;
         webBrowserVC.strHtmlPath = mmConfig.pagePath;
     }
 }

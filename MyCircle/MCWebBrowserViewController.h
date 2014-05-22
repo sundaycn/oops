@@ -10,5 +10,6 @@
 #import "MCMicroManagerDelegate.h"
 
 @interface MCWebBrowserViewController : UIViewController <MCMicroManagerDelegate>
+@property (nonatomic, assign) BOOL loadFromURL;
 @property (nonatomic, strong) NSString *strHtmlPath;
 @end
