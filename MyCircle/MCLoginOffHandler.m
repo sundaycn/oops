@@ -14,6 +14,8 @@
 #import "MCChatHistoryDAO.h"
 #import "MCChatSessionDAO.h"
 #import "MCXmppHelper+Message.h"
+#import "MCMicroManagerDAO.h"
+#import "MCMicroManagerAccountDAO.h"
 
 @implementation MCLoginOffHandler
 
@@ -34,6 +36,16 @@
     [[MCXmppHelper sharedInstance] removeAllMessages];
     [[MCChatSessionDAO sharedManager] deleteAllSession];
     [[MCChatHistoryDAO sharedManager] deleteAllHistory];
+    //5.清除MicroManager,MicroManagerAccount
+    [[MCMicroManagerDAO sharedManager] deleteAll];
+    [[MCMicroManagerAccountDAO sharedManager] deleteAll];
+    //6.清除cookie
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [storage cookies])
+    {
+        [storage deleteCookie:cookie];
+    }
 }
 
 @end

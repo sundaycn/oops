@@ -11,7 +11,8 @@
 @class MCMicroManagerAccount;
 
 @protocol MCMicroManagerDelegate <NSObject>
-@required
+@optional
 - (void)didFinishGetMicroManagerAccount:(MCMicroManagerAccount *)mmAccount;
 - (void)didFinishGetMicroManagerWidget;
+- (void)didfinishLogin;
 @end

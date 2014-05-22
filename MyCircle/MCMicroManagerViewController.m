@@ -35,7 +35,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"微管理";
-    self.navigationController.toolbarHidden = YES;
     
     //如果默认账号为空，从服务器下载账号信息
     MCMicroManagerAccount *mmAccount = [[MCMicroManagerAccountDAO sharedManager] queryDefaultAccount];
@@ -95,6 +94,20 @@
     }
 }
 
+- (IBAction)unwindToMicroManagerVC:(UIStoryboardSegue *)unwindSegue
+{
+//    UIViewController* sourceViewController = unwindSegue.sourceViewController;
+//    
+//    if ([sourceViewController isKindOfClass:[BlueViewController class]])
+//    {
+//        NSLog(@"Coming from BLUE!");
+//    }
+//    else if ([sourceViewController isKindOfClass:[GreenViewController class]])
+//    {
+//        NSLog(@"Coming from GREEN!");
+//    }
+}
+
 #pragma mark - UICollectionView Data Source
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -125,6 +138,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [self performSegueWithIdentifier:@"showWebBrowser" sender:self];
+//    [self developingAlert];
 }
 
 //微管理开发中提示
@@ -140,6 +154,7 @@
 {
     //获取当前账号所有功能模块
     DLog(@"--------didFinsishGetMMAccount-----------");
+    DLog(@"微管理获取当前账号所有功能模块");
     [[MCMicroManagerDAO sharedManager] deleteAll];
     [[MCMicroManagerConfigHandler sharedInstance] getCodeByUserCode:mmAccount.userCode acctId:mmAccount.acctId];
 }
@@ -148,6 +163,7 @@
 {
     //组装数据源
     DLog(@"--------didFinsishGetMMWidget-----------");
+    DLog(@"微管理菜单组装数据源");
     NSArray *arrWidgetCodes = [[MCMicroManagerDAO sharedManager] queryAllCodes];
     NSArray *arrWidgetConfig = [[MCMicroManagerConfigDAO sharedManager] queryByWidgetCodes:arrWidgetCodes];
     for (MCMicroManagerConfig *obj in arrWidgetConfig) {
@@ -155,7 +171,7 @@
             [self.arrMicroManagerMenu addObject:obj];
         }
     }
-    DLog(@"微管理菜单数量%d", [self.arrMicroManagerMenu count]);
+
     [self.collectionView reloadData];
 }
 @end

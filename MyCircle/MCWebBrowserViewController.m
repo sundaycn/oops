@@ -7,10 +7,20 @@
 //
 
 #import "MCWebBrowserViewController.h"
-#import "NSString+URLEncoding.h"
+#import "UIWebView+TS_JavaScriptContext.h"
+#import "MCMicroManagerLoginVC.h"
 
-@interface MCWebBrowserViewController ()
+@protocol JS_MCWebBrowserViewController <JSExport>
+- (void)login;
+- (void)showLoading;
+- (void)hideLoading;
+- (void)showMask:(NSString *)strText;
+- (void)hideMask;
+- (void)getUserName;
+@end
 
+@interface MCWebBrowserViewController () <TSWebViewDelegate, JS_MCWebBrowserViewController>
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
 @end
 
 @implementation MCWebBrowserViewController
@@ -28,11 +38,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationController.toolbarHidden = NO;
-    self.myWebView.delegate = self;
-
-//    [self loadRequestFromString:@"http://qq.com"];
-    NSString *strUrl = @"http://117.21.209.104/EasyOA/easy-login!dologinAjax.action?user.userCode=sundi&user.loginPwd=79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4";
+    self.webView.delegate = self;
+    [self loadRequestFromHtml:self.strHtmlPath];
+    /*NSString *strUrl = @"http://117.21.209.104/EasyOA/easy-login!dologinAjax.action?user.userCode=sundi&user.loginPwd=79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:strUrl]
                                                            cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                        timeoutInterval:60.0];
@@ -49,7 +57,7 @@
     }
     else {
         DLog(@"success");
-    }
+    }*/
     
 //    NSHTTPCookieStorage *cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 //    [cookies setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
@@ -75,8 +83,8 @@
     // this availableCookies array is going to be the same as the 'all' array above.  We could
     // have just used the 'all' array, but this shows you how to get the cookies back from the singleton.
 //    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://3weike.com"]];
-    NSArray *availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-//    DLog(@"availableCookies array:%@", availableCookies);
+    /*NSArray *availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    DLog(@"availableCookies array:%@", availableCookies);
     NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
 //    DLog(@"headers:\n%@", headers);
     
@@ -84,7 +92,7 @@
     NSString *strPath = [[NSBundle mainBundle] pathForResource:self.strHtmlPath ofType:@"html"];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL fileURLWithPath:strPath]];
     [urlRequest setAllHTTPHeaderFields:headers];
-    [self.myWebView loadRequest:urlRequest];
+    [self.webView loadRequest:urlRequest];*/
     
 //    NSString *strPath = [[NSBundle mainBundle] pathForResource:self.strHtmlPath ofType:@"html"];
 //    DLog(@"strPath:%@", strPath);
@@ -104,7 +112,11 @@
 //    NSLog(@"The server saw:\n%@", [[NSString alloc] initWithData:data encoding: NSASCIIStringEncoding]);
 //    NSArray *cooks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:request.URL];
 //    [self addCookies:all forRequest:request];
-//    [self loadRequestFromHtml:self.strHtmlPath];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -112,17 +124,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (void)addCookies:(NSArray *)cookies forRequest:(NSMutableURLRequest *)request
 {
@@ -151,30 +152,22 @@
 - (void)loadRequestFromString:(NSString *)strURL
 {
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:strURL]];
-    [self.myWebView loadRequest:urlRequest];
+    [self.webView loadRequest:urlRequest];
 }
 
 - (void)loadRequestFromHtml:(NSString *)strFilePath
 {
-    DLog(@"html file path:%@", strFilePath);
-//    NSString *strPath = [[NSBundle mainBundle] pathForResource:strFilePath ofType:@"html"];
-    NSString *strPath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"html"];
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:strPath]];
-    [self.myWebView loadRequest:urlRequest];
-}
-
-- (void)loadRequestFromLocal
-{
-    NSString *strHtmlPath = [[NSBundle mainBundle] pathForResource:@"/system/daily/index" ofType:@"html"];
-    DLog(@"html path:%@", strHtmlPath);
-    NSURL *bundleUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-    DLog(@"bundle url:%@", bundleUrl);
-    NSError *error = nil;
+//    DLog(@"html file path:%@", strFilePath);
+    NSArray *availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+//    DLog(@"availableCookies array:%@", availableCookies);
+    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
+    DLog(@"request headers with cookies:\n%@", headers);
     
-    NSData *dataHtml = [[NSData alloc] initWithContentsOfFile:strHtmlPath];
-    if (!error) {
-        [self.myWebView loadData:dataHtml MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:bundleUrl];
-    }
+    // we are just recycling the original request
+    NSString *strPath = [[NSBundle mainBundle] pathForResource:strFilePath ofType:@"html"];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL fileURLWithPath:strPath]];
+    [urlRequest setAllHTTPHeaderFields:headers];
+    [self.webView loadRequest:urlRequest];
 }
 
 /*
@@ -243,10 +236,29 @@
     [[NSHTTPCookieStorage sharedHTTPCookieStorage]setCookie:userCookie];
 }*/
 
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"showMMLogin"]) {
+        MCMicroManagerLoginVC *mmLoginVC = [segue destinationViewController];
+        mmLoginVC.delegate = self;
+    }
+}
+
+#pragma mark - MCMicroManager Delegate
+- (void)didfinishLogin
+{
+    [self loadRequestFromHtml:self.strHtmlPath];
+}
+
 #pragma mark - UIWebView Delegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    DLog(@"============did finish load============");
+//    DLog(@"============did finish load============");
 //    [webView stringByEvaluatingJavaScriptFromString:@"helloWorld('从iOS对象中调用JS Ok.')"];
 }
 
@@ -257,33 +269,24 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-//    if (inType == UIWebViewNavigationTypeLinkClicked) {
-//        [[UIApplication sharedApplication] openURL:[inRequest URL]];
-//        return NO;
-//    }
-//    DLog(@"%@",request);
-    NSString *actionType = request.URL.host;
-    NSString *scheme = request.URL.scheme;
-    NSString *fragment = [request.URL.fragment URLDecodedString];
-    NSData *responseData = [fragment dataUsingEncoding:NSUTF8StringEncoding];
-    
-    if ( [scheme isEqualToString:@"gap"] ) {
-        if ([actionType isEqualToString:@"XXXClass.XXXmethod"]) {
-            
-            NSError* error;
-            NSDictionary* json = [NSJSONSerialization
-                                  JSONObjectWithData:responseData
-                                  options:NSJSONReadingAllowFragments
-                                  error:&error];
-            
-            NSLog(@"title: %@ , message: %@",[json objectForKey:@"title"], [json objectForKey:@"message"] );
-            
-        }
+    NSString *strUrl = request.URL.absoluteString;
+    NSRange index = [strUrl rangeOfString:@"index.html"];
+    if (index.location != NSNotFound) {
+        return YES;
     }
-
+    else {
+        UIViewController *newVC = [[UIViewController alloc] init];
+        //        DLog(@"view fram size height:%f", self.view.frame.size.height);
+        UIWebView *newWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 568)];
+        [newWebView loadRequest:[NSURLRequest requestWithURL:request.URL]];
+        [newVC.view addSubview:newWebView];
+        [self.navigationController pushViewController:newVC animated:NO];
+        return NO;
+    }
+    
     return YES;
 }
-
+/*
 - (void)webView:(UIWebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(CGRect *)frame {
     
     
@@ -294,7 +297,58 @@
                                                 otherButtonTitles:nil];
     
     [customAlert show];
+}*/
+
+#pragma mark - TSWebViewDelegate
+- (void)webView:(UIWebView *)webView didCreateJavaScriptContext:(JSContext *)ctx
+{
+    /*
+     ctx[@"sayHello"] = ^{
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+     
+     UIAlertView* av = [[UIAlertView alloc] initWithTitle: @"Hello, World!"
+     message: nil
+     delegate: nil
+     cancelButtonTitle: @"OK"
+     otherButtonTitles: nil];
+     
+     [av show];
+     });
+     };*/
+    ctx[@"APP"] = self;
 }
-//- (IBAction)back:(id)sender {
-//}
+
+#pragma mark - Call from Javascript of UIWebView
+- (void)login
+{
+    DLog(@"hello, im login");
+    [self performSegueWithIdentifier:@"showMMLogin" sender:self];
+}
+
+- (void)showLoading
+{
+    DLog(@"showLoading...");
+}
+
+- (void)hideLoading
+{
+    DLog(@"hideLoading");
+}
+
+- (void)showMask:(NSString *)strText
+{
+    //
+}
+
+- (void)hideMask
+{
+    //
+}
+
+//faked function for javascript
+- (void)getUserName
+{
+    //
+}
 @end

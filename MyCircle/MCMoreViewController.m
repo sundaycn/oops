@@ -265,7 +265,7 @@
 - (void)checkAndUpdateVersion
 {
     self.strNewVersionUrl = [MCUtility checkAndUpdateVersion];
-    DLog(@"新版本下载地址:%@", self.strNewVersionUrl);
+    DLog(@"更多页面新版本下载地址:%@", self.strNewVersionUrl);
     if (self.strNewVersionUrl) {
         //pop alert dialog
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"检测到新版本" message:@"如需下载更新请点击确定按钮" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil];

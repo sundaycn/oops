@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ZEb-Sh-TED">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
@@ -190,7 +189,7 @@
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="wXF-Ho-IJh" customClass="MCContactsDetailViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="30" sectionFooterHeight="22" id="BBO-bq-5ou">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -524,6 +523,104 @@
             </objects>
             <point key="canvasLocation" x="2391" y="1623"/>
         </scene>
+        <!--Micro Manager LoginVC-->
+        <scene sceneID="Tqm-nm-lPS">
+            <objects>
+                <viewController id="Gec-BS-fOw" customClass="MCMicroManagerLoginVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="d3T-Wu-Pfk"/>
+                        <viewControllerLayoutGuide type="bottom" id="XUu-FO-cTe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0mp-oS-SUh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Pa-3u-dkU" userLabel="Input">
+                                <rect key="frame" x="0.0" y="100" width="320" height="182"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k53-Jo-TxF" userLabel="LabelAccount">
+                                        <rect key="frame" x="15" y="10" width="67" height="38"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AccountImage" translatesAutoresizingMaskIntoConstraints="NO" id="X7Z-FP-qS0">
+                                        <rect key="frame" x="33" y="14" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4on-r3-xt0" userLabel="LabelUserName">
+                                        <rect key="frame" x="82" y="10" width="223" height="38"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9DH-ON-t3d" userLabel="LabelPassword">
+                                        <rect key="frame" x="15" y="49" width="67" height="38"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入短信密码" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V7S-rH-kIu" userLabel="TextFieldPwd">
+                                        <rect key="frame" x="82" y="49" width="223" height="38"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                        <connections>
+                                            <action selector="textFieldShouldReturn:" destination="Gec-BS-fOw" eventType="editingDidEndOnExit" id="clA-BZ-ibz"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UTR-Ub-j48" userLabel="ButtonLogin">
+                                        <rect key="frame" x="15" y="118" width="140" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="登陆">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginMicroManager:" destination="Gec-BS-fOw" eventType="touchUpInside" id="5D0-oq-rY7"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="PasswordImage" translatesAutoresizingMaskIntoConstraints="NO" id="FH9-6E-azl">
+                                        <rect key="frame" x="33" y="53" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="znV-ZY-J6G" userLabel="ButtonBack">
+                                        <rect key="frame" x="165" y="118" width="140" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="返回">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="Oru-zd-SpF" kind="unwind" unwindAction="unwindToMicroManagerVC:" id="cAx-HV-mj6"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="182" id="0Fh-fV-oe5"/>
+                                    <constraint firstAttribute="width" constant="320" id="KHA-dX-22d"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="buttonBack" destination="znV-ZY-J6G" id="WJi-hu-16f"/>
+                        <outlet property="buttonLogin" destination="UTR-Ub-j48" id="kVw-vF-Mjw"/>
+                        <outlet property="labelMMUserName" destination="4on-r3-xt0" id="uE8-Fw-r0F"/>
+                        <outlet property="textMMPassword" destination="V7S-rH-kIu" id="7qm-XI-gh7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qnE-3n-Jeh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Oru-zd-SpF" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1973" y="2773"/>
+        </scene>
         <!--Web Browser View Controller-->
         <scene sceneID="QlD-KR-fGF">
             <objects>
@@ -533,50 +630,24 @@
                         <viewControllerLayoutGuide type="bottom" id="5Ce-4f-HhE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="QPz-vE-9Ac">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ScH-Qy-che">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem systemItem="rewind" id="jwc-en-ZB0">
-                            <connections>
-                                <action selector="goBack" destination="ScH-Qy-che" id="eiJ-MZ-jgo"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="ZFQ-Vc-SNX"/>
-                        <barButtonItem systemItem="fastForward" id="3n7-Es-Yhv">
-                            <connections>
-                                <action selector="goForward" destination="ScH-Qy-che" id="co5-Zu-W1f"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="2c2-9w-V5v"/>
-                        <barButtonItem systemItem="stop" id="BYv-2U-9qR">
-                            <connections>
-                                <action selector="stopLoading" destination="ScH-Qy-che" id="3ko-xU-N5i"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="aTT-ut-Bfl"/>
-                        <barButtonItem systemItem="refresh" id="B0H-lR-Ncs">
-                            <connections>
-                                <action selector="reload" destination="ScH-Qy-che" id="rTB-3D-PPf"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="G4J-Vn-MAu"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
-                        <outlet property="back" destination="jwc-en-ZB0" id="R1V-9i-bPB"/>
-                        <outlet property="forward" destination="3n7-Es-Yhv" id="c0z-aG-3p1"/>
-                        <outlet property="myWebView" destination="ScH-Qy-che" id="kti-5i-bUx"/>
-                        <outlet property="refresh" destination="B0H-lR-Ncs" id="7db-QC-YIJ"/>
-                        <outlet property="stop" destination="BYv-2U-9qR" id="l1U-ZD-4L1"/>
+                        <outlet property="webView" destination="ScH-Qy-che" id="tse-TC-Mda"/>
+                        <segue destination="Gec-BS-fOw" kind="modal" identifier="showMMLogin" id="K39-gH-K0s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qMq-1f-EbM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -605,9 +676,9 @@
         <!--Micro Manager View Controller-->
         <scene sceneID="TGa-8R-0nA">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" hidesBottomBarWhenPushed="YES" id="ipd-wm-wHN" customClass="MCMicroManagerViewController" sceneMemberID="viewController">
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="ipd-wm-wHN" customClass="MCMicroManagerViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="gDB-vY-hcw">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Fpk-tE-XcI">
@@ -633,7 +704,7 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="f4k-RR-LdD">
-                        <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="MFs-ou-Yh0">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="bookmarks" id="MFs-ou-Yh0">
                             <connections>
                                 <action selector="switchMMAccount:" destination="ipd-wm-wHN" id="m0t-cR-CjR"/>
                                 <segue destination="NmS-Ug-VKO" kind="modal" identifier="showMMAccount" id="rOH-Hh-5xe"/>
@@ -839,7 +910,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="nlr-7p-LDc"/>
+        <segue reference="6HL-aZ-Z2y"/>
         <segue reference="4rL-on-H2P"/>
     </inferredMetricsTieBreakers>
 </document>
