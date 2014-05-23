@@ -38,16 +38,20 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64)];
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height)];
     self.webView.delegate = self;
     if (!self.loadFromURL) {
+        DLog(@"===========load from html==============");
+        DLog(@"self.html:%@", self.strHtmlPath);
         [self loadRequestFromHtml:self.strHtmlPath];
     }
     else {
+        self.loadFromURL = NO;
         DLog(@"===========load from url==============");
-        DLog(@"self.url:%@", self.strHtmlPath);
-        [self loadRequestFromString:self.strHtmlPath];
+        DLog(@"self.url:%@", self.url);
+        [self loadRequestFromUrl:self.url];
     }
+    
     
     [self.view addSubview:self.webView];
     /*NSString *strUrl = @"http://117.21.209.104/EasyOA/easy-login!dologinAjax.action?user.userCode=sundi&user.loginPwd=79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4";
@@ -124,9 +128,9 @@
 //    [self addCookies:all forRequest:request];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -159,9 +163,9 @@
     }
 }
 
-- (void)loadRequestFromString:(NSString *)strURL
+- (void)loadRequestFromUrl:(NSURL *)url
 {
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL fileURLWithPath:strURL]];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest:urlRequest];
 }
 
@@ -285,11 +289,15 @@
         return YES;
     }
     else {
+        if ([self.url.absoluteString isEqualToString:strUrl]) {
+            return YES;
+        }
         DLog(@"intercept");
+        DLog(@"request url:%@", strUrl);
         MCWebBrowserViewController *newWebBrowserVC = [[MCWebBrowserViewController alloc] init];
         newWebBrowserVC.loadFromURL = YES;
-        newWebBrowserVC.strHtmlPath = request.URL.absoluteString;
-        [self.navigationController pushViewController:newWebBrowserVC animated:NO];
+        newWebBrowserVC.url = request.URL;
+        [self.navigationController pushViewController:newWebBrowserVC animated:YES];
         return NO;
     }
 }
