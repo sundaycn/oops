@@ -14,6 +14,7 @@
 #import "MCConfig.h"
 #import "MCMyInfoDAO.h"
 #import "MCMyInfoViewController.h"
+#import "MCMicroManagerAccountDAO.h"
 
 @interface MCMoreViewController ()
 {
@@ -76,6 +77,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self.tableView reloadData];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -117,10 +119,11 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         
+        MCMicroManagerAccount *mmAccount = [[MCMicroManagerAccountDAO sharedManager] queryDefaultAccount];
         NSData *dataAvatar = self.myInfo.avatarImage;
         
         cell.labelName.text = model.title;
-        cell.labelDetail.text = model.title2;
+        cell.labelDetail.text = mmAccount ? [model.title2 stringByAppendingString:mmAccount.userCode] : model.title2;
         if (dataAvatar) {
             cell.imageViewAvatar.image = [UIImage imageWithData:dataAvatar];
         }

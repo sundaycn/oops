@@ -42,7 +42,7 @@
     if (!mmAccount) {
         //异步下载
         NSString *strAccount = [[MCConfig sharedInstance] getAccount];
-        [[MCMicroManagerConfigHandler sharedInstance] getMMAccountByAccount:strAccount];
+        [[MCMicroManagerConfigHandler sharedInstance] getMMAccountByAccount:strAccount defaultMMAccount:nil];
     }
     else {
         DLog(@"微管理默认账号:%@", mmAccount.acctId);
@@ -89,9 +89,10 @@
 
         NSIndexPath *indexPath = [[self.collectionView indexPathsForSelectedItems] lastObject];
         MCMicroManagerConfig *mmConfig = [self.arrMicroManagerMenu objectAtIndex:(indexPath.section*3) + indexPath.row];
+        NSString *strPath = [[NSBundle mainBundle] pathForResource:mmConfig.pagePath ofType:@"html"];
         MCWebBrowserViewController *webBrowserVC = [segue destinationViewController];
-        webBrowserVC.loadFromURL = NO;
-        webBrowserVC.strHtmlPath = mmConfig.pagePath;
+        webBrowserVC.title = mmConfig.name;
+        webBrowserVC.url = [NSURL fileURLWithPath:strPath];
     }
 }
 

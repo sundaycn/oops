@@ -38,40 +38,23 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height)];
+    //设置navigation bar title
+    self.navigationItem.title = self.title;
+    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] init];
+    backBarButtonItem.title = @"返回";
+    self.navigationItem.backBarButtonItem = backBarButtonItem;
+    //设置view尺寸-iOS7
+    CGRect newFrame = self.view.frame;
+    CGFloat navigationBarHeight = CGRectGetHeight(self.navigationController.navigationBar.frame);
+    CGFloat statusBarHeight = CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]);
+    newFrame.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - statusBarHeight - navigationBarHeight);
+    self.view.frame = newFrame;
+    //初始化webView
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
     self.webView.delegate = self;
-    if (!self.loadFromURL) {
-        DLog(@"===========load from html==============");
-        DLog(@"self.html:%@", self.strHtmlPath);
-        [self loadRequestFromHtml:self.strHtmlPath];
-    }
-    else {
-        self.loadFromURL = NO;
-        DLog(@"===========load from url==============");
-        DLog(@"self.url:%@", self.url);
-        [self loadRequestFromUrl:self.url];
-    }
-    
+    [self loadRequestFromURL:self.url];
     
     [self.view addSubview:self.webView];
-    /*NSString *strUrl = @"http://117.21.209.104/EasyOA/easy-login!dologinAjax.action?user.userCode=sundi&user.loginPwd=79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4";
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:strUrl]
-                                                           cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                       timeoutInterval:60.0];
-    NSHTTPURLResponse *response = nil;
-    NSError *error = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request
-                                         returningResponse:&response
-                                                     error:&error];
-    if(data == nil)
-    {
-        DLog(@"Code:%d,domain:%@,localizedDesc:%@",[error code],
-             [error domain],[error localizedDescription]);
-        
-    }
-    else {
-        DLog(@"success");
-    }*/
     
 //    NSHTTPCookieStorage *cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
 //    [cookies setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
@@ -139,6 +122,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+/*
 - (void)addCookies:(NSArray *)cookies forRequest:(NSMutableURLRequest *)request
 {
     if ([cookies count] > 0)
@@ -161,24 +145,17 @@
             [request setValue:cookieHeader forHTTPHeaderField:@"Cookie"];
         }
     }
-}
+}*/
 
-- (void)loadRequestFromUrl:(NSURL *)url
-{
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    [self.webView loadRequest:urlRequest];
-}
-
-- (void)loadRequestFromHtml:(NSString *)strFilePath
+- (void)loadRequestFromURL:(NSURL *)url
 {
     NSArray *availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
 //    DLog(@"availableCookies array:%@", availableCookies);
     NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
-    DLog(@"=1=request headers with cookies:\n%@", headers);
+    DLog(@"request headers with cookies:\n%@", headers);
     
     // we are just recycling the original request
-    NSString *strPath = [[NSBundle mainBundle] pathForResource:strFilePath ofType:@"html"];
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL fileURLWithPath:strPath]];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     [urlRequest setAllHTTPHeaderFields:headers];
     [self.webView loadRequest:urlRequest];
 }
@@ -265,7 +242,7 @@
 #pragma mark - MCMicroManager Delegate
 - (void)didfinishLogin
 {
-    [self loadRequestFromHtml:self.strHtmlPath];
+    [self loadRequestFromURL:self.url];
 }
 
 #pragma mark - UIWebView Delegate
@@ -295,7 +272,7 @@
         DLog(@"intercept");
         DLog(@"request url:%@", strUrl);
         MCWebBrowserViewController *newWebBrowserVC = [[MCWebBrowserViewController alloc] init];
-        newWebBrowserVC.loadFromURL = YES;
+        newWebBrowserVC.title = self.title;
         newWebBrowserVC.url = request.URL;
         [self.navigationController pushViewController:newWebBrowserVC animated:YES];
         return NO;

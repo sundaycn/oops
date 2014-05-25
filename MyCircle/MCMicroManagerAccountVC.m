@@ -9,12 +9,17 @@
 #import "MCMicroManagerAccountVC.h"
 #import "MCMicroManagerConfigHandler.h"
 #import "MCConfig.h"
+#import "MCMicroManagerAccountDAO.h"
 
 @interface MCMicroManagerAccountVC ()
-
+@property (nonatomic, strong) NSArray *arrMMUsers;
 @end
 
 @implementation MCMicroManagerAccountVC
+{
+    NSInteger indexOfCheckedBefore;
+    NSInteger indexOfCheckedAfter;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,11 +39,28 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    //获取用户
-    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+    MCMicroManagerConfigHandler *mmConfighandler = [MCMicroManagerConfigHandler sharedInstance];
+    mmConfighandler.delegate = self;
     //下载当前用户所有微管理账号
-    [[MCMicroManagerConfigHandler sharedInstance] getMMAccountByAccount:strAccount];
+    MCMicroManagerAccount *defaultMMAccount = [[MCMicroManagerAccountDAO sharedManager] queryDefaultAccount];
+    [[MCMicroManagerAccountDAO sharedManager] deleteAll];
+    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
+    [mmConfighandler getMMAccountByAccount:strAccount defaultMMAccount:defaultMMAccount];
+    //初始化数据源
+    self.arrMMUsers = [[NSArray alloc] init];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if (indexOfCheckedBefore == indexOfCheckedAfter) {
+        return;
+    }
+    MCMicroManagerAccount *mmAccount = self.arrMMUsers[indexOfCheckedBefore];
+    mmAccount.isChecked = NO;
+    [[MCMicroManagerAccountDAO sharedManager] update:mmAccount];
+    mmAccount = self.arrMMUsers[indexOfCheckedAfter];
+    mmAccount.isChecked = YES;
+    [[MCMicroManagerAccountDAO sharedManager] update:mmAccount];
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,28 +73,57 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [self.arrMMUsers count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"MMUsersCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     // Configure the cell...
+    if (self.arrMMUsers) {
+        MCMicroManagerAccount *mmAccount = self.arrMMUsers[indexPath.row];
+        cell.textLabel.text = mmAccount.orgName;
+        cell.detailTextLabel.text = mmAccount.userCode;
+        if (mmAccount.isChecked) {
+            indexOfCheckedBefore = indexPath.row;
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
+        else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    }
     
     return cell;
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    indexOfCheckedAfter = indexPath.row;
+    if (indexOfCheckedBefore == indexOfCheckedAfter) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        return;
+    }
+    
+    NSIndexPath *indexPathBefore = [NSIndexPath indexPathForItem:indexOfCheckedBefore inSection:0];
+    UITableViewCell *cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPathBefore];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell = (UITableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -123,4 +174,10 @@
 }
 */
 
+#pragma mark - MCMicroManager Delegate
+- (void)didFinishGetMicroManagerAccount:(MCMicroManagerAccount *)mmAccount
+{
+    self.arrMMUsers = [[MCMicroManagerAccountDAO sharedManager] queryAll];
+    [self.tableView reloadData];
+}
 @end

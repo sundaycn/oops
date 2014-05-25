@@ -155,6 +155,8 @@
             <objects>
                 <tabBarController storyboardIdentifier="mainViewController" definesPresentationContext="YES" id="9UF-cC-biM" customClass="MCMainViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="oRY-Yk-Xhe"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="Ewc-Tj-ZSj">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
@@ -176,6 +178,7 @@
             <objects>
                 <viewController id="0Ez-8F-DK4" customClass="MCCircleViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="我的圈子" id="GEi-ch-4ON"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <segue destination="wXF-Ho-IJh" kind="push" identifier="showCard" id="LXl-FD-Y7U"/>
                     </connections>
@@ -189,7 +192,7 @@
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="wXF-Ho-IJh" customClass="MCContactsDetailViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="30" sectionFooterHeight="22" id="BBO-bq-5ou">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -238,7 +241,7 @@
             <objects>
                 <tableViewController id="YND-kW-BFG" customClass="MCMessageListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="VHg-60-gAD">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -257,6 +260,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="消息" id="Gv9-Ei-JRt"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <segue destination="yav-oi-KBQ" kind="push" identifier="showChatSession" id="4rL-on-H2P"/>
                         <segue destination="msB-fW-66E" kind="push" identifier="showNotificationSession" id="fLh-5U-1b5"/>
@@ -275,11 +279,11 @@
                         <viewControllerLayoutGuide type="bottom" id="lUL-tp-nhK"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Pd7-Eg-gHt">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S4s-ey-tjh">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="503"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="552"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
@@ -287,6 +291,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="fWX-kv-H4B"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="webView" destination="S4s-ey-tjh" id="vEK-o2-wtq"/>
                     </connections>
@@ -300,7 +305,7 @@
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="msB-fW-66E" customClass="MCNotificationSessionViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="hJi-rD-Fga">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -319,6 +324,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Rkv-Fm-FIj"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <segue destination="QLf-Ab-OIF" kind="push" identifier="showNotificationContent" id="oaK-vL-ITQ"/>
                     </connections>
@@ -336,7 +342,7 @@
                         <viewControllerLayoutGuide type="bottom" id="VP9-SS-J8Z"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Le7-sd-XUC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -385,7 +391,7 @@
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="0h2-Nw-w92" customClass="MCMyInfoViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dk4-td-daJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -404,6 +410,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="wfB-Up-77f"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <segue destination="NYr-iV-CNe" kind="push" identifier="showName" id="LCm-mt-c7w"/>
                         <segue destination="waM-EU-2cJ" kind="push" identifier="showOtherPhone" id="HyD-AS-p3B"/>
@@ -420,7 +427,7 @@
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="Mj3-s8-QiX" customClass="MCMyInfoProvinceViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="HIb-gp-txn">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -439,6 +446,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Dpn-at-bZh"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <segue destination="iXg-NU-vUN" kind="push" identifier="showCity" id="oPS-N5-OIP"/>
                     </connections>
@@ -452,7 +460,7 @@
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="iXg-NU-vUN" customClass="MCMyInfoCityViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="9eL-mK-tV5">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -471,6 +479,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="C9B-Dg-41R"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zG5-9y-S4o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -485,11 +494,12 @@
                         <viewControllerLayoutGuide type="bottom" id="6sJ-7A-cPz"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="WpP-80-imW">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="j4r-p5-gWP"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zSO-GI-aft" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -500,7 +510,7 @@
             <objects>
                 <tableViewController id="NmS-Ug-VKO" customClass="MCMicroManagerAccountVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Wzh-ps-JZG">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -518,6 +528,7 @@
                             <outlet property="delegate" destination="NmS-Ug-VKO" id="9VO-f4-1Op"/>
                         </connections>
                     </tableView>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vbh-sH-xbJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -528,16 +539,19 @@
             <objects>
                 <viewController id="wTf-4f-ccR" customClass="MCWebBrowserViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="lt3-Cb-cco"/>
-                        <viewControllerLayoutGuide type="bottom" id="NUZ-re-5Kg"/>
+                        <viewControllerLayoutGuide type="top" id="AVF-M6-8x9"/>
+                        <viewControllerLayoutGuide type="bottom" id="jFx-gd-SZH"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="xXJ-lE-EUX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <view key="view" contentMode="scaleToFill" id="2qb-gz-AYc">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="r1P-LC-evg"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <size key="freeformSize" width="320" height="504"/>
                     <connections>
                         <segue destination="Gec-BS-fOw" kind="modal" identifier="showMMLogin" id="pzv-zy-BhC"/>
                     </connections>
@@ -657,11 +671,12 @@
                         <viewControllerLayoutGuide type="bottom" id="hRk-3j-SwH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="DeR-tY-eJH">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="rgt-TQ-mbq"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZeY-eh-mdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -670,9 +685,9 @@
         <!--Micro Manager View Controller-->
         <scene sceneID="TGa-8R-0nA">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" extendedLayoutIncludesOpaqueBars="YES" hidesBottomBarWhenPushed="YES" id="ipd-wm-wHN" customClass="MCMicroManagerViewController" sceneMemberID="viewController">
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" hidesBottomBarWhenPushed="YES" id="ipd-wm-wHN" customClass="MCMicroManagerViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="gDB-vY-hcw">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Fpk-tE-XcI">
@@ -683,7 +698,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="SB8-i7-PQn">
-                                <rect key="frame" x="0.0" y="20" width="50" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -697,14 +712,18 @@
                             <outlet property="delegate" destination="ipd-wm-wHN" id="Lol-Zq-BPK"/>
                         </connections>
                     </collectionView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="f4k-RR-LdD">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="bookmarks" id="MFs-ou-Yh0">
+                        <barButtonItem key="rightBarButtonItem" title="切换账号" id="MFs-ou-Yh0">
                             <connections>
                                 <action selector="switchMMAccount:" destination="ipd-wm-wHN" id="m0t-cR-CjR"/>
-                                <segue destination="NmS-Ug-VKO" kind="modal" identifier="showMMAccount" id="rOH-Hh-5xe"/>
+                                <segue destination="NmS-Ug-VKO" kind="push" identifier="showMMAccount" id="rOH-Hh-5xe"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <size key="freeformSize" width="320" height="568"/>
                     <connections>
                         <segue destination="wTf-4f-ccR" kind="push" identifier="showWebBrowser" id="spE-mt-ZxC"/>
                     </connections>
@@ -722,11 +741,13 @@
                         <viewControllerLayoutGuide type="bottom" id="F4c-z2-xSE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="OIa-BD-QPi">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="Aca-4q-z3A"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wFL-Vq-R4z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -741,11 +762,12 @@
                         <viewControllerLayoutGuide type="bottom" id="dxa-hg-zUv"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="F2E-ME-AEU">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="GPB-uy-iel"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SeM-XF-86J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -755,8 +777,11 @@
         <scene sceneID="GnN-7L-eZo">
             <objects>
                 <navigationController definesPresentationContext="YES" id="Qdm-HT-pYl" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <tabBarItem key="tabBarItem" title="更多" image="TabMore" id="Cqt-iH-LBe"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="h4D-N7-JPQ">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="h4D-N7-JPQ">
+                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="f3e-SB-puY">
@@ -776,7 +801,7 @@
             <objects>
                 <tableViewController id="ySq-Bu-vsj" customClass="MCMoreViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="kCW-Ci-hqM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -795,7 +820,9 @@
                             <outlet property="delegate" destination="ySq-Bu-vsj" id="tjO-Hq-REB"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="更多" id="ftA-HH-JR0"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <segue destination="SyN-Uc-yje" kind="push" identifier="showAbout" id="FYs-jZ-u7x"/>
                         <segue destination="0h2-Nw-w92" kind="push" identifier="showMyInfo" id="LVt-eI-iaZ"/>
@@ -812,7 +839,7 @@
             <objects>
                 <tableViewController id="0kf-rm-vVw" customClass="MCPortalViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="RJ9-hk-kCA">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="llS-5Y-0Et">
@@ -835,6 +862,7 @@
                         </prototypes>
                     </tableView>
                     <navigationItem key="navigationItem" title="微门户" id="m6g-HC-5Wc"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="CW6-oH-uUs" id="12b-O5-lyD"/>
                         <segue destination="hzv-RG-F4B" kind="push" identifier="showContents" id="e9H-O0-jX5"/>
@@ -862,11 +890,12 @@
                         <viewControllerLayoutGuide type="bottom" id="H4m-kq-JmG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="SwB-1c-tRE">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Eu8-WR-RQa"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88S-fw-MI5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

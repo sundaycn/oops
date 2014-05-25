@@ -17,4 +17,5 @@
 @property (nonatomic, strong) NSString * acctName;
 @property (nonatomic, strong) NSString * belongOrgId;
 @property (nonatomic, strong) NSString * orgName;
+@property (nonatomic, assign) BOOL isChecked;
 @end

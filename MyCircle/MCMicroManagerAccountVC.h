@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MCMicroManagerDelegate.h"
 
-@interface MCMicroManagerAccountVC : UITableViewController
+@interface MCMicroManagerAccountVC : UITableViewController <MCMicroManagerDelegate>
 
 @end

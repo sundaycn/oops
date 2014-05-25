@@ -20,5 +20,6 @@
 @property (nonatomic, retain) NSString * acctName;
 @property (nonatomic, retain) NSString * belongOrgId;
 @property (nonatomic, retain) NSString * orgName;
+@property (nonatomic, assign) BOOL  isChecked;
 
 @end

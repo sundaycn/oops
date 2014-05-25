@@ -37,6 +37,7 @@ static MCMicroManagerAccountDAO *sharedManager = nil;
     microManagerAccount.acctName = model.acctName;
     microManagerAccount.belongOrgId = model.belongOrgId;
     microManagerAccount.orgName = model.orgName;
+    microManagerAccount.isChecked = model.isChecked;
     
     NSError *savingError = nil;
     if ([self.managedObjectContext save:&savingError]){
@@ -72,6 +73,7 @@ static MCMicroManagerAccountDAO *sharedManager = nil;
         microManagerAccount.acctName = model.acctName;
         microManagerAccount.belongOrgId = model.belongOrgId;
         microManagerAccount.orgName = model.orgName;
+        microManagerAccount.isChecked = model.isChecked;
         
         NSError *savingError = nil;
         if ([self.managedObjectContext save:&savingError]){
@@ -117,7 +119,7 @@ static MCMicroManagerAccountDAO *sharedManager = nil;
                                               entityForName:@"MCMicroManagerAccount" inManagedObjectContext:cxt];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDescription];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"acctName = %@", @"默认帐号"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isChecked = 1"];
     [request setPredicate:predicate];
     
     NSError *error = nil;
@@ -133,6 +135,7 @@ static MCMicroManagerAccountDAO *sharedManager = nil;
         microManagerAccount.acctName = mo.acctName;
         microManagerAccount.belongOrgId = mo.belongOrgId;
         microManagerAccount.orgName = mo.orgName;
+        microManagerAccount.isChecked = mo.isChecked;
         
         return microManagerAccount;
     }
@@ -164,6 +167,7 @@ static MCMicroManagerAccountDAO *sharedManager = nil;
         microManagerAccount.acctName = mo.acctName;
         microManagerAccount.belongOrgId = mo.belongOrgId;
         microManagerAccount.orgName = mo.orgName;
+        microManagerAccount.isChecked = mo.isChecked;
         
         [resListData addObject:microManagerAccount];
     }

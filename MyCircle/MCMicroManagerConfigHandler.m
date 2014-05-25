@@ -46,7 +46,7 @@ static MCMicroManagerConfigHandler *sharedInstance = nil;
 }
 
 //下载微管理当前用户所有账号
-- (void)getMMAccountByAccount:(NSString *)strAccount
+- (void)getMMAccountByAccount:(NSString *)strAccount defaultMMAccount:(MCMicroManagerAccount *)defaultMMAccount
 {
     NSString *strURL = [[NSString alloc] initWithString:[MM_BASE_URL stringByAppendingString:@"easyoa!getUserByTelAjaxp.action"]];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -58,6 +58,7 @@ static MCMicroManagerConfigHandler *sharedInstance = nil;
         NSString *strResult = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"success"]];
         BOOL isSuccessful = [strResult isEqualToString:@"1"];
         if (isSuccessful) {
+
             NSArray *arrAccount = [responseObject objectForKey:@"message"];
             MCMicroManagerAccount *account = [[MCMicroManagerAccount alloc] init];
             for (NSDictionary *obj in arrAccount) {
@@ -69,11 +70,27 @@ static MCMicroManagerConfigHandler *sharedInstance = nil;
                 account.acctName = [obj objectForKey:@"acctName"];
                 account.belongOrgId = [obj objectForKey:@"belongOrgId"];
                 account.orgName = [obj objectForKey:@"orgName"];
+                if ([defaultMMAccount.userCode isEqualToString:account.userCode]) {
+                    DLog(@"there is checked account");
+                    account.isChecked = YES;
+                }
+                else {
+                    account.isChecked = NO;
+                }
                 
                 [[MCMicroManagerAccountDAO sharedManager] insert:account];
             }
             
-            [self.delegate didFinishGetMicroManagerAccount:account];
+            if (!defaultMMAccount) {
+                DLog(@"set checked account if no default mm account");
+                account.isChecked = YES;
+                [[MCMicroManagerAccountDAO sharedManager] update:account];
+                [self.delegate didFinishGetMicroManagerAccount:account];
+            }
+            else {
+                [self.delegate didFinishGetMicroManagerAccount:defaultMMAccount];
+            }
+            
             DLog(@"微管理账号获取成功");
         }
         else {

@@ -32,7 +32,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    UIImageView *imageAbout= [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64)];
+    UIImageView *imageAbout= [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     imageAbout.image = [UIImage imageNamed:ASSET_BY_SCREEN_HEIGHT(@"About")];
     
     UILabel *labelVersion = [[UILabel alloc] initWithFrame:CGRectMake(0, 165, 0, 0)];

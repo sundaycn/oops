@@ -19,5 +19,6 @@
 @dynamic acctName;
 @dynamic belongOrgId;
 @dynamic orgName;
+@dynamic isChecked;
 
 @end
