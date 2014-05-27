@@ -111,12 +111,28 @@
     }
     else {
         NSDictionary *dictLoginResponse = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        NSString *strResult = [NSString stringWithFormat:@"%@",[dictLoginResponse objectForKey:@"success"]];
-        BOOL isSuccessful = [strResult isEqualToString:@"1"];
+        BOOL isSuccessful = [(NSNumber *)[NSString stringWithFormat:@"%@",[dictLoginResponse objectForKey:@"success"]] boolValue];
         if (isSuccessful) {
-            DLog(@"微管理登陆成功");
-            [self dismissViewControllerAnimated:YES completion:nil];
-            [self.delegate didfinishLogin];
+            NSDictionary *dictMessage = [dictLoginResponse objectForKeyedSubscript:@"message"];
+            if ([(NSNumber *)[dictMessage objectForKey:@"result"] boolValue]) {
+                DLog(@"微管理登陆成功");
+                [self dismissViewControllerAnimated:YES completion:nil];
+                [self.delegate didfinishLogin];
+            }
+            else {
+                NSString *message = [dictMessage objectForKey:@"resultDesc"];
+                DLog(@"微管理登录失败:%@", message);
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"微管理"
+                                                                      message:message
+                                                                     delegate:nil
+                                                            cancelButtonTitle:@"确定"
+                                                            otherButtonTitles:nil];
+                
+                [alertView show];
+            }
+
+
+
         }
     }
 }
