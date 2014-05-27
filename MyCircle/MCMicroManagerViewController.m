@@ -35,7 +35,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"微管理";
-    
+    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] init];
+    backBarButtonItem.title = @"返回";
+    self.navigationItem.backBarButtonItem = backBarButtonItem;
     //如果默认账号为空，从服务器下载账号信息
     MCMicroManagerAccount *mmAccount = [[MCMicroManagerAccountDAO sharedManager] queryDefaultAccount];
     [MCMicroManagerConfigHandler sharedInstance].delegate = self;
@@ -65,6 +67,24 @@
     [self.collectionView setCollectionViewLayout:flowLayout];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+//        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        self.navigationController.interactivePopGestureRecognizer.delegate = nil;
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -84,9 +104,6 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     if ([[segue identifier] isEqualToString:@"showWebBrowser"]) {
-//        [[MCMicroManagerConfigHandler sharedInstance] loginByUserCode:@"sundi" password:@"79109958&acctId=0660b5b440b8d3800140b9cdb55b00b4"];
-        
-
         NSIndexPath *indexPath = [[self.collectionView indexPathsForSelectedItems] lastObject];
         MCMicroManagerConfig *mmConfig = [self.arrMicroManagerMenu objectAtIndex:(indexPath.section*3) + indexPath.row];
         NSString *strPath = [[NSBundle mainBundle] pathForResource:mmConfig.pagePath ofType:@"html"];
@@ -94,6 +111,12 @@
         webBrowserVC.title = mmConfig.name;
         webBrowserVC.url = [NSURL fileURLWithPath:strPath];
     }
+}
+
+#pragma mark - UIGestureRecognizer Delegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    return NO;
 }
 
 - (IBAction)unwindToMicroManagerVC:(UIStoryboardSegue *)unwindSegue

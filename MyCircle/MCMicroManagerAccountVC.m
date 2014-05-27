@@ -95,8 +95,8 @@
     // Configure the cell...
     if (self.arrMMUsers) {
         MCMicroManagerAccount *mmAccount = self.arrMMUsers[indexPath.row];
-        cell.textLabel.text = mmAccount.orgName;
-        cell.detailTextLabel.text = mmAccount.userCode;
+        cell.textLabel.text = mmAccount.userCode;
+        cell.detailTextLabel.text = mmAccount.orgName;
         if (mmAccount.isChecked) {
             indexOfCheckedBefore = indexPath.row;
             cell.accessoryType = UITableViewCellAccessoryCheckmark;

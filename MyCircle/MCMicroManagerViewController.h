@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "MCMicroManagerDelegate.h"
 
-@interface MCMicroManagerViewController : UICollectionViewController <MCMicroManagerDelegate>
+@interface MCMicroManagerViewController : UICollectionViewController <UIGestureRecognizerDelegate, MCMicroManagerDelegate>
 
 @end

@@ -46,6 +46,10 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] init];
+    backBarButtonItem.title = @"返回";
+    self.navigationItem.backBarButtonItem = backBarButtonItem;
+    
     self.tableView.backgroundColor = UIColorFromRGB(0xd5d5d5);
     self.tableView.separatorColor = UIColorFromRGB(0xd5d5d5);
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);

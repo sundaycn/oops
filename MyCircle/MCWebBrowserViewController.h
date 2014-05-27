@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MCMicroManagerDelegate.h"
 
-@interface MCWebBrowserViewController : UIViewController <MCMicroManagerDelegate>
+@interface MCWebBrowserViewController : UIViewController <UIGestureRecognizerDelegate, MCMicroManagerDelegate>
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, strong) NSURL *url;
 @end

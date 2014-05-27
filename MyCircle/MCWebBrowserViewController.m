@@ -17,6 +17,27 @@
 - (void)showMask:(NSString *)strText;
 - (void)hideMask;
 - (void)getUserName;
+- (BOOL)isSupportPramas;
+@end
+
+@interface UIWebView (JavaScriptAlert)
+- (void)webView:(UIWebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(CGRect *)frame;
+
+@end
+
+@implementation UIWebView (JavaScriptAlert)
+- (void)webView:(UIWebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(CGRect *)frame
+{
+    
+    
+    UIAlertView* customAlert = [[UIAlertView alloc] initWithTitle:@"微管理"
+                                                          message:message
+                                                         delegate:nil
+                                                cancelButtonTitle:@"确定"
+                                                otherButtonTitles:nil];
+    
+    [customAlert show];
+}
 @end
 
 @interface MCWebBrowserViewController () <TSWebViewDelegate, JS_MCWebBrowserViewController>
@@ -43,6 +64,9 @@
     UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] init];
     backBarButtonItem.title = @"返回";
     self.navigationItem.backBarButtonItem = backBarButtonItem;
+    UIBarButtonItem *refreshBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+    self.navigationItem.rightBarButtonItem = refreshBarButtonItem;
+
     //设置view尺寸-iOS7
     CGRect newFrame = self.view.frame;
     CGFloat navigationBarHeight = CGRectGetHeight(self.navigationController.navigationBar.frame);
@@ -111,9 +135,23 @@
 //    [self addCookies:all forRequest:request];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+        self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+//        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        self.navigationController.interactivePopGestureRecognizer.delegate = nil;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -227,7 +265,6 @@
 }*/
 
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -237,6 +274,12 @@
         MCMicroManagerLoginVC *mmLoginVC = [segue destinationViewController];
         mmLoginVC.delegate = self;
     }
+}
+
+#pragma mark - UIGestureRecognizer Delegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    return NO;
 }
 
 #pragma mark - MCMicroManager Delegate
@@ -274,9 +317,18 @@
         MCWebBrowserViewController *newWebBrowserVC = [[MCWebBrowserViewController alloc] init];
         newWebBrowserVC.title = self.title;
         newWebBrowserVC.url = request.URL;
+//        //在切换界面的过程中禁止滑动手势，避免界面卡死
+//        if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+//            self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+//        }
         [self.navigationController pushViewController:newWebBrowserVC animated:YES];
         return NO;
     }
+}
+
+- (void)refresh:(UIBarButtonItem *)sender
+{
+    [self.webView reload];
 }
 /*
 - (void)webView:(UIWebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(CGRect *)frame {
@@ -336,6 +388,11 @@
 - (void)hideMask
 {
     //
+}
+
+- (BOOL)isSupportPramas
+{
+    return YES;
 }
 
 //faked function for javascript

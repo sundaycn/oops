@@ -8,7 +8,7 @@
 		<key>name</key>
 		<string>工作日志</string>
 		<key>iconImage</key>
-		<string>IconMMgrsw</string>
+		<string>IconMMgzrz</string>
 		<key>pagePath</key>
 		<string>system/daily/index</string>
 		<key>sort</key>
@@ -26,7 +26,7 @@
 		<key>name</key>
 		<string>我的邮箱</string>
 		<key>iconImage</key>
-		<string>IconMMgrsw</string>
+		<string>IconMMyjgl</string>
 		<key>pagePath</key>
 		<string>system/email/index</string>
 		<key>sort</key>
@@ -170,7 +170,7 @@
 		<key>name</key>
 		<string>通知公告</string>
 		<key>iconImage</key>
-		<string>IconMMgrsw</string>
+		<string>IconMMtzgg</string>
 		<key>pagePath</key>
 		<string>system/notice/index</string>
 		<key>sort</key>
@@ -206,13 +206,13 @@
 		<key>name</key>
 		<string>更多应用</string>
 		<key>iconImage</key>
-		<string>IconMMgrsw</string>
+		<string>IconMMgdyy</string>
 		<key>pagePath</key>
 		<string>http://117.21.209.104:80/EasyContact/web/mobile/guide/function.html</string>
 		<key>sort</key>
 		<integer>900</integer>
 		<key>upCode</key>
-		<string>T_ATTENDANCE</string>
+		<string>-1</string>
 		<key>type</key>
 		<integer>1</integer>
 		<key>defaultShow</key>
