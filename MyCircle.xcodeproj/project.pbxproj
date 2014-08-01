@@ -31,14 +31,12 @@
 		2228A2A31913912F0081C9A6 /* MCMyInfoProvinceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A2A21913912F0081C9A6 /* MCMyInfoProvinceViewController.m */; };
 		2228A2A6191391400081C9A6 /* MCMyInfoCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */; };
 		2229AC5E192A122F009DA496 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 2229AC5D192A122F009DA496 /* NSString+URLEncoding.m */; };
-		222CFC48184432B50037E24D /* www in Resources */ = {isa = PBXBuildFile; fileRef = 222CFC47184432B50037E24D /* www */; };
 		223BBBFE1920770D00761BE7 /* system in Resources */ = {isa = PBXBuildFile; fileRef = 223BBBFD1920770D00761BE7 /* system */; };
 		224500B519259BBE00644744 /* MCMicroManagerMO.m in Sources */ = {isa = PBXBuildFile; fileRef = 224500B419259BBE00644744 /* MCMicroManagerMO.m */; };
 		224500B819259C5200644744 /* MCMicroManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 224500B719259C5200644744 /* MCMicroManager.m */; };
 		224500BB19259C6800644744 /* MCMicroManagerDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 224500BA19259C6800644744 /* MCMicroManagerDAO.m */; };
 		224ECDFF191B2CC100214D5D /* MyInfoRegionProvince.plist in Resources */ = {isa = PBXBuildFile; fileRef = 224ECDFD191B2CC100214D5D /* MyInfoRegionProvince.plist */; };
 		224ECE00191B2CC100214D5D /* MyInfoRegionCity.plist in Resources */ = {isa = PBXBuildFile; fileRef = 224ECDFE191B2CC100214D5D /* MyInfoRegionCity.plist */; };
-		2254A077184B63D500DC103F /* MCContensViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2254A076184B63D500DC103F /* MCContensViewController.m */; };
 		2254A079184B650600DC103F /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2254A078184B650600DC103F /* config.xml */; };
 		2254A082184D89EC00DC103F /* MCPortalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2254A081184D89EC00DC103F /* MCPortalCell.m */; };
 		2255E7D9183360B600BAD0ED /* MCContactsSearchLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 2255E7D8183360B600BAD0ED /* MCContactsSearchLibrary.m */; };
@@ -81,7 +79,6 @@
 		22A4B1821921C55200889556 /* MCMyInfoManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A4B1811921C55200889556 /* MCMyInfoManagedObject.m */; };
 		22A7AB731887BFA100DC35AA /* MCMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A7AB721887BFA100DC35AA /* MCMoreViewController.m */; };
 		22A7AB781887C09000DC35AA /* MCMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A7AB771887C09000DC35AA /* MCMoreCell.m */; };
-		22AA9AA618433AF2000C3A7F /* MCPortalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AA9AA518433AF2000C3A7F /* MCPortalViewController.m */; };
 		22AA9AA918433DA3000C3A7F /* MCPortalDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AA9AA818433DA3000C3A7F /* MCPortalDataHandler.m */; };
 		22AD58E518ED63840045BD5E /* MCMoreAccountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AD58E418ED63840045BD5E /* MCMoreAccountCell.m */; };
 		22B669D317FAAA240015A269 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B669D217FAAA240015A269 /* Foundation.framework */; };
@@ -326,7 +323,6 @@
 		2228A2A5191391400081C9A6 /* MCMyInfoCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoCityViewController.m; sourceTree = "<group>"; };
 		2229AC5C192A122F009DA496 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
 		2229AC5D192A122F009DA496 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
-		222CFC47184432B50037E24D /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		223BBBFD1920770D00761BE7 /* system */ = {isa = PBXFileReference; lastKnownFileType = folder; path = system; sourceTree = "<group>"; };
 		224500B319259BBE00644744 /* MCMicroManagerMO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMicroManagerMO.h; sourceTree = "<group>"; };
 		224500B419259BBE00644744 /* MCMicroManagerMO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMicroManagerMO.m; sourceTree = "<group>"; };
@@ -336,8 +332,6 @@
 		224500BA19259C6800644744 /* MCMicroManagerDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMicroManagerDAO.m; sourceTree = "<group>"; };
 		224ECDFD191B2CC100214D5D /* MyInfoRegionProvince.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyInfoRegionProvince.plist; sourceTree = "<group>"; };
 		224ECDFE191B2CC100214D5D /* MyInfoRegionCity.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyInfoRegionCity.plist; sourceTree = "<group>"; };
-		2254A075184B63D500DC103F /* MCContensViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContensViewController.h; sourceTree = "<group>"; };
-		2254A076184B63D500DC103F /* MCContensViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContensViewController.m; sourceTree = "<group>"; };
 		2254A078184B650600DC103F /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		2254A080184D89EC00DC103F /* MCPortalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPortalCell.h; sourceTree = "<group>"; };
 		2254A081184D89EC00DC103F /* MCPortalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPortalCell.m; sourceTree = "<group>"; };
@@ -417,8 +411,6 @@
 		22A7AB721887BFA100DC35AA /* MCMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMoreViewController.m; sourceTree = "<group>"; };
 		22A7AB761887C09000DC35AA /* MCMoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMoreCell.h; sourceTree = "<group>"; };
 		22A7AB771887C09000DC35AA /* MCMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMoreCell.m; sourceTree = "<group>"; };
-		22AA9AA418433AF2000C3A7F /* MCPortalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPortalViewController.h; sourceTree = "<group>"; };
-		22AA9AA518433AF2000C3A7F /* MCPortalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPortalViewController.m; sourceTree = "<group>"; };
 		22AA9AA718433DA3000C3A7F /* MCPortalDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPortalDataHandler.h; sourceTree = "<group>"; };
 		22AA9AA818433DA3000C3A7F /* MCPortalDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPortalDataHandler.m; sourceTree = "<group>"; };
 		22AD58E318ED63840045BD5E /* MCMoreAccountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMoreAccountCell.h; sourceTree = "<group>"; };
@@ -838,7 +830,6 @@
 				22E985C41857057400032893 /* Login */,
 				22E985BD1857028F00032893 /* Message */,
 				22E985C31857055300032893 /* Circle */,
-				22AA9AA318433AB8000C3A7F /* Portal */,
 				22E985C51857058A00032893 /* More */,
 				223BBBFF1920777400761BE7 /* MyInfo */,
 				223BBBFC192076B900761BE7 /* Manager */,
@@ -1155,18 +1146,6 @@
 				22AA9AA818433DA3000C3A7F /* MCPortalDataHandler.m */,
 				2254A080184D89EC00DC103F /* MCPortalCell.h */,
 				2254A081184D89EC00DC103F /* MCPortalCell.m */,
-			);
-			name = Portal;
-			sourceTree = "<group>";
-		};
-		22AA9AA318433AB8000C3A7F /* Portal */ = {
-			isa = PBXGroup;
-			children = (
-				222CFC47184432B50037E24D /* www */,
-				22AA9AA418433AF2000C3A7F /* MCPortalViewController.h */,
-				22AA9AA518433AF2000C3A7F /* MCPortalViewController.m */,
-				2254A075184B63D500DC103F /* MCContensViewController.h */,
-				2254A076184B63D500DC103F /* MCContensViewController.m */,
 			);
 			name = Portal;
 			sourceTree = "<group>";
@@ -2245,7 +2224,6 @@
 				2254A079184B650600DC103F /* config.xml in Resources */,
 				224ECE00191B2CC100214D5D /* MyInfoRegionCity.plist in Resources */,
 				224ECDFF191B2CC100214D5D /* MyInfoRegionProvince.plist in Resources */,
-				222CFC48184432B50037E24D /* www in Resources */,
 				22CEC22F1859467400DC9913 /* README.txt in Resources */,
 				22B669E617FAAA240015A269 /* Main.storyboard in Resources */,
 			);
@@ -2381,7 +2359,6 @@
 				2258D100187CE6F40047EB72 /* MCNotificationSessionViewController.m in Sources */,
 				22903B23192C8C3B00797999 /* MCWebBrowserViewController.m in Sources */,
 				2203A5A7180E872B00742830 /* MCBook.m in Sources */,
-				2254A077184B63D500DC103F /* MCContensViewController.m in Sources */,
 				22CEC3C418594B3D00DC9913 /* XMPPvCardTempAdr.m in Sources */,
 				22CEC3F118594B3E00DC9913 /* NSXMLElement+XEP_0335.m in Sources */,
 				22CEC3B318594B3D00DC9913 /* XMPPRoomOccupantCoreDataStorageObject.m in Sources */,
@@ -2459,7 +2436,6 @@
 				22CEC3BF18594B3D00DC9913 /* XMPPvCardAvatarCoreDataStorageObject.m in Sources */,
 				22FAFA0919246DD20079CB1E /* MCMicroManagerConfigHandler.m in Sources */,
 				22CEC2A918594AD700DC9913 /* XMPPXFacebookPlatformAuthentication.m in Sources */,
-				22AA9AA618433AF2000C3A7F /* MCPortalViewController.m in Sources */,
 				22D11D731821EBDF00515856 /* MCAboutViewController.m in Sources */,
 				22CEC233185946B200DC9913 /* GCDAsyncSocket.m in Sources */,
 				22CEC3D318594B3D00DC9913 /* XMPPDateTimeProfiles.m in Sources */,

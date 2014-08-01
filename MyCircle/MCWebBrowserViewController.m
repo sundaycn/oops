@@ -188,7 +188,7 @@
 - (void)loadRequestFromURL:(NSURL *)url
 {
     NSArray *availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-//    DLog(@"availableCookies array:%@", availableCookies);
+    DLog(@"availableCookies array:%@", availableCookies);
     NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
     DLog(@"request headers with cookies:\n%@", headers);
     
@@ -367,6 +367,7 @@
 - (void)login
 {
     DLog(@"hello, im login");
+    DLog(@"%@", self);
     [self performSegueWithIdentifier:@"showMMLogin" sender:self];
 }
 

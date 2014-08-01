@@ -84,11 +84,11 @@
 	
 	HUD.delegate = self;
 	HUD.labelText = @"正在登录...";
-	[HUD showWhileExecuting:@selector(loginWithSycnRequest) onTarget:self withObject:nil animated:NO];
+	[HUD showWhileExecuting:@selector(loginWithSyncRequest) onTarget:self withObject:nil animated:NO];
 
 }
 
-- (void)loginWithSycnRequest
+- (void)loginWithSyncRequest
 {
     MCMicroManagerAccount *mmAccount = [[MCMicroManagerAccountDAO sharedManager] queryDefaultAccount];
     NSString *strPassword = self.textMMPassword.text;

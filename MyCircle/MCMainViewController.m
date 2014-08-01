@@ -77,7 +77,8 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self checkAndUpdateVersion];
+    //暂时取消版本检查功能
+    //[self checkAndUpdateVersion];
 }
 
 - (void)didReceiveMemoryWarning
