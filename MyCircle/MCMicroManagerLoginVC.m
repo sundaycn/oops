@@ -116,8 +116,9 @@
             NSDictionary *dictMessage = [dictLoginResponse objectForKeyedSubscript:@"message"];
             if ([(NSNumber *)[dictMessage objectForKey:@"result"] boolValue]) {
                 DLog(@"微管理登陆成功");
-                [self dismissViewControllerAnimated:YES completion:nil];
-                [self.delegate didfinishLogin];
+                [self dismissViewControllerAnimated:YES completion:^{DLog(@"im done!!!!!!");
+                    [self.delegate didfinishLogin];}];
+//                [self.delegate didfinishLogin];
             }
             else {
                 NSString *message = [dictMessage objectForKey:@"resultDesc"];

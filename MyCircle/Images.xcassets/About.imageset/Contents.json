@@ -3,12 +3,12 @@
     {
       "idiom" : "iphone",
       "scale" : "1x",
-      "filename" : "关于.png"
+      "filename" : "About.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "2x",
-      "filename" : "关于@2x.png"
+      "filename" : "About@2x.png"
     }
   ],
   "info" : {
