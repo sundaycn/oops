@@ -18,6 +18,7 @@
 - (void)hideMask;
 - (void)getUserName;
 - (BOOL)isSupportPramas;
+- (void)download;
 @end
 
 @interface UIWebView (JavaScriptAlert)
@@ -124,9 +125,7 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    DLog(@"prepare for segue-----");
     if ([[segue identifier] isEqualToString:@"showMMLogin"]) {
-        DLog(@"im showMMLogin");
         MCMicroManagerLoginVC *mmLoginVC = [segue destinationViewController];
         mmLoginVC.delegate = self;
     }
@@ -169,7 +168,6 @@
             return YES;
         }
         DLog(@"intercept");
-        DLog(@"request url:%@", strUrl);
         MCWebBrowserViewController *newWebBrowserVC = [[MCWebBrowserViewController alloc] init];
         newWebBrowserVC.title = self.title;
         newWebBrowserVC.url = request.URL;
@@ -249,6 +247,11 @@
 - (BOOL)isSupportPramas
 {
     return YES;
+}
+
+- (void)download:(NSString *)filePath name:(NSString *)fileName
+{
+    DLog(@"正在下载...");
 }
 
 //faked function for javascript

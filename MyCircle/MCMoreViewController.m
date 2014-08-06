@@ -65,7 +65,8 @@
                       [[MCSettingModel alloc] initWithTitle:self.myInfo.userName image:@"ContactsDefaultAvatar" tag:1 title2:@"微管理账号："],
                       nil];
     NSArray *second = [[NSArray alloc] initWithObjects:
-                       [[MCSettingModel alloc] initWithTitle:@"微管理" image:@"AppCenterIcon" tag:3 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"微管理" image:@"AppCenterIcon" tag:2 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"我的文件" image:@"AboutIcon" tag:3 title2:nil],
                        [[MCSettingModel alloc] initWithTitle:@"搜周边" image:@"SearchNearbyIcon" tag:4 title2:nil],
                        [[MCSettingModel alloc] initWithTitle:@"检查更新" image:@"CheckAndUpdateIcon" tag:5 title2:nil],
                        [[MCSettingModel alloc] initWithTitle:@"关于" image:@"AboutIcon" tag:6 title2:nil],
@@ -227,8 +228,11 @@
         case 1:
             [self performSegueWithIdentifier:@"showMyInfo" sender:self];
             break;
-        case 3:
+        case 2:
             [self performSegueWithIdentifier:@"showMicroManager" sender:self];
+            break;
+        case 3:
+            [self performSegueWithIdentifier:@"showMyFile" sender:self];
             break;
         case 4:
 //            [self performSegueWithIdentifier:@"showSearchNearby" sender:self];

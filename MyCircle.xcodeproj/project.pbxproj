@@ -240,6 +240,7 @@
 		22E985C21857030F00032893 /* MCMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E985C11857030F00032893 /* MCMessageCell.m */; };
 		22E985CB1857E9FF00032893 /* MCMessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E985CA1857E9FF00032893 /* MCMessageListViewController.m */; };
 		22E985CE1857EA0D00032893 /* MCChatSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E985CD1857EA0D00032893 /* MCChatSessionViewController.m */; };
+		22F704301991B855000D81AE /* MCMyFileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F7042F1991B855000D81AE /* MCMyFileTableViewController.m */; };
 		22F7E293180F670D0010B5DC /* MCBookBL.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F7E292180F670D0010B5DC /* MCBookBL.m */; };
 		22F86DBB18111FD1000CCB50 /* MCDeptDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DBA18111FD1000CCB50 /* MCDeptDAO.m */; };
 		22F86DBE18111FE4000CCB50 /* MCOrgDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F86DBD18111FE4000CCB50 /* MCOrgDAO.m */; };
@@ -733,6 +734,8 @@
 		22E985CA1857E9FF00032893 /* MCMessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMessageListViewController.m; sourceTree = "<group>"; };
 		22E985CC1857EA0D00032893 /* MCChatSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCChatSessionViewController.h; sourceTree = "<group>"; };
 		22E985CD1857EA0D00032893 /* MCChatSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCChatSessionViewController.m; sourceTree = "<group>"; };
+		22F7042E1991B855000D81AE /* MCMyFileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyFileTableViewController.h; sourceTree = "<group>"; };
+		22F7042F1991B855000D81AE /* MCMyFileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyFileTableViewController.m; sourceTree = "<group>"; };
 		22F79F4219060DD200E400ED /* MCMyInfoModifyDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCMyInfoModifyDelegate.h; sourceTree = "<group>"; };
 		22F7E291180F670D0010B5DC /* MCBookBL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBookBL.h; sourceTree = "<group>"; };
 		22F7E292180F670D0010B5DC /* MCBookBL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCBookBL.m; sourceTree = "<group>"; };
@@ -2101,6 +2104,8 @@
 				22D11D721821EBDF00515856 /* MCAboutViewController.m */,
 				22A7AB711887BFA100DC35AA /* MCMoreViewController.h */,
 				22A7AB721887BFA100DC35AA /* MCMoreViewController.m */,
+				22F7042E1991B855000D81AE /* MCMyFileTableViewController.h */,
+				22F7042F1991B855000D81AE /* MCMyFileTableViewController.m */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -2344,6 +2349,7 @@
 				22CEC2281859467400DC9913 /* DDAbstractDatabaseLogger.m in Sources */,
 				22D8F66B1920D285006D01BC /* MCCoreData.xcdatamodeld in Sources */,
 				22CEC3E618594B3E00DC9913 /* XMPPMessageDeliveryReceipts.m in Sources */,
+				22F704301991B855000D81AE /* MCMyFileTableViewController.m in Sources */,
 				22CEC3A118594B3D00DC9913 /* XMPPResourceCoreDataStorageObject.m in Sources */,
 				22CEC3A918594B3D00DC9913 /* XMPPSystemInputActivityMonitor.m in Sources */,
 				22FAFA131924BFB80079CB1E /* MCMicroManagerAccountMO.m in Sources */,
