@@ -7,9 +7,10 @@
 //
 
 #import "MCMyFileTableViewController.h"
+#import "MCFilePreviewViewController.h"
 
 @interface MCMyFileTableViewController ()
-
+@property (strong, nonatomic) NSArray *arrFiles;
 @end
 
 @implementation MCMyFileTableViewController
@@ -26,6 +27,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"我的文件";
+    
+    //load data source
+    self.arrFiles = [self getListOfFils];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -44,28 +49,34 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [self.arrFiles count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"MyFileCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     
-    // Configure the cell...
+    cell.textLabel.text = [[self.arrFiles[indexPath.row] objectForKey:@"file"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     return cell;
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"showPreview" sender:self];
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -105,7 +116,6 @@
 }
 */
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -113,7 +123,28 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"showPreview"]) {
+        MCFilePreviewViewController *filePreviewVC = [segue destinationViewController];
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        filePreviewVC.path = [self.arrFiles[indexPath.row] objectForKey:@"path"];
+    }
 }
-*/
+
+- (NSArray *)getListOfFils
+{
+    NSURL *downloadsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDownloadsDirectory  inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+    NSArray *arrPath =  [[NSFileManager defaultManager] contentsOfDirectoryAtURL:downloadsDirectoryURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+    
+    NSMutableArray *arrFile = [NSMutableArray array];
+    
+    for (NSURL *path in arrPath) {
+        NSMutableDictionary *dictPath = [[NSMutableDictionary alloc] init];
+        [dictPath setObject:path forKey:@"path"];
+        [dictPath setObject:[[path absoluteString] lastPathComponent] forKey:@"file"];
+        [arrFile addObject:dictPath];
+    }
+    
+    return arrFile;
+}
 
 @end

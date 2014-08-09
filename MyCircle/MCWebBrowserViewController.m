@@ -10,6 +10,8 @@
 #import "UIWebView+TS_JavaScriptContext.h"
 #import "MCMicroManagerLoginVC.h"
 #import <AFNetworking/AFHTTPSessionManager.h>
+#import "MCConfig.h"
+#import "MCMicroManagerAccountDAO.h"
 
 @protocol JS_MCWebBrowserViewController <JSExport>
 - (void)login;
@@ -274,12 +276,12 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-        DLog(@"docments directory url:%@", documentsDirectoryURL);
-        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
-//        return [documentsDirectoryURL URLByAppendingPathComponent:[NSURL URLWithString:strFileName]];
+        NSURL *downloadsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDownloadsDirectory  inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+        DLog(@"docments directory url: %@", downloadsDirectoryURL);
+//        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+        return [downloadsDirectoryURL URLByAppendingPathComponent:strFileName];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        NSLog(@"File downloaded to: %@", filePath);
+        DLog(@"File downloaded to: %@", filePath);
     }];
     [downloadTask resume];
 }

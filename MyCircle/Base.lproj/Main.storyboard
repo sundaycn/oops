@@ -685,10 +685,32 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="NFB-x6-lhN"/>
+                    <connections>
+                        <segue destination="QO1-nY-nBu" kind="push" identifier="showPreview" id="31Y-K9-iqo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H7t-2U-VHV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3109" y="2289"/>
+            <point key="canvasLocation" x="3437" y="2749"/>
+        </scene>
+        <!--File Preview View Controller-->
+        <scene sceneID="cqg-NW-L2U">
+            <objects>
+                <viewController id="QO1-nY-nBu" customClass="MCFilePreviewViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Man-g0-iay"/>
+                        <viewControllerLayoutGuide type="bottom" id="ark-Ri-sB3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oD9-uz-rMN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="bjW-Il-YBS"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5M2-P0-JkS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4105" y="2741"/>
         </scene>
         <!--My Info Name View Controller-->
         <scene sceneID="bCz-JV-A4F">
