@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MCFilePreviewViewController : UIViewController
-@property (strong, nonatomic) NSURL *path;
+@property (strong, nonatomic) NSString *strFileName;
+@property (strong, nonatomic) NSString *strFilePath;
 @end

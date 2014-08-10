@@ -9,9 +9,10 @@
 #import "MCWebBrowserViewController.h"
 #import "UIWebView+TS_JavaScriptContext.h"
 #import "MCMicroManagerLoginVC.h"
-#import <AFNetworking/AFHTTPSessionManager.h>
+#import <AFNetworking/AFNetworking.h>
 #import "MCConfig.h"
 #import "MCMicroManagerAccountDAO.h"
+#import "MCFilePreviewViewController.h"
 
 @protocol JS_MCWebBrowserViewController <JSExport>
 - (void)login;
@@ -267,7 +268,17 @@
     NSString *strFileName = [file substringWithRange:NSMakeRange(rangeSeparator.location+strSeparator.length, file.length-rangeSeparator.location-strSeparator.length)];
     DLog(@"download file name:%@", strFileName);
     
-    NSProgress *progress = nil;
+    NSString *storyboardName = @"Main";
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+    MCFilePreviewViewController *filePreviewVC = [storyboard instantiateViewControllerWithIdentifier:@"FilePreviewSB"];
+    filePreviewVC.strFileName = strFileName;
+    filePreviewVC.strFilePath = strFilePath;
+    
+    [self.navigationController pushViewController:filePreviewVC animated:YES];
+    
+    /*
+    UIProgressView *progressView = [[UIProgressView alloc] init];
+    progressView.progress = 0.0f;
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
@@ -275,7 +286,7 @@
     NSURL *URL = [NSURL URLWithString:strFilePath];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progressView.progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         NSURL *downloadsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDownloadsDirectory  inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
         DLog(@"docments directory url: %@", downloadsDirectoryURL);
 //        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
@@ -283,7 +294,7 @@
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         DLog(@"File downloaded to: %@", filePath);
     }];
-    [downloadTask resume];
+    [downloadTask resume];*/
 }
 
 //faked function for javascript

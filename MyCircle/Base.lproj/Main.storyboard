@@ -664,7 +664,7 @@
         <!--My File Table View Controller-->
         <scene sceneID="D8e-JF-qav">
             <objects>
-                <tableViewController id="NSd-bI-Jfi" customClass="MCMyFileTableViewController" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="NSd-bI-Jfi" customClass="MCMyFileTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="uAh-2D-1Ye">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -685,32 +685,28 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="NFB-x6-lhN"/>
-                    <connections>
-                        <segue destination="QO1-nY-nBu" kind="push" identifier="showPreview" id="31Y-K9-iqo"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H7t-2U-VHV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3437" y="2749"/>
         </scene>
         <!--File Preview View Controller-->
-        <scene sceneID="cqg-NW-L2U">
+        <scene sceneID="gJx-6N-Ngk">
             <objects>
-                <viewController id="QO1-nY-nBu" customClass="MCFilePreviewViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FilePreviewSB" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rq1-tB-2CB" customClass="MCFilePreviewViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Man-g0-iay"/>
-                        <viewControllerLayoutGuide type="bottom" id="ark-Ri-sB3"/>
+                        <viewControllerLayoutGuide type="top" id="jWw-vW-Xbc"/>
+                        <viewControllerLayoutGuide type="bottom" id="QQG-cf-gtI"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="oD9-uz-rMN">
+                    <view key="view" contentMode="scaleToFill" id="Fa7-XV-abf">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="bjW-Il-YBS"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5M2-P0-JkS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vRv-iD-Uep" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4105" y="2741"/>
+            <point key="canvasLocation" x="4677" y="2435"/>
         </scene>
         <!--My Info Name View Controller-->
         <scene sceneID="bCz-JV-A4F">

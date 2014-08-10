@@ -46,6 +46,7 @@
     {
         [storage deleteCookie:cookie];
     }
+    //7.删除Documents文件夹里下载的文件
 }
 
 @end

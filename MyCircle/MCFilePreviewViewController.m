@@ -7,9 +7,12 @@
 //
 
 #import "MCFilePreviewViewController.h"
+#import <AFNetworking/AFNetworking.h>
+#import <QuickLook/QuickLook.h>
 
-@interface MCFilePreviewViewController ()
-
+@interface MCFilePreviewViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate>
+@property (strong, nonatomic) UIProgressView *progressView;
+@property (strong, nonatomic) NSURL *localFileURL;
 @end
 
 @implementation MCFilePreviewViewController
@@ -27,16 +30,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //设置view尺寸-iOS7
-    CGRect newFrame = self.view.frame;
-    CGFloat navigationBarHeight = CGRectGetHeight(self.navigationController.navigationBar.frame);
-    CGFloat statusBarHeight = CGRectGetHeight([[UIApplication sharedApplication] statusBarFrame]);
-    newFrame.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - statusBarHeight - navigationBarHeight);
-    self.view.frame = newFrame;
-    //初始化webView
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    [self.view addSubview:webView];
-    [self loadFile:self.path inView:webView];
+    //文件下载进度条
+    self.progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(30, 150, self.view.bounds.size.width-60, 2)];
+    self.progressView.progress = 0.0f;
+    [self.view addSubview:self.progressView];
+    
+    [self downloadFile:self.strFileName path:self.strFilePath];
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,10 +55,81 @@
 }
 */
 
-- (void)loadFile:(NSURL *)path inView:(UIWebView *)webView
+- (void)downloadFile:(NSString *)strFileName path:(NSString *)strFilePath
 {
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:path];
-    [webView loadRequest:urlRequest];
+    self.progressView.progress = 0.0f;
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:strFilePath]];
+    AFURLConnectionOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    
+    NSURL *downloadsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentationDirectory  inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+    self.localFileURL = [downloadsDirectoryURL URLByAppendingPathComponent:strFileName];
+
+    operation.outputStream = [NSOutputStream outputStreamWithURL:self.localFileURL append:NO];
+    [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.progressView.progress = (float)totalBytesRead / totalBytesExpectedToRead;
+//        });
+
+        self.progressView.progress = (float)totalBytesRead / totalBytesExpectedToRead;
+    }];
+    
+    [operation setCompletionBlock:^{
+        [self.progressView removeFromSuperview];
+        QLPreviewController *previewController = [[QLPreviewController alloc] init];
+        previewController.dataSource = self;
+        previewController.delegate = self;
+        
+        [self addChildViewController:previewController];
+        CGFloat w = self.view.frame.size.width;
+        CGFloat h = self.view.frame.size.height;
+        previewController.view.frame = CGRectMake(0, 0, w, h);
+        [self.view addSubview:previewController.view];
+        [previewController didMoveToParentViewController:self];
+    }];
+    [operation start];
+}
+
+#pragma mark - QLPreviewControllerDataSource
+
+// Returns the number of items that the preview controller should preview
+- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)previewController
+{
+    //    NSInteger numToPreview = 0;
+    
+    //    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    //    if (selectedIndexPath.section == 0)
+    //        numToPreview = NUM_DOCS;
+    //    else
+    //        numToPreview = self.documentURLs.count;
+    
+    //    return numToPreview;
+    return 1;
+}
+
+- (void)previewControllerDidDismiss:(QLPreviewController *)controller
+{
+    // if the preview dismissed (done button touched), use this method to post-process previews
+}
+
+// returns the item that the preview controller should preview
+- (id)previewController:(QLPreviewController *)previewController previewItemAtIndex:(NSInteger)idx
+{
+    /*NSURL *fileURL = nil;
+     
+     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+     if (selectedIndexPath.section == 0)
+     {
+     fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:documents[idx] ofType:nil]];
+     }
+     else
+     {
+     fileURL = [self.documentURLs objectAtIndex:idx];
+     }
+     
+     return fileURL;*/
+    
+    return self.localFileURL;
 }
 
 @end
