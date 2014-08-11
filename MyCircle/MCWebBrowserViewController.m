@@ -24,9 +24,10 @@
 - (BOOL)isSupportPramas;
 - (BOOL)isSupportDownload;
 - (void)download:(NSString *)file;
+- (void)finish:(BOOL)isRefresh;
 @end
 
-@interface UIWebView (JavaScriptAlert)
+@interface UIWebView (JavaScriptAlert) <UIAlertViewDelegate>
 - (void)webView:(UIWebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(CGRect *)frame;
 
 @end
@@ -36,17 +37,29 @@
 {
     
     
-    UIAlertView* customAlert = [[UIAlertView alloc] initWithTitle:@"微管理"
+    UIAlertView* customAlert = [[UIAlertView alloc] initWithTitle:@"移动办公"
                                                           message:message
                                                          delegate:nil
                                                 cancelButtonTitle:@"确定"
                                                 otherButtonTitles:nil];
-    
+    customAlert.tag = 1;
     [customAlert show];
 }
+/*
+#pragma mark- UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    DLog(@"~~~~~~~~~~~~~~~~~~~~~~~");
+    if (alertView.tag == 1) {
+        if (buttonIndex == 0) {
+            DLog(@"------------------im alert delegate-------------------");
+            [self reload];
+            DLog(@"reload......");
+        }
+    }
+}*/
 @end
 
-@interface MCWebBrowserViewController () <TSWebViewDelegate, JS_MCWebBrowserViewController>
+@interface MCWebBrowserViewController () <TSWebViewDelegate, JS_MCWebBrowserViewController, MCWebViewRefreshDelegate>
 @property (strong, nonatomic) UIWebView *webView;
 @end
 
@@ -180,6 +193,7 @@
 //        if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
 //            self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 //        }
+        newWebBrowserVC.delegate = self;
         [self.navigationController pushViewController:newWebBrowserVC animated:YES];
         return NO;
     }
@@ -222,10 +236,17 @@
     ctx[@"APP"] = self;
 }
 
+#pragma mark - MCWebViewRefreshDelegate
+- (void)webViewDidPop:(BOOL)isRefresh
+{
+    if (isRefresh) {
+        [self.webView reload];
+    }
+}
+
 #pragma mark - Call from Javascript of UIWebView
 - (void)login
 {
-    DLog(@"hello, im login");
     [self performSegueWithIdentifier:@"showMMLogin" sender:self];
 }
 
@@ -295,6 +316,12 @@
         DLog(@"File downloaded to: %@", filePath);
     }];
     [downloadTask resume];*/
+}
+
+- (void)finish:(BOOL)isRefresh
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [self.delegate webViewDidPop:YES];
 }
 
 //faked function for javascript

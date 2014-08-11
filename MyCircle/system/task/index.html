@@ -80,8 +80,8 @@ function loadDetail ($target, id) {
 					var filePath = app.basePath +"TsysFilesInfo/tsysfilesinfo!download.action?id="+ $(this).data("id"),
 						fileName = $(this).data("name");
 						
-					if (window.APP && window.APP.download) {
-						window.APP.download(filePath, fileName);
+					if (window.APP && window.APP.isSupportDownload) {
+						window.APP.download(filePath + "@shownName=" + fileName);
 					} else {
 						alert("不支持APP");
 					}

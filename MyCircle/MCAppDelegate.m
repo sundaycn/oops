@@ -14,6 +14,7 @@
 #import "DDTTYLogger.h"
 #endif
 #import "MCViewController.h"
+#import "MCMicroManagerConfigHandler.h"
 
 @implementation MCAppDelegate
 
@@ -40,8 +41,9 @@
     
     //判断是否第一次启动
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"launched"]) {
-        //第一次启动显示用户指引视图
+        //第一次启动从plist导入微管理功能模块配置
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"launched"];
+        [[MCMicroManagerConfigHandler sharedInstance] initConfig];
     }
     else {
         if ([[MCConfig sharedInstance] isLogined]) {

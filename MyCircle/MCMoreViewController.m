@@ -62,13 +62,13 @@
     //配置数据源
     self.dictSettingsInSection = [[NSMutableDictionary alloc] initWithCapacity:3];
     NSArray *first = [[NSArray alloc] initWithObjects:
-                      [[MCSettingModel alloc] initWithTitle:self.myInfo.userName image:@"ContactsDefaultAvatar" tag:1 title2:@"微管理账号："],
+                      [[MCSettingModel alloc] initWithTitle:self.myInfo.userName image:@"ContactsDefaultAvatar" tag:1 title2:@"OA账号："],
                       nil];
     NSArray *second = [[NSArray alloc] initWithObjects:
-                       [[MCSettingModel alloc] initWithTitle:@"微管理" image:@"AppCenterIcon" tag:2 title2:nil],
-                       [[MCSettingModel alloc] initWithTitle:@"我的文件" image:@"AboutIcon" tag:3 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"移动办公" image:@"AppCenterIcon" tag:2 title2:nil],
+                       [[MCSettingModel alloc] initWithTitle:@"我的文件" image:@"MyFileIcon" tag:3 title2:nil],
                        [[MCSettingModel alloc] initWithTitle:@"搜周边" image:@"SearchNearbyIcon" tag:4 title2:nil],
-                       [[MCSettingModel alloc] initWithTitle:@"检查更新" image:@"CheckAndUpdateIcon" tag:5 title2:nil],
+//                       [[MCSettingModel alloc] initWithTitle:@"检查更新" image:@"CheckAndUpdateIcon" tag:5 title2:nil],
                        [[MCSettingModel alloc] initWithTitle:@"关于" image:@"AboutIcon" tag:6 title2:nil],
                        nil];
     NSArray *third = [[NSArray alloc] initWithObjects:
