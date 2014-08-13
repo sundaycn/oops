@@ -180,8 +180,16 @@
     //获取当前账号所有功能模块
     DLog(@"--------didFinsishGetMMAccount-----------");
     DLog(@"微管理获取当前账号所有功能模块");
-    [[MCMicroManagerDAO sharedManager] deleteAll];
-    [[MCMicroManagerConfigHandler sharedInstance] getCodeByUserCode:mmAccount.userCode acctId:mmAccount.acctId];
+    if (!mmAccount.acctId) {
+        //没有绑定默认微管理账号
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"错误" message:@"当前没有移动办公账号" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alertView show];
+
+    }
+    else {
+        [[MCMicroManagerDAO sharedManager] deleteAll];
+        [[MCMicroManagerConfigHandler sharedInstance] getCodeByUserCode:mmAccount.userCode acctId:mmAccount.acctId];
+    }
 }
 
 - (void)didFinishGetMicroManagerWidget

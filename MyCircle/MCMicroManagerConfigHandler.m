@@ -115,6 +115,7 @@ static MCMicroManagerConfigHandler *sharedInstance = nil;
         BOOL isSuccessful = [strResult isEqualToString:@"1"];
         if (isSuccessful) {
             NSArray *arrWidgetCode = [responseObject objectForKey:@"message"];
+
             MCMicroManager *myWidget = [[MCMicroManager alloc] init];
             for (int i=0; i<arrWidgetCode.count; i++) {
                 myWidget.code = arrWidgetCode[i];
