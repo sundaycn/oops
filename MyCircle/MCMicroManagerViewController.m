@@ -180,9 +180,9 @@
     //获取当前账号所有功能模块
     DLog(@"--------didFinsishGetMMAccount-----------");
     DLog(@"微管理获取当前账号所有功能模块");
-    if (！mmAccount.acctId) {
+    if (!mmAccount.acctId) {
         //当前用户没有绑定默认微管理账号
-        UIAlertView *alert = [UIAlertView alloc] initWithTitle@"错误" message:@"当前用户没有绑定默认微管理账号" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"当前用户没有绑定默认微管理账号" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
     }
     else {

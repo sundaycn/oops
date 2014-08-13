@@ -1,5 +1,5 @@
 var app = {
-	basePath: "http://117.21.209.104/EasyOA/",
+	basePath: "http://117.21.209.204/STOA/",
 	//basePath: "http://woquanquan.com/EasyOA/",
 	timeout: 2000,
 	exit: function (h) {
@@ -282,11 +282,11 @@ function setDailyAttach (rs, $target) {
 				fileName = $(this).data("name");
 				
 			if (confirm("是否下载"+fileName+"?如果您使用3G/4G网络，将消耗您"+fileSize+"流量。")) {
-				if (window.APP && window.APP.download) {
-					window.APP.download(filePath, fileName);
-				} else {
-					alert("不支持APP");
-				}
+                if (window.APP && window.APP.isSupportDownload) {
+                    window.APP.download(filePath + "@shownName=" + fileName);
+                } else {
+                    alert("不支持APP无法下载");
+                }
 			}
 			return false;
 		});
@@ -1824,11 +1824,11 @@ function setAttach (rs) {
 				fileName = $(this).data("name");
 				
 			if (confirm("是否下载"+fileName+"?如果您使用3G/4G网络，将消耗您"+fileSize+"流量。")) {
-				if (window.APP && window.APP.download) {
-					window.APP.download(filePath, fileName);
-				} else {
-					alert("不支持APP");
-				}
+                if (window.APP && window.APP.isSupportDownload) {
+                    window.APP.download(filePath + "@shownName=" + fileName);
+                } else {
+                    alert("不支持APP无法下载");
+                }
 			}
 			
 			return false;
@@ -2221,10 +2221,9 @@ function setSendDetail (rs) {
 			var filePath = app.basePath + "TsysFilesInfo/tsysfilesinfo!downloadByPath.action?path=" +rs.message.tdocDispatchdoc.docAdd + "&f=d43&pathNoNeedOrgId=true",
 				fileName = rs.message.tdocDispatchdoc.docTile + zwSuffix;
 				
-			console.log(filePath);
 			if (confirm("是否下载"+fileName+"?")) {
-				if (window.APP && window.APP.download) {
-					window.APP.download(filePath, fileName);
+				if (window.APP && window.APP.isSupportDownload) {
+					window.APP.download(filePath + "@shownName=" + fileName);
 				} else {
 					alert("不支持APP无法下载");
 				}
@@ -2254,8 +2253,8 @@ function setSendDetail (rs) {
 					fileName = $(this).data("name");
 				console.log(filePath)
 				if (confirm("是否下载"+fileName+"?如果您使用3G/4G网络，将消耗您"+fileSize+"流量。")) {
-					if (window.APP && window.APP.download) {
-						window.APP.download(filePath, fileName);
+					if (window.APP && window.APP.isSupportDownload) {
+						window.APP.download(filePath + "@shownName=" + fileName);
 					} else {
 						alert("不支持APP无法下载");
 					}
@@ -2312,11 +2311,11 @@ function setIncomeDetail (rs) {
 					
 				console.log(filePath);
 				if (confirm("是否下载"+fileName+"？")) {
-					if (window.APP && window.APP.download) {
-						window.APP.download(filePath, fileName);
-					} else {
-						alert("不支持APP无法下载");
-					}
+                    if (window.APP && window.APP.isSupportDownload) {
+                        window.APP.download(filePath + "@shownName=" + fileName);
+                    } else {
+                        alert("不支持APP无法下载");
+                    }
 				}
 				return false;
 			});
@@ -2344,11 +2343,11 @@ function setIncomeDetail (rs) {
 					fileName = $(this).data("name");
 				console.log(filePath)
 				if (confirm("是否下载"+fileName+"?如果您使用3G/4G网络，将消耗您"+fileSize+"流量。")) {
-					if (window.APP && window.APP.download) {
-						window.APP.download(filePath, fileName);
-					} else {
-						alert("不支持APP无法下载");
-					}
+                    if (window.APP && window.APP.isSupportDownload) {
+                        window.APP.download(filePath + "@shownName=" + fileName);
+                    } else {
+                        alert("不支持APP无法下载");
+                    }
 				}
 				return false;
 			});

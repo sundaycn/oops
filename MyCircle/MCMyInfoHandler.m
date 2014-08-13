@@ -41,6 +41,57 @@ static MCMyInfoHandler *sharedInstance = nil;
         if (isSuccessful) {
             //把info的值由字符串格式转为json数组格式
             NSString *strInfo = [[responseObject objectForKey:@"root"] objectForKey:@"info"];
+            if (!strInfo) {
+                //服务器没有该用户的个人资料
+                //清除信息
+                [[MCMyInfoDAO sharedManager] removeAll];
+                MCMyInfo *myInfo = [[MCMyInfo alloc] init];
+                
+                //新增
+                NSString *photo = nil;
+                //id
+                myInfo.id = nil;
+                //用户名称
+                myInfo.userName = @"未设置";
+                //性别
+                myInfo.gender = @"未设置";
+                //生日
+                myInfo.birthdayString = @"未设置";
+                //头像文件下载路径
+                myInfo.photo = photo;
+                //省份id
+                myInfo.provinceId = @"未设置";
+                //省份名称
+                myInfo.provinceName = @"未设置";
+                //城市id
+                myInfo.cityId = @"未设置";
+                //城市名称
+                myInfo.cityName = @"未设置";
+                //县区id
+                //            myInfo.countyId = [dictInfo objectForKey:@"countyId"];
+                //            myInfo.countyId = myInfo.countyId ? myInfo.countyId : @"未设置";
+                //县区名称
+                //            myInfo.countyName = [dictInfo objectForKey:@"countyName"];
+                //            myInfo.countyName = myInfo.countyName ? myInfo.countyName : @"未设置";
+                //手机号码，不可修改
+                myInfo.mobile = strAccount;
+                //地址
+                //            myInfo.address = [dictInfo objectForKey:@"address"];
+                //邮编
+                //            myInfo.postNo = [dictInfo objectForKey:@"postNo"];
+                //其他电话号码
+                myInfo.phone = @"未设置";
+                //电子邮件
+                myInfo.email = @"未设置";
+                
+                //头像数据
+                myInfo.avatarImage = photo ? [self downloadAvatar:photo] : nil;
+                
+                [[MCMyInfoDAO sharedManager] insert:myInfo];
+                DLog(@"创建个人资料成功");
+                
+                return;
+            }
 
             //重新封装json数据
             NSData *dataInfo = [strInfo dataUsingEncoding:NSUTF8StringEncoding];
