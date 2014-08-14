@@ -1,5 +1,5 @@
 var app = {
-	basePath: "http://117.21.209.204/STOA/",
+	basePath: "http://117.21.209.104/EasyOA/",
 	//basePath: "http://woquanquan.com/EasyOA/",
 	timeout: 2000,
 	exit: function (h) {

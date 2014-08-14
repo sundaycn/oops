@@ -9,6 +9,9 @@
 #import "MCWebBrowserViewController.h"
 #import "UIWebView+TS_JavaScriptContext.h"
 #import "MCMicroManagerLoginVC.h"
+#import <AFNetworking/AFNetworking.h>
+#import "MCConfig.h"
+#import "MCFilePreviewViewController.h"
 
 @protocol JS_MCWebBrowserViewController <JSExport>
 - (void)login;
@@ -18,6 +21,9 @@
 - (void)hideMask;
 - (void)getUserName;
 - (BOOL)isSupportPramas;
+- (BOOL)isSupportDownload;
+- (void)download:(NSString *)file;
+- (void)finish:(BOOL)isRefresh;
 @end
 
 @interface UIWebView (JavaScriptAlert)
@@ -79,60 +85,7 @@
     [self loadRequestFromURL:self.url];
     
     [self.view addSubview:self.webView];
-    
-//    NSHTTPCookieStorage *cookies = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-//    [cookies setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-    
-    
-//    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    NSLog(@"RESPONSE HEADERS: \n%@", [response allHeaderFields]);
-    
-    // If you want to get all of the cookies:
-//    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:[NSURL URLWithString:@"http://www.3weike.com"]];
-//    NSArray * all = [NSHTTPCookie cookiesWithResponseHeaderFields:[response allHeaderFields] forURL:[NSURL URLWithString:strUrl]];
-//    NSLog(@"How many Cookies: %d", all.count);
-    // Store the cookies:
-    // NSHTTPCookieStorage is a Singleton.
-//    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:all forURL:[NSURL URLWithString:@"http://www.3weike.com"] mainDocumentURL:nil];
-    
-    // Now we can print all of the cookies we have:
-//    for (NSHTTPCookie *cookie in all)
-//        NSLog(@"Name: %@ : Value: %@, Expires: %@, Domain:%@, Path:%@, isSessionOnly:%d", cookie.name, cookie.value, cookie.expiresDate, cookie.domain, cookie.path, cookie.isSessionOnly);
-    
-    
-    // Now lets go back the other way.  We want the server to know we have some cookies available:
-    // this availableCookies array is going to be the same as the 'all' array above.  We could
-    // have just used the 'all' array, but this shows you how to get the cookies back from the singleton.
-//    NSArray * availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"http://3weike.com"]];
-    /*NSArray *availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-    DLog(@"availableCookies array:%@", availableCookies);
-    NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
-//    DLog(@"headers:\n%@", headers);
-    
-    // we are just recycling the original request
-    NSString *strPath = [[NSBundle mainBundle] pathForResource:self.strHtmlPath ofType:@"html"];
-    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL fileURLWithPath:strPath]];
-    [urlRequest setAllHTTPHeaderFields:headers];
-    [self.webView loadRequest:urlRequest];*/
-    
-//    NSString *strPath = [[NSBundle mainBundle] pathForResource:self.strHtmlPath ofType:@"html"];
-//    DLog(@"strPath:%@", strPath);
-//    request.URL = [NSURL fileURLWithPath:strPath];
-//    DLog(@"request.url:%@", request.URL);
-//    error = nil;
-//    response = nil;
-//    [self addCookies:all forRequest:request];
-//    [self.webView loadRequest:request];
 
-    
-//    request.URL = [NSURL URLWithString:@"http://temp/gomh/authenticate.py"];
-//    error       = nil;
-//    response    = nil;
-    
-//    data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    NSLog(@"The server saw:\n%@", [[NSString alloc] initWithData:data encoding: NSASCIIStringEncoding]);
-//    NSArray *cooks = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:request.URL];
-//    [self addCookies:all forRequest:request];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -160,31 +113,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-- (void)addCookies:(NSArray *)cookies forRequest:(NSMutableURLRequest *)request
-{
-    if ([cookies count] > 0)
-    {
-        NSHTTPCookie *cookie;
-        NSString *cookieHeader = nil;
-        for (cookie in cookies)
-        {
-            if (!cookieHeader)
-            {
-                cookieHeader = [NSString stringWithFormat: @"%@=%@",[cookie name],[cookie value]];
-            }
-            else
-            {
-                cookieHeader = [NSString stringWithFormat: @"%@; %@=%@",cookieHeader,[cookie name],[cookie value]];
-            }
-        }
-        if (cookieHeader)
-        {
-            [request setValue:cookieHeader forHTTPHeaderField:@"Cookie"];
-        }
-    }
-}*/
-
 - (void)loadRequestFromURL:(NSURL *)url
 {
     NSArray *availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
@@ -198,82 +126,17 @@
     [self.webView loadRequest:urlRequest];
 }
 
-/*
-- (void)userCookie:(NSString *)theCookie
-{
-    //JSESSIONID=25F6DBC6AB286542F37D58B8EDBB84BD; Path=/pad, cookie_user=fsdf#~#sdfs.com; Expires=Tue, 26-Nov-2013 06:31:33 GMT, cookie_pwd=123465; Expires=Tue, 26-Nov-2013 06:31:33 GMT
-    //为了拿到对应的键值，需要处理cookies字符串，下面的代码是为了能正确分割这个字符串以便拿到 JSESSIONID,Path,cookie_user,Expires,cookie_pwd,Expires这几个key以及对应的value。
-    
-    NSMutableArray *cookisArray=[NSMutableArray arrayWithCapacity:20];
-    NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
-    
-    NSArray *theArray = [theCookie componentsSeparatedByString:@"; "];
-    for (int i =0 ; i<[theArray count]; i++) {
-        NSString *val=theArray[i];
-        if ([val rangeOfString:@"="].length>0)
-        {
-            NSArray *subArray = [val componentsSeparatedByString:@"="];
-            for (int i =0 ; i<[subArray count]; i++) {
-                NSString *subVal=subArray[i];
-                if ([subVal rangeOfString:@", "].length>0)
-                {
-                    NSArray *subArray2 = [subVal componentsSeparatedByString:@", "];
-                    for (int i =0 ; i<[subArray2 count]; i++) {
-                        NSString *subVal2=subArray2[i];
-                        [cookisArray addObject:subVal2];
-                    }
-                }
-                else
-                {
-                    [cookisArray addObject:subVal];
-                }
-            }
-        }
-        else
-        {
-            [cookisArray addObject:val];
-        }
-    }
-    for (int idx=0; idx<cookisArray.count; idx+=2) {
-        NSString *key=cookisArray[idx];
-        NSString *value;
-        if ([key isEqualToString:@"Expires"])
-        {
-            value=[NSString stringWithFormat:@"%@, %@",cookisArray[idx+1],cookisArray[idx+2]];
-            idx+=1;
-        }
-        else
-        {
-            value=cookisArray[idx+1];
-        }
-        Log(@"cookie value:%@=%@",key,value);
-        [cookieProperties setObject:value forKey:key];
-    }
-    
-    [cookieProperties setObject:@"sfsdf" forKey:NSHTTPCookieName];
-    [cookieProperties setObject:@"sdfsdf" forKey:NSHTTPCookieValue];
-    //关键在这里，要设置好domain的值，这样webview发起请求的时候就会带上我们设置好的cookies
-    [cookieProperties setObject:[NSString stringWithFormat:@"mail.%@",[PMUser domainName]] forKey:NSHTTPCookieDomain];
-    [cookieProperties setObject:[PMUser domainName] forKey:NSHTTPCookieOriginURL];
-    [cookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
-    [cookieProperties setObject:@"0" forKey:NSHTTPCookieVersion];
-    ／／ [cookieProperties setObject:@"gtergr" forKey:@"Device-Model"];／／使用cookie传递参数
-    Log(@"%@",cookieProperties);
-    //cookie同步webview
-    NSHTTPCookie * userCookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
-    [[NSHTTPCookieStorage sharedHTTPCookieStorage]setCookie:userCookie];
-}*/
-
 #pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    /*
     if ([[segue identifier] isEqualToString:@"showMMLogin"]) {
         MCMicroManagerLoginVC *mmLoginVC = [segue destinationViewController];
         mmLoginVC.delegate = self;
-    }
+    }*/
 }
 
 #pragma mark - UIGestureRecognizer Delegate
@@ -363,11 +226,22 @@
     ctx[@"APP"] = self;
 }
 
+#pragma mark - MCWebViewRefreshDelegate
+- (void)webViewDidPop:(BOOL)isRefresh
+{
+    if (isRefresh) {
+        [self.webView reload];
+    }
+}
+
 #pragma mark - Call from Javascript of UIWebView
 - (void)login
 {
-    DLog(@"hello, im login");
-    [self performSegueWithIdentifier:@"showMMLogin" sender:self];
+    NSString *storyboardName = @"Main";
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+    MCMicroManagerLoginVC *mmLoginVC = [storyboard instantiateViewControllerWithIdentifier:@"MicroManagerLoginSB"];
+    mmLoginVC.delegate = self;
+    [self.navigationController presentViewController:mmLoginVC animated:YES completion:nil];
 }
 
 - (void)showLoading
@@ -382,17 +256,66 @@
 
 - (void)showMask:(NSString *)strText
 {
-    //
+    DLog(@"im showMask:%@", strText);
 }
 
 - (void)hideMask
 {
-    //
+    DLog(@"im hideMask");
 }
 
 - (BOOL)isSupportPramas
 {
     return YES;
+}
+
+- (BOOL)isSupportDownload
+{
+    return YES;
+}
+
+- (void)download:(NSString *)file
+{
+    NSString *strSeparator = @"@shownName=";
+    NSRange rangeSeparator = [file rangeOfString:strSeparator];
+    NSString *strFilePath = [file substringWithRange:NSMakeRange(0, rangeSeparator.location)];
+    DLog(@"download file path:%@", strFilePath);
+    NSString *strFileName = [file substringWithRange:NSMakeRange(rangeSeparator.location+strSeparator.length, file.length-rangeSeparator.location-strSeparator.length)];
+    DLog(@"download file name:%@", strFileName);
+    
+    NSString *storyboardName = @"Main";
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+    MCFilePreviewViewController *filePreviewVC = [storyboard instantiateViewControllerWithIdentifier:@"FilePreviewSB"];
+    filePreviewVC.strFileName = strFileName;
+    filePreviewVC.strFilePath = strFilePath;
+    
+    [self.navigationController pushViewController:filePreviewVC animated:YES];
+    
+    /*
+     UIProgressView *progressView = [[UIProgressView alloc] init];
+     progressView.progress = 0.0f;
+     
+     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+     
+     NSURL *URL = [NSURL URLWithString:strFilePath];
+     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+     
+     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progressView.progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+     NSURL *downloadsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDownloadsDirectory  inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+     DLog(@"docments directory url: %@", downloadsDirectoryURL);
+     //        return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+     return [downloadsDirectoryURL URLByAppendingPathComponent:strFileName];
+     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+     DLog(@"File downloaded to: %@", filePath);
+     }];
+     [downloadTask resume];*/
+}
+
+- (void)finish:(BOOL)isRefresh
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [self.delegate webViewDidPop:isRefresh];
 }
 
 //faked function for javascript

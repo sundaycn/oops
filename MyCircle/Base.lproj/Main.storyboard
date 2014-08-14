@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ZEb-Sh-TED">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ZEb-Sh-TED">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -552,18 +552,33 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <size key="freeformSize" width="320" height="504"/>
-                    <connections>
-                        <segue destination="Gec-BS-fOw" kind="modal" identifier="showMMLogin" id="pzv-zy-BhC"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2YH-CL-NQr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2664" y="2462"/>
+            <point key="canvasLocation" x="1840" y="2794"/>
+        </scene>
+        <!--File Preview View Controller-->
+        <scene sceneID="bzD-Bm-r7Y">
+            <objects>
+                <viewController storyboardIdentifier="FilePreviewSB" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CVN-Nc-qUW" customClass="MCFilePreviewViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8Zo-5F-2Jl"/>
+                        <viewControllerLayoutGuide type="bottom" id="rkp-1X-j4C"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wzo-G9-y2V">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fxu-N4-Wkp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2305" y="3197"/>
         </scene>
         <!--Micro Manager LoginVC-->
         <scene sceneID="Tqm-nm-lPS">
             <objects>
-                <viewController id="Gec-BS-fOw" customClass="MCMicroManagerLoginVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MicroManagerLoginSB" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Gec-BS-fOw" customClass="MCMicroManagerLoginVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="d3T-Wu-Pfk"/>
                         <viewControllerLayoutGuide type="bottom" id="XUu-FO-cTe"/>
@@ -660,7 +675,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qnE-3n-Jeh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Oru-zd-SpF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1973" y="2773"/>
+            <point key="canvasLocation" x="1353" y="3197"/>
         </scene>
         <!--My Info Name View Controller-->
         <scene sceneID="bCz-JV-A4F">

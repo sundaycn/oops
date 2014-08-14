@@ -69,6 +69,8 @@
 		22903B15192C45AD00797999 /* UIWebView+TS_JavaScriptContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 22903B14192C45AD00797999 /* UIWebView+TS_JavaScriptContext.m */; };
 		22903B23192C8C3B00797999 /* MCWebBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22903B22192C8C3B00797999 /* MCWebBrowserViewController.m */; };
 		22903B29192CAD0B00797999 /* MCMicroManagerLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 22903B28192CAD0B00797999 /* MCMicroManagerLoginVC.m */; };
+		22965350199C650B00643955 /* MCFilePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2296534F199C650B00643955 /* MCFilePreviewViewController.m */; };
+		22965352199C658C00643955 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22965351199C658C00643955 /* QuickLook.framework */; };
 		229A6CAF18EE528D00F5C643 /* MCMyInfoHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A6CAE18EE528D00F5C643 /* MCMyInfoHandler.m */; };
 		229A6CB318EE993100F5C643 /* MCMyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A6CB218EE993100F5C643 /* MCMyInfo.m */; };
 		229A6CB918EE99CD00F5C643 /* MCMyInfoDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A6CB818EE99CD00F5C643 /* MCMyInfoDAO.m */; };
@@ -398,6 +400,9 @@
 		22903B22192C8C3B00797999 /* MCWebBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCWebBrowserViewController.m; sourceTree = "<group>"; };
 		22903B27192CAD0B00797999 /* MCMicroManagerLoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMicroManagerLoginVC.h; sourceTree = "<group>"; };
 		22903B28192CAD0B00797999 /* MCMicroManagerLoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMicroManagerLoginVC.m; sourceTree = "<group>"; };
+		2296534E199C650B00643955 /* MCFilePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCFilePreviewViewController.h; sourceTree = "<group>"; };
+		2296534F199C650B00643955 /* MCFilePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCFilePreviewViewController.m; sourceTree = "<group>"; };
+		22965351199C658C00643955 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		229A6CAD18EE528D00F5C643 /* MCMyInfoHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfoHandler.h; sourceTree = "<group>"; };
 		229A6CAE18EE528D00F5C643 /* MCMyInfoHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMyInfoHandler.m; sourceTree = "<group>"; };
 		229A6CB118EE993100F5C643 /* MCMyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMyInfo.h; sourceTree = "<group>"; };
@@ -790,6 +795,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22965352199C658C00643955 /* QuickLook.framework in Frameworks */,
 				22FD7722192C3DD50066561B /* JavaScriptCore.framework in Frameworks */,
 				225D76DA18F408660024F7F3 /* MobileCoreServices.framework in Frameworks */,
 				229DF0DB18710B3300739C3A /* SystemConfiguration.framework in Frameworks */,
@@ -966,6 +972,8 @@
 				22903B22192C8C3B00797999 /* MCWebBrowserViewController.m */,
 				22903B27192CAD0B00797999 /* MCMicroManagerLoginVC.h */,
 				22903B28192CAD0B00797999 /* MCMicroManagerLoginVC.m */,
+				2296534E199C650B00643955 /* MCFilePreviewViewController.h */,
+				2296534F199C650B00643955 /* MCFilePreviewViewController.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -1195,6 +1203,7 @@
 		22B669D117FAAA240015A269 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				22965351199C658C00643955 /* QuickLook.framework */,
 				22FD7721192C3DD50066561B /* JavaScriptCore.framework */,
 				225D76D918F408660024F7F3 /* MobileCoreServices.framework */,
 				229DF0D918710B2000739C3A /* CoreFoundation.framework */,
@@ -2308,6 +2317,7 @@
 				2228A2A019137C910081C9A6 /* MCCityDAO.m in Sources */,
 				2255FD161859B08400A01BA1 /* MCChatSessionManagedObject.m in Sources */,
 				22CEC3A718594B3D00DC9913 /* XMPPUserMemoryStorageObject.m in Sources */,
+				22965350199C650B00643955 /* MCFilePreviewViewController.m in Sources */,
 				22D7F639180BEE60007E5E22 /* RATreeNode.m in Sources */,
 				22CEC3DA18594B3D00DC9913 /* XMPPCapsCoreDataStorageObject.m in Sources */,
 				22CEC3AB18594B3D00DC9913 /* XMPPIQ+JabberRPCResonse.m in Sources */,

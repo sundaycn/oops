@@ -474,7 +474,7 @@
 //    navigationController.modalPresentationStyle = UIModalPresentationFullScreen;
 //    navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 
-    [self presentViewController:navigationController animated:YES completion:NULL];
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 //压缩头像图片
