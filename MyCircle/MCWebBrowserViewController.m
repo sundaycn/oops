@@ -46,7 +46,7 @@
 }
 @end
 
-@interface MCWebBrowserViewController () <TSWebViewDelegate, JS_MCWebBrowserViewController>
+@interface MCWebBrowserViewController () <TSWebViewDelegate, JS_MCWebBrowserViewController, MCWebViewRefreshDelegate>
 @property (strong, nonatomic) UIWebView *webView;
 @end
 
@@ -180,6 +180,7 @@
         MCWebBrowserViewController *newWebBrowserVC = [[MCWebBrowserViewController alloc] init];
         newWebBrowserVC.title = self.title;
         newWebBrowserVC.url = request.URL;
+        newWebBrowserVC.delegate = self;
 //        //在切换界面的过程中禁止滑动手势，避免界面卡死
 //        if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
 //            self.navigationController.interactivePopGestureRecognizer.enabled = NO;
