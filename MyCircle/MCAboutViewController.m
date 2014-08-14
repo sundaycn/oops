@@ -45,6 +45,26 @@
     labelVersion.frame = newframe;
     [imageAbout addSubview:labelVersion];
     
+    UILabel *labelCopyrightCN = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-40, 0, 0)];
+    labelCopyrightCN.font = [UIFont systemFontOfSize:10];
+    labelCopyrightCN.textColor = UIColorFromRGB(0x5a5a5a);
+    labelCopyrightCN.text = @"江西电信信息产业有限公司 版权所有";
+    [labelCopyrightCN sizeToFit];
+    newframe = labelCopyrightCN.frame;
+    newframe.origin.x = (self.view.frame.size.width - labelCopyrightCN.frame.size.width) / 2;
+    labelCopyrightCN.frame = newframe;
+    [imageAbout addSubview:labelCopyrightCN];
+    
+    UILabel *labelCopyrightEN = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height-20, 0, 0)];
+    labelCopyrightEN.font = [UIFont systemFontOfSize:10];
+    labelCopyrightEN.textColor = UIColorFromRGB(0x5a5a5a);
+    labelCopyrightEN.text = @"Copyright © 2013-2014 All Rights Reserved.";
+    [labelCopyrightEN sizeToFit];
+    newframe = labelCopyrightEN.frame;
+    newframe.origin.x = (self.view.frame.size.width - labelCopyrightEN.frame.size.width) / 2;
+    labelCopyrightEN.frame = newframe;
+    [imageAbout addSubview:labelCopyrightEN];
+    
     [self.view addSubview:imageAbout];
 }
 
