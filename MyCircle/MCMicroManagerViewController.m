@@ -200,7 +200,10 @@
     NSArray *arrWidgetConfig = [[MCMicroManagerConfigDAO sharedManager] queryByWidgetCodes:arrWidgetCodes];
     for (MCMicroManagerConfig *obj in arrWidgetConfig) {
         if ([obj.upCode isEqualToString:@"-1"]) {
-            [self.arrMicroManagerMenu addObject:obj];
+            if (obj.defaultShow == 0) {
+                [self.arrMicroManagerMenu addObject:obj];
+            }
+            
         }
     }
 
