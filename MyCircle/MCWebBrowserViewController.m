@@ -321,7 +321,7 @@
 - (void)finish:(BOOL)isRefresh
 {
     [self.navigationController popViewControllerAnimated:YES];
-    [self.delegate webViewDidPop:YES];
+    [self.delegate webViewDidPop:isRefresh];
 }
 
 //faked function for javascript
