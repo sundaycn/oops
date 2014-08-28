@@ -28,7 +28,8 @@
         NSString *strLoginResult = [NSString stringWithFormat:@"%@",[[dictVersionResponse objectForKey:@"root"] objectForKey:@"hasClientNewest"]];
         BOOL hasNewVersion = [strLoginResult isEqualToString:@"1"];
         if (hasNewVersion) {
-            return [NSString stringWithFormat:@"%@", [[dictVersionResponse objectForKey:@"root"] objectForKey:@"clientDownloadUrl"]];
+//            return [NSString stringWithFormat:@"%@", [[dictVersionResponse objectForKey:@"root"] objectForKey:@"clientDownloadUrl"]];
+            return @"https://gitcafe.com/sams/3weikeApp/raw/master/README.md";
         }
     }
 
