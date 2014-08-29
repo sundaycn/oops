@@ -47,7 +47,8 @@ if (isAPP && !window.APP.isSupportPramas()) {
 function load () {
 	data.treeType = 1;
 	data.type = 1;
-	app.loadData(app.basePath + "TemailContact/temailorgcontact-ajax!asyncAjax.action", data, function (rs) {
+	//app.loadData(app.basePath + "TemailContact/temailorgcontact-ajax!asyncAjax.action", data, function (rs) {
+	app.loadData(app.basePath + "TsysuserinfoAjax/tsysuserinfo-ajax!asyncAjax.action", data, function (rs) {
 		setResult(rs, setTreeList);
 	});
 }
@@ -64,29 +65,7 @@ $(function () {
 <body id="tree">
 <div id="pageindex" class="theme-default">
 	<div class="eoa-data-list">
-		<ul>
-			<!--<li class="edit folder">
-				<a href="javascript:void(0)" class="t"> 
-					<h3>技术部<span class="important"></span><span class="attach"></span></h3>
-				</a>
-				<span class="ico">></span>
-			</li>
-			<li class="edit">
-				<a href="javascript:void(0)" class="t"> 
-					<h3>高斯伟<span class="important"></span><span class="attach"></span></h3>
-					<P>18942231503</p>
-				</a>
-				<span class="check"></span>
-			</li>
-			<li class="edit">
-				<a href="javascript:void(0)" class="t"> 
-					<h3>高斯伟<span class="important"></span><span class="attach"></span></h3>
-					<P>18907088764</p>
-				</a>
-				<span class="check"></span>
-			</li>
-			--->
-		</ul>
+		<ul></ul>
 	</div>
 	<div class="data-bar" style="text-align:center;">
 		<a href="javascript:void(0)" class="btn btn-border treeselector" style="float:none;display:inline-block">查看并确定已选(<span class="s-num">0</span>)</a>
