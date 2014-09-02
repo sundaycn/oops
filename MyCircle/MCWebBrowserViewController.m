@@ -11,7 +11,7 @@
 #import "MCMicroManagerLoginVC.h"
 #import <AFNetworking/AFNetworking.h>
 #import "MCConfig.h"
-#import "MCMicroManagerAccountDAO.h"
+//#import "MCMicroManagerAccountDAO.h"
 #import "MCFilePreviewViewController.h"
 
 @protocol JS_MCWebBrowserViewController <JSExport>
@@ -28,7 +28,7 @@
 - (void)finish:(BOOL)isRefresh;
 @end
 
-@interface UIWebView (JavaScriptAlert) <UIAlertViewDelegate>
+@interface UIWebView (JavaScriptAlert)
 - (void)webView:(UIWebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(CGRect *)frame;
 
 @end
@@ -46,18 +46,6 @@
     customAlert.tag = 1;
     [customAlert show];
 }
-/*
-#pragma mark- UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    DLog(@"~~~~~~~~~~~~~~~~~~~~~~~");
-    if (alertView.tag == 1) {
-        if (buttonIndex == 0) {
-            DLog(@"------------------im alert delegate-------------------");
-            [self reload];
-            DLog(@"reload......");
-        }
-    }
-}*/
 @end
 
 @interface MCWebBrowserViewController () <TSWebViewDelegate, JS_MCWebBrowserViewController, MCWebViewRefreshDelegate>
@@ -145,10 +133,6 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    if ([[segue identifier] isEqualToString:@"showMMLogin"]) {
-        MCMicroManagerLoginVC *mmLoginVC = [segue destinationViewController];
-        mmLoginVC.delegate = self;
-    }
 }
 
 #pragma mark - UIGestureRecognizer Delegate
@@ -191,11 +175,13 @@
         MCWebBrowserViewController *newWebBrowserVC = [[MCWebBrowserViewController alloc] init];
         newWebBrowserVC.title = self.title;
         newWebBrowserVC.url = request.URL;
+        newWebBrowserVC.delegate = self;
 //        //在切换界面的过程中禁止滑动手势，避免界面卡死
 //        if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
 //            self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 //        }
-        newWebBrowserVC.delegate = self;
+        
+
         [self.navigationController pushViewController:newWebBrowserVC animated:YES];
         return NO;
     }
@@ -249,7 +235,11 @@
 #pragma mark - Call from Javascript of UIWebView
 - (void)login
 {
-    [self performSegueWithIdentifier:@"showMMLogin" sender:self];
+    NSString *storyboardName = @"Main";
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+    MCMicroManagerLoginVC *mmLoginVC = [storyboard instantiateViewControllerWithIdentifier:@"MicroManagerLoginSB"];
+    mmLoginVC.delegate = self;
+    [self.navigationController presentViewController:mmLoginVC animated:YES completion:nil];
 }
 
 - (void)showLoading

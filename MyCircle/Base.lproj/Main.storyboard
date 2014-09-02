@@ -551,9 +551,6 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <size key="freeformSize" width="320" height="504"/>
-                    <connections>
-                        <segue destination="Gec-BS-fOw" kind="modal" identifier="showMMLogin" id="lZ0-ly-GHr"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2YH-CL-NQr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -562,7 +559,7 @@
         <!--Micro Manager LoginVC-->
         <scene sceneID="Tqm-nm-lPS">
             <objects>
-                <viewController id="Gec-BS-fOw" customClass="MCMicroManagerLoginVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MicroManagerLoginSB" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Gec-BS-fOw" customClass="MCMicroManagerLoginVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="d3T-Wu-Pfk"/>
                         <viewControllerLayoutGuide type="bottom" id="XUu-FO-cTe"/>
@@ -659,7 +656,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qnE-3n-Jeh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Oru-zd-SpF" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3668" y="1881"/>
+            <point key="canvasLocation" x="3892" y="2061"/>
         </scene>
         <!--My File Table View Controller-->
         <scene sceneID="D8e-JF-qav">
