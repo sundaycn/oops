@@ -20,6 +20,7 @@
 - (void)showMask:(NSString *)strText;
 - (void)hideMask;
 - (void)getUserName;
+- (void)getUserId;
 - (BOOL)isSupportPramas;
 - (BOOL)isSupportDownload;
 - (void)download:(NSString *)file;
@@ -321,6 +322,11 @@
 
 //faked function for javascript
 - (void)getUserName
+{
+    //
+}
+
+- (void)getUserId
 {
     //
 }

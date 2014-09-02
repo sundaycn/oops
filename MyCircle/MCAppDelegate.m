@@ -38,6 +38,9 @@
                                                    UIRemoteNotificationTypeAlert)];
     [APService setupWithOption:launchOptions];
     
+    //设置cookies policy
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+    
     //判断是否第一次启动
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"launched"]) {
         //第一次启动显示用户指引视图
