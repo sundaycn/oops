@@ -16,18 +16,13 @@
 var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手机访问
 	userName = isAPP ? window.APP.getUserName() : "",    // 获得登录账户的用户名
 	pageUrl = window.location.href.toString(),
-	/*data = {
+	data = {
 		"diaType": app.getParam(pageUrl, "diaType") || "",
 		"page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
 		"page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
 		"page.order": "desc",
 		"page.orderBy": "diaDate"
-	},*/
-    data = {
-        "type": app.getParam(pageUrl, "type") || "send",
-        "page.pageNo": app.getParam(pageUrl, "page.pageNo") || 1,
-        "page.pageSize": app.getParam(pageUrl, "page.pageNo") || 10,
-    },
+	},
 	setResult = function (rs, handler) {
 		if (isAPP) {
 			window.APP.hideLoading();
@@ -45,17 +40,7 @@ var isAPP = (window.APP && window.APP.login) ? true : false, // 是否通过手�
 		}
 	};
 
-function load () {
-    console.log(data.type == "income")
-    var action = "TdocDispatchdoc/tdocdispatchdoc!taskListAjax.action"
-    console.log(action)
-    app.loadData(app.basePath + action, data, function (rs) {
-        setResult(rs, setDocumentTodo);
-    });
-}
-
 $(function () {
-  load();
 });
 </script>
 </head>
