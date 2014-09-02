@@ -21,6 +21,7 @@
 - (void)showMask:(NSString *)strText;
 - (void)hideMask;
 - (void)getUserName;
+- (void)getUserId;
 - (BOOL)isSupportPramas;
 - (BOOL)isSupportDownload;
 - (void)download:(NSString *)file;
@@ -127,6 +128,7 @@
 
 - (void)loadRequestFromURL:(NSURL *)url
 {
+//    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
     NSArray *availableCookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:availableCookies];
 //    DLog(@"request headers with cookies:\n%@", headers);
@@ -326,6 +328,11 @@
 
 //faked function for javascript
 - (void)getUserName
+{
+    //
+}
+
+- (void)getUserId
 {
     //
 }

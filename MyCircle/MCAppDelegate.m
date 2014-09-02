@@ -31,7 +31,9 @@
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName]];
     [[UITabBar appearance] setBackgroundColor:UIColorFromRGB(0xf5f5f5)];
     [[UITabBar appearance] setTintColor:UIColorFromRGB(0x2b87d6)];
-
+    
+    //设置cookies policy
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
     
     //通知设备接收JPush推送通知
 	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
@@ -61,6 +63,7 @@
 
     //清除主屏幕上icon右上角的badge数字
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
 
     return YES;
 }

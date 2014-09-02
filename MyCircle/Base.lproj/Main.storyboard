@@ -172,11 +172,11 @@
             </objects>
             <point key="canvasLocation" x="905" y="-397"/>
         </scene>
-        <!--Circle View Controller - 我的圈子-->
+        <!--Circle View Controller - 联系人-->
         <scene sceneID="hNH-98-QcV">
             <objects>
                 <viewController id="0Ez-8F-DK4" customClass="MCCircleViewController" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="我的圈子" id="GEi-ch-4ON"/>
+                    <navigationItem key="navigationItem" title="联系人" id="GEi-ch-4ON"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <segue destination="wXF-Ho-IJh" kind="push" identifier="showCard" id="LXl-FD-Y7U"/>
