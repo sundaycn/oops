@@ -66,7 +66,7 @@
 
 #define BASE_URL @"http://www.3weike.com/EasyContact/"
 //#define MM_BASE_URL @"http://117.21.209.104/EasyOA/"
-#define MM_BASE_URL @"http://117.21.209.204/STOA/"
+#define MM_BASE_URL @"http://117.21.209.204/"
 #define IMAGE_SWITCH @"&needDownload=false&autoContentType=true"
 
 //-----------------------------------------------------------------
