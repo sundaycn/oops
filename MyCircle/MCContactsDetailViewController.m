@@ -12,7 +12,6 @@
 #import "MCBook.h"
 #import "MCBookBL.h"
 #import "MCCrypto.h"
-#import "MCXmppHelper.h"
 #import "MCConfig.h"
 
 @interface MCContactsDetailViewController ()
@@ -93,17 +92,13 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
     if (section == 0) {
-        return 1;
-    }
-    else if (section == 2)
-    {
         return 1;
     }
     else {
@@ -164,16 +159,6 @@
         [buttonCALL setBackgroundImage:[UIImage imageNamed:@"CALL"] forState:UIControlStateNormal];
         [buttonCALL addTarget:self action:@selector(callMainPhone) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:buttonCALL];
-    }
-    else if (indexPath.section == 2)
-    {
-        UIButton *buttonSendMsg = [[UIButton alloc] initWithFrame:CGRectMake(15, 15, 290, 40)];
-        [buttonSendMsg setBackgroundImage:[UIImage imageNamed:@"SendMsgButtonNormalImage"] forState:UIControlStateNormal];
-        [buttonSendMsg setBackgroundImage:[UIImage imageNamed:@"SendMsgButtonSelectedImage"] forState:UIControlStateHighlighted];
-//        [buttonSendMsg setTitle:@"发送消息" forState:UIControlStateNormal];
-//        [buttonSendMsg setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [buttonSendMsg addTarget:self action:@selector(sendMessage) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:buttonSendMsg];
     }
     else {
         if (indexPath.row != 0) {
@@ -269,10 +254,6 @@
     if (indexPath.section == 0) {
         return  140;
     }
-    else if (indexPath.section == 2)
-    {
-        return 200;
-    }
     else {
         return 40;
     }
@@ -285,21 +266,7 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-//    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"new" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonDidClick)];
-    if ([[segue identifier] isEqualToString:@"sendMessage"])
-    {
-        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
-                                                 initWithTitle:@"消息"
-                                                 style:UIBarButtonItemStylePlain
-                                                 target:self
-                                                 action:@selector(backMessageListVC)];
-        MCChatSessionViewController *chatSessionVC = segue.destinationViewController;
-        chatSessionVC.jid = [self.mobilePhone stringByAppendingString:@"@127.0.0.1"];
-        chatSessionVC.buddyName = self.name;
-        chatSessionVC.msgType = MSG_TYPE_NORMAL_CHAT;
-        MCXmppHelper *xmppHelper = [MCXmppHelper sharedInstance];
-        xmppHelper.msgrev = chatSessionVC;
-    }
+
 }
 
 //- (IBAction)backButtonDidClick
@@ -361,19 +328,6 @@
 - (void)callMainPhone
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"tel://" stringByAppendingString:self.mobilePhone]]];
-}
-
-- (void)sendMessage
-{
-    NSString *strAccount = [[MCConfig sharedInstance] getAccount];
-    if (![self.mobilePhone isEqualToString:strAccount]) {
-        [self performSegueWithIdentifier:@"sendMessage" sender:self];
-    }
-    else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"不能给自己发送消息" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alertView show];
-    }
-    
 }
 
 - (void)backMessageListVC

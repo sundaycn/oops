@@ -9,7 +9,6 @@
 #import "MCViewController.h"
 #import <Reachability/Reachability.h>
 #import "MCCrypto.h"
-#import "APService.h"
 #import "MCMainViewController.h"
 #import "MCOrgBL.h"
 #import "MCDeptBL.h"
@@ -176,8 +175,6 @@
             //同步圈子数据
             [MCCircleDataHandler updateContactsData:strAccount];
             
-            //登陆成功，注册jpush alias
-            [APService setAlias:strAccount callbackSelector:nil object:nil];
             //跳转到主页面
             DLog(@"\n 登陆成功，跳转到主页面");
             [self performSegueWithIdentifier:@"showMain" sender:self];

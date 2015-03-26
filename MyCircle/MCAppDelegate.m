@@ -8,7 +8,6 @@
 
 #import "MCAppDelegate.h"
 #import "MCConfig.h"
-#import "APService.h"
 #ifdef DDLOG
 #import "DDLog.h"
 #import "DDTTYLogger.h"
@@ -35,11 +34,6 @@
     //设置cookies policy
     [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
     
-    //通知设备接收JPush推送通知
-	[APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                   UIRemoteNotificationTypeSound |
-                                                   UIRemoteNotificationTypeAlert)];
-    [APService setupWithOption:launchOptions];
     
     //判断是否第一次启动
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"launched"]) {
@@ -53,7 +47,6 @@
             UIViewController *mainVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"mainViewController"];
             self.window.rootViewController = mainVC;
             NSString *strAccount = [[MCConfig sharedInstance] getAccount];
-            [APService setAlias:strAccount callbackSelector:nil object:nil];
         }
         else {
             UIViewController *loginVC = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
@@ -120,13 +113,11 @@
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
     // Required
-    [APService registerDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
     // Required
-    [APService handleRemoteNotification:userInfo];
 }
 
 @end

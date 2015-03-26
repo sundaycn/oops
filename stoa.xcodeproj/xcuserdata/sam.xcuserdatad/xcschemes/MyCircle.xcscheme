@@ -17,7 +17,7 @@
                BlueprintIdentifier = "22B669CE17FAAA240015A269"
                BuildableName = "MyCircle.app"
                BlueprintName = "MyCircle"
-               ReferencedContainer = "container:MyCircle.xcodeproj">
+               ReferencedContainer = "container:stoa.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "22B669EF17FAAA240015A269"
                BuildableName = "MyCircleTests.xctest"
                BlueprintName = "MyCircleTests"
-               ReferencedContainer = "container:MyCircle.xcodeproj">
+               ReferencedContainer = "container:stoa.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -45,7 +45,7 @@
             BlueprintIdentifier = "22B669CE17FAAA240015A269"
             BuildableName = "MyCircle.app"
             BlueprintName = "MyCircle"
-            ReferencedContainer = "container:MyCircle.xcodeproj">
+            ReferencedContainer = "container:stoa.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -64,7 +64,7 @@
             BlueprintIdentifier = "22B669CE17FAAA240015A269"
             BuildableName = "MyCircle.app"
             BlueprintName = "MyCircle"
-            ReferencedContainer = "container:MyCircle.xcodeproj">
+            ReferencedContainer = "container:stoa.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -94,7 +94,7 @@
             BlueprintIdentifier = "22B669CE17FAAA240015A269"
             BuildableName = "MyCircle.app"
             BlueprintName = "MyCircle"
-            ReferencedContainer = "container:MyCircle.xcodeproj">
+            ReferencedContainer = "container:stoa.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
