@@ -140,6 +140,7 @@
     
     // start previewing the document at the current section index
     previewController.currentPreviewItemIndex = indexPath.row;
+    previewController.hidesBottomBarWhenPushed = YES;
     [[self navigationController] pushViewController:previewController animated:YES];
 }
 

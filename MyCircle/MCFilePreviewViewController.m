@@ -83,7 +83,7 @@
         [self addChildViewController:previewController];
         CGFloat w = self.view.frame.size.width;
         CGFloat h = self.view.frame.size.height;
-        previewController.view.frame = CGRectMake(0, 0, w, h);
+        previewController.view.frame = CGRectMake(0, -64, w, h);
         [self.view addSubview:previewController.view];
         [previewController didMoveToParentViewController:self];
     }];
